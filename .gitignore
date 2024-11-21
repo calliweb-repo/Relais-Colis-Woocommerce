@@ -1,0 +1,46 @@
+# Ignore everything in the root directory except the plugin folder
+/*
+!.gitignore
+
+# Ignore files and directories within the plugin folder that should not be versioned
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+.idea/
+.vscode/
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+yarn.lock
+tests/
+.env
+.env.*
+
+# Ignore WordPress-specific files (if applicable)
+wp-config.php
+.htaccess
+
+# Ignore debug logs
+debug.log
+
+# Ignore backup files and temporary files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*.backup
+
+# Ignore generated assets (if applicable)
+assets/css/*.min.css
+assets/js/*.min.js
+assets/js/*.map
+
+# Ignore IDE and system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
