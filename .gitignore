@@ -23,7 +23,6 @@ debug.log
 *.tar.gz
 *.rar
 *.7z
-*.bak
 *.backup
 
 # Ignore generated assets (if applicable)
@@ -32,7 +31,4 @@ assets/js/*.min.js
 assets/js/*.map
 
 # Ignore IDE and system files
-.idea/
-.vscode/
-.DS_Store
 Thumbs.db
