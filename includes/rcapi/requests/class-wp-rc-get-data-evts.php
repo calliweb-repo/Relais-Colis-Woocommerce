@@ -1,0 +1,82 @@
+<?php
+
+namespace RelaisColisWoocommerce\RCAPI;
+
+use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+
+defined( 'ABSPATH' ) or exit;
+
+/**
+ * WP_RC_Get_Data_Evts API request object for 07 - Récupération des évènements des colis d'une enseigne.
+ *
+ * This class represents a request object for the "Récupération des évènements des colis d'une enseigne" operation
+ * in the WP_Relais_Colis API. It handles the necessary parameter to securely retrieve events or tracking data
+ * related to packages associated with a specific enseigne.
+ *
+ * Example Parameters:
+ * - activationKey (string): The activation key used for secure authentication (e.g., "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v").
+ *
+ * Example JSON Request:
+ * ```json
+ * {
+ *     "activationKey": "{{activationKey}}"
+ * }
+ * ```
+ *
+ * Example Usage:
+ * - Use this class to fetch detailed event or tracking data for all packages related to a particular enseigne.
+ * - The `activationKey` parameter authenticates the request and ensures only authorized users can access the data.
+ *
+ * Notes:
+ * - The `activationKey` parameter is mandatory and must be kept secure to prevent unauthorized access.
+ * - This operation is scoped to retrieve data for packages linked to the enseigne associated with the provided activation key.
+ * - Ensure the activation key corresponds to the correct enseigne in the Relais Colis system.
+ *
+ * @since 1.0.0
+ */
+class WP_RC_Get_Data_Evts extends WP_Relais_Colis_Request {
+
+    const ACTIVATION_KEY = 'activationKey';
+
+    private $mandatory_params = array(
+        self::ACTIVATION_KEY,
+    );
+
+    /**
+     * Template Method used to get specific mandatory properties
+     * @return mixed
+     */
+    protected function get_mandatory_params() {
+
+        return $this->mandatory_params;
+    }
+
+    /**
+     * 01 - B2C - Récupération du compte enseigne
+     * /api/enseigne/getConfiguration
+     *
+     * @since 1.0.0
+     *
+     * @param array $params optional parameters
+     * @return mixed
+     */
+    public function prepare_request( array $params=null ) {
+
+        $this->method = 'POST';
+        $this->path = 'api/package/getDataEvts';
+
+        $activationKey = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_activationKey' );
+
+        $this->data = array(
+            self::ACTIVATION_KEY => $activationKey,
+        );
+
+        // No params
+
+        $this->validate();
+
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        $this->data = json_encode( $this->data );
+    }
+}
