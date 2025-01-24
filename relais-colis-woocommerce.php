@@ -69,7 +69,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         //    'logger_level_notice' => 'NOTICE',
         //    'logger_level_info' => 'INFO',
         //    'logger_level_debug' => 'DEBUG',
-        update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-woocommerce', 'logger_level_debug' );
+        update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-woocommerce', 'logger_level_notice' );
 
         parent::init();
 
@@ -173,6 +173,58 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * Used to enqueue styles and scripts
      */
     public function action_wp_enqueue_scripts() {}
-    
+
+
+    /**
+     * Plugin activated method. Perform any activation tasks here.
+     * Note that this _does not_ run during upgrades.
+     *
+     * @since 1.0.0
+     */
+    public function activate() {
+
+        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $table_activation_options = $wpdb->prefix . 'rc_configuration_options';
+
+        $sql = "        
+            CREATE TABLE $table_activation_options (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                option_id INT,
+                name VARCHAR(255),
+                value VARCHAR(50),
+                active BOOLEAN,
+                user_choice BOOLEAN,
+                delivery_method VARCHAR(50),
+                price DECIMAL(10,2),
+                products TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) $charset_collate;
+            ";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+    }
+
+
+    /**
+     * Plugin deactivation method. Perform any deactivation tasks here.
+     *
+     * @since 1.0.0
+     */
+    public function deactivate(){
+
+        global $wpdb;
+
+        // Récupérer les noms des tables avec le préfixe WordPress
+        $table_activation_options = $wpdb->prefix . 'rc_configuration_options';
+
+        // Supprimer les tables
+        $wpdb->query( "DROP TABLE IF EXISTS $table_activation_options" );
+    }
 }
 Relais_Colis_Woocommerce_Loader::instance();

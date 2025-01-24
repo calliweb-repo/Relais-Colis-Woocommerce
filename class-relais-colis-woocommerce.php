@@ -2,6 +2,7 @@
 
 namespace RelaisColisWoocommerce;
 
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Manager;
 use RelaisColisWoocommerce\Tests\Relais_Colis_Woocommerce_Tests;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
@@ -28,13 +29,11 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
      */
     public function init() {
 
-        // Place here your code to init your functionalities...
-
+        // Managers
+        WC_RC_Shipping_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();
-
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
     }
 
     /**
@@ -48,27 +47,5 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
     public function init_custom_post_types() {
 
         // Place here your code to init your custom post types or taxonomies...
-    }
-
-    /**
-     * Plugin activated method. Perform any activation tasks here.
-     * Note that this _does not_ run during upgrades.
-     *
-     * @since 1.0.0
-     */
-    public function activate() {
-
-        // Place here your code to init / update DB tables...
-    }
-
-
-    /**
-     * Plugin deactivation method. Perform any deactivation tasks here.
-     *
-     * @since 1.0.0
-     */
-    public function deactivate(){
-
-        // Place here your code to remove DB tables...
     }
 }
