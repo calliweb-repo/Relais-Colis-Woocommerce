@@ -2,10 +2,11 @@
 
 namespace RelaisColisWoocommerce;
 
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Settings_Manager;
 use RelaisColisWoocommerce\Tests\Relais_Colis_Woocommerce_Tests;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
-use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use RelaisColisWoocommerce\WPFw\WP_Plugin;
 
 defined( 'ABSPATH' ) or exit;
@@ -30,7 +31,9 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
     public function init() {
 
         // Managers
-        WC_RC_Shipping_Manager::instance();
+        WC_RC_Shipping_Method_Manager::instance();
+        WC_RC_Shipping_Config_Manager::instance();
+        WC_RC_Shipping_Settings_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();

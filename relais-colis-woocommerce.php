@@ -20,17 +20,19 @@
  * @category  Admin
  * @copyright Copyright (c) 2024 Calliweb
  */
+
 namespace RelaisColisWoocommerce;
 
 defined( 'ABSPATH' ) or exit;
 
 // Require vendor autoloads to be able to Use all frameworks namespaces
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 // Require autoload for this current plugin
-require_once __DIR__ . '/autoload.php';
+require_once __DIR__.'/autoload.php';
 
 // WordPress Framework
+use RelaisColisWoocommerce\DAO\WP_Services_DAO;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use RelaisColisWoocommerce\WPFw\WP_PLoad;
@@ -86,9 +88,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
     /**
      * Get the plugin instance
      *
+     * @return The plugin main instance
      * @since 1.0.0
      *
-     * @return The plugin main instance
      */
     public function get_plugin() {
 
@@ -99,9 +101,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * Gets the plugin update URL
      * This is used to link user when plugin need to be updated
      *
+     * @return string plugin update URL
      * @since 1.0.0
      *
-     * @return string plugin update URL
      */
     public function get_update_url() {
 
@@ -112,9 +114,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * This is used to build actions list in plugins page
      * Leave blank ('') to disable
      *
+     * @return string plugin settings URL
      * @since 1.0.0
      *
-     * @return string plugin settings URL
      */
     public function get_settings_url() {
 
@@ -126,9 +128,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * This is used to build actions list in plugins page
      * Leave blank ('') to disable
      *
+     * @return string documentation URL
      * @since 1.0.0
      *
-     * @return string documentation URL
      */
     public function get_documentation_url() {
 
@@ -139,9 +141,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * This is used to build actions list in plugins page
      * Leave blank ('') to disable
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     public function get_support_url() {
 
@@ -152,9 +154,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      * This is used to build actions list in plugins page
      * Leave blank ('') to disable
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     public function get_sales_page_url() {
 
@@ -172,7 +174,8 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
     /**
      * Used to enqueue styles and scripts
      */
-    public function action_wp_enqueue_scripts() {}
+    public function action_wp_enqueue_scripts() {
+    }
 
 
     /**
@@ -188,26 +191,67 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_activation_options = $wpdb->prefix . 'rc_configuration_options';
 
-        $sql = "        
-            CREATE TABLE $table_activation_options (
+        // Define table names with WordPress table prefix
+        $table_activation_options = $wpdb->prefix.'rc_configuration_options';
+        $table_services = $wpdb->prefix.'rc_services';
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+        $table_tariff_grids = $wpdb->prefix.'rc_tariff_grids';
+
+        // SQL for creating the rc_services table
+        $sql_services = "
+            CREATE TABLE IF NOT EXISTS $table_services (
+                id INT AUTO_INCREMENT PRIMARY KEY,         -- Unique ID for each service
+                name VARCHAR(255) NOT NULL,               -- Name of the service
+                slug VARCHAR(255) NOT NULL,               -- Slug of the service
+                client_choice VARCHAR(3) NOT NULL DEFAULT 'no', -- Whether the client can choose this service
+                delivery_method VARCHAR(255) NOT NULL,    -- Delivery method associated with the service
+                enabled VARCHAR(3) NOT NULL DEFAULT 'no',        -- Whether the service is active
+                price DECIMAL(10,2) NOT NULL DEFAULT 0.00 -- Price of the service (default: free)
+            ) $charset_collate;
+
+        ";
+
+        // SQL for creating the rc_services_rel_products table
+        $sql_services_rel_products = "
+            CREATE TABLE IF NOT EXISTS $table_services_rel_products (
+                id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID for each relation
+                service_id INT NOT NULL,             -- Reference to rc_services.id
+                product_id BIGINT(20) NOT NULL,      -- Reference to a WooCommerce product ID
+                KEY service_id (service_id),         -- Index for service_id
+                KEY product_id (product_id)          -- Index for product_id
+            ) $charset_collate;
+        ";
+
+        // SQL for creating the rc_configuration_options table
+        $sql_configuration_options = "        
+            CREATE TABLE IF NOT EXISTS $table_activation_options (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 option_id INT,
                 name VARCHAR(255),
                 value VARCHAR(50),
-                active BOOLEAN,
-                user_choice BOOLEAN,
-                delivery_method VARCHAR(50),
-                price DECIMAL(10,2),
-                products TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                active BOOLEAN 
             ) $charset_collate;
             ";
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
+        $sql_tariff_grids = "
+            CREATE TABLE IF NOT EXISTS $table_tariff_grids (
+                id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                method_name VARCHAR(255) NOT NULL,
+                criteria ENUM('price', 'weight') NOT NULL,
+                min_value DECIMAL(10,2) NOT NULL,
+                max_value DECIMAL(10,2)  DEFAULT NULL,
+                price DECIMAL(10,2) NOT NULL
+            ) $charset_collate;";
+
+        require_once( ABSPATH.'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql_configuration_options );
+        dbDelta( $sql_services );
+        dbDelta( $sql_services_rel_products );
+        dbDelta( $sql_tariff_grids );
+
+        // Init services
+        WP_Services_DAO::instance()->initialize_rc_services();
     }
 
 
@@ -216,15 +260,16 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      *
      * @since 1.0.0
      */
-    public function deactivate(){
+    public function deactivate() {
 
         global $wpdb;
 
         // Récupérer les noms des tables avec le préfixe WordPress
-        $table_activation_options = $wpdb->prefix . 'rc_configuration_options';
+        $table_activation_options = $wpdb->prefix.'rc_configuration_options';
 
         // Supprimer les tables
         $wpdb->query( "DROP TABLE IF EXISTS $table_activation_options" );
     }
 }
+
 Relais_Colis_Woocommerce_Loader::instance();

@@ -1,0 +1,675 @@
+# Copyright (C) 2025 Calliweb
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
+"woocommerce\n"
+"POT-Creation-Date: 2025-01-31T17:55:40+00:00\n"
+"PO-Revision-Date: 2025-01-31 18:58+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Domain: relais-colis-woocommerce\n"
+
+#. Plugin Name of the plugin
+#: relais-colis-woocommerce.php
+msgid "Relais Colis Woocommerce"
+msgstr "Relais Colis WooCommerce"
+
+#. Plugin URI of the plugin
+#: relais-colis-woocommerce.php
+msgid "https://www.relaiscolis.com/"
+msgstr "https://www.relaiscolis.com/"
+
+#. Description of the plugin
+#: relais-colis-woocommerce.php
+msgid "Adds Relais Colis shipping method to WooCommerce."
+msgstr "Ajoute la méthode d'expédition Relais Colis à WooCommerce."
+
+#. Author of the plugin
+#: relais-colis-woocommerce.php
+msgid "Calliweb"
+msgstr "Calliweb"
+
+#. Author URI of the plugin
+#: relais-colis-woocommerce.php
+msgid "https://www.calliweb.fr/"
+msgstr "https://www.calliweb.fr/"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:93
+msgid "Enseigne ID"
+msgstr "ID de l'enseigne"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:94
+msgid "Enseigne ID Light"
+msgstr "ID de l'enseigne allégé"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:95
+msgid "Enseigne Name"
+msgstr "Nom de l'enseigne"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:96
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:298
+msgid "Activation Key"
+msgstr "Clé d'activation"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:97
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:183
+msgid "Active"
+msgstr "Actif"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:98
+msgid "Use Enseigne ID"
+msgstr "Utiliser l'ID de l'enseigne"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:99
+msgid "Address Line 1"
+msgstr "Adresse Ligne 1"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:100
+msgid "Postal Code"
+msgstr "Code Postal"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:101
+msgid "City"
+msgstr "Ville"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:102
+msgid "Live Mapping API"
+msgstr "API de cartographie en direct"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:103
+msgid "Live Mapping PID"
+msgstr "PID de cartographie en direct"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:104
+msgid "Live Mapping Key"
+msgstr "Clé de cartographie en direct"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:105
+msgid "Folder"
+msgstr "Dossier"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:106
+msgid "Return Version"
+msgstr "Version de retour"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:107
+msgid "Return Login"
+msgstr "Identifiant de retour"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:108
+msgid "Return Password"
+msgstr "Mot de passe de retour"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:109
+msgid "Agency Code"
+msgstr "Code de l'agence"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:110
+msgid "Return Site"
+msgstr "Site de retour"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:111
+msgid "Updated By"
+msgstr "Mis à jour par"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:112
+msgid "Created At"
+msgstr "Créé le"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:113
+msgid "Updated At"
+msgstr "Mis à jour le"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:116
+msgid "Unknown Field"
+msgstr "Champ inconnu"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:127
+msgid "Option ID"
+msgstr "ID de l'option"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:128
+msgid "Option Name"
+msgstr "Nom de l'option"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:129
+msgid "Option Value"
+msgstr "Valeur de l'option"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:130
+msgid "Option Active"
+msgstr "Option active"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:133
+msgid "Unknown Option"
+msgstr "Option inconnue"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:144
+msgid "Result ID"
+msgstr "ID du résultat"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:145
+msgid "First Name"
+msgstr "Prénom"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:146
+msgid "Last Name"
+msgstr "Nom"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:147
+msgid "Email"
+msgstr "E-mail"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:148
+msgid "Balance"
+msgstr "Solde"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:149
+msgid "Account Status"
+msgstr "Statut du compte"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:150
+msgid "Account Type"
+msgstr "Type de compte"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:151
+msgid "Code Enseigne"
+msgstr "Code enseigne"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:154
+msgid "Unknown Information"
+msgstr "Informations inconnues"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:177
+msgid "Appointment Scheduling"
+msgstr "Prise de Rendez-vous"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:182
+msgid "Delivery to the Floor"
+msgstr "Livraison à l'étage"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:187
+msgid "Two-Person Delivery"
+msgstr "Livraison à deux"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:192
+msgid "Setup of Large Appliances"
+msgstr "M.E.S gros électroménager"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:197
+msgid "Quick Assembly"
+msgstr "Assemblage rapide"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:202
+msgid "Oversized Items"
+msgstr "Hors normes"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:207
+msgid "Product Unpacking"
+msgstr "Déballage produit"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:212
+msgid "Packaging Removal"
+msgstr "Évacuation emballage"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:217
+msgid "Removal of Old Equipment"
+msgstr "Reprise de votre ancien matériel"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:222
+msgid "Delivery to Desired Room"
+msgstr "Livraison dans la pièce souhaitée"
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:227
+msgid "Curbside Delivery"
+msgstr "Livraison au pas de porte"
+
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:82
+msgid "License Issue"
+msgstr "Problème de clef d’activation"
+
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:84
+msgid "Please enter a valid activation key to access all features."
+msgstr ""
+"Veuillez entrer une clé d’activation valide pour accéder à toutes les "
+"fonctionnalités."
+
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:88
+msgid "Update my license"
+msgstr "Mettre à jour ma clef d’activation"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-copy-paste-button.php:61
+msgid "Copied!"
+msgstr "Copié !"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-copy-paste-button.php:62
+msgid "Copy failed!"
+msgstr "Échec de la copie !"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-copy-paste-button.php:79
+msgid "Copy the information to the clipboard"
+msgstr "Copier les informations dans le presse-papiers"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-enable.php:75
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:376
+msgid "Yes"
+msgstr "Oui"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-enable.php:76
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:376
+msgid "No"
+msgstr "Non"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:61
+msgid "Delete"
+msgstr "Supprimer"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:62
+msgid "Delivery method name"
+msgstr "Nom de la méthode de livraison"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:63
+msgid "Criteria type"
+msgstr "Type de critère tarifaire"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:64
+msgid "Total order price"
+msgstr "Prix total de la commande"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:65
+msgid "Order weight"
+msgstr "Poids de la commande"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:66
+msgid "Tariff ranges"
+msgstr "Plages tarifaires"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:67
+msgid "Add a line"
+msgstr "Ajouter une ligne"
+
+#: includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php:89
+msgid "Add a grid"
+msgstr "Ajouter une grille"
+
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:77
+msgid "Enable/Disable"
+msgstr "Activer/Désactiver"
+
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:79
+msgid "Enable this shipping method."
+msgstr "Activer cette méthode de livraison."
+
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:83
+msgid "Title"
+msgstr "Titre"
+
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:85
+msgid "This controls the title which the user sees during checkout."
+msgstr "Définit le titre que l'utilisateur voit lors du paiement."
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-home.php:35
+msgid "Relais Colis: home deliveries."
+msgstr "Relais Colis : livraison à domicile."
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-home.php:47
+msgid "Relais Colis Home"
+msgstr "Relais Colis Home"
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-homeplus.php:32
+msgid "Relais Colis: home deliveries with options."
+msgstr "Relais Colis : livraisons à domicile avec options."
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-homeplus.php:44
+msgid "Relais Colis Home+"
+msgstr "Relais Colis Home+"
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-relay.php:32
+msgid "Relais Colis: concerns collection from relay points."
+msgstr "Relais Colis : concerne la collecte en point relais."
+
+#: includes/shipping/methods/class-wc-rc-shipping-method-relay.php:47
+#: includes/shipping/settings/class-wc-rc-shipping-settings.php:24
+#: includes/shipping/settings/class-wc-rc-shipping-settings.php:83
+msgid "Relais Colis"
+msgstr "Relais Colis"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:113
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:164
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:194
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:234
+msgid ""
+"Failed to communicate with the RC API. Please check your connection and try "
+"again."
+msgstr ""
+"Échec de la communication avec l'API RC. Veuillez vérifier votre connexion "
+"et réessayer."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:129
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:157
+msgid "The activation key you entered is invalid. Please check and try again."
+msgstr ""
+"La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et "
+"réessayer."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:148
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:222
+msgid "The RC API returned an invalid response. Please try again later."
+msgstr "L'API RC a renvoyé une réponse invalide. Veuillez réessayer plus tard."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:207
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:231
+msgid "The hash token you entered is invalid. Please check and try again."
+msgstr ""
+"La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et "
+"réessayer."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:249
+msgid "General configuration"
+msgstr "Configuration générale"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:281
+msgid "Your API Information"
+msgstr "Vos informations API"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:283
+msgid "Enter your activation key to synchronize your information."
+msgstr "Saisissez votre clé d'activation pour synchroniser vos informations."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:288
+msgid "Live/Test Mode"
+msgstr "Mode Live/Test"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:289
+msgid "Switch between Live mode and Test mode."
+msgstr "Basculer entre le mode Live et le mode Test."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:302
+msgid "Your C2C or B2C activation key."
+msgstr "Votre clef d'activation B2C ou C2C."
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:310
+msgid "C2C hash token"
+msgstr "Hash token C2C"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:314
+msgid "Your C2C hash token."
+msgstr "Votre hashtag token C2C"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:344
+msgid "Hello"
+msgstr "Bonjour"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:383
+msgid "Options"
+msgstr "Options"
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:385
+msgid "The options included in your B2C account."
+msgstr "Les options incluses dans votre compte B2C."
+
+#: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:92
+msgid "Your Information"
+msgstr "Vos informations"
+
+#: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:165
+msgid "Configuration"
+msgstr "Configuration"
+
+#: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:167
+msgid "The configuration associated with your account."
+msgstr "La configuration associée avec votre compte."
+
+#: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:221
+msgid "C2C informations"
+msgstr "Informations C2C"
+
+#: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:223
+msgid "The informations associated with your C2C account."
+msgstr "Les informations associées à votre compte C2C."
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:52
+msgid "Services"
+msgstr "Prestations"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:139
+msgid "Service Configuration"
+msgstr "Configuration des prestations"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:142
+msgid "Configure all services."
+msgstr "Configurer toutes les prestations."
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:167
+msgid "Client Choice"
+msgstr "Choix du client"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:175
+msgid "Delivery Method"
+msgstr "Méthode de livraison"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:190
+msgid "Price"
+msgstr "Prix"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:197
+msgid "Assigned Products"
+msgstr "Produits assignés"
+
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:200
+msgid "Select products for this service"
+msgstr "Sélectionner les produits pour ce service"
+
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:51
+msgid "Prices Grid"
+msgstr "Grilles de tarifs"
+
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:132
+msgid "Tariff grids updated successfully!"
+msgstr "Grilles tarifaires mises à jour avec succès !"
+
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:150
+msgid "Tariff Grids"
+msgstr "Grilles tarifaires"
+
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:152
+msgid "Add prices with a free threshold."
+msgstr "Ajouter des services avec un seuil de gratuité."
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:53
+msgid "Units"
+msgstr "Unités"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:100
+msgid "Units of measurement"
+msgstr "Unités de mesure"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:106
+msgid "Weight Units"
+msgstr "Unités de poids"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:107
+msgid "Select the weight unit to use."
+msgstr "Sélectionner l'unité de poids à utiliser."
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:111
+msgid "Grams (g)"
+msgstr "Grammes (g)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:112
+msgid "Decigrams (dg)"
+msgstr "Décigrammes (dg)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:113
+msgid "Kilograms (kg)"
+msgstr "Kilogrammes (kg)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:121
+msgid "Length Units"
+msgstr "Unités de longueur"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:122
+msgid "Select the length unit to use."
+msgstr "Sélectionner l'unité de longueur à utiliser."
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:126
+msgid "Millimeters (mm)"
+msgstr "Millimètres (mm)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:127
+msgid "Centimeters (cm)"
+msgstr "Centimètres (cm)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:128
+msgid "Decimeters (dm)"
+msgstr "Décimètres (dm)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:129
+msgid "Meters (m)"
+msgstr "Mètres (m)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:130
+msgid "Inches (in)"
+msgstr "Pouces (in)"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:138
+msgid "Label Format"
+msgstr "Format d'étiquette"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:139
+msgid "Choose the label format to print."
+msgstr "Choisir le format d'étiquette à imprimer."
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:143
+msgid "A4 Format"
+msgstr "Format A4"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:144
+msgid "A5 Format"
+msgstr "Format A5"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:145
+msgid "Square Format"
+msgstr "Format carré"
+
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:146
+msgid "10x15 Format"
+msgstr "Format 10x15"
+
+#: includes/wpfw/traits/trait-plugin-action-links.php:115
+msgid "Settings"
+msgstr "Paramètres"
+
+#: includes/wpfw/traits/trait-plugin-action-links.php:119
+msgid "Documentation"
+msgstr "Documentation"
+
+#: includes/wpfw/traits/trait-plugin-action-links.php:123
+msgid "Support"
+msgstr "Support"
+
+#: includes/wpfw/traits/trait-plugin-action-links.php:127
+msgid "More plugins"
+msgstr "Plus de plugins"
+
+#: includes/wpfw/traits/trait-plugin-activation-control.php:105
+msgid ""
+"%s is not active, as it requires WooCommerce to be installed. Please install "
+"WooCommerce with version %s or higher."
+msgstr ""
+"%s n'est pas actif, car il nécessite l'installation de WooCommerce. Veuillez "
+"installer WooCommerce en version %s ou supérieure."
+
+#: includes/wpfw/traits/trait-plugin-activation-control.php:115
+msgid ""
+"%s is not active, as it requires WooCommerce version %s or higher. Please "
+"%supdate WooCommerce &raquo;%s"
+msgstr ""
+"%s n'est pas actif, car il nécessite WooCommerce en version %s ou "
+"supérieure. Veuillez %smise à jour WooCommerce &raquo;%s"
+
+#: includes/wpfw/traits/trait-plugin-activation-control.php:127
+msgid ""
+"%s is not active, as it requires PHP version %s or higher. Please update PHP"
+msgstr ""
+"%s n'est pas actif, car il nécessite PHP en version %s ou supérieure. "
+"Veuillez mettre à jour PHP"
+
+#: includes/wpfw/traits/trait-plugin-activation-control.php:137
+msgid ""
+"%s is not active, as it requires WordPress version %s or higher. Please "
+"%supdate WordPress &raquo;%s"
+msgstr ""
+"%s n'est pas actif, car il nécessite WordPress en version %s ou supérieure. "
+"Veuillez %smise à jour WordPress &raquo;%s"
+
+#~ msgid "Invalid Nonce"
+#~ msgstr "Nonce invalide"
+
+#~ msgid "Clé API manquante"
+#~ msgstr "Clé API manquante"
+
+#~ msgid "Clé API valide"
+#~ msgstr "Clé API valide"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Firstname"
+#~ msgstr "Prénom"
+
+#~ msgid "Rafraîchir les informations"
+#~ msgstr "Rafraîchir les informations"
+
+#~ msgid "Extraire les informations"
+#~ msgstr "Extraire les informations"
+
+#~ msgid "Service name"
+#~ msgstr "Nom du service"
+
+#~ msgid "Client choice"
+#~ msgstr "Choix du client"
+
+#~ msgid "Delivery method"
+#~ msgstr "Méthode de livraison"
+
+#~ msgid "Home"
+#~ msgstr "Domicile"
+
+#~ msgid "Home+"
+#~ msgstr "Domicile+"
+
+#~ msgid "Price in €"
+#~ msgstr "Prix en €"
+
+#~ msgid "Eg. Fast delivery"
+#~ msgstr "Ex: Livraison Express"
+
+#~ msgid "Prices grids"
+#~ msgstr "Grilles tarifaires"
+
+#~ msgid "Ajouter une grille tarifaire"
+#~ msgstr "Ajouter une grille tarifaire"
+
+#~ msgid "Example: Home delivery"
+#~ msgstr "Exemple : Livraison à domicile"
+
+#~ msgid "Start value"
+#~ msgstr "Valeur de début"
+
+#~ msgid "Min"
+#~ msgstr "Min"
+
+#~ msgid "End value"
+#~ msgstr "Valeur de fin"
+
+#~ msgid "Max"
+#~ msgstr "Max"

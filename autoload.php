@@ -5,6 +5,7 @@
   'RelaisColisWoocommerce\\Relais_Colis_Woocommerce_Loader' => 'relais-colis-woocommerce.php',
   'RelaisColisWoocommerce\\Relais_Colis_Woocommerce' => 'class-relais-colis-woocommerce.php',
   'RelaisColisWoocommerce\\Tests\\Relais_Colis_Woocommerce_Tests' => 'tests/class-relais-colis-woocommerce-tests.php',
+  // WP FW
   'RelaisColisWoocommerce\\WPFw\\Api\\WP_API_Base' => 'includes/wpfw/api/class-wp-api-base.php',
   'RelaisColisWoocommerce\\WPFw\\Api\\WP_API_Request' => 'includes/wpfw/api/interface-wp-api-request.php',
   'RelaisColisWoocommerce\\WPFw\\Api\\WP_API_Response' => 'includes/wpfw/api/abstract-wp-api-response.php',
@@ -20,12 +21,13 @@
   'RelaisColisWoocommerce\\WPFw\\Utils\\WP_Admin_Notices_Manager' => 'includes/wpfw/utils/class-wp-admin-notices-manager.php',
   'RelaisColisWoocommerce\\WPFw\\WP_PLoad' => 'includes/wpfw/abstract-wp-plugin-loader.php',
   'RelaisColisWoocommerce\\WPFw\\WP_Plugin' => 'includes/wpfw/abstract-wp-plugin.php',
+  // RC API
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_API' => 'includes/rcapi/class-wp-relais-colis-api.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_API_Exception' => 'includes/rcapi/class-wp-relais-colis-api-exception.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_Response_Factory' => 'includes/rcapi/class-wp-relais-colis-response-factory.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_Request_Factory' => 'includes/rcapi/class-wp-relais-colis-request-factory.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Enseigne' => 'includes/rcapi/trait-wp-rc-enseigne.php',
-  // RESPONSES
+  // RC API RESPONSES
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_Error_Response' => 'includes/rcapi/responses/class-wp-relais-colis-error-response.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_Response' => 'includes/rcapi/responses/abstract-wp-relais-colis-response.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Get_Configuration_Response' => 'includes/rcapi/responses/class-wp-rc-get-configuration-response.php',
@@ -36,7 +38,7 @@
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Get_Infos_Response' => 'includes/rcapi/responses/class-wp-rc-get-infos-response.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_C2C_Get_Packages_Price_Response' => 'includes/rcapi/responses/class-wp-rc-ctoc-get-packages-price-response.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Get_Data_Evts_Response' => 'includes/rcapi/responses/class-wp-rc-get-data-evts-response.php',
-  // REQUESTS
+  // RC API REQUESTS
   'RelaisColisWoocommerce\\RCAPI\\WP_Relais_Colis_Request' => 'includes/rcapi/requests/abstract-wp-relais-colis-request.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_B2C_Get_Configuration' => 'includes/rcapi/requests/class-wp-rc-btoc-get-configuration.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_C2C_Get_Configuration' => 'includes/rcapi/requests/class-wp-rc-ctoc-get-configuration.php',
@@ -56,25 +58,32 @@
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Transport_Generate' => 'includes/rcapi/requests/class-wp-rc-transport-generate.php',
   'RelaisColisWoocommerce\\RCAPI\\WP_RC_Get_Data_Evts' => 'includes/rcapi/requests/class-wp-rc-get-data-evts.php',
   // SHIPPING
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Manager' => 'includes/shipping/class-wc-rc-shipping-manager.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method' => 'includes/shipping/abstract-wc-rc-shipping-method.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Relay' => 'includes/shipping/class-wc-rc-shipping-method-relay.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Home' => 'includes/shipping/class-wc-rc-shipping-method-home.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Homeplus' => 'includes/shipping/class-wc-rc-shipping-method-homeplus.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Settings_Manager' => 'includes/shipping/class-wc-rc-shipping-settings-manager.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Config_Manager' => 'includes/shipping/class-wc-rc-shipping-config-manager.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Constants' => 'includes/shipping/abstract-wc-rc-shipping-constants.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Manager' => 'includes/shipping/methods/class-wc-rc-shipping-method-manager.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method' => 'includes/shipping/methods/abstract-wc-rc-shipping-method.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Relay' => 'includes/shipping/methods/class-wc-rc-shipping-method-relay.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Home' => 'includes/shipping/methods/class-wc-rc-shipping-method-home.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Method_Homeplus' => 'includes/shipping/methods/class-wc-rc-shipping-method-homeplus.php',
   'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-settings.php',
   'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_General_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-general-settings.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Informations_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-informations-settings.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Prestations_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-prestations-settings.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Validate_Api_Key' => 'includes/shipping/ajax/class-wc-rc-ajax-validate-api-key.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Refresh_Client_Info' => 'includes/shipping/ajax/class-wc-rc-ajax-refresh-client-info.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Extract_Client_Info' => 'includes/shipping/ajax/class-wc-rc-ajax-extract-client-info.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Prestations' => 'includes/shipping/fields/class-wc-rc-shipping-field-prestations.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Grilles_Tarifaires' => 'includes/shipping/fields/class-wc-rc-shipping-field-grilles-tarifaires.php',
-  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Action_Buttons' => 'includes/shipping/fields/class-wc-rc-shipping-field-action-buttons.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Units_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-units-settings.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Infos_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Services_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-services-settings.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Tariff_Grids_Settings' => 'includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Get_Wc_Products' => 'includes/shipping/ajax/class-wc-rc-ajax-get-wc-products.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Tariff_Grids' => 'includes/shipping/fields/class-wc-rc-shipping-field-tariff-grids.php',
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Copy_Paste_Button' => 'includes/shipping/fields/class-wc-rc-shipping-field-copy-paste-button.php',
   'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Enable' => 'includes/shipping/fields/class-wc-rc-shipping-field-enable.php',
   'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Custom_Html' => 'includes/shipping/fields/class-wc-rc-shipping-field-custom-html.php',
-  // DAO
+  'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Multiselect_Products' => 'includes/shipping/fields/class-wc-rc-shipping-field-multiselect-products.php',
+  // DAOs
   'RelaisColisWoocommerce\\DAO\\WP_Configuration_DAO' => 'includes/dao/class-wp-configuration-dao.php',
+  'RelaisColisWoocommerce\\DAO\\WP_Information_DAO' => 'includes/dao/class-wp-information-dao.php',
+  'RelaisColisWoocommerce\\DAO\\WP_Services_DAO' => 'includes/dao/class-wp-services-dao.php',
+  'RelaisColisWoocommerce\\DAO\\WP_Products_DAO' => 'includes/dao/class-wp-products-dao.php',
+  'RelaisColisWoocommerce\\DAO\\WP_Tariff_Grids_DAO' => 'includes/dao/class-wp-tariff-grids-dao.php',
 );
 
   if (isset($map[$class])) {

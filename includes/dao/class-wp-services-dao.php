@@ -1,0 +1,257 @@
+<?php
+
+namespace RelaisColisWoocommerce\DAO;
+
+defined( 'ABSPATH' ) or exit;
+
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+
+/**
+ * This class manages the services tables and its related data.
+ *
+ * @since 1.0.0
+ */
+class WP_Services_DAO {
+
+    use Singleton;
+
+    /**
+     * Initialize the rc_services table with default data.
+     */
+    public function initialize_rc_services() {
+
+        global $wpdb;
+
+        // Define table name
+        $table_services = $wpdb->prefix . 'rc_services';
+
+        $this->delete_all_services();
+
+        // Loop through each service and insert it into the database
+        foreach ( WC_RC_Shipping_Constants::get_fixed_services() as $slug => $fixed_service ) {
+
+            // Determine the delivery method (Home or Home+)
+            $name = $fixed_service[0];
+            $delivery_methods = $fixed_service[1];
+            $delivery_method = in_array(WC_RC_Shipping_Constants::OFFER_HOME, $delivery_methods) ? 'h' : 'hp';
+
+            // Prepare data for insertion
+            $data = [
+                'name'            => sanitize_text_field( $name ),
+                'slug'            => sanitize_text_field( $slug ),
+                'client_choice'   => 'no', // Default to client_choice = false
+                'delivery_method' => sanitize_text_field( $delivery_method ),
+                'enabled'          => 'no', // Default to disabled
+                'price'           => 0.00, // Default price to 0.00
+            ];
+
+            // Insert data into the table
+            $wpdb->insert( $table_services, $data );
+        }
+    }
+
+    /**
+     * Get data from rc_services with optional filtering by service ID.
+     *
+     * @param int|null $service_id Optional. Filter by a specific service ID.
+     * @return array Results as an associative array.
+     */
+    public function get_services( $service_id = null ) {
+
+        global $wpdb;
+        $table_services = $wpdb->prefix.'rc_services';
+
+        $query = "SELECT * FROM {$table_services}";
+
+        if ( $service_id ) {
+
+            $query .= $wpdb->prepare( " WHERE id = %d", $service_id );
+        }
+        return $wpdb->get_results( $query, ARRAY_A );
+    }
+
+    /**
+     * Get data from rc_services_rel_products for a given service_id or product_id.
+     *
+     * @param int|null $service_id Optional. Filter by a specific service ID.
+     * @param int|null $product_id Optional. Filter by a specific product ID.
+     * @return array Results as an associative array.
+     */
+    public function get_service_relations( $service_id = null, $product_id = null ) {
+
+        global $wpdb;
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+
+        $query = "SELECT * FROM {$table_services_rel_products}";
+
+        if ( $service_id ) {
+
+            $query .= $wpdb->prepare( " WHERE service_id = %d", $service_id );
+
+        } elseif ( $product_id ) {
+
+            $query .= $wpdb->prepare( " WHERE product_id = %d", $product_id );
+        }
+        return $wpdb->get_results( $query, ARRAY_A );
+    }
+
+    /**
+     * Load selected product ids for a service
+     * @param $service_id
+     * @return array
+     */
+    public function get_selected_products( $service_id ) {
+
+        global $wpdb;
+        $table_services_rel_products = $wpdb->prefix . 'rc_services_rel_products';
+        $table_posts = $wpdb->prefix . 'posts';
+
+        $query = "SELECT p.ID as product_id, p.post_title 
+              FROM {$table_services_rel_products} rel
+              JOIN {$table_posts} p ON rel.product_id = p.ID
+              WHERE rel.service_id = %d AND p.post_type = 'product' AND p.post_status = 'publish'";
+
+        $results = $wpdb->get_results( $wpdb->prepare( $query, $service_id ), ARRAY_A );
+
+        // Pretreat response
+        $products = array();
+        foreach ( $results as $result ) {
+
+            $products[$result['product_id']] = $result['post_title'];
+        }
+
+        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$results' => $results, '$products' => $products ], 'relais-colis-woocommerce' );
+
+        return $products;
+    }
+
+    /**
+     * Insert a new service into rc_services.
+     *
+     * @param string $name The name of the service.
+     * @param string $slug The slug of the service.
+     * @param bool $client_choice Whether the client can choose this service, yes or no
+     * @param string $delivery_method The delivery method associated with the service.
+     * @param bool $enabled Whether the service is enabled or not, yes or no
+     * @param float $price The price of the service.
+     * @return int|false Inserted row ID on success, false on failure.
+     */
+    public function insert_service( $name, $slug, $client_choice, $delivery_method, $enabled, $price ) {
+
+        global $wpdb;
+        $table_services = $wpdb->prefix.'rc_services';
+
+        // Data to insert into the table
+        $data = [
+            'name' => sanitize_text_field( $name ),
+            'slug' => sanitize_text_field( $slug ),
+            'client_choice' => ($client_choice==='yes'?'yes':'no'),
+            'delivery_method' => sanitize_text_field( $delivery_method ),
+            'enabled' => ($enabled==='yes'?'yes':'no'),
+            'price' => floatval( $price ),
+        ];
+
+        // Insert data into the database
+        $inserted = $wpdb->insert( $table_services, $data );
+
+        // Return the inserted row ID or false on failure
+        return $inserted ? $wpdb->insert_id : false;
+    }
+
+    /**
+     * Update data in rc_services.
+     *
+     * @param int $service_id The ID of the service to update.
+     * @param string $name The name of the service.
+     * @param string $slug The slug of the service.
+     * @param bool $client_choice Whether the client can choose this service, yes or no
+     * @param string $delivery_method The delivery method associated with the service.
+     * @param bool $enabled Whether the service is enabled or not, yes or no
+     * @param float $price The price of the service.
+     * @return int|false Rows affected on success, false on failure.
+     */
+    public function update_service( $service_id, $name, $slug, $client_choice, $delivery_method, $enabled, $price ) {
+
+        global $wpdb;
+        $table_services = $wpdb->prefix.'rc_services';
+
+        WP_Log::debug( __METHOD__, ['$service_id'=>$service_id, '$name'=>$name, '$slug'=>$slug, '$client_choice'=>$client_choice, '$delivery_method'=>$delivery_method, '$enabled'=>$enabled, '$price'=>$price], 'relais-colis-woocommerce' );
+
+        // Data to update in the table
+        $data = [
+            'name' => sanitize_text_field( $name ),
+            'slug' => sanitize_text_field( $slug ),
+            'client_choice' => ($client_choice==='yes'?'yes':'no'),
+            'delivery_method' => sanitize_text_field( $delivery_method ),
+            'enabled' => ($enabled==='yes'?'yes':'no'),
+            'price' => floatval( $price ),
+        ];
+
+        // Condition for the update
+        $where = [ 'id' => intval( $service_id ) ];
+        WP_Log::debug( __METHOD__, ['$data'=>$data, '$where'=>$where], 'relais-colis-woocommerce' );
+
+        // Update the table
+        return $wpdb->update( $table_services, $data, $where );
+    }
+
+    /**
+     * Update data in rc_services_rel_products for a given service_id.
+     * Deletes all existing relations for the service ID, then inserts new ones.
+     *
+     * @param int $service_id The service ID to update.
+     * @param array $product_ids Array of product IDs to relate to the service.
+     * @return void
+     */
+    public function update_service_relations( $service_id, $product_ids ) {
+
+        global $wpdb;
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+
+        // Delete existing relations for this service ID
+        $this->delete_service_relations( $service_id );
+
+        // Insert new relations
+        foreach ( $product_ids as $product_id ) {
+
+            $wpdb->insert( $table_services_rel_products, [
+                'service_id' => $service_id,
+                'product_id' => $product_id,
+            ] );
+        }
+    }
+
+    /**
+     * Delete all data from rc_services.
+     *
+     * @return int|false Number of rows deleted on success, false on failure.
+     */
+    public function delete_all_services() {
+
+        global $wpdb;
+        $table_services = $wpdb->prefix.'rc_services';
+        return $wpdb->query( "TRUNCATE TABLE {$table_services}" );
+    }
+
+    /**
+     * Delete all relations in rc_services_rel_products for a given service_id.
+     *
+     * @param int $service_id The service ID to delete relations for.
+     * @return int|false Number of rows deleted on success, false on failure.
+     */
+    public function delete_service_relations( $service_id = null ) {
+
+        global $wpdb;
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+
+        if ( is_null( $service_id ) ) {
+
+            return $wpdb->query( "TRUNCATE TABLE {$table_services_rel_products}" );
+        } else {
+
+            return $wpdb->delete( $table_services_rel_products, [ 'service_id' => $service_id ] );
+        }
+    }
+}

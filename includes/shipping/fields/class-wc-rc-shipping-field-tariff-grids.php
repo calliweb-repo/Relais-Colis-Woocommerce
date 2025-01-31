@@ -1,0 +1,96 @@
+<?php
+
+namespace RelaisColisWoocommerce\Shipping;
+
+defined( 'ABSPATH' ) or exit;
+
+use RelaisColisWoocommerce\DAO\WP_Tariff_Grids_DAO;
+use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+
+/**
+ * WooCommerce Shipping rc_prices_grid field definition
+ *
+ * @since     1.0.0
+ */
+class WC_RC_Shipping_Field_Tariff_Grids {
+
+    const FIELD_RC_TARIFF_GRIDS = 'rc_prices_grid';
+
+    // Use Trait Singleton
+    use Singleton;
+
+    /**
+     * Default init method called when instance created
+     * This method can be overridden if needed.
+     *
+     * @since 1.0.0
+     * @access protected
+     */
+    public function init() {
+
+        // Render custom fields
+        add_action( 'woocommerce_admin_field_'.self::FIELD_RC_TARIFF_GRIDS, array( $this, 'action_woocommerce_admin_field_rc_prices_grid' ) );
+
+        // Register scripts
+        add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
+    }
+
+    /**
+     * Enqueue needed scripts
+     */
+    public function action_admin_enqueue_scripts() {
+
+        // Enqueued only in concerned settings page
+        $screen = get_current_screen();
+        if ( ( $screen->id !== 'woocommerce_page_wc-settings' ) || !isset( $_GET[ 'tab' ] ) || ( $_GET[ 'tab' ] !== WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS ) ) {
+
+            return;
+        }
+
+        // CSS
+        wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' );
+        wp_enqueue_style( self::FIELD_RC_TARIFF_GRIDS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/field-tariff-grids.css', array(), '1.0', 'all' );
+
+        // JS
+        wp_enqueue_script( self::FIELD_RC_TARIFF_GRIDS.'_js', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/js/field-tariff-grids.js', array( 'jquery' ), '1.0', true );
+
+        // Pass script params to JS
+        wp_localize_script( self::FIELD_RC_TARIFF_GRIDS.'_js', 'rc_ajax', array(
+            'delete_label' => __( 'Delete', 'relais-colis-woocommerce' ), // Supprimer
+            'delivery_method_label' => __( 'Delivery method name', 'relais-colis-woocommerce' ), // Nom de la méthode de livraison
+            'criteria_label' => __( 'Criteria type', 'relais-colis-woocommerce' ), // Type de critère tarifaire
+            'total_price_label' => __( 'Total order price', 'relais-colis-woocommerce' ), // Prix total de la commande
+            'weight_label' => __( 'Order weight', 'relais-colis-woocommerce' ), // Poids de la commande
+            'tariff_ranges_label' => __( 'Tariff ranges', 'relais-colis-woocommerce' ), // Plages tarifaires
+            'add_line_label' => __( 'Add a line', 'relais-colis-woocommerce' ), // Ajouter une ligne
+        ) );
+
+        // Load tariff grids
+        $tariff_grids = WP_Tariff_Grids_DAO::instance()->get_grouped_tariff_grids();
+
+        ?>
+        <script type="text/javascript">
+            var groupedTariffs = <?php echo json_encode($tariff_grids); ?>;
+        </script>
+        <?php
+    }
+
+    /**
+     * Render field
+     * @param $field
+     */
+    public function action_woocommerce_admin_field_rc_prices_grid( $value ) {
+
+        ?>
+        <div id="rc-tariff-container">
+            <button type="button" id="add-tariff"
+                    class="button button-primary"><?php _e( 'Add a grid', 'relais-colis-woocommerce' ); ?></button>
+            <div id="tariffs-list">
+                <!-- Prices grid are injected here using jQuery -->
+            </div>
+        </div>
+        <?php
+    }
+}
