@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-31T17:55:40+00:00\n"
+"POT-Creation-Date: 2025-02-04T14:28:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: relais-colis-woocommerce\n"
@@ -39,205 +39,253 @@ msgstr ""
 msgid "https://www.calliweb.fr/"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:93
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:107
 msgid "Enseigne ID"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:94
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:108
 msgid "Enseigne ID Light"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:95
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:109
 msgid "Enseigne Name"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:96
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:298
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:110
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:345
 msgid "Activation Key"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:97
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:183
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:111
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:186
 msgid "Active"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:98
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:112
 msgid "Use Enseigne ID"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:99
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:113
 msgid "Address Line 1"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:100
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:114
 msgid "Postal Code"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:101
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:115
 msgid "City"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:102
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:116
 msgid "Live Mapping API"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:103
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:117
 msgid "Live Mapping PID"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:104
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:118
 msgid "Live Mapping Key"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:105
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:119
 msgid "Folder"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:106
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:120
 msgid "Return Version"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:107
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:121
 msgid "Return Login"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:108
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:122
 msgid "Return Password"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:109
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:123
 msgid "Agency Code"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:110
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:124
 msgid "Return Site"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:111
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:125
 msgid "Updated By"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:112
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:126
 msgid "Created At"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:113
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:127
 msgid "Updated At"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:116
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:130
 msgid "Unknown Field"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:127
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:141
 msgid "Option ID"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:128
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:142
 msgid "Option Name"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:129
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:143
 msgid "Option Value"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:130
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:144
 msgid "Option Active"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:133
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:147
 msgid "Unknown Option"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:144
-msgid "Result ID"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:157
+msgid "A4 Format"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:145
-msgid "First Name"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:158
+msgid "A5 Format"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:146
-msgid "Last Name"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:159
+msgid "10x15 Format"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:147
-msgid "Email"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:170
+msgid "Millimeters (mm)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:148
-msgid "Balance"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:171
+msgid "Centimeters (cm)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:149
-msgid "Account Status"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:172
+msgid "Decimeters (dm)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:150
-msgid "Account Type"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:173
+msgid "Meters (m)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:151
-msgid "Code Enseigne"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:184
+msgid "Milligrams (mg)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:154
-msgid "Unknown Information"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:185
+msgid "Centigrams (mg)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:177
-msgid "Appointment Scheduling"
-msgstr ""
-
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:182
-msgid "Delivery to the Floor"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:186
+msgid "Decigrams (dg)"
 msgstr ""
 
 #: includes/shipping/abstract-wc-rc-shipping-constants.php:187
-msgid "Two-Person Delivery"
+msgid "Grams (g)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:192
-msgid "Setup of Large Appliances"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:188
+msgid "Kilograms (kg)"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:197
-msgid "Quick Assembly"
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:200
+msgid "Result ID"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:201
+msgid "First Name"
 msgstr ""
 
 #: includes/shipping/abstract-wc-rc-shipping-constants.php:202
-msgid "Oversized Items"
+msgid "Last Name"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:203
+msgid "Email"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:204
+msgid "Balance"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:205
+msgid "Account Status"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:206
+msgid "Account Type"
 msgstr ""
 
 #: includes/shipping/abstract-wc-rc-shipping-constants.php:207
+msgid "Code Enseigne"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:210
+msgid "Unknown Information"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:233
+msgid "Appointment Scheduling"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:238
+msgid "Delivery to the Floor"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:243
+msgid "Two-Person Delivery"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:248
+msgid "Setup of Large Appliances"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:253
+msgid "Quick Assembly"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:258
+msgid "Oversized Items"
+msgstr ""
+
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:263
 msgid "Product Unpacking"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:212
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:268
 msgid "Packaging Removal"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:217
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:273
 msgid "Removal of Old Equipment"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:222
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:278
 msgid "Delivery to Desired Room"
 msgstr ""
 
-#: includes/shipping/abstract-wc-rc-shipping-constants.php:227
+#: includes/shipping/abstract-wc-rc-shipping-constants.php:283
 msgid "Curbside Delivery"
 msgstr ""
 
-#: includes/shipping/class-wc-rc-shipping-settings-manager.php:82
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:84
 msgid "License Issue"
 msgstr ""
 
-#: includes/shipping/class-wc-rc-shipping-settings-manager.php:84
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:86
 msgid "Please enter a valid activation key to access all features."
 msgstr ""
 
-#: includes/shipping/class-wc-rc-shipping-settings-manager.php:88
+#: includes/shipping/class-wc-rc-shipping-settings-manager.php:90
 msgid "Update my license"
 msgstr ""
 
@@ -254,12 +302,12 @@ msgid "Copy the information to the clipboard"
 msgstr ""
 
 #: includes/shipping/fields/class-wc-rc-shipping-field-enable.php:75
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:376
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:423
 msgid "Yes"
 msgstr ""
 
 #: includes/shipping/fields/class-wc-rc-shipping-field-enable.php:76
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:376
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:423
 msgid "No"
 msgstr ""
 
@@ -295,19 +343,19 @@ msgstr ""
 msgid "Add a grid"
 msgstr ""
 
-#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:77
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:147
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:79
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:149
 msgid "Enable this shipping method."
 msgstr ""
 
-#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:83
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:153
 msgid "Title"
 msgstr ""
 
-#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:85
+#: includes/shipping/methods/abstract-wc-rc-shipping-method.php:155
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
@@ -337,70 +385,74 @@ msgstr ""
 msgid "Relais Colis"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:113
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:164
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:194
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:234
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:123
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:180
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:221
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:278
 msgid "Failed to communicate with the RC API. Please check your connection and try again."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:129
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:157
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:140
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:172
 msgid "The activation key you entered is invalid. Please check and try again."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:148
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:222
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:159
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:257
 msgid "The RC API returned an invalid response. Please try again later."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:207
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:231
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:238
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:270
 msgid "The hash token you entered is invalid. Please check and try again."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:249
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:296
 msgid "General configuration"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:281
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:328
 msgid "Your API Information"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:283
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:330
 msgid "Enter your activation key to synchronize your information."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:288
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:335
 msgid "Live/Test Mode"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:289
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:336
 msgid "Switch between Live mode and Test mode."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:302
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:349
 msgid "Your C2C or B2C activation key."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:310
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:357
 msgid "C2C hash token"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:314
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:361
 msgid "Your C2C hash token."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:344
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:391
 msgid "Hello"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:383
-msgid "Options"
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:428
+msgid "The options included in your C2C account."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:385
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:428
 msgid "The options included in your B2C account."
+msgstr ""
+
+#: includes/shipping/settings/class-wc-rc-shipping-general-settings.php:432
+msgid "Options"
 msgstr ""
 
 #: includes/shipping/settings/class-wc-rc-shipping-Infos-settings.php:92
@@ -423,132 +475,84 @@ msgstr ""
 msgid "The informations associated with your C2C account."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:52
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:55
 msgid "Services"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:139
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:142
 msgid "Service Configuration"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:142
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:145
 msgid "Configure all services."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:167
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:170
 msgid "Client Choice"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:175
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:178
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:190
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:193
 msgid "Price"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:197
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:200
 msgid "Assigned Products"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:200
+#: includes/shipping/settings/class-wc-rc-shipping-services-settings.php:203
 msgid "Select products for this service"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:51
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:54
 msgid "Prices Grid"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:132
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:135
 msgid "Tariff grids updated successfully!"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:150
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:163
 msgid "Tariff Grids"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:152
-msgid "Add prices with a free threshold."
+#: includes/shipping/settings/class-wc-rc-shipping-tariff-grids-settings.php:165
+msgid "Add prices with a free threshold. The unit of weight is %s"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:53
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:115
 msgid "Units"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:100
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:168
 msgid "Units of measurement"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:106
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:174
 msgid "Weight Units"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:107
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:175
 msgid "Select the weight unit to use."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:111
-msgid "Grams (g)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:112
-msgid "Decigrams (dg)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:113
-msgid "Kilograms (kg)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:121
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:184
 msgid "Length Units"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:122
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:185
 msgid "Select the length unit to use."
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:126
-msgid "Millimeters (mm)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:127
-msgid "Centimeters (cm)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:128
-msgid "Decimeters (dm)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:129
-msgid "Meters (m)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:130
-msgid "Inches (in)"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:138
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:194
 msgid "Label Format"
 msgstr ""
 
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:139
+#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:195
 msgid "Choose the label format to print."
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:143
-msgid "A4 Format"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:144
-msgid "A5 Format"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:145
-msgid "Square Format"
-msgstr ""
-
-#: includes/shipping/settings/class-wc-rc-shipping-units-settings.php:146
-msgid "10x15 Format"
 msgstr ""
 
 #: includes/wpfw/traits/trait-plugin-action-links.php:115

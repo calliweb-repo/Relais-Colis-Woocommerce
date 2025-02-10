@@ -11,9 +11,12 @@ use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use WC_Admin_Settings;
+use WC_Settings_Products;
 
 /**
  * WooCommerce Shipping Settings for General section
+ *
+ * Add a few units to native WooCommerce units, and ability to save it via RC settings
  *
  * @since     1.0.0
  */
@@ -23,6 +26,11 @@ class WC_RC_Shipping_Units_Settings {
 
     // Use Trait Singleton
     use Singleton;
+
+    // Keep native WooCommerce option units in memory
+    private $woocommerce_weight_unit_options;
+    private $woocommerce_dimension_unit_options;
+
 
     /**
      * Default init method called when instance created
@@ -41,6 +49,60 @@ class WC_RC_Shipping_Units_Settings {
 
         // Update settings section
         add_action( 'woocommerce_update_options_'.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS, array( $this, 'action_woocommerce_update_options_rc_units' ) );
+
+        // Add native units
+        add_filter( 'woocommerce_product_settings', array( $this, 'filter_woocommerce_product_settings' ) );
+
+        add_filter('woocommerce_product_settings', function($settings) {
+            WP_Log::debug('BEFORE CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-woocommerce');
+            return $settings;
+        }, 5); // Exécution très tôt
+
+        add_filter('woocommerce_product_settings', function($settings) {
+            WP_Log::debug('AFTER CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-woocommerce');
+            return $settings;
+        }, 20); // Exécution plus tard
+
+        add_action('admin_init', function() {
+            $stored_units = get_option('woocommerce_weight_unit');
+            WP_Log::debug('WooCommerce Stored Weight Units', ['units' => $stored_units], 'relais-colis-woocommerce');
+        });
+    }
+
+    public function filter_woocommerce_products_general_settings( $settings ) {
+
+        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+        return $settings;
+    }
+
+    /**
+     * Add woocommerce native units
+     * @param $settings woocommerce settings
+     * @return mixed
+     */
+    public function filter_woocommerce_product_settings( $settings ) {
+
+        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+
+        foreach ( $settings as &$setting ) {
+
+            // Add woocommerce_weight_unit
+            if ( $setting[ 'id' ] === 'woocommerce_weight_unit' ) {
+
+                $setting[ 'options' ] = array_replace( $setting[ 'options' ], WC_RC_Shipping_Constants::get_weight_units() );
+                $this->woocommerce_weight_unit_options = $setting[ 'options' ];
+            }
+
+            // Add woocommerce_dimension_unit
+            if ( $setting[ 'id' ] === 'woocommerce_dimension_unit' ) {
+
+                $setting[ 'options' ] = array_replace( $setting[ 'options' ], WC_RC_Shipping_Constants::get_dimension_units() );
+                $this->woocommerce_dimension_unit_options = $setting[ 'options' ];
+            }
+        }
+        WP_Log::debug( __METHOD__.' - After array_replace', [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+
+        return $settings;
     }
 
     /**
@@ -93,58 +155,47 @@ class WC_RC_Shipping_Units_Settings {
             return WC_RC_Shipping_Settings_Manager::instance()->get_invalid_licence_settings();
         }
 
+        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+
+        // Tips to force instant call of filter woocommerce_product_settings to add custom CR units
+        $wc_settings_products = new WC_Settings_Products();
+        $wc_settings_products->get_settings_for_section( '' );
+
         return [
 
             // Section : Relais Colis Settings
             [
-                'title' => __( 'Units of measurement', 'relais-colis-woocommerce' ), // Paramètres Relais Colis
+                'title' => __( 'Units of measurement', 'relais-colis-woocommerce' ),
                 'type' => 'title',
                 'id' => 'rc_settings_title',
             ],
             // Weight Units
             [
-                'title' => __( 'Weight Units', 'relais-colis-woocommerce' ), // Unités de poids
-                'desc' => __( 'Select the weight unit to use.', 'relais-colis-woocommerce' ), // Sélectionnez l'unité de poids à utiliser.
-                'id' => 'rc_weight_unit',
+                'title' => __( 'Weight Units', 'relais-colis-woocommerce' ),
+                'desc' => __( 'Select the weight unit to use.', 'relais-colis-woocommerce' ),
+                'id' => WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT,
                 'type' => 'select',
-                'options' => [
-                    'g' => __( 'Grams (g)', 'relais-colis-woocommerce' ), // Grammes (g)
-                    'dg' => __( 'Decigrams (dg)', 'relais-colis-woocommerce' ), // Décigrammes (dg)
-                    'kg' => __( 'Kilograms (kg)', 'relais-colis-woocommerce' ), // Kilogrammes (kg)
-                ],
-                'default' => 'g',
-                'class' => 'wc-enhanced-select',
+                'options' => ( !is_null( $this->woocommerce_weight_unit_options ) ? $this->woocommerce_weight_unit_options : WC_RC_Shipping_Constants::get_weight_units() ),
+                'default' => 'kg',
                 'desc_tip' => true,
             ],
             // Length Units
             [
-                'title' => __( 'Length Units', 'relais-colis-woocommerce' ), // Unités de longueur
-                'desc' => __( 'Select the length unit to use.', 'relais-colis-woocommerce' ), // Sélectionnez l'unité de longueur à utiliser.
-                'id' => 'rc_length_unit',
+                'title' => __( 'Length Units', 'relais-colis-woocommerce' ),
+                'desc' => __( 'Select the length unit to use.', 'relais-colis-woocommerce' ),
+                'id' => WC_RC_Shipping_Constants::OPTION_RC_LENGTH_UNIT,
                 'type' => 'select',
-                'options' => [
-                    'mm' => __( 'Millimeters (mm)', 'relais-colis-woocommerce' ), // Millimètres (mm)
-                    'cm' => __( 'Centimeters (cm)', 'relais-colis-woocommerce' ), // Centimètres (cm)
-                    'dm' => __( 'Decimeters (dm)', 'relais-colis-woocommerce' ), // Décimètres (dm)
-                    'm' => __( 'Meters (m)', 'relais-colis-woocommerce' ), // Mètres (m)
-                    'in' => __( 'Inches (in)', 'relais-colis-woocommerce' ), // Pouces (in)
-                ],
+                'options' => ( !is_null( $this->woocommerce_dimension_unit_options ) ? $this->woocommerce_dimension_unit_options : WC_RC_Shipping_Constants::get_dimension_units() ),
                 'default' => 'cm',
-                'class' => 'wc-enhanced-select',
                 'desc_tip' => true,
             ],
             // Label Format
             [
-                'title' => __( 'Label Format', 'relais-colis-woocommerce' ), // Format d’étiquette
-                'desc' => __( 'Choose the label format to print.', 'relais-colis-woocommerce' ), // Choisissez le format d’étiquette à imprimer.
-                'id' => 'rc_label_format',
+                'title' => __( 'Label Format', 'relais-colis-woocommerce' ),
+                'desc' => __( 'Choose the label format to print.', 'relais-colis-woocommerce' ),
+                'id' => WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT,
                 'type' => 'select',
-                'options' => [
-                    'A4' => __( 'A4 Format', 'relais-colis-woocommerce' ), // Format A4
-                    'A5' => __( 'A5 Format', 'relais-colis-woocommerce' ), // Format A5
-                    'carre' => __( 'Square Format', 'relais-colis-woocommerce' ), // Format Carré
-                    '10x15' => __( '10x15 Format', 'relais-colis-woocommerce' ), // Format 10x15
-                ],
+                'options' => WC_RC_Shipping_Constants::get_format_units(),
                 'default' => 'A4',
             ],
             [

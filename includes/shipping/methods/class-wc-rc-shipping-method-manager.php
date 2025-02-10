@@ -39,9 +39,20 @@ class WC_RC_Shipping_Method_Manager {
     public function filter_woocommerce_shipping_methods( $methods ) {
 
         // Add WC_Shipping_Method for Relais
-        $methods[ WC_RC_Shipping_Method_Home::WC_RC_SHIPPING_METHOD_HOME_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Home';
-        $methods[ WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Homeplus';
-        $methods[ WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Relay';
+        // It depends on RC enseigne options
+        if ( WC_RC_Shipping_Config_Manager::instance()->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS ) ) {
+
+            $methods[ WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Relay';
+        }
+        if ( WC_RC_Shipping_Config_Manager::instance()->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_HOME ) ) {
+
+            $methods[ WC_RC_Shipping_Method_Home::WC_RC_SHIPPING_METHOD_HOME_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Home';
+        }
+        if ( WC_RC_Shipping_Config_Manager::instance()->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_HOME_PLUS ) ) {
+
+            $methods[ WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Homeplus';
+        }
+
         WP_Log::debug( __METHOD__, [ 'methods' => $methods ], 'relais-colis-woocommerce' );
 
         return $methods;

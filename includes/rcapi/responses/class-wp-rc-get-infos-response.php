@@ -2,6 +2,8 @@
 
 namespace RelaisColisWoocommerce\RCAPI;
 
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+
 defined( 'ABSPATH' ) or exit;
 
 /**
@@ -55,17 +57,18 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
 
-    private $mandatory_properties = array(
-        'id' => 'string',
-        'balance' => 'string',
-    );
+    private $mandatory_properties = [
+        WC_RC_Shipping_Constants::INFORMATION_RESULT_ID => 'string',
+        WC_RC_Shipping_Constants::INFORMATION_BALANCE => 'string',
+        WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_STATUS => 'string',
+    ];
 
     /**
-     * Template Method used to get specific mandatory properties
-     * @return mixed
+     * Template Method used to get specific mandatory properties.
+     *
+     * @return array List of mandatory properties.
      */
     protected function get_mandatory_properties() {
-
         return $this->mandatory_properties;
     }
 
@@ -75,8 +78,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return int|null Customer ID, or null if not available.
      */
     public function get_id() {
-
-        return $this->response_data->id ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_RESULT_ID} ?? null;
     }
 
     /**
@@ -85,8 +87,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Customer's first name, or null if not available.
      */
     public function get_firstname() {
-
-        return $this->response_data->firstname ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_FIRSTNAME} ?? null;
     }
 
     /**
@@ -95,8 +96,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Customer's last name, or null if not available.
      */
     public function get_lastname() {
-
-        return $this->response_data->lastname ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_LASTNAME} ?? null;
     }
 
     /**
@@ -105,8 +105,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Customer's email address, or null if not available.
      */
     public function get_email() {
-
-        return $this->response_data->email ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_EMAIL} ?? null;
     }
 
     /**
@@ -115,8 +114,9 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return float|null Customer's account balance, or null if not available.
      */
     public function get_balance() {
-
-        return isset($this->response_data->balance) ? (float) $this->response_data->balance : null;
+        return isset( $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_BALANCE} )
+            ? (float)$this->response_data->{WC_RC_Shipping_Constants::INFORMATION_BALANCE}
+            : null;
     }
 
     /**
@@ -125,8 +125,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Customer's account status, or null if not available.
      */
     public function get_account_status() {
-
-        return $this->response_data->accountStatus ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_STATUS} ?? null;
     }
 
     /**
@@ -135,8 +134,7 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Customer's account type, or null if not available.
      */
     public function get_account_type() {
-
-        return $this->response_data->accountType ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_TYPE} ?? null;
     }
 
     /**
@@ -145,7 +143,6 @@ class WP_RC_Get_Infos_Response extends WP_Relais_Colis_Response {
      * @return string|null Enseigne code, or null if not available.
      */
     public function get_code_enseigne() {
-
-        return $this->response_data->codeEnseigne ?? null;
+        return $this->response_data->{WC_RC_Shipping_Constants::INFORMATION_CODE_ENSEIGNE} ?? null;
     }
 }

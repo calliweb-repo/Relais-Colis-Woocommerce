@@ -2,6 +2,8 @@
 
 namespace RelaisColisWoocommerce\RCAPI;
 
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+
 defined( 'ABSPATH' ) or exit;
 
 /**
@@ -125,325 +127,137 @@ trait WP_RC_Enseigne {
     private $rc_configuration = null;
 
     /**
-     * Get the ID of the result.
+     * Get a value from rc_configuration by constant key.
      *
-     * @return int|null
+     * @param string $constant The constant key from WC_RC_Shipping_Constants.
+     * @return mixed|null The value if found, otherwise null.
      */
-    public function get_id() {
-        return $this->rc_configuration->id ?? null;
+    private function get_rc_value( $constant ) {
+
+        return $this->rc_configuration->{$constant} ?? null;
     }
 
     /**
-     * Get the name of the enseigne.
+     * Get a boolean value from rc_configuration by constant key.
      *
-     * @return string|null
-     */
-    public function get_ens_name() {
-        return $this->rc_configuration->ens_name ?? null;
-    }
-
-    /**
-     * Get the enseigne ID.
-     *
-     * @return string|null
-     */
-    public function get_ens_id() {
-        return $this->rc_configuration->ens_id ?? null;
-    }
-
-    /**
-     * Get the lightweight enseigne ID.
-     *
-     * @return string|null
-     */
-    public function get_ens_id_light() {
-        return $this->rc_configuration->ens_id_light ?? null;
-    }
-
-    /**
-     * Use ID ens
-     *
-     * @return boolean
-     */
-    public function use_id_ens() {
-
-        return filter_var( $this->rc_configuration->useidens ?? false, FILTER_VALIDATE_BOOLEAN );
-    }
-
-    /**
-     * Check if the enseigne is active.
-     *
+     * @param string $constant The constant key from WC_RC_Shipping_Constants.
      * @return bool
      */
-    public function is_active() {
+    private function get_rc_boolean( $constant ) {
 
-        return filter_var( $this->rc_configuration->active ?? false, FILTER_VALIDATE_BOOLEAN );
+        return filter_var( $this->rc_configuration->{$constant} ?? false, FILTER_VALIDATE_BOOLEAN );
     }
 
     /**
-     * Get all options.
+     * Get an integer value from rc_configuration by constant key.
      *
-     * Extracts all option entries from the <options> element in the XML response.
-     *
-     * Each option contains the following fields:
-     * - id (int): The unique identifier of the option.
-     * - name (string): The display name of the option (e.g., "Livraison en point relais").
-     * - value (string): The internal code or identifier for the option (e.g., "rc_delivery").
-     * - active (bool): Indicates whether the option is active.
-     *
-     * Example of the returned array:
-     * [
-     *     [
-     *         'id' => 1,
-     *         'name' => 'Livraison en point relais',
-     *         'value' => 'rc_delivery',
-     *         'active' => true
-     *     ],
-     *     [
-     *         'id' => 2,
-     *         'name' => 'Livraison à domicile',
-     *         'value' => 'home_delivery',
-     *         'active' => true
-     *     ],
-     *     [
-     *         'id' => 3,
-     *         'name' => 'Retour Web',
-     *         'value' => 'return',
-     *         'active' => true
-     *     ],
-     *     [
-     *         'id' => 6,
-     *         'name' => 'Relais Max',
-     *         'value' => 'rc_max',
-     *         'active' => true
-     *     ]
-     * ]
-     *
-     * @return array Returns an array of options. Each option is represented as an associative array.
+     * @param string $constant The constant key from WC_RC_Shipping_Constants.
+     * @return int|null
      */
-    public function get_options() {
+    private function get_rc_int( $constant ) {
 
+        return isset( $this->rc_configuration->{$constant} ) ? absint( $this->rc_configuration->{$constant} ) : null;
+    }
+
+    // Methods rewritten to use constants
+
+    public function get_id() {
+        return $this->get_rc_int( WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
+    }
+
+    public function get_ens_name() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM );
+    }
+
+    public function get_ens_id() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID );
+    }
+
+    public function get_ens_id_light() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT );
+    }
+
+    public function use_id_ens() {
+        return $this->get_rc_boolean( WC_RC_Shipping_Constants::CONFIGURATION_USEIDENS );
+    }
+
+    public function is_active() {
+        return $this->get_rc_boolean( WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE );
+    }
+
+    public function get_livemapping_api() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_API );
+    }
+
+    public function get_livemapping_pid() {
+        return $this->get_rc_int( WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_PID );
+    }
+
+    public function get_livemapping_key() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_KEY );
+    }
+
+    public function get_address1() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1 );
+    }
+
+    public function get_postcode() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE );
+    }
+
+    public function get_city() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_CITY );
+    }
+
+    public function get_agency_code() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE );
+    }
+
+    public function get_return_version() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION );
+    }
+
+    public function get_return_login() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN );
+    }
+
+    public function get_return_pass() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS );
+    }
+
+    public function get_return_site() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE );
+    }
+
+    public function get_folder() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_FOLDER );
+    }
+
+    public function get_activation_key() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY );
+    }
+
+    public function get_created_at() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT );
+    }
+
+    public function get_updated_at() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT );
+    }
+
+    public function get_updated_by() {
+        return $this->get_rc_int( WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
+    }
+
+    public function get_options() {
         return isset( $this->rc_configuration->options->entry )
             ? json_decode( json_encode( $this->rc_configuration->options->entry ), true )
             : [];
     }
 
-    /**
-     * Get all modules.
-     *
-     * Extracts all module entries from the <modules> element in the XML response.
-     *
-     * Each module contains the following fields:
-     * - id (int): The unique identifier of the module.
-     * - module_name (string): The name of the module.
-     * - module_version (string): The version of the module.
-     * - cms_name (string): The name of the CMS associated with the module (e.g., Prestashop).
-     * - cms_version (string): The version of the CMS.
-     * - created_at (string): The creation timestamp of the module (ISO 8601 format).
-     * - updated_at (string): The last update timestamp of the module (ISO 8601 format).
-     * - updated_by (int): The ID of the user who last updated the module.
-     *
-     * Example of the returned array:
-     * [
-     *     [
-     *         'id' => 46,
-     *         'module_name' => 'relais colis',
-     *         'module_version' => '1.0.9',
-     *         'cms_name' => 'Prestashop',
-     *         'cms_version' => '1.6.1.16',
-     *         'created_at' => '2017-11-24T12:01:10+00:00',
-     *         'updated_at' => '2017-11-24T12:01:10+00:00',
-     *         'updated_by' => 0
-     *     ],
-     *     [
-     *         'id' => 742,
-     *         'module_name' => 'relais colis for Prestashop',
-     *         'module_version' => '3.1.1',
-     *         'cms_name' => 'Prestashop',
-     *         'cms_version' => '8.1.3',
-     *         'created_at' => '2025-01-02T13:14:45+00:00',
-     *         'updated_at' => '2025-01-02T13:14:45+00:00',
-     *         'updated_by' => 0
-     *     ]
-     * ]
-     *
-     * @return array Returns an array of modules. Each module is represented as an associative array.
-     */
     public function get_modules() {
-
-        // Check if <modules>-><entry> exists and convert to an array if present
-        return isset($this->rc_configuration->modules->entry)
-            ? json_decode(json_encode($this->rc_configuration->modules->entry), true)
+        return isset( $this->rc_configuration->modules->entry )
+            ? json_decode( json_encode( $this->rc_configuration->modules->entry ), true )
             : [];
-    }
-
-    /**
-     * Get the livemapping API key.
-     *
-     * @return string|null
-     */
-    public function get_livemapping_api() {
-
-        return $this->rc_configuration->livemapping_api ?? null;
-    }
-
-    /**
-     * Get the livemapping PID.
-     *
-     * @return int|null
-     */
-    public function get_livemapping_pid() {
-
-        return $this->rc_configuration->livemapping_pid ?? null;
-    }
-
-    /**
-     * Get the livemapping key.
-     *
-     * @return string|null
-     */
-    public function get_livemapping_key() {
-
-        return $this->rc_configuration->livemapping_key ?? null;
-    }
-
-    /**
-     * Get the first line of the address.
-     *
-     * @return string|null
-     */
-    public function get_address1() {
-
-        return $this->rc_configuration->address1 ?? null;
-    }
-
-    /**
-     * Get the second line of the address.
-     *
-     * @return string|null
-     */
-    public function get_address2() {
-
-        return $this->rc_configuration->address2 ?? null;
-    }
-
-    /**
-     * Get the postcode.
-     *
-     * @return string|null
-     */
-    public function get_postcode() {
-
-        return $this->rc_configuration->postcode ?? null;
-    }
-
-    /**
-     * Get the city.
-     *
-     * @return string|null
-     */
-    public function get_city() {
-
-        return $this->rc_configuration->city ?? null;
-    }
-
-    /**
-     * Get the agency code.
-     *
-     * @return string|null
-     */
-    public function get_agency_code() {
-
-        return $this->rc_configuration->agency_code ?? null;
-    }
-
-    /**
-     * Get the return version.
-     *
-     * @return string|null
-     */
-    public function get_return_version() {
-
-        return $this->rc_configuration->return_version ?? null;
-    }
-
-    /**
-     * Get the return login.
-     *
-     * @return string|null
-     */
-    public function get_return_login() {
-
-        return $this->rc_configuration->return_login ?? null;
-    }
-
-    /**
-     * Get the return password.
-     *
-     * @return string|null
-     */
-    public function get_return_pass() {
-
-        return $this->rc_configuration->return_pass ?? null;
-    }
-
-    /**
-     * Get the return site.
-     *
-     * @return string|null
-     */
-    public function get_return_site() {
-
-        return $this->rc_configuration->return_site ?? null;
-    }
-
-    /**
-     * Get the folder.
-     *
-     * @return string|null
-     */
-    public function get_folder() {
-
-        return $this->rc_configuration->folder ?? null;
-    }
-
-    /**
-     * Get the activation key.
-     *
-     * @return string|null
-     */
-    public function get_activation_key() {
-
-        return $this->rc_configuration->activation_key ?? null;
-    }
-
-    /**
-     * Get the created_at timestamp.
-     *
-     * @return string|null
-     */
-    public function get_created_at() {
-
-        return $this->rc_configuration->created_at ?? null;
-    }
-
-    /**
-     * Get the updated_at timestamp.
-     *
-     * @return string|null
-     */
-    public function get_updated_at() {
-
-        return $this->rc_configuration->updated_at ?? null;
-    }
-
-    /**
-     * Get the updated_by ID.
-     *
-     * @return int|null
-     */
-    public function get_updated_by() {
-
-        return $this->rc_configuration->updated_by ?? null;
     }
 }

@@ -6,6 +6,8 @@ defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Api\WP_API_Base;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
@@ -40,15 +42,10 @@ class WP_Relais_Colis_API extends WP_API_Base {
     const REQUEST_TRANSPORT_GENERATE = 'transport_generate';
     const REQUEST_GET_DATA_EVTS = 'get_data_evts';
 
-    /** @var string */
-    const LIVE_MODE = 'production';
-    /** @var string */
-    const TEST_MODE = 'preproduction';
-
     /** @var string[] */
     const REST_URLS = [
-        self::LIVE_MODE => 'https://ws-modules.relaiscolis.com/',
-        self::TEST_MODE => 'https://preprod-ws-modules.relaiscolis.com/'
+        WC_RC_Shipping_Constants::LIVE_MODE => 'https://ws-modules.relaiscolis.com/',
+        WC_RC_Shipping_Constants::TEST_MODE => 'https://preprod-ws-modules.relaiscolis.com/'
     ];
 
     /** @var bool whether API is enabled */
@@ -69,10 +66,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
         if ( !is_null( $this->request_uri ) ) return;
 
         // Get mode (option), can be LIVE_MODE or TEST_MODE
-        $mode = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_api_mode', self::TEST_MODE );
-        if ( ( $mode !== self::TEST_MODE ) && ( $mode !== self::LIVE_MODE ) ) {
-            return;
-        }
+        $mode = WC_RC_Shipping_Config_Manager::instance()->get_request_mode();
 
         // Deduce request URI
         $this->request_uri = self::REST_URLS[ $mode ];

@@ -20,6 +20,73 @@ class WP_Helper {
     const MB_ENCODING = 'UTF-8';
 
     /**
+     * Convert weight units to grams (g).
+     *
+     * This function supports various weight units used in France and worldwide,
+     * including those from WooCommerce and potential third-party extensions.
+     *
+     * Supported units:
+     * - Metric system:
+     *   'kg'  => Kilograms (1 kg = 1000 g)
+     *   'g'   => Grams (1 g = 1 g)
+     *   'mg'  => Milligrams (1 mg = 0.001 g)
+     *   'cg'  => Centigrams (1 cg = 0.01 g)
+     *   'dg'  => Decigrams (1 dg = 0.1 g)
+     *   'ton' => Metric ton (1 ton = 1,000,000 g)
+     *   'quintal' => Quintal (1 quintal = 100,000 g)
+     *
+     * - Imperial system:
+     *   'lbs' => Pounds (1 lb = 453.592 g)
+     *   'oz'  => Ounces (1 oz = 28.3495 g)
+     *   'st'  => Stones (1 stone = 6,350.29 g)
+     *   'grain' => Grains (1 grain = 0.0648 g)
+     *   'dr'  => Drams (1 dram = 1.77185 g)
+     *
+     * - Troy weight (used for precious metals):
+     *   'troy_oz' => Troy ounces (1 troy oz = 31.1035 g)
+     *   'troy_lb' => Troy pounds (1 troy lb = 373.242 g)
+     *
+     * @param float $value The weight value to convert.
+     * @param string $unit The unit of measurement (kg, g, mg, lbs, oz, etc.).
+     * @return float The converted weight in grams (g), or null if not supported
+     */
+    public static function convert_to_grams( $value, $unit ) {
+
+        // Conversion rates for different units to grams
+        $conversion_rates = [
+            // Metric system
+            'kg' => 1000,       // 1 kilogram = 1000 grams
+            'g' => 1,          // 1 gram = 1 gram
+            'mg' => 0.001,     // 1 milligram = 0.001 grams
+            'cg' => 0.01,      // 1 centigram = 0.01 grams
+            'dg' => 0.1,       // 1 decigram = 0.1 grams
+            'ton' => 1000000,  // 1 metric ton = 1,000,000 grams
+            'quintal' => 100000, // 1 quintal = 100,000 grams
+
+            // Imperial system
+            'lbs' => 453.592,  // 1 pound = 453.592 grams
+            'oz' => 28.3495,   // 1 ounce = 28.3495 grams
+            'st' => 6350.29,   // 1 stone = 6,350.29 grams
+            'grain' => 0.0648, // 1 grain = 0.0648 grams
+            'dr' => 1.77185,   // 1 dram = 1.77185 grams
+
+            // Troy weight (for precious metals)
+            'troy_oz' => 31.1035,  // 1 troy ounce = 31.1035 grams
+            'troy_lb' => 373.242   // 1 troy pound = 373.242 grams
+        ];
+
+        // Normalize unit to lowercase for consistency
+        $unit = strtolower( trim( $unit ) );
+
+        // Check if the unit exists in our conversion array
+        if ( isset( $conversion_rates[ $unit ] ) ) {
+
+            return (float)$value * $conversion_rates[ $unit ];
+
+        } else return null;
+    }
+
+    /**
      * Allow to remove method for an hook when, it's a class method used and class don't have global for instanciation !
      */
     public static function remove_filters_with_method_name( $hook_name = '', $method_name = '', $priority = 0 ) {

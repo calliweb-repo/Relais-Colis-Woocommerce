@@ -15,14 +15,12 @@ use WC_Settings_Page;
  */
 class WC_RC_Shipping_Settings extends WC_Settings_Page {
 
-    const WC_RC_SHIPPING_SETTINGS = 'wc_rc_shipping_settings';
-
     /**
      * Constructor
      */
     public function __construct() {
 
-        $this->id = self::WC_RC_SHIPPING_SETTINGS;
+        $this->id = WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS;
         $this->label = __( 'Relais Colis', 'relais-colis-woocommerce' );
 
         parent::__construct();
@@ -41,15 +39,10 @@ class WC_RC_Shipping_Settings extends WC_Settings_Page {
         add_filter('woocommerce_settings_tabs_array', array( $this, 'filter_woocommerce_settings_tabs_array' ), 50);
 
         // Register settings section
-        add_filter( 'woocommerce_get_sections_'.WC_RC_Shipping_Settings::WC_RC_SHIPPING_SETTINGS, array( $this, 'filter_woocommerce_get_sections_rc' ), 1 );
+        add_filter( 'woocommerce_get_sections_'.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS, array( $this, 'filter_woocommerce_get_sections_rc' ), 1 );
 
         // Register scripts
         add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
-
-        // Register sections
-        WC_RC_Shipping_General_Settings::instance();
-        WC_RC_Shipping_Informations_Settings::instance();
-        WC_RC_Shipping_Prestations_Settings::instance();
     }
 
     /***
@@ -58,8 +51,15 @@ class WC_RC_Shipping_Settings extends WC_Settings_Page {
      */
     public function action_admin_enqueue_scripts() {
 
+        // Enqueued only in RC settings page
+        $screen = get_current_screen();
+        if ( ( $screen->id !== 'woocommerce_page_wc-settings' ) || !isset($_GET['tab']) || ( $_GET['tab'] !== WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS ) ) {
+
+            return;
+        }
+
         // CSS
-        wp_enqueue_style(self::WC_RC_SHIPPING_SETTINGS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/relais-colis.css', array(), '1.0', 'all');
+        wp_enqueue_style(WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/relais-colis.css', array(), '1.0', 'all');
    }
 
     /**
@@ -80,7 +80,7 @@ class WC_RC_Shipping_Settings extends WC_Settings_Page {
      */
     public function filter_woocommerce_settings_tabs_array($settings_tabs): mixed
     {
-        $settings_tabs[self::WC_RC_SHIPPING_SETTINGS] = __('Relais Colis', 'relais-colis-woocommerce');
+        $settings_tabs[WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS] = __('Relais Colis', 'relais-colis-woocommerce');
         return $settings_tabs;
     }
 }

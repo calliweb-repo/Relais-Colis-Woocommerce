@@ -49,6 +49,44 @@ class WC_RC_Shipping_Config_Manager {
     }
 
     /**
+     * Has active offer options
+     * @param $offer one of OFFER_RELAIS_COLIS, OFFER_HOME, OFFER_HOME_PLUS
+     * @return boolean true if enabled, otherwise false
+     */
+    public function has_delivery_offer_enabled( $offer ) {
+
+        // Load options
+        $rc_configuration_options = WP_Configuration_DAO::instance()->get_rc_configuration_options( true );
+
+        switch ( $offer ) {
+            // OFFER_RELAIS_COLIS enabled if rc_delivery is in options with true value
+            case WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS:
+                foreach ( $rc_configuration_options as $rc_configuration_option ) {
+
+                    if ( $rc_configuration_option['value'] === WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS_ACTIVE_VALUE ) return true;
+                }
+                break;
+
+                // OFFER_HOME enabled if home_delivery is in options with true value
+            case WC_RC_Shipping_Constants::OFFER_HOME_PLUS:
+                foreach ( $rc_configuration_options as $rc_configuration_option ) {
+
+                    if ( $rc_configuration_option['value'] === WC_RC_Shipping_Constants::OFFER_HOME_PLUS_ACTIVE_VALUE ) return true;
+                }
+                break;
+
+            // OFFER_HOME_PLUS enabled if rc_max is in options with true value
+            case WC_RC_Shipping_Constants::OFFER_HOME:
+                foreach ( $rc_configuration_options as $rc_configuration_option ) {
+
+                    if ( $rc_configuration_option['value'] === WC_RC_Shipping_Constants::OFFER_HOME_ACTIVE_VALUE ) return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
      * Get the request mode, live or test
      * @return string the request mode, LIVE_MODE or TEST_MODE
      */

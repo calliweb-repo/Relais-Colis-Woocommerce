@@ -31,9 +31,23 @@ abstract class WC_RC_Shipping_Constants {
     const OFFER_HOME = 'Home';
     const OFFER_HOME_PLUS = 'Home+';
 
+    const METHOD_NAME_RELAIS_COLIS = 'rc';
+    const METHOD_NAME_HOME = 'h';
+    const METHOD_NAME_HOME_PLUS = 'hp';
+
+    // Options <- trigger -> offers
+    const OFFER_RELAIS_COLIS_ACTIVE_VALUE = 'rc_delivery';
+    const OFFER_HOME_ACTIVE_VALUE = 'home_delivery';
+    const OFFER_HOME_PLUS_ACTIVE_VALUE = 'home_delivery';
+
     // Tariff criterias
     const TARIFF_CRITERIA_PRICE = 'price';
     const TARIFF_CRITERIA_WEIGHT = 'weight';
+
+    // Units
+    const OPTION_RC_WEIGHT_UNIT = 'woocommerce_weight_unit'; // Using / overriding WooCommerce native units
+    const OPTION_RC_LENGTH_UNIT = 'woocommerce_dimension_unit'; // Using / overriding WooCommerce native units
+    const OPTION_RC_LABEL_FORMAT = 'rc_label_format';
 
     const RC_OPTION_PREFIX = 'rc_';
 
@@ -134,6 +148,48 @@ abstract class WC_RC_Shipping_Constants {
     }
 
     /**
+     * Get list of formats units
+     * @return array the human-readable title
+     */
+    public static function get_format_units() {
+
+        return array(
+            'A4' => __( 'A4 Format', 'relais-colis-woocommerce' ),
+            'A5' => __( 'A5 Format', 'relais-colis-woocommerce' ),
+            '10x15' => __( '10x15 Format', 'relais-colis-woocommerce' ),
+        );
+    }
+
+    /**
+     * Get list of length units
+     * @return array the human-readable title
+     */
+    public static function get_dimension_units() {
+
+        return array(
+            'mm' => __( 'Millimeters (mm)', 'relais-colis-woocommerce' ),
+            'cm' => __( 'Centimeters (cm)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
+            'dm' => __( 'Decimeters (dm)', 'relais-colis-woocommerce' ),
+            'm' => __( 'Meters (m)', 'relais-colis-woocommerce' ),
+        );
+    }
+
+    /**
+     * Get list of weight units
+     * @return array the human-readable title
+     */
+    public static function get_weight_units() {
+
+        return array(
+            'mg' => __( 'Milligrams (mg)', 'relais-colis-woocommerce' ),
+            'cg' => __( 'Centigrams (mg)', 'relais-colis-woocommerce' ),
+            'dg' => __( 'Decigrams (dg)', 'relais-colis-woocommerce' ),
+            'g' => __( 'Grams (g)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
+            'kg' => __( 'Kilograms (kg)', 'relais-colis-woocommerce' ),
+        );
+    }
+
+    /**
      * Get title from information slug
      * @param $rc_information_slug the slug of the information
      * @return string|void the human-readable title
@@ -161,9 +217,9 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_offers() {
 
         return array(
-            'h' => self::OFFER_HOME,
-            'hp' => self::OFFER_HOME_PLUS,
-            'rc' => self::OFFER_RELAIS_COLIS,
+            self::METHOD_NAME_HOME => self::OFFER_HOME,
+            self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS,
+            self::METHOD_NAME_RELAIS_COLIS => self::OFFER_RELAIS_COLIS,
         );
 }
 
@@ -175,57 +231,57 @@ abstract class WC_RC_Shipping_Constants {
         return array(
             'appointment_scheduling' => array(
                 __( 'Appointment Scheduling', 'relais-colis-woocommerce' ),
-                ['h' => self::OFFER_HOME, 'hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME => self::OFFER_HOME, self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Prise de Rendez-vous
 
             'delivery_to_floor' => array(
                 __( 'Delivery to the Floor', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Livraison à l’étage
 
             'two_person_delivery' => array(
                 __( 'Two-Person Delivery', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Livraison à deux
 
             'setup_large_appliances' => array(
                 __( 'Setup of Large Appliances', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // M.E.S gros électroménager
 
             'quick_assembly' => array(
                 __( 'Quick Assembly', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Assemblage rapide
 
             'oversized_items' => array(
                 __( 'Oversized Items', 'relais-colis-woocommerce' ),
-                ['h' => self::OFFER_HOME, 'hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME => self::OFFER_HOME, self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Hors Norme
 
             'product_unpacking' => array(
                 __( 'Product Unpacking', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Déballage produit
 
             'packaging_removal' => array(
                 __( 'Packaging Removal', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Evacuation Emballage
 
             'removal_old_equipment' => array(
                 __( 'Removal of Old Equipment', 'relais-colis-woocommerce' ),
-                ['h' => self::OFFER_HOME, 'hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME => self::OFFER_HOME, self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Reprise de votre ancien matériel
 
             'delivery_desired_room' => array(
                 __( 'Delivery to Desired Room', 'relais-colis-woocommerce' ),
-                ['hp' => self::OFFER_HOME_PLUS],
+                [self::METHOD_NAME_HOME_PLUS => self::OFFER_HOME_PLUS],
             ), // Livraison dans la pièce souhaitée
 
             'curbside_delivery' => array(
                 __( 'Curbside Delivery', 'relais-colis-woocommerce' ),
-                ['h' => self::OFFER_HOME],
+                [self::METHOD_NAME_HOME => self::OFFER_HOME],
             ), // Livraison au pas de porte
         );
     }

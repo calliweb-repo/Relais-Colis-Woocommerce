@@ -3,6 +3,8 @@
 namespace RelaisColisWoocommerce\RCAPI;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 defined( 'ABSPATH' ) or exit;
@@ -100,7 +102,7 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
         $this->method = 'POST';
         $this->path = 'api/package/placeAdvertisement'; // No / at beginning
 
-        $activationKey = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_activationKey' );
+        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
@@ -119,6 +121,15 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );
 
         $this->validate();
+
+        // May convert weight to grams
+        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
+        $shippment_weight_grams = WP_Helper::convert_to_grams( $this->data[ self::SHIPPMENT_WEIGHT ], $woocommerce_weight_unit );
+        if ( !is_null( $shippment_weight_grams ) ) $this->data[ self::SHIPPMENT_WEIGHT ] = $shippment_weight_grams;
+
+        $weight_grams = WP_Helper::convert_to_grams( $this->data[ self::WEIGHT ], $woocommerce_weight_unit );
+        if ( !is_null( $weight_grams ) ) $this->data[ self::WEIGHT ] = $weight_grams;
 
         // Tips specific to RC API
         $post_data = array( $this->data );

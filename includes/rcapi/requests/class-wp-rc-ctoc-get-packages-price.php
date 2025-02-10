@@ -3,6 +3,8 @@
 namespace RelaisColisWoocommerce\RCAPI;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 defined( 'ABSPATH' ) or exit;
@@ -74,7 +76,7 @@ class WP_RC_C2C_Get_Packages_Price extends WP_Relais_Colis_Request {
         $this->method = 'POST';
         $this->path = 'api/package/getPackagesPrice';
 
-        $c2c_hashtoken = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_C2C_hashToken' );
+        $c2c_hashtoken = get_option( WC_RC_Shipping_Constants::OPTION_C2C_HASH_TOKEN );
 
         $this->data = array(
             self::C2C_HASHTOKEN => $c2c_hashtoken,
@@ -85,7 +87,17 @@ class WP_RC_C2C_Get_Packages_Price extends WP_Relais_Colis_Request {
 
         $this->validate();
 
-        // Tips specific to RC API
+        // May convert weight to grams
+        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
+        foreach ( $this->data[ self::PACKAGES_WEIGHT ] as &$packages_weight ) {
+
+            $converted_packages_weight = WP_Helper::convert_to_grams( $packages_weight, $woocommerce_weight_unit );
+            if ( !is_null( $converted_packages_weight ) ) $packages_weight = $converted_packages_weight;
+        }
+        WP_Log::debug( __METHOD__, [ '$this->data[ self::PACKAGES_WEIGHT ]'=>$this->data[ self::PACKAGES_WEIGHT ], '$woocommerce_weight_unit' => $woocommerce_weight_unit ], 'relais-colis-woocommerce' );
+
+            // Tips specific to RC API
 //        $post_data = array( $this->data );
         $post_data = $this->data;
 

@@ -14,6 +14,8 @@ use RelaisColisWoocommerce\RCAPI\WP_RC_Transport_Generate;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
@@ -45,7 +47,7 @@ class Relais_Colis_Woocommerce_Tests {
         ///////////////
         // TESTS WP_Relais_Colis_API - Request get_b2c_configuration
         ///////////////
-//        $this->test_wp_relais_colis_api_get_b2c_configuration_success();
+        $this->test_wp_relais_colis_api_get_b2c_configuration_success();
 //        $this->test_wp_relais_colis_api_get_b2c_configuration_error();
 //        $this->test_wp_relais_colis_api_get_c2c_configuration_success();
 //        $this->test_wp_relais_colis_api_get_c2c_configuration_error();
@@ -63,7 +65,7 @@ class Relais_Colis_Woocommerce_Tests {
 //        $this->test_wp_relais_colis_api_b2c_place_return_success();
 //        $this->test_wp_relais_colis_api_b2c_place_return_v3_success();
 //        $this->test_wp_relais_colis_api_b2c_place_return_v3_error();
-//        $this->test_wp_relais_colis_api_c2c_get_infos_success();
+        $this->test_wp_relais_colis_api_c2c_get_infos_success();
 //        $this->test_wp_relais_colis_api_c2c_get_infos_error();
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_success();
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_error();
@@ -84,9 +86,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+//        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        //update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -172,10 +174,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
         // ERROR in activationKey
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-----' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-----' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -211,9 +213,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -299,10 +301,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
         // ERROR in activationKey
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-----' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-----' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -338,9 +340,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -398,10 +400,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-//        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::TEST_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+//        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::TEST_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -461,9 +463,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -519,9 +521,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -578,9 +580,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
 
@@ -646,9 +648,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
 
@@ -717,9 +719,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -755,10 +757,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
         // ERROR 500 Internal Server Error
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -796,9 +798,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -834,10 +836,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
         // ERROR 500 Internal Server Error
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -875,9 +877,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -914,9 +916,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -1083,9 +1085,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -1252,10 +1254,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
         // ERROR in _activationKey
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -1423,8 +1425,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
+        //update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
 
         // Call API
@@ -1482,7 +1485,7 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
         // ERROR in hash
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e---' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
@@ -1542,7 +1545,7 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
 
@@ -1589,7 +1592,7 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
 //        update_option( $options_suffix_param.'_C2C_hashToken', '4850e2012b4a77431774cd928e6ea944e98628a6242f' ); // preprod - C2C - 4850e2012b4a77431774cd928e6ea944e98628a6242f
         update_option( $options_suffix_param.'_C2C_hashToken', 'bef3f8fa7b689bb89105394ad43940c133724b0d924e' ); // prod - C2C - bef3f8fa7b689bb89105394ad43940c133724b0d924e
 
@@ -1637,9 +1640,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -1677,9 +1680,9 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {
@@ -1721,10 +1724,10 @@ class Relais_Colis_Woocommerce_Tests {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
-        update_option( $options_suffix_param.'_api_mode', WP_Relais_Colis_API::LIVE_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
         // ERROR in action key
-//        update_option( $options_suffix_param.'_activationKey', 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
-        update_option( $options_suffix_param.'_activationKey', 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
+//        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
+        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v-------' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 
         // Call API
         try {

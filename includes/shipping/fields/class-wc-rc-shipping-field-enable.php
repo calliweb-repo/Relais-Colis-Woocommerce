@@ -11,13 +11,12 @@ use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 /**
  * WooCommerce Shipping rc_enable_checkbox field definition
  *
- * @since     1.0.0
+ * @since 1.0.0
  */
 class WC_RC_Shipping_Field_Enable {
 
     const FIELD_RC_ENABLE_CHECKBOX = 'rc_enable_checkbox';
 
-    // Use Trait Singleton
     use Singleton;
 
     /**
@@ -30,10 +29,10 @@ class WC_RC_Shipping_Field_Enable {
     public function init() {
 
         // Render custom fields
-        add_action( 'woocommerce_admin_field_'.self::FIELD_RC_ENABLE_CHECKBOX, array( $this, 'action_woocommerce_admin_field_rc_enable_checkbox' ), 10, 1 );
+        add_action( 'woocommerce_admin_field_'.self::FIELD_RC_ENABLE_CHECKBOX, [ $this, 'action_woocommerce_admin_field_rc_enable_checkbox' ], 10, 1 );
 
         // Register scripts
-        add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
+        add_action( 'admin_enqueue_scripts', [ $this, 'action_admin_enqueue_scripts' ] );
     }
 
     /**
@@ -43,55 +42,72 @@ class WC_RC_Shipping_Field_Enable {
 
         // Enqueued only in concerned settings page
         $screen = get_current_screen();
-        if ( ( $screen->id !== 'woocommerce_page_wc-settings' ) || !isset($_GET['tab']) || ( $_GET['tab'] !== WC_RC_Shipping_Settings::WC_RC_SHIPPING_SETTINGS ) ) {
-
+        if ( $screen->id !== 'woocommerce_page_wc-settings' || !isset( $_GET[ 'tab' ] ) || $_GET[ 'tab' ] !== WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS ) {
             return;
         }
 
         // JS
-        wp_enqueue_script( self::FIELD_RC_ENABLE_CHECKBOX.'_js', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/js/field-enable.js', array( 'jquery' ), '1.0', true );
+        wp_enqueue_script( self::FIELD_RC_ENABLE_CHECKBOX.'_js', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/js/field-enable.js', [ 'jquery' ], '1.0', true );
 
         // CSS
-        wp_enqueue_style(self::FIELD_RC_ENABLE_CHECKBOX.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/field-enable.css', array(), '1.0', 'all');
+        wp_enqueue_style( self::FIELD_RC_ENABLE_CHECKBOX.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/field-enable.css', [], '1.0', 'all' );
     }
 
     /**
      * Render field
      * @param $field
-     */
+    */
     public function action_woocommerce_admin_field_rc_enable_checkbox( $field ) {
 
-        WP_Log::notice( __METHOD__, ['$field'=>$field], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-woocommerce' );
 
-        // FIXME
-        $value = 0;
-        //$checked_text = checked( $value, 1, false );
-        $checked_text = checked( $field['value'], 'yes' );
+        // Ensure the field ID exists
+        if ( empty( $field[ 'id' ] ) ) {
+
+            return;
+        }
+
+        // Set defaults
+        $defaults  = array(
+            'title'     => '',
+            'type'      => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
+            'desc'      => '',
+            'yes_label' => __('Yes', 'relais-colis-woocommerce'),
+            'no_label'  => __('No', 'relais-colis-woocommerce'),
+            'default'   => 'no',
+        );
+        $field  = wp_parse_args( $field, $defaults );
+
+        $value = isset( $field[ 'value' ] ) && $field[ 'value' ] === 'yes' ? 'yes' : 'no';
+        $is_active = $value === 'yes' ? 'active' : '';
 
         ?>
         <tr>
             <th scope="row" class="titledesc">
-                <label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+                <label for="<?php echo esc_attr( $field[ 'id' ] ); ?>"><?php echo esc_html( $field[ 'title' ] ); ?></label>
             </th>
             <td class="forminp forminp-checkbox">
-                <div class="<?php echo esc_attr( $field['field_name'] ); ?>">
+                <div class="rc_enable_checkbox <?php echo $is_active; ?>">
                     <input
-                        name="<?php echo esc_attr( $field['field_name'] ); ?>"
-                        id="<?php echo esc_attr( $field['id'] ); ?>"
-                        type="checkbox"
-                        class="<?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>"
-                        value="yes"
-                        <?php $checked_text; ?>
+                            type="hidden"
+                            name="<?php echo esc_attr( $field[ 'field_name' ] ); ?>"
+                            id="<?php echo esc_attr( $field[ 'id' ] ); ?>_hidden"
+                            value="<?php echo $value; ?>"
                     >
                     <input
-                        type="hidden"
-                        name="hidden_checkbox_<?php echo esc_attr( $field['field_name'] ); ?>"
-                        id="hidden_checkbox_<?php echo esc_attr( $field['field_name'] ); ?>"
-                        value="yes"
+                            name="<?php echo esc_attr( $field[ 'field_name' ] ); ?>"
+                            id="<?php echo esc_attr( $field[ 'id' ] ); ?>"
+                            type="checkbox"
+                            value="yes"
+                        <?php checked( $value, 'yes' ); ?>
                     >
-                    <span class="button button-<?php ($checked_text ? 'primary' : 'secondary'); ?>">Live</span><span class="button button-<?php ($checked_text ? 'primary' : 'secondary'); ?>">Test</span>
-                    <?php echo $field['desc']; // WPCS: XSS ok. ?>
+                    <div class="toggle-switch"></div>
+                    <span class="label-off"><?php echo esc_html( $field[ 'no_label' ] ); ?></span>
+                    <span class="label-on"><?php echo esc_html( $field[ 'yes_label' ] ); ?></span>
                 </div>
+                <?php if ( !empty( $field[ 'desc' ] ) ) { ?>
+                    <p class="description"><?php echo $field[ 'desc' ]; ?></p>
+                <?php } ?>
             </td>
         </tr>
         <?php

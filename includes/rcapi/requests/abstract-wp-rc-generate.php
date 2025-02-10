@@ -3,6 +3,8 @@
 namespace RelaisColisWoocommerce\RCAPI;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 defined( 'ABSPATH' ) or exit;
@@ -54,7 +56,7 @@ abstract class WP_RC_Generate extends WP_Relais_Colis_Request {
         $this->method = 'POST';
         $this->path = 'etiquette/generate';
 
-        $activationKey = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_activationKey' );
+        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
         $this->data = array(
             self::ACTIVATION_KEY => $activationKey,

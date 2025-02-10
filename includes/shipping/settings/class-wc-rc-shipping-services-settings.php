@@ -32,6 +32,9 @@ class WC_RC_Shipping_Services_Settings {
      */
     public function init() {
 
+        // Only for C2C interaction mode
+        if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return;
+
         // Register settings section
         add_filter( 'woocommerce_get_sections_'.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS, array( $this, 'filter_woocommerce_get_sections_rc' ) );
 

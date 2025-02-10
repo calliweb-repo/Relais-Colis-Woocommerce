@@ -3,6 +3,7 @@
 namespace RelaisColisWoocommerce\RCAPI;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 
 defined( 'ABSPATH' ) or exit;
 
@@ -142,7 +143,7 @@ class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
      */
     protected function get_specific_dedicated_params() {
 
-        $c2c_hashtoken = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_C2C_hashToken' );
+        $c2c_hashtoken = get_option( WC_RC_Shipping_Constants::OPTION_C2C_HASH_TOKEN );
 
         return array(
             self::ACTIVITY_CODE => '05',

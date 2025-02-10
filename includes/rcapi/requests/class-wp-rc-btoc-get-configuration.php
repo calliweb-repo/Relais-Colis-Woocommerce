@@ -3,6 +3,7 @@
 namespace RelaisColisWoocommerce\RCAPI;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 defined( 'ABSPATH' ) or exit;
@@ -60,7 +61,7 @@ class WP_RC_B2C_Get_Configuration extends WP_Relais_Colis_Request {
         $this->method = 'POST';
         $this->path = 'api/enseigne/getConfiguration';
 
-        $activationKey = get_option( Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param().'_activationKey' );
+        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
         global $wp_version;
         $this->data = array(

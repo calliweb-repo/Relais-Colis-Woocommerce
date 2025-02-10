@@ -1,181 +1,170 @@
-/* Conteneur principal */
-#rc-prestations-editor,
-#rc-grilles-tarifaires {
+@charset "UTF-8";
+h2 {
+    margin-top: 30px
+}
+/** Error notice **/
+.rc_invalid_license_notice {
     margin: 20px 0;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-/* Boutons d'ajout */
-#rc-prestations-editor #add-prestation,
-#rc-grilles-tarifaires #add-grille {
-    margin-bottom: 15px;
-    background-color: #007cba;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#rc-prestations-editor #add-prestation:hover,
-#rc-grilles-tarifaires #add-grille:hover {
-    background-color: #005a9e;
-}
-
-/* Conteneur des prestations et grilles */
-.grille-container {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    width: calc(100% - 42px);
-    padding: 15px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-#grilles-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-#prestations-container {
-    display: table;
-    width: 100%;
-}
-
-.prestation-container {
-    display: table-row;
-}
-
-.line-g {
-    display: table-cell;
-}
-
-.prestah {
-    display: table-row;
-}
-
-.prestah span {
-    display: table-cell;
-}
-
-/* Titre et bouton de suppression */
-.prestation-container h4,
-.grille-container h4 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.prestation-container h4 button,
-.grille-container h4 button {
-    background: none;
-    border: none;
-    color: #e74c3c;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.prestation-container h4 button:hover,
-.grille-container h4 button:hover {
-    color: #c0392b;
-}
-
-/* Labels et champs */
-.prestation-container label,
-.grille-container label {
-    display: block;
+    padding: 16px 20px;
+    border-left: 5px solid #d63638;
+    background: #fff4f4;
+    color: #a00;
     font-weight: bold;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.grille-container input[type="text"],
-.grille-container select,
-.grille-container input[type="checkbox"] {
-    display: block;
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-}
-
-.prestation-container select,
-.prestation-container input[type="checkbox"],
-.prestation-container input[type="text"] {
-    width: 80%;
-}
-
-.prestation-container input[type="checkbox"],
-.grille-container input[type="checkbox"] {
-    width: auto;
-    margin-right: 5px;
-}
-
-/* Boutons secondaires */
-.prestation-container .add-line,
-.grille-container .add-line {
-    background-color: #007cba;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.prestation-container .add-line:hover,
-.grille-container .add-line:hover {
-    background-color: #005a9e;
-}
-
-/* Conteneur des lignes */
-.lines-container .line-row {
+.rc_invalid_license_notice h2 {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d63638;
+    margin-bottom: 20px;
+    margin-top: 8px;
 }
 
-.lines-container .line-row input {
-    flex: 1;
+.rc_invalid_license_notice h2 span {
+    font-size: 24px;
+    margin-right: 8px;
 }
 
-.lines-container .line-row button {
-    flex-shrink: 0;
+.rc_invalid_license_notice p {
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.rc_invalid_license_notice a.button-primary {
+    background: #d63638;
+    border-color: #b02a2a;
+    color: #fff;
+
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease-in-out;
+}
+
+.rc_invalid_license_notice a.button-primary:hover {
+    background: #b02a2a;
+    border-color: #8a2020;
 }
 
 .form-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+    margin: 10px 0 !important;
+    max-width: 1000px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.form-table th,
-.form-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+.form-table tr {
 }
-
-.line-row td {
+.form-table th {
+    font-weight: bold;
     text-align: left;
+    padding: 12px 15px;
+    width: 30%;
+    background: #f9f9f9;
+    vertical-align: middle !important;
 }
 
-.add-line,
-.remove-line {
-    margin-top: 10px;
+.form-table td {
+    padding: 12px 15px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 0px !important;
+}
+.form-table tr:last-child td {
+    border-bottom: 0px solid #f9f9f9;
+}
+
+.form-table .forminp-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-table .forminp-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #007cba;
     cursor: pointer;
 }
 
-.grille-header {
+.form-table .forminp-select select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    line-height: 20px !important;
+}
+
+.form-table .forminp-select select:hover {
+    border-color: #007cba;
+}
+
+.form-table .forminp-text input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.form-table .forminp .wc-enhanced-select {
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    background: #fff;
+}
+
+.form-table .forminp {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
+}
+
+.form-table .button-primary {
+    background-color: #007cba;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-table .button-primary:hover {
+    background-color: #005a9e;
+}
+
+.form-table .button-danger {
+    background-color: #e74c3c;
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+}
+
+.form-table .button-danger:hover {
+    background-color: #c0392b;
+}
+.wc-wp-version-gte-53 .woocommerce table.form-table th label .woocommerce-help-tip {
+    margin: -7px -14px 0 0 !important;
 }

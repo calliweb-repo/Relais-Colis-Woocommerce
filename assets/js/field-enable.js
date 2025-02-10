@@ -1,21 +1,23 @@
 jQuery(document).ready(function ($) {
 
-    console.log('RC Field Enable Checkbox init');
+    console.log('RC Field Enable Toggle init');
 
     "use strict";
 
-    $('body').on('click', '.rc_enable_checkbox .button-secondary', function () {
+    $('.rc_enable_checkbox').on('click', function () {
+        let checkBox = $(this).find('input[type="checkbox"]');
+        let hiddenInput = $(this).find('input[type="hidden"]');
 
-        $(this).parent().find('.button').toggleClass('button-primary button-secondary');
-        var checkBox = $(this).parents('.rc_enable_checkbox').find('input');
+        // Bascule l'état actif uniquement pour cet élément
+        $(this).toggleClass('active');
 
-        if (checkBox.is(':checked')) {
+        let isChecked = $(this).hasClass('active');
 
-            checkBox.removeAttr('checked');
-        } else {
+        // Met à jour uniquement les inputs de cet élément
+        checkBox.prop('checked', isChecked);
+        hiddenInput.val(isChecked ? 'yes' : 'no');
 
-            checkBox.attr('checked', 'checked');
-        }
+        // Déclenche l'événement change uniquement pour cet élément
         checkBox.trigger('change');
     });
 });

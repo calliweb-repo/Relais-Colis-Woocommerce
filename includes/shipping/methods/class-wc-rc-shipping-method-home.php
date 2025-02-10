@@ -46,4 +46,13 @@ class WC_RC_Shipping_Method_Home extends WC_RC_Shipping_Method {
 
         return __( 'Relais Colis Home', 'relais-colis-woocommerce' );
     }
+
+    /**
+     * Template Method used to convert this method id into DB used method name
+     * @return string
+     */
+    protected function get_database_method_name() {
+
+        return WC_RC_Shipping_Constants::METHOD_NAME_HOME;
+    }
 }

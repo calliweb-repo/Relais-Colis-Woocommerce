@@ -31,6 +31,9 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      */
     public function init() {
 
+        // Only for C2C interaction mode
+        if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return;
+
         // Register settings section
         add_filter( 'woocommerce_get_sections_'.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS, array( $this, 'filter_woocommerce_get_sections_rc' ) );
 
@@ -145,11 +148,21 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
             return WC_RC_Shipping_Settings_Manager::instance()->get_invalid_licence_settings();
         }
 
+        // Weight unit
+        $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+
+        // Try and get better unit display
+        $weight_units = WC_RC_Shipping_Constants::get_weight_units();
+        if ( array_key_exists( $option_rc_weight_unit, $weight_units ) ) {
+
+            $option_rc_weight_unit = $weight_units[ $option_rc_weight_unit ];
+        }
+
         return [
             [
                 'title' => __( 'Tariff Grids', 'relais-colis-woocommerce' ),
                 'type' => 'title',
-                'desc' => __( 'Add prices with a free threshold.', 'relais-colis-woocommerce' ),
+                'desc' => sprintf( __( 'Add prices with a free threshold. The unit of weight is %s', 'relais-colis-woocommerce' ), $option_rc_weight_unit ),
                 'id' => 'rc_prices_title',
             ],
             [

@@ -12,22 +12,6 @@ defined( 'ABSPATH' ) or exit;
 abstract class WP_Plugin {
 
     /**
-     * Plugin activated method. Perform any activation tasks here.
-     * Note that this _does not_ run during upgrades.
-     *
-     * @since 1.0.0
-     */
-    abstract public function activate();
-
-
-    /**
-     * Plugin deactivation method. Perform any deactivation tasks here.
-     *
-     * @since 1.0.0
-     */
-    abstract public function deactivate();
-
-    /**
      * Initializes the custom post types.
      * Called on init and on activation hooks
      * 

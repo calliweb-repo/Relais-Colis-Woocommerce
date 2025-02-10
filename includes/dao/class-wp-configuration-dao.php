@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\DAO;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Configuration_Response;
@@ -17,64 +18,13 @@ class WP_Configuration_DAO {
 
     use Singleton;
 
-    const OPTION_RC_PREFIX = 'rc_configuration_';
-
-    public static function get_html_title( $rc_configuration_slug ) {
-        switch ( $rc_configuration_slug ) {
-            case 'enseigne_id':
-                return __( 'Enseigne ID', 'relais-colis-woocommerce' );
-            case 'enseigne_id_light':
-                return __( 'Enseigne ID Light', 'relais-colis-woocommerce' );
-            case 'enseigne_nom':
-                return __( 'Enseigne Name', 'relais-colis-woocommerce' );
-            case 'activation_key':
-                return __( 'Activation Key', 'relais-colis-woocommerce' );
-            case 'active':
-                return __( 'Active', 'relais-colis-woocommerce' );
-            case 'useidens':
-                return __( 'Use Enseigne ID', 'relais-colis-woocommerce' );
-            case 'address_line1':
-                return __( 'Address Line 1', 'relais-colis-woocommerce' );
-            case 'postal_code':
-                return __( 'Postal Code', 'relais-colis-woocommerce' );
-            case 'city':
-                return __( 'City', 'relais-colis-woocommerce' );
-            case 'livemapping_api':
-                return __( 'Live Mapping API', 'relais-colis-woocommerce' );
-            case 'livemapping_pid':
-                return __( 'Live Mapping PID', 'relais-colis-woocommerce' );
-            case 'livemapping_key':
-                return __( 'Live Mapping Key', 'relais-colis-woocommerce' );
-            case 'folder':
-                return __( 'Folder', 'relais-colis-woocommerce' );
-            case 'return_version':
-                return __( 'Return Version', 'relais-colis-woocommerce' );
-            case 'return_login':
-                return __( 'Return Login', 'relais-colis-woocommerce' );
-            case 'return_pass':
-                return __( 'Return Password', 'relais-colis-woocommerce' );
-            case 'agency_code':
-                return __( 'Agency Code', 'relais-colis-woocommerce' );
-            case 'return_site':
-                return __( 'Return Site', 'relais-colis-woocommerce' );
-            case 'updated_by':
-                return __( 'Updated By', 'relais-colis-woocommerce' );
-            case 'created_at':
-                return __( 'Created At', 'relais-colis-woocommerce' );
-            case 'updated_at':
-                return __( 'Updated At', 'relais-colis-woocommerce' );
-            default:
-                return __( 'Unknown Field', 'relais-colis-woocommerce' );
-        }
-    }
-
     /**
      * Insert a new enseigne configuration as WordPress options, and its options into the database.
      *
      * @param WP_RC_Get_Configuration_Response $response The enseigne configuration response object.
      * @return int|false The inserted activation key ID, or false on failure.
      */
-    public function insert_rc_get_configuration_data( WP_RC_Get_Configuration_Response $response ) {
+    public function replace_rc_get_configuration_data( WP_RC_Get_Configuration_Response $response ) {
 
         // Extract data from the response object
         $enseigne_id = sanitize_text_field( $response->get_ens_id() );
@@ -100,27 +50,27 @@ class WP_Configuration_DAO {
         $updated_at = date( 'Y-m-d H:i:s', strtotime( $response->get_updated_at() ) );
 
         // RC Configuration stored as options
-        update_option( self::OPTION_RC_PREFIX.'enseigne_id', $enseigne_id );
-        update_option( self::OPTION_RC_PREFIX.'enseigne_id_light', $enseigne_id_light );
-        update_option( self::OPTION_RC_PREFIX.'enseigne_nom', $enseigne_nom );
-        update_option( self::OPTION_RC_PREFIX.'activation_key', $activation_key );
-        update_option( self::OPTION_RC_PREFIX.'active', $active );
-        update_option( self::OPTION_RC_PREFIX.'useidens', $useidens );
-        update_option( self::OPTION_RC_PREFIX.'address_line1', $address_line1 );
-        update_option( self::OPTION_RC_PREFIX.'postal_code', $postal_code );
-        update_option( self::OPTION_RC_PREFIX.'city', $city );
-        update_option( self::OPTION_RC_PREFIX.'livemapping_api', $livemapping_api );
-        update_option( self::OPTION_RC_PREFIX.'livemapping_pid', $livemapping_pid );
-        update_option( self::OPTION_RC_PREFIX.'livemapping_key', $livemapping_key );
-        update_option( self::OPTION_RC_PREFIX.'folder', $folder );
-        update_option( self::OPTION_RC_PREFIX.'return_version', $return_version );
-        update_option( self::OPTION_RC_PREFIX.'return_login', $return_login );
-        update_option( self::OPTION_RC_PREFIX.'return_pass', $return_pass );
-        update_option( self::OPTION_RC_PREFIX.'agency_code', $agency_code );
-        update_option( self::OPTION_RC_PREFIX.'return_site', $return_site );
-        update_option( self::OPTION_RC_PREFIX.'updated_by', $updated_by );
-        update_option( self::OPTION_RC_PREFIX.'created_at', $created_at );
-        update_option( self::OPTION_RC_PREFIX.'updated_at', $updated_at );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID, $enseigne_id );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT, $enseigne_id_light );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM, $enseigne_nom );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY, $activation_key );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE, $active );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_USEIDENS, $useidens );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1, $address_line1 );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE, $postal_code );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CITY, $city );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_API, $livemapping_api );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_PID, $livemapping_pid );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_KEY, $livemapping_key );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_FOLDER, $folder );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION, $return_version );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN, $return_login );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS, $return_pass );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, $agency_code );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE, $return_site );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, $updated_by );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, $created_at );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT, $updated_at );
 
         // Insert related options
         global $wpdb;
@@ -131,24 +81,25 @@ class WP_Configuration_DAO {
 
         if ( !empty( $options ) ) {
 
+            // First empty the table
+            $wpdb->query( "TRUNCATE TABLE {$rc_configuration_options_table}" );
+
             foreach ( $options as $option ) {
 
-                $option_id = sanitize_text_field( $option[ 'id' ] );
-                $name = sanitize_text_field( $option[ 'name' ] );
-                $value = sanitize_text_field( $option[ 'value' ] );
-                $active = filter_var( $option[ 'active' ], FILTER_VALIDATE_BOOLEAN );
+                $option_id = sanitize_text_field( $option[ WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ID ] );
+                $name = sanitize_text_field( $option[ WC_RC_Shipping_Constants::CONFIGURATION_OPTION_NAME ] );
+                $value = sanitize_text_field( $option[ WC_RC_Shipping_Constants::CONFIGURATION_OPTION_VALUE ] );
+                $active = filter_var( $option[ WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ACTIVE ], FILTER_VALIDATE_BOOLEAN );
 
                 $result = $wpdb->insert(
                     $rc_configuration_options_table,
                     [
-                        'option_id' => $option_id,
-                        'name' => $name,
-                        'value' => $value,
-                        'active' => $active,
-                        'created_at' => $created_at, // Converted timestamp
-                        'updated_at' => $updated_at, // Converted timestamp
+                        'option_'.WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ID => $option_id,
+                        WC_RC_Shipping_Constants::CONFIGURATION_OPTION_NAME => $name,
+                        WC_RC_Shipping_Constants::CONFIGURATION_OPTION_VALUE => $value,
+                        WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ACTIVE => $active,
                     ],
-                    [ '%d', '%d', '%s', '%s', '%d', '%s', '%s' ]
+                    [ '%d', '%s', '%s', '%d' ]
                 );
 
                 if ( $result === false ) {
@@ -159,39 +110,78 @@ class WP_Configuration_DAO {
     }
 
     /**
+     * Delete overall enseigne configuration as WordPress options, and its options into the database.
+     *
+     * @return int|false The inserted activation key ID, or false on failure.
+     */
+    public function delete_rc_get_configuration_data() {
+
+        // RC Configuration stored as options
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_USEIDENS );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1 );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CITY );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_API );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_PID );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_KEY );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_FOLDER );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT );
+
+        // Delete related options
+        global $wpdb;
+
+        // Define table names
+        $rc_configuration_options_table = $wpdb->prefix.'rc_configuration_options';
+
+        $wpdb->query( "TRUNCATE TABLE {$rc_configuration_options_table}" );
+    }
+
+    /**
      * Unique and simple access point to retrieve all options related to rc_configuration
      * @return array
      */
     public function get_rc_configuration() {
 
-        static $cached_config = null;
+        //static $cached_config = null;
 
-        if ( $cached_config === null ) {
-            $prefix = self::OPTION_RC_PREFIX;
+        //if ( $cached_config === null ) {
+            $prefix = WC_RC_Shipping_Constants::RC_OPTION_PREFIX;
             $cached_config = [
-                'enseigne_id' => get_option( $prefix.'enseigne_id', '' ),
-                'enseigne_id_light' => get_option( $prefix.'enseigne_id_light', '' ),
-                'enseigne_nom' => get_option( $prefix.'enseigne_nom', '' ),
-                'activation_key' => get_option( $prefix.'activation_key', '' ),
-                'active' => (bool)get_option( $prefix.'active', false ),
-                'useidens' => (bool)get_option( $prefix.'useidens', false ),
-                'address_line1' => get_option( $prefix.'address_line1', '' ),
-                'postal_code' => get_option( $prefix.'postal_code', '' ),
-                'city' => get_option( $prefix.'city', '' ),
-                'livemapping_api' => get_option( $prefix.'livemapping_api', '' ),
-                'livemapping_pid' => get_option( $prefix.'livemapping_pid', '' ),
-                'livemapping_key' => get_option( $prefix.'livemapping_key', '' ),
-                'folder' => get_option( $prefix.'folder', '' ),
-                'return_version' => get_option( $prefix.'return_version', '' ),
-                'return_login' => get_option( $prefix.'return_login', '' ),
-                'return_pass' => get_option( $prefix.'return_pass', '' ),
-                'agency_code' => get_option( $prefix.'agency_code', '' ),
-                'return_site' => get_option( $prefix.'return_site', '' ),
-                'updated_by' => absint( get_option( $prefix.'updated_by', 0 ) ),
-                'created_at' => get_option( $prefix.'created_at', '' ),
-                'updated_at' => get_option( $prefix.'updated_at', '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE => (bool)get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE, false ),
+                WC_RC_Shipping_Constants::CONFIGURATION_USEIDENS => (bool)get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_USEIDENS, false ),
+                WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1 => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_CITY => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CITY, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_API => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_API, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_PID => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_PID, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_KEY => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_LIVEMAPPING_KEY, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_FOLDER => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_FOLDER, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY => absint( get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, 0 ) ),
+                WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, '' ),
+                WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT, '' ),
             ];
-        }
+        //}
 
         return $cached_config;
     }
@@ -214,11 +204,11 @@ class WP_Configuration_DAO {
 
         if ( !is_null( $active ) && $active ) {
 
-            $sql .= ' AND active=%d';
+            $sql .= ' AND '.WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ACTIVE.'=%d';
             $params[] = 1;
         } elseif ( !is_null( $active ) && !$active ) {
 
-            $sql .= ' AND active=%d';
+            $sql .= ' AND '.WC_RC_Shipping_Constants::CONFIGURATION_OPTION_ACTIVE.'=%d';
             $params[] = 0;
         }
 
