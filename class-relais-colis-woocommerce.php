@@ -2,6 +2,13 @@
 
 namespace RelaisColisWoocommerce;
 
+use RelaisColisWoocommerce\Shipping\WC_Order_Packages_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_List_Table_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_RC_Status_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Home_Choose_Services_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Homeplus_Choose_Services_Manager;
+use RelaisColisWoocommerce\Shipping\WC_RC_Relay_Choose_Relay_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Settings_Manager;
@@ -34,6 +41,15 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
         WC_RC_Shipping_Method_Manager::instance();
         WC_RC_Shipping_Config_Manager::instance();
         WC_RC_Shipping_Settings_Manager::instance();
+        WC_WooCommerce_Manager::instance();
+        WC_Orders_Manager::instance();
+        WC_Orders_List_Table_Manager::instance();
+        WC_RC_Services_Manager::instance();
+        WC_RC_Home_Choose_Services_Manager::instance();
+        WC_RC_Homeplus_Choose_Services_Manager::instance();
+        WC_RC_Relay_Choose_Relay_Manager::instance();
+        WC_Order_Packages_Manager::instance();
+        WC_Orders_RC_Status_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();

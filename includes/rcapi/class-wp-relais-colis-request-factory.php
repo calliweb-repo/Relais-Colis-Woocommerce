@@ -72,8 +72,8 @@ class WP_Relais_Colis_Request_Factory {
             case WP_Relais_Colis_API::REQUEST_TRANSPORT_GENERATE:
                 $request = new WP_RC_Transport_Generate();
                 break;
-            case WP_Relais_Colis_API::REQUEST_GET_DATA_EVTS:
-                $request = new WP_RC_Get_Data_Evts();
+            case WP_Relais_Colis_API::REQUEST_GET_PACKAGES_STATUS:
+                $request = new WP_RC_Get_Packages_Status();
                 break;
             default:
                 break;

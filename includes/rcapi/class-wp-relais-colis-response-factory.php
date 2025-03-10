@@ -155,13 +155,13 @@ class WP_Relais_Colis_Response_Factory {
                         }
                         $response = new WP_RC_C2C_Get_Packages_Price_Response( $response_data );
                         break;
-                    case WP_Relais_Colis_API::REQUEST_GET_DATA_EVTS:
+                    case WP_Relais_Colis_API::REQUEST_GET_PACKAGES_STATUS:
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
                         }
-                        $response = new WP_RC_Get_Data_Evts_Response( $response_data );
+                        $response = new WP_RC_Get_Packages_Status_Response( $response_data );
                         break;
                     default:
                         return null;

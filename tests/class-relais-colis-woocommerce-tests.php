@@ -8,7 +8,7 @@ use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Relay_Place_Advertisement;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Bulk_Generate;
 use RelaisColisWoocommerce\RCAPI\WP_RC_C2C_Get_Packages_Price;
 use RelaisColisWoocommerce\RCAPI\WP_RC_C2C_Relay_Place_Advertisement;
-use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Data_Evts;
+use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Packages_Status;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Place_Return_V2;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Transport_Generate;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
@@ -70,8 +70,8 @@ class Relais_Colis_Woocommerce_Tests {
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_success();
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_error();
 //        $this->test_wp_relais_colis_api_transport_generate_success(); // TODO Implémentation à terminer
-//        $this->test_wp_relais_colis_api_c2c_get_data_evts_success(); // TODO Implémentation à terminer
-//        $this->test_wp_relais_colis_api_c2c_get_data_evts_error(); // TODO Implémentation à terminer
+//        $this->test_wp_relais_colis_api_c2c_get_packages_status_success(); // TODO Implémentation à terminer
+//        $this->test_wp_relais_colis_api_c2c_get_packages_status_error(); // TODO Implémentation à terminer
 
 
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
@@ -1673,10 +1673,10 @@ class Relais_Colis_Woocommerce_Tests {
 
     /**
      * TEST
-     * WP_Relais_Colis_API - Request get_data_evts - SUCCESS
+     * WP_Relais_Colis_API - Request get_packages_status - SUCCESS
      * @return void
      */
-    public function test_wp_relais_colis_api_c2c_get_data_evts_success() {
+    public function test_wp_relais_colis_api_c2c_get_packages_status_success() {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
@@ -1688,18 +1688,18 @@ class Relais_Colis_Woocommerce_Tests {
         try {
             // No param
 
-            $get_data_evts = WP_Relais_Colis_API::instance()->get_data_evts( false );
+            $get_packages_status = WP_Relais_Colis_API::instance()->get_packages_status( false );
 
-            if ( is_null( $get_data_evts ) ) {
+            if ( is_null( $get_packages_status ) ) {
 
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
                 return;
             }
 
             // Display response
-            if ( $get_data_evts->validate() ) {
+            if ( $get_packages_status->validate() ) {
 
-                $entry = $get_data_evts->entry;
+                $entry = $get_packages_status->entry;
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
@@ -1717,10 +1717,10 @@ class Relais_Colis_Woocommerce_Tests {
 
     /**
      * TEST
-     * WP_Relais_Colis_API - Request get_data_evts - ERROR
+     * WP_Relais_Colis_API - Request get_packages_status - ERROR
      * @return void
      */
-    public function test_wp_relais_colis_api_c2c_get_data_evts_error() {
+    public function test_wp_relais_colis_api_c2c_get_packages_status_error() {
 
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
@@ -1733,18 +1733,18 @@ class Relais_Colis_Woocommerce_Tests {
         try {
             // No param
 
-            $get_data_evts = WP_Relais_Colis_API::instance()->get_data_evts( false );
+            $get_packages_status = WP_Relais_Colis_API::instance()->get_packages_status( false );
 
-            if ( is_null( $get_data_evts ) ) {
+            if ( is_null( $get_packages_status ) ) {
 
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
                 return;
             }
 
             // Display response
-            if ( $get_data_evts->validate() ) {
+            if ( $get_packages_status->validate() ) {
 
-                $entry = $get_data_evts->entry;
+                $entry = $get_packages_status->entry;
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,

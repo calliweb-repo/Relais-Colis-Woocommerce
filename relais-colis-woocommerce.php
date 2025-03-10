@@ -73,6 +73,33 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         //    'logger_level_debug' => 'DEBUG',
         update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-woocommerce', 'logger_level_notice' );
 
+        add_action('before_woocommerce_init', function () {
+
+            WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+
+            /**
+             * Declare compatibility with a given feature for a given plugin.
+             *
+             * This method MUST be executed from inside a handler for the 'before_woocommerce_init' hook and
+             * SHOULD be executed from the main plugin file passing __FILE__ or 'my-plugin/my-plugin.php' for the
+             * $plugin_file argument.
+             *
+             * @param string $feature_id Unique feature id.
+             * @param string $plugin_file The full plugin file path.
+             * @param bool   $positive_compatibility True if the plugin declares being compatible with the feature, false if it declares being incompatible.
+             * @return bool True on success, false on error (feature doesn't exist or not inside the required hook).
+             */
+            if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+                $compatibility = \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+                    'custom_order_tables',
+                    //Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_path(),
+                    __FILE__,
+                    true
+                );
+                WP_Log::debug( __METHOD__, ['$compatibility'=>$compatibility?'true':'false'], 'relais-colis-woocommerce' );
+            }
+        });
+
         parent::init();
 
     }
@@ -197,6 +224,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         $table_services = $wpdb->prefix.'rc_services';
         $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
         $table_tariff_grids = $wpdb->prefix.'rc_tariff_grids';
+        $table_orders_rel_shipping_labels = $wpdb->prefix.'rc_orders_rel_shipping_labels';
 
         // SQL for creating the rc_services table
         $sql_services = "
@@ -244,11 +272,28 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                 price DECIMAL(10,2) NOT NULL
             ) $charset_collate;";
 
+
+        // SQL for creating the rc_orders_rel_shipping_labels table
+        $sql_orders_rel_shipping_labels = "
+            CREATE TABLE IF NOT EXISTS $table_orders_rel_shipping_labels (
+                id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID for each relation
+                order_id INT NOT NULL,               -- Reference to WooCommerce order ID
+                shipping_label VARCHAR(255),         -- Shipping label identifier
+                shipping_label_pdf VARCHAR(512),         -- Shipping label PDF
+                shipping_status VARCHAR(50),         -- Current shipping status
+                last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last modification time
+                KEY shipping_label (shipping_label),
+                KEY order_id (order_id),
+                KEY last_updated (last_updated)
+            ) $charset_collate;
+        ";
+
         require_once( ABSPATH.'wp-admin/includes/upgrade.php' );
         dbDelta( $sql_configuration_options );
         dbDelta( $sql_services );
         dbDelta( $sql_services_rel_products );
         dbDelta( $sql_tariff_grids );
+        dbDelta( $sql_orders_rel_shipping_labels );
 
         // Init services
         WP_Services_DAO::instance()->initialize_rc_services();

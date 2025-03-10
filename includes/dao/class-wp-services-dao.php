@@ -5,6 +5,7 @@ namespace RelaisColisWoocommerce\DAO;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
@@ -25,31 +26,58 @@ class WP_Services_DAO {
         global $wpdb;
 
         // Define table name
-        $table_services = $wpdb->prefix . 'rc_services';
+        $table_services = $wpdb->prefix.'rc_services';
 
         $this->delete_all_services();
 
         // Loop through each service and insert it into the database
-        foreach ( WC_RC_Shipping_Constants::get_fixed_services() as $slug => $fixed_service ) {
+        foreach ( WC_RC_Services_Manager::instance()->get_fixed_services() as $slug => $fixed_service ) {
 
             // Determine the delivery method (Home or Home+)
-            $name = $fixed_service[0];
-            $delivery_methods = $fixed_service[1];
-            $delivery_method = in_array(WC_RC_Shipping_Constants::OFFER_HOME, $delivery_methods) ? 'h' : 'hp';
+            $name = $fixed_service[ 0 ];
+            $delivery_methods = $fixed_service[ 1 ];
+            $delivery_method = in_array( WC_RC_Shipping_Constants::OFFER_HOME, $delivery_methods ) ? 'h' : 'hp';
 
             // Prepare data for insertion
             $data = [
-                'name'            => sanitize_text_field( $name ),
-                'slug'            => sanitize_text_field( $slug ),
-                'client_choice'   => 'no', // Default to client_choice = false
+                'name' => sanitize_text_field( $name ),
+                'slug' => sanitize_text_field( $slug ),
+                'client_choice' => 'no', // Default to client_choice = false
                 'delivery_method' => sanitize_text_field( $delivery_method ),
-                'enabled'          => 'no', // Default to disabled
-                'price'           => 0.00, // Default price to 0.00
+                'enabled' => 'no', // Default to disabled
+                'price' => 0.00, // Default price to 0.00
             ];
 
             // Insert data into the table
             $wpdb->insert( $table_services, $data );
         }
+    }
+
+    /**
+     * Get a pric by service slug
+     * @param $slug
+     * @return float
+     */
+    public function get_service_price_by_slug( $slug ) {
+
+        global $wpdb;
+
+        // Define table name
+        $table_services = $wpdb->prefix.'rc_services';
+
+        // Secure query with prepared statement
+        $query = $wpdb->prepare( "
+        SELECT price 
+        FROM {$table_services}
+        WHERE slug = %s 
+        AND enabled = 'yes'
+        LIMIT 1
+    ", $slug );
+
+        // Fetch the price
+        $price = $wpdb->get_var( $query );
+
+        return ( $price !== null ) ? floatval( $price ) : 0.00; // Ensure it's a valid float value
     }
 
     /**
@@ -105,8 +133,8 @@ class WP_Services_DAO {
     public function get_selected_products( $service_id ) {
 
         global $wpdb;
-        $table_services_rel_products = $wpdb->prefix . 'rc_services_rel_products';
-        $table_posts = $wpdb->prefix . 'posts';
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+        $table_posts = $wpdb->prefix.'posts';
 
         $query = "SELECT p.ID as product_id, p.post_title 
               FROM {$table_services_rel_products} rel
@@ -119,7 +147,7 @@ class WP_Services_DAO {
         $products = array();
         foreach ( $results as $result ) {
 
-            $products[$result['product_id']] = $result['post_title'];
+            $products[ $result[ 'product_id' ] ] = $result[ 'post_title' ];
         }
 
         WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$results' => $results, '$products' => $products ], 'relais-colis-woocommerce' );
@@ -147,9 +175,9 @@ class WP_Services_DAO {
         $data = [
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
-            'client_choice' => ($client_choice==='yes'?'yes':'no'),
+            'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
-            'enabled' => ($enabled==='yes'?'yes':'no'),
+            'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),
         ];
 
@@ -177,21 +205,21 @@ class WP_Services_DAO {
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
 
-        WP_Log::debug( __METHOD__, ['$service_id'=>$service_id, '$name'=>$name, '$slug'=>$slug, '$client_choice'=>$client_choice, '$delivery_method'=>$delivery_method, '$enabled'=>$enabled, '$price'=>$price], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$name' => $name, '$slug' => $slug, '$client_choice' => $client_choice, '$delivery_method' => $delivery_method, '$enabled' => $enabled, '$price' => $price ], 'relais-colis-woocommerce' );
 
         // Data to update in the table
         $data = [
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
-            'client_choice' => ($client_choice==='yes'?'yes':'no'),
+            'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
-            'enabled' => ($enabled==='yes'?'yes':'no'),
+            'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),
         ];
 
         // Condition for the update
         $where = [ 'id' => intval( $service_id ) ];
-        WP_Log::debug( __METHOD__, ['$data'=>$data, '$where'=>$where], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$data' => $data, '$where' => $where ], 'relais-colis-woocommerce' );
 
         // Update the table
         return $wpdb->update( $table_services, $data, $where );
@@ -253,5 +281,38 @@ class WP_Services_DAO {
 
             return $wpdb->delete( $table_services_rel_products, [ 'service_id' => $service_id ] );
         }
+    }
+
+    /**
+     * Get all available services for a method and given products (or not)
+     * @param $delivery_method h, hp or rc
+     * @param $product_ids product id list
+     * @return array|object|\stdClass[]|null
+     */
+    public function get_available_services( $delivery_method = 'h', $product_ids ) {
+
+        global $wpdb;
+        $table_services = $wpdb->prefix.'rc_services';
+        $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
+
+        // uild request to get services
+        $query = "
+        SELECT s.id, s.name, s.slug, s.price
+        FROM {$table_services} s
+        LEFT JOIN {$table_services_rel_products} rp ON rp.service_id = s.id
+        WHERE s.client_choice = 'yes'
+          AND s.enabled = 'yes'
+          AND s.delivery_method = %s
+    ";
+
+        // Si le service est lié à des produits spécifiques, filtrer en fonction des produits dans le panier
+        if ( !empty( $product_ids ) ) {
+            $query .= " AND (rp.product_id IN (".implode( ',', array_map( 'intval', $product_ids ) ).") OR rp.product_id IS NULL)";
+        }
+
+        // Préparer et exécuter la requête
+        $results = $wpdb->get_results( $wpdb->prepare( $query, $delivery_method ), ARRAY_A );
+
+        return $results;
     }
 }

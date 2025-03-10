@@ -40,7 +40,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
     const REQUEST_C2C_GET_INFOS = 'c2c_get_infos';
     const REQUEST_C2C_GET_PACKAGES_PRICE = 'c2c_get_packages_price';
     const REQUEST_TRANSPORT_GENERATE = 'transport_generate';
-    const REQUEST_GET_DATA_EVTS = 'get_data_evts';
+    const REQUEST_GET_PACKAGES_STATUS = 'get_packages_status';
 
     /** @var string[] */
     const REST_URLS = [
@@ -516,8 +516,8 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * @return array|WP_RC_Transport_Generate_Response
      * @throws Exception
      */
-    public function get_data_evts( $raw = false ) {
+    public function get_packages_status( $raw = false ) {
 
-        return $this->rc_api_request( self::REQUEST_GET_DATA_EVTS, null, $raw );
+        return $this->rc_api_request( self::REQUEST_GET_PACKAGES_STATUS, null, $raw );
     }
 }

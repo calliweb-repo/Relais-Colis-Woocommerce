@@ -71,7 +71,10 @@ class WP_Tariff_Grids_DAO {
             WHERE method_name = %s
             AND criteria = %s
             AND min_value <= %f
-            AND max_value >= %f
+            AND (
+                    ( max_value IS NULL ) OR 
+                    ( max_value IS NOT NULL AND max_value >= %f) 
+                    )
             LIMIT 1
         ", $method_name, $criteria_type, $criteria_value, $criteria_value );
 
