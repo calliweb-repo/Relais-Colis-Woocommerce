@@ -11,6 +11,22 @@ defined( 'ABSPATH' ) or exit;
  */
 abstract class WC_RC_Shipping_Constants {
 
+    // List or order meta data
+    // -> Misc. infos about shipping
+    const ORDER_META_DATA_RC_COLIS = '_rc_colis';
+    const ORDER_META_DATA_RC_SERVICE_INFOS = 'rc_service_infos';
+    const ORDER_META_DATA_RC_SERVICES = 'rc_services';
+    const ORDER_META_DATA_RC_RELAY_DATA = 'rc_relay_data';
+    const ORDER_META_DATA_RC_SHIPPING_METHOD = 'rc_shipping_method';
+    // -> For return
+    const ORDER_META_DATA_RC_RETURN_BORDEREAU_SMART_URL = 'rc_return_bordereau_smart_url';
+    const ORDER_META_DATA_RC_RETURN_RETURN_NUMBER = 'rc_return_return_number';
+    const ORDER_META_DATA_RC_RETURN_NUMBER_CAB = 'rc_return_number_cab';
+    const ORDER_META_DATA_RC_RETURN_LIMIT_DATE = 'rc_return_limit_date';
+    const ORDER_META_DATA_RC_RETURN_IMAGE_URL = 'rc_return_image_url';
+    const ORDER_META_DATA_RC_RETURN_TOKEN = 'rc_return_token';
+    const ORDER_META_DATA_RC_RETURN_CREATED_AT = 'rc_return_created_at';
+
     // Live / Test mode
     // Option key
     const OPTION_LIVE_TEST_MODE_NAME = 'rc_live_test_mode';
@@ -23,11 +39,6 @@ abstract class WC_RC_Shipping_Constants {
     const B2C_INTERACTION_MODE = 'b2c';
     const ENS_ID_C2C_INTERACTION_MODE_VALUE = 'CC';
 
-
-    // RC Status and last update date are stored as meta datas
-    const OPTION_RC_ORDER_STATUS = 'rc_order_status';
-    const OPTION_RC_ORDER_STATUS_LAST_UPDATE = 'rc_order_status_last_update';
-
     // RC Status
     // RC_Colis_Annoncé - Le statut s’applique une fois que les étiquettes de la commande ont été générées.
     // RC_Expédié - Quand le produit est enregistré par le relais de départ.
@@ -35,7 +46,7 @@ abstract class WC_RC_Shipping_Constants {
     // RC_Déposé_en_Relais - Colis déposé au relais.
     // RC_Livré - Colis retiré au point relais.
     // RC_Echec_Livraison - Colis non récupérés.
-    // RC_Peding - Status introduis pour l'attente d'un premier retour de status
+    // RC_Pending - Status introduis pour l'attente d'un premier retour de status
     const STATUS_RC_PENDING = 'status_rc_pending';
     const STATUS_RC_COLIS_ANNONCE = 'status_rc_colis_annonce';
     const STATUS_RC_EXPEDIE = 'status_rc_expedie';
@@ -46,7 +57,6 @@ abstract class WC_RC_Shipping_Constants {
     const STATUS_RC_RETOURNE = 'status_rc_retourne';
     const STATUS_RC_EN_COURS_DE_RETOUR = 'status_rc_en_cours_de_retour';
 
-    const OPTION_RC_SHIPPING_METHOD = 'rc_shipping_method';
 
     // RC API access validity
     const OPTION_RC_API_ACCESS_VALID = 'rc_api_valid_access';
@@ -104,6 +114,7 @@ abstract class WC_RC_Shipping_Constants {
     const CONFIGURATION_UPDATED_BY = 'updated_by';
     const CONFIGURATION_CREATED_AT = 'created_at';
     const CONFIGURATION_UPDATED_AT = 'updated_at';
+    const CONFIGURATION_XEETT = 'xeett';
 
     // Configuration options
     const CONFIGURATION_OPTION_ID = 'id';
@@ -163,6 +174,7 @@ abstract class WC_RC_Shipping_Constants {
             self::CONFIGURATION_UPDATED_BY => __( 'Updated By', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_CREATED_AT => __( 'Created At', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_UPDATED_AT => __( 'Updated At', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_XEETT => __( 'Xeett', 'relais-colis-woocommerce' ),
         ];
 
         return $titles[ $rc_configuration_slug ] ?? __( 'Unknown Field', 'relais-colis-woocommerce' );

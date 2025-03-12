@@ -11,12 +11,95 @@ use RelaisColisWoocommerce\RCAPI\WP_RC_Place_Advertisement_Request;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use Exception;
 
 /**
- * WooCommerce Shipping AJAX Handler for shipping label management (place and print)
+ * Class WC_RC_Ajax_Shipping_Label
  *
+ * This class handles WooCommerce AJAX requests for managing shipping labels in the Relais Colis system.
+ * It is responsible for generating, placing, and retrieving shipping labels for packages.
+ *
+ * ## Key Responsibilities:
+ * - **Placing Shipping Labels (Advertisement)**: Sends package details to Relais Colis API to generate shipping labels.
+ * - **Retrieving PDF Shipping Labels**: Downloads and stores the label in PDF format for printing.
+ * - **Handling Multiple Shipping Methods**: Supports Relais Colis for both **B2C** and **C2C** interactions.
+ * - **Logging & Debugging**: Uses `WP_Log` to track requests and responses for troubleshooting.
+ * - **WooCommerce Order Integration**: Updates `_rc_colis` meta with shipping label details.
+ *
+ * ## Data Structure:
+ * Each order contains an `_rc_colis` meta key that stores package details:
+ * ```php
+ * '_rc_colis' => [
+ *     'items' => [
+ *         [ 'id' => 83, 'name' => 'Ab.', 'weight' => 120, 'quantity' => 2, 'remaining_quantity' => 0 ],
+ *         [ 'id' => 73, 'name' => 'Aut.', 'weight' => 25000, 'quantity' => 1, 'remaining_quantity' => 1 ]
+ *     ],
+ *     'colis' => [
+ *         [
+ *             'items' => [ 83 => 2 ],
+ *             'weight' => 240,
+ *             'dimensions' => [ 'height' => 0, 'width' => 0, 'length' => 0 ],
+ *             'shipping_label' => '4H013000008101',
+ *             'shipping_label_pdf' => '<url>',
+ *             'shipping_status' => 'status_rc_depose_en_relais'
+ *         ]
+ *     ]
+ * ]
+ * ```
+ *
+ * ## Methods Overview:
+ * - `action_wp_ajax_rc_place_shipping_label()`: Places a shipping label using Relais Colis API.
+ * - `convert_package_weight_in_grams()`: Converts WooCommerce weight units into grams for API compatibility.
+ * - **API Requests:**
+ *   - `b2c_relay_place_advertisement()`: Sends B2C relay shipment requests.
+ *   - `c2c_relay_place_advertisement()`: Sends C2C relay shipment requests.
+ *   - `b2c_home_place_advertisement()`: Handles home deliveries for B2C.
+ * - **Status Management:**
+ *   - Retrieves shipping status and updates `_rc_colis` accordingly.
+ *   - Stores PDF shipping labels linked to shipping numbers.
+ *
+ * ## Workflow:
+ * 1. **Send Package Data to Relais Colis API**:
+ *    - Order details, shipping method, and package weight are sent to API.
+ *    - API returns a **shipping label** (tracking number).
+ *
+ * 2. **Retrieve PDF Shipping Label**:
+ *    - If a shipping label is received, the system downloads the corresponding PDF.
+ *    - The label is stored in `_rc_colis` meta for future printing.
+ *
+ * 3. **Store Status & Update WooCommerce Order**:
+ *    - The shipping label and status are saved in WooCommerce order metadata.
+ *    - Status changes trigger necessary updates.
+ *
+ * ## WooCommerce Hooks Used:
+ * - `wp_ajax_rc_place_shipping_label`: Handles the AJAX request for placing shipping labels.
+ *
+ * ## ⚠Considerations:
+ * - **Security**: Uses nonce verification to prevent unauthorized requests.
+ * - **Performance Optimization**: Ensures batch processing for large orders.
+ * - **API Error Handling**: Catches and logs errors when communicating with Relais Colis API.
+ *
+ * ## Example API Response:
+ * ```json
+ * {
+ *     "success": true,
+ *     "colis": [
+ *         {
+ *             "items": { "83": 2 },
+ *             "weight": 240,
+ *             "dimensions": { "height": 0, "width": 0, "length": 0 },
+ *             "shipping_label": "4H013000008101",
+ *             "shipping_label_pdf": "<url>"
+ *         }
+ *     ]
+ * }
+ * ```
+ *
+ * @package   RelaisColisWoocommerce\Shipping
+ * @author    Ludovic Maillet / Sukellos
+ * @version   1.0.0
  * @since     1.0.0
  */
 class WC_RC_Ajax_Shipping_Label {
@@ -74,34 +157,6 @@ class WC_RC_Ajax_Shipping_Label {
     }
 
     /**
-     * Use WoCommerce configuration to convert given weight into grams
-     * @param $weight
-     * @return void
-     */
-    public function convert_package_weight_in_grams( $weight ) {
-
-        // Weight and dimensions unit
-        $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
-
-        // Convert weight into Grams
-        switch ( $option_rc_weight_unit ) {
-
-            case 'mg':
-                return (int)$weight / 1000;
-            case 'cg':
-                return (int)$weight / 100;
-            case 'dg':
-                return (int)$weight / 10;
-            case 'g':
-                return (int)$weight;
-            case 'kg':
-                return (int)$weight * 1000;
-            default:
-                return (int)$weight;
-        }
-    }
-
-    /**
      * AJAX Handler: Place a shipping label for all packages (placeAdvertisement RC API)
      */
     public function action_wp_ajax_rc_place_shipping_label() {
@@ -125,31 +180,8 @@ class WC_RC_Ajax_Shipping_Label {
             $wc_order_id = intval( $_POST[ 'order_id' ] );
             $wc_order = wc_get_order( $wc_order_id );
 
-            // Check if the shipping method is "Relais Colis"
-            $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
-            if ( $rc_shipping_method === false ) {
-                wp_send_json_error( [
-                    'message' => __( 'Invalid Relais Colis method', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            // Check if the order exists
-            if ( !$wc_order ) {
-                wp_send_json_error( [
-                    'message' => __( 'Order not found', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            // Retrieve existing packages (if any)
-            $colis = $wc_order->get_meta( '_rc_colis', true ) ?: [];
-
-            WP_Log::debug( __METHOD__.' - Before placing shipping label (advertisement)', [
-                'order_id' => $wc_order_id,
-                'existing_package' => $colis
-            ], 'relais-colis-woocommerce' );
-
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $wc_order_id );
 
             // Get interaction mode
             $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
@@ -162,7 +194,7 @@ class WC_RC_Ajax_Shipping_Label {
 
             // Dynamic common params
             $dynamic_params = array(
-                WP_RC_Place_Advertisement_Request::AGENCY_CODE => 'C3', // Code de l'agence FIXME
+                WP_RC_Place_Advertisement_Request::AGENCY_CODE => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, 'C3' ), // Code de l'agence FIXME
                 WP_RC_Place_Advertisement_Request::CUSTOMER_ID => $wc_order->get_customer_id(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_EMAIL => $wc_order->get_billing_email(),
@@ -177,6 +209,9 @@ class WC_RC_Ajax_Shipping_Label {
                 WP_RC_Place_Advertisement_Request::LANGUAGE => 'FR',
             );
 
+            // Check if the shipping method is "Relais Colis"
+            $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
+
             switch ( $rc_shipping_method ) {
                 case WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID:
 
@@ -186,7 +221,10 @@ class WC_RC_Ajax_Shipping_Label {
                         // Depend on interaction mode (B2C or C2C)
 
                         // Get package weight
-                        $weight = $this->convert_package_weight_in_grams( $c_colis[ 'weight' ] );
+                        // Weight and dimensions unit
+                        $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+                        $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
+
                         $dynamic_params[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = $weight;
                         $dynamic_params[ WP_RC_Place_Advertisement_Request::WEIGHT ] = $weight;
 
@@ -197,7 +235,7 @@ class WC_RC_Ajax_Shipping_Label {
                             try {
 
                                 // Dynamic params
-                                $dynamic_params[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = 'I4040'; // ID spécifique Xeett FIXME
+                                $dynamic_params[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_XEETT, 'I4040' ); // ID spécifique Xeett FIXME
                                 $dynamic_params[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS1_EXPEDITEUR ] = get_option( 'woocommerce_store_address' );
                                 $dynamic_params[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS2_EXPEDITEUR ] = get_option( 'woocommerce_store_address_2' );
                                 $dynamic_params[ WP_RC_C2C_Relay_Place_Advertisement::EMAIL_EXPEDITEUR ] = get_option( 'woocommerce_email_from_address' );
@@ -264,7 +302,7 @@ class WC_RC_Ajax_Shipping_Label {
                             try {
                                 // Dynamic params
                                 $dynamic_params[ WP_RC_B2C_Relay_Place_Advertisement::PSEUDO_RVC ] = '01309';
-                                $dynamic_params[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = 'I4040'; // ID spécifique Xeett FIXME
+                                $dynamic_params[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_XEETT, 'I4040' ); // ID spécifique Xeett FIXME
 
                                 $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params, false );
 
@@ -340,7 +378,10 @@ class WC_RC_Ajax_Shipping_Label {
                             try {
 
                                 // Get package weight
-                                $weight = $this->convert_package_weight_in_grams( $c_colis[ 'weight' ] );
+                                // Weight and dimensions unit
+                                $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+                                $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
+
                                 $dynamic_params[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = $weight;
                                 $dynamic_params[ WP_RC_Place_Advertisement_Request::WEIGHT ] = $weight;
 
@@ -400,13 +441,8 @@ class WC_RC_Ajax_Shipping_Label {
                     break;
             }
 
-
-            // Update order meta
-            $wc_order->update_meta_data( '_rc_colis', $colis );
-            $wc_order->save(); // Required for HPOS
-
-            // Prepare item list JSON data
-            $items_json = WC_Order_Packages_Manager::instance()->build_remaining_items( $wc_order, $colis, false );
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $wc_order_id );
 
             WP_Log::debug( __METHOD__.' - After placing shipping label (advertisement)', [
                 'order_id' => $wc_order_id,
@@ -416,7 +452,7 @@ class WC_RC_Ajax_Shipping_Label {
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items_json
+                'items' => $items
             ] );
 
         } catch ( Exception $e ) {

@@ -2,8 +2,6 @@
 
 namespace RelaisColisWoocommerce\RCAPI;
 
-use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 

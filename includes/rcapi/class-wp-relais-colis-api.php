@@ -5,7 +5,6 @@ namespace RelaisColisWoocommerce\RCAPI;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce;
-use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Api\WP_API_Base;
@@ -337,7 +336,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
         } catch ( Exception $e ) {
 
-            WP_Log::error( __METHOD__.' : Exception ', [ 'code' => $e->getCode(), 'message' => $e->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' : Exception ', [ 'code' => $e->getCode(), 'message' => $e->getMessage() ], 'relais-colis-woocommerce' );
             // Pb occurred... HTML response code in error
             throw new WP_Relais_Colis_API_Exception( $e->getMessage(), $e->getCode() );
         }

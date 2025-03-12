@@ -100,6 +100,51 @@ class WP_Relais_Colis_Response_Factory {
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
                         }
                         $response = new WP_RC_B2C_Place_Return_Response( $response_data );
+
+                        // Check response response_status
+                        if ( $response->get_response_status() == 'Error' ) {
+
+                            $error_type = $response->get_error_type();
+                            $error_description = $response->get_error_description();
+
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( $error_type.' - '.$error_description, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_PLACE_RETURN_ERROR] );
+
+/*
+                            // TEST
+                            $xml_response = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+    <entry>
+        <id>1</id>
+        <enseigne_id>112</enseigne_id>
+        <order_id><![CDATA[160]]></order_id>
+        <customer_id><![CDATA[12345]]></customer_id>
+        <customer_fullname><![CDATA[John Doe]]></customer_fullname>
+        <customer_phone><![CDATA[0123456789]]></customer_phone>
+        <customer_mobile><![CDATA[0987654321]]></customer_mobile>
+        <customer_company><![CDATA[Company XYZ]]></customer_company>
+        <customer_address1><![CDATA[123 Main Street]]></customer_address1>
+        <customer_address2><![CDATA[Building B]]></customer_address2>
+        <customer_postcode><![CDATA[75001]]></customer_postcode>
+        <customer_city><![CDATA[Paris]]></customer_city>
+        <customer_country><![CDATA[FR]]></customer_country>
+        <reference><![CDATA[REF123456]]></reference>
+        <response_status><![CDATA[Success]]></response_status>
+        <return_number><![CDATA[RCBC0000012222]]></return_number>
+        <number_cab><![CDATA[CAB-RCBC0000012222]]></number_cab>
+        <limit_date><![CDATA[2025-03-25 00:00:00]]></limit_date>
+        <image_url><![CDATA[https://equidassur.fr/wp-content/uploads/2021/01/Les-robes-du-cheval-2.jpg]]></image_url>
+        <bordereau_smart_url><![CDATA[http://sukellos.com]]></bordereau_smart_url>
+        <created_at><![CDATA[2025-03-10 00:00:00]]></created_at>
+        <token><![CDATA[ETYE4466G666GGGE0002]]></token>
+    </entry>
+</result>
+XML;
+                            $response = new WP_RC_B2C_Place_Return_Response( $xml_response );
+*/
+                        }
+
                         break;
                     case WP_Relais_Colis_API::REQUEST_B2C_GENERATE:
                     case WP_Relais_Colis_API::REQUEST_C2C_GENERATE:
@@ -173,7 +218,7 @@ class WP_Relais_Colis_Response_Factory {
                 //                    [code] => 404
                 //                    [message] => Not Found
                 //                )
-                if ( !is_null( $response->code ) && !is_null( $response->message ) ) {
+                if ( property_exists( $response, 'code' ) && property_exists( $response, 'message' ) && !is_null( $response->code ) && !is_null( $response->message ) ) {
 
                     throw new WP_Relais_Colis_API_Exception( $response->message, $response->code );
                 }

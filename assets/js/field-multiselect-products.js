@@ -13,6 +13,8 @@ jQuery(document).ready(function($) {
             url: rc_multiselect_params.ajax_url, // Use the localized AJAX URL
             dataType: 'json',
             delay: 250,
+            language: 'fr',
+            minimumInputLength: 2,
             data: function (params) {
 
                 // Find the service ID from the data attribute of the select field

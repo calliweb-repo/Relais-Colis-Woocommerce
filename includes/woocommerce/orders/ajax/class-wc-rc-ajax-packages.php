@@ -9,50 +9,102 @@ use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use Exception;
 
 /**
- * WooCommerce Shipping AJAX Handler for packages management
+ * Class WC_RC_Ajax_Packages
  *
+ * This class handles WooCommerce AJAX requests related to package management (colis) in the Relais Colis shipping system.
+ * It provides functionalities for adding, updating, removing, and distributing packages within orders.
+ *
+ * ## Key Responsibilities:
+ * - **Manage Packages (Colis) via AJAX**: Handles WooCommerce AJAX requests for package operations.
+ * - **Seamless Order Meta Updates**: Manages `_rc_colis` meta key to store package details.
+ * - **Auto-Distribution of Products**: Implements logic to automatically distribute products into available packages.
+ * - **Weight & Dimension Updates**: Supports real-time updates to package weights and dimensions.
+ * - **Robust Logging & Debugging**: Uses WP_Log to track operations for debugging purposes.
+ *
+ * ## Data Structure:
+ * Each order contains an `_rc_colis` meta key that stores package details:
+ * ```php
+ * '_rc_colis' => [
+ *     'items' => [
+ *         [ 'id' => 83, 'name' => 'Ab.', 'weight' => 120, 'quantity' => 2, 'remaining_quantity' => 0 ],
+ *         [ 'id' => 73, 'name' => 'Aut.', 'weight' => 25000, 'quantity' => 1, 'remaining_quantity' => 1 ]
+ *     ],
+ *     'colis' => [
+ *         [
+ *             'items' => [ 83 => 2 ],
+ *             'weight' => 240,
+ *             'dimensions' => [ 'height' => 0, 'width' => 0, 'length' => 0 ],
+ *             'shipping_label' => '4H013000008101',
+ *             'shipping_label_pdf' => '<url>',
+ *             'shipping_status' => 'status_rc_depose_en_relais'
+ *         ]
+ *     ]
+ * ]
+ * ```
+ *
+ * ## Methods Overview:
+ * - `action_wp_ajax_rc_add_colis()`: Creates a new empty package for an order.
+ * - `action_wp_ajax_rc_add_to_colis()`: Adds a product to an existing package.
+ * - `action_wp_ajax_rc_remove_from_colis()`: Removes a product from a package.
+ * - `action_wp_ajax_rc_delete_colis()`: Deletes an entire package.
+ * - `action_wp_ajax_rc_auto_distribute()`: Automatically distributes products into available packages.
+ * - `action_wp_ajax_rc_update_colis()`: Updates package weight and dimensions.
+ *
+ * ## Workflow:
+ * 1. **Package Management**:
+ *    - Users can add/remove packages and assign products dynamically via AJAX.
+ *    - All modifications are stored in WooCommerce order meta.
+ *
+ * 2. **Auto Distribution**:
+ *    - Automatically attempts to distribute products among available packages.
+ *    - Ensures packages do not exceed weight limits.
+ *
+ * 3. **Shipping Label Handling**:
+ *    - Stores generated shipping labels for packages.
+ *    - Updates shipping status dynamically.
+ *
+ * ## WooCommerce Hooks Used:
+ * - `wp_ajax_rc_add_colis`
+ * - `wp_ajax_rc_add_to_colis`
+ * - `wp_ajax_rc_remove_from_colis`
+ * - `wp_ajax_rc_delete_colis`
+ * - `wp_ajax_rc_auto_distribute`
+ * - `wp_ajax_rc_update_colis`
+ *
+ * ## ⚠Considerations:
+ * - **Security**: Implements nonce verification to prevent unauthorized requests.
+ * - **Database Optimization**: Uses indexed meta keys for fast lookups.
+ * - **Scalability**: Designed to handle large orders efficiently.
+ *
+ * ## Example API Response:
+ * ```json
+ * {
+ *     "success": true,
+ *     "colis": [
+ *         {
+ *             "items": { "83": 2 },
+ *             "weight": 240,
+ *             "dimensions": { "height": 0, "width": 0, "length": 0 },
+ *             "shipping_label": "4H013000008101",
+ *             "shipping_status": "status_rc_depose_en_relais"
+ *         }
+ *     ],
+ *     "items": [
+ *         { "id": 83, "name": "Ab.", "weight": 120, "quantity": 2, "remaining_quantity": 0 },
+ *         { "id": 73, "name": "Aut.", "weight": 25000, "quantity": 1, "remaining_quantity": 1 }
+ *     ]
+ * }
+ * ```
+ *
+ * @package   RelaisColisWoocommerce\Shipping
+ * @author    Ludovic Maillet / Sukellos
+ * @version   1.0.0
  * @since     1.0.0
  */
 class WC_RC_Ajax_Packages {
 
     // Use Trait Singleton
     use Singleton;
-
-    // Packages ar stored as meta-data within Orders
-    //    [items] => [
-    //            [0] => [
-    //                    [id] => 83
-    //                    [name] => Ab.
-    //                    [weight] => 120
-    //                    [quantity] => 2
-    //                    [remaining_quantity] => 0
-    //                ]
-    //
-    //            [1] => [
-    //                    [id] => 73
-    //                    [name] => Aut.
-    //                    [weight] => 25000
-    //                    [quantity] => 1
-    //                    [remaining_quantity] => 1
-    //                ]
-    //
-    //        )
-    //
-    //    [colis] => [
-    //            [0] => [
-    //                    [items] => [
-    //                            [83] => 2
-    //                        ]
-    //
-    //                    [weight] => 240
-    //                    [dimensions] => [
-    //                            [height] => 0
-    //                            [width] => 0
-    //                            [length] => 0
-    //                        ]
-    //
-    //                ]
-    //        ]
 
     /**
      * Default init method called when instance created
@@ -91,24 +143,10 @@ class WC_RC_Ajax_Packages {
                     'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
                 ] );
             }
-
             $order_id = intval( $_POST[ 'order_id' ] );
-            $order = wc_get_order( $order_id );
 
-            // Check if the order exists
-            if ( !$order ) {
-                wp_send_json_error( [
-                    'message' => __( 'Order not found', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            // Retrieve existing packages (if any)
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-
-            WP_Log::debug( __METHOD__.' - Before adding new package', [
-                'order_id' => $order_id,
-                'existing_package' => $colis
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Add a new empty package
             $colis[] = [
@@ -121,24 +159,17 @@ class WC_RC_Ajax_Packages {
                 ]
             ];
 
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After adding new package', [
                 'updated_colis' => $colis
             ], 'relais-colis-woocommerce' );
 
-            // Update order meta
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save(); // Required for HPOS
-
-            // Prepare item list JSON data
-            $items_json = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
-
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items_json
+                'items' => $items
             ] );
 
         } catch ( Exception $e ) {
@@ -167,30 +198,13 @@ class WC_RC_Ajax_Packages {
                 'POST' => $_POST,
             ], 'relais-colis-woocommerce' );
 
-
             $order_id = intval( $_POST[ 'order_id' ] );
             $product_id = intval( $_POST[ 'product_id' ] );
             $quantity = intval( $_POST[ 'quantity' ] );
             $colis_index = intval( $_POST[ 'colis_index' ] );
 
-            $order = wc_get_order( $order_id );
-
-            // Check if the order exists
-            if ( !$order ) {
-                wp_send_json_error( [
-                    'message' => __( 'Order not found', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-
-            WP_Log::debug( __METHOD__.' - Before adding product', [
-                'order_id' => $order_id,
-                'product_id' => $product_id,
-                'quantity' => $quantity,
-                'colis_index' => $colis_index,
-                'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Ensure the package exists before adding products
             if ( !isset( $colis[ $colis_index ] ) ) {
@@ -203,10 +217,12 @@ class WC_RC_Ajax_Packages {
 
                 wp_send_json_error( [ 'message' => __( 'Invalid product', 'relais-colis-woocommerce' ) ] );
             }
+            // Get WC order
+            $order = wc_get_order( $order_id );
 
             // Must not add more than remaining
-            $items = $order->get_items();
-            foreach ( $items as $item_id => $item ) {
+            $order_items = $order->get_items();
+            foreach ( $order_items as $item_id => $item ) {
 
                 $item_product = $item->get_product();
                 $item_product_id = $item_product->get_id();
@@ -224,21 +240,15 @@ class WC_RC_Ajax_Packages {
             $colis[ $colis_index ][ 'items' ][ $product_id ] = ( $colis[ $colis_index ][ 'items' ][ $product_id ] ?? 0 ) + $quantity;
             $colis[ $colis_index ][ 'weight' ] += $product->get_weight() * $quantity;
 
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After adding product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
-
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save(); // Necessary for HPOS
-
-            // Prepare item list JSON data
-            $items_json = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items_json
+                'items' => $items
             ] );
 
         } catch ( Exception $e ) {
@@ -268,23 +278,8 @@ class WC_RC_Ajax_Packages {
             $product_id = intval( $_POST[ 'product_id' ] );
             $colis_index = intval( $_POST[ 'colis_index' ] );
 
-            $order = wc_get_order( $order_id );
-
-            // Check if the order exists
-            if ( !$order ) {
-                wp_send_json_error( [
-                    'message' => __( 'Order not found', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-
-            WP_Log::debug( __METHOD__.' - Before removing product', [
-                'order_id' => $order_id,
-                'product_id' => $product_id,
-                'colis_index' => $colis_index,
-                'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Ensure the package exists and contains the product
             if ( !isset( $colis[ $colis_index ] ) || !isset( $colis[ $colis_index ][ 'items' ][ $product_id ] ) ) {
@@ -303,27 +298,15 @@ class WC_RC_Ajax_Packages {
             $colis[ $colis_index ][ 'weight' ] -= $product->get_weight() * $colis[ $colis_index ][ 'items' ][ $product_id ];
             unset( $colis[ $colis_index ][ 'items' ][ $product_id ] );
 
-            // If the package is empty, remove it entirely
-            /*if ( empty( $colis[ $colis_index ][ 'items' ] ) ) {
-
-                unset( $colis[ $colis_index ] );
-            }*/
-
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After removing product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
-
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save(); // Necessary for HPOS
-
-            // Prepare item list JSON data
-            $items_json = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items_json
+                'items' => $items
             ] );
 
         } catch ( Exception $e ) {
@@ -352,22 +335,8 @@ class WC_RC_Ajax_Packages {
             $order_id = intval( $_POST[ 'order_id' ] );
             $colis_index = intval( $_POST[ 'colis_index' ] );
 
-            $order = wc_get_order( $order_id );
-
-            // Check if the order exists
-            if ( !$order ) {
-                wp_send_json_error( [
-                    'message' => __( 'Order not found', 'relais-colis-woocommerce' )
-                ] );
-            }
-
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-
-            WP_Log::debug( __METHOD__.' - Before deleting package', [
-                'order_id' => $order_id,
-                'colis_index' => $colis_index,
-                'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Ensure the package exists
             if ( !isset( $colis[ $colis_index ] ) ) {
@@ -379,21 +348,15 @@ class WC_RC_Ajax_Packages {
             // Delete
             unset( $colis[ $colis_index ] );
 
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After deleting package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
-
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save(); // Necessary for HPOS
-
-            // Prepare item list JSON data
-            $items_json = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items_json
+                'items' => $items
             ] );
 
         } catch ( Exception $e ) {
@@ -411,48 +374,6 @@ class WC_RC_Ajax_Packages {
     }
 
     /**
-     * Try to put as much as possible items in a package
-     * @param $items
-     * @param $current_colis
-     * @param $items_to_distribute
-     * @param $max_weight
-     * @return void
-     */
-    private function put_items_in_package( &$items, &$current_colis, &$items_to_distribute, $max_weight ) {
-
-        foreach ( $items as &$item ) {
-
-            $item_id = $item[ 'id' ];
-            $item_weight = $item[ 'weight' ];
-
-            // If weigth is too important, then cannot distribute product
-            if ( $item_weight > $max_weight ) continue;
-
-            // Distribute per colis as max as possible
-            while ( $item[ 'remaining_quantity' ] > 0 ) {
-
-                // Package will become too heavy ?
-                if ( ( $current_colis[ 'weight' ] + $item_weight ) > $max_weight ) continue 2; // Next item...
-
-                // Can add an item in this package
-                if ( !isset( $current_colis[ 'items' ][ $item_id ] ) ) {
-
-                    // Create an entry for this product in the package
-                    $current_colis[ 'items' ][ $item_id ] = 1;
-                } else {
-
-                    $current_colis[ 'items' ][ $item_id ] = $current_colis[ 'items' ][ $item_id ] + 1;
-                }
-                $current_colis[ 'weight' ] += $item_weight;
-
-                // Remaining quantity decrement
-                $item[ 'remaining_quantity' ] = $item[ 'remaining_quantity' ] - 1;
-                $items_to_distribute--;
-            }
-        }
-    }
-
-    /**
      * AJAX Handler: Auto distribute
      */
     public function action_wp_ajax_rc_auto_distribute() {
@@ -461,79 +382,15 @@ class WC_RC_Ajax_Packages {
             check_ajax_referer( 'rc_woocommerce_nonce', 'nonce' );
 
             $order_id = intval( $_POST[ 'order_id' ] );
-            $order = wc_get_order( $order_id );
 
-            if ( !$order ) {
-
-                wp_send_json_error( [ 'message' => __( 'Order not found', 'relais-colis-woocommerce' ) ] );
-            }
-
-            // Récupération des colis existants
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-
-            // Reindex to avoid holes
-            $colis = is_array( $colis ) ? array_values( $colis ) : [];
-
-            // Liste des produits restants
-            $items = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
-
-            WP_Log::debug( __METHOD__.' - Before auto distribute', [
-                'order_id' => $order_id,
-                'items' => $items,
-                'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Distribution strategy is : try and put as max as possible items in each package
-            $max_weight = 20000; // max per package
-            $items_to_distribute = 0;
+            $colis = WC_Order_Packages_Manager::instance()->auto_distribute_packages( $items );
 
-            // First parse all items to calculate total number of productsto distribute
-            foreach ( $items as $item ) {
-
-                // If weigth is too important, then cannot distribute product
-                if ( $item[ 'weight' ] > $max_weight ) continue;
-
-                // Add remaining to total
-                $items_to_distribute += $item[ 'remaining_quantity' ];
-            }
-
-            // Second parse all existing packages and try to distribute items in them...
-            if ( !empty( $colis ) ) {
-
-                // For each package, try and put as max as possible items
-                foreach ( $colis as &$current_colis ) {
-
-                    // Try to put as much as possible items in a package
-                    $this->put_items_in_package( $items, $current_colis, $items_to_distribute, $max_weight );
-                }
-            }
-
-            // Finally, try to distribute in new packages
-            while ( $items_to_distribute > 0 ) {
-
-                // Add a new empty package
-                $current_colis = [
-                    'items' => [],
-                    'weight' => 0,
-                    'dimensions' => [
-                        'height' => 0,
-                        'width' => 0,
-                        'length' => 0,
-                    ]
-                ];
-
-                // Try to put as much as possible items in a package
-                $this->put_items_in_package( $items, $current_colis, $items_to_distribute, $max_weight );
-
-                $colis[] = $current_colis;
-            }
-
-            // Mise à jour de la commande
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save();
-
-            // New items whould be empty
-            //$new_items = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After auto distribute', [
                 'order_id' => $order_id,
@@ -582,31 +439,8 @@ class WC_RC_Ajax_Packages {
             $new_width = isset( $_POST[ 'width' ] ) ? floatval( $_POST[ 'width' ] ) : null;
             $new_length = isset( $_POST[ 'length' ] ) ? floatval( $_POST[ 'length' ] ) : null;
 
-            // Get order
-            $order = wc_get_order( $order_id );
-
-            // Check if the order exists
-            if ( !$order ) {
-
-                wp_send_json_error( [ 'message' => __( 'Order not found', 'relais-colis-woocommerce' ) ] );
-            }
-
-            // Get existing packages
-            $colis = $order->get_meta( '_rc_colis', true ) ?: [];
-            if ( !isset( $colis[ $colis_index ] ) ) {
-
-                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-woocommerce' ) ] );
-            }
-
-            WP_Log::debug( __METHOD__.' - Before updating package', [
-                'order_id' => $order_id,
-                'colis_index' => $colis_index,
-                'new_weight' => $new_weight,
-                'new_height' => $new_height,
-                'new_width' => $new_width,
-                'new_length' => $new_length,
-                'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
             // Update package infos : weight and dimensions
             $colis[ $colis_index ][ 'weight' ] = $new_weight;
@@ -616,9 +450,8 @@ class WC_RC_Ajax_Packages {
                 'length' => $new_length,
             ];
 
-            // Update the order meta data
-            $order->update_meta_data( '_rc_colis', $colis );
-            $order->save();
+            // Save packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After updating package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
 

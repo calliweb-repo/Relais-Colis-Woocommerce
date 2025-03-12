@@ -399,7 +399,7 @@ class WC_RC_Shipping_General_Settings {
                 // Generate HTML for informations
                 $infos_html = '
                     <table class="form-table">
-                        <tr><th>'.WC_RC_Shipping_Constants::get_information_title( WC_RC_Shipping_Constants::INFORMATION_BALANCE ).'</th><td>'.esc_html( $rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_BALANCE ] ).'</td></tr>
+                        <tr><th>'.WC_RC_Shipping_Constants::get_information_title( WC_RC_Shipping_Constants::INFORMATION_BALANCE ).'</th><td>'.esc_html( $rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_BALANCE ] ).' €</td></tr>
                     </table>
                     ';
 

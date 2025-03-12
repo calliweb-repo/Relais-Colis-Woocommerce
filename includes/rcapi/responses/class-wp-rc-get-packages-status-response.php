@@ -114,6 +114,8 @@ class WP_RC_Get_Packages_Status_Response extends WP_Relais_Colis_Response {
         // List of ORDER_REFERENCE => RC_STATUS
         return array(
             '4H013000011101' => 'status_rc_expedie',
+            '4H013000011501' => 'status_rc_expedie',
+            '4H013000011501' => 'status_rc_expedie',
         );
 
         //Voilà la manière dont les codes EVT et JUS sont traités actuellement:

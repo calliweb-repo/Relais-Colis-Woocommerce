@@ -181,18 +181,18 @@ class WC_RC_Relay_Choose_Relay_Manager {
         //                )
 
         // Retrieve relay data
-        if ( !isset( $_POST[ 'rc_relay_data' ] ) ) {
+        if ( !isset( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ] ) ) {
 
             WP_Log::error( __METHOD__.' - Missing rc_relay_data', [], 'relais-colis-woocommerce' );
             wp_send_json_error( [ 'message' => 'Missing relay information' ] );
         }
 
         // Secured JSON decode
-        $rc_relay_data = $_POST[ 'rc_relay_data' ];
+        $rc_relay_data = $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ];
         if ( !$rc_relay_data || !is_array( $rc_relay_data ) ) {
 
             WP_Log::error( __METHOD__.' - Invalid rc_relay_data format', [
-                'rc_relay_data' => $_POST[ 'rc_relay_data' ]
+                'rc_relay_data' => $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ]
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [ 'message' => 'Invalid relay information format' ] );
@@ -229,7 +229,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
         }
 
         // Store in WC session
-        WC()->session->set( 'rc_relay_data', $sanitized_rc_relay_data );
+        WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA, $sanitized_rc_relay_data );
 
 
         WP_Log::debug( __METHOD__.' - Relay data stored successfully', [
@@ -239,7 +239,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
         // Success response with sanitized data
         wp_send_json_success( [
             'message' => 'Relay information saved successfully',
-            'rc_relay_data' => $sanitized_rc_relay_data
+            WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA => $sanitized_rc_relay_data
         ] );
     }
 }

@@ -1,3 +1,66 @@
+/**
+ * WooCommerce Order Packages Management
+ * --------------------------------------
+ *
+ * This JavaScript file is responsible for dynamically managing the package distribution (colis)
+ * within WooCommerce orders in the admin panel. It handles UI rendering, AJAX-based interactions,
+ * and order tracking through shipping labels.
+ *
+ * ## Key Features:
+ * - **Dynamic UI Rendering**: Generates package distribution UI based on WooCommerce order metadata.
+ * - **AJAX-Based Operations**: Supports adding, removing, and updating packages without page refresh.
+ * - **Shipping Label Management**: Assigns, updates, and displays shipping labels per package.
+ * - **State-Based UI Updates**: Adjusts available actions based on the shipping status of each package.
+ * - **Internationalization Support**: Uses `wp_localize_script` for translated labels.
+ *
+ * ## State Management Strategy:
+ * 1. **Order Initialization**:
+ *    - Loads package (`colis`) data from WooCommerce metadata.
+ *    - Determines whether the order has any existing shipping labels.
+ *
+ * 2. **Package Management States**:
+ *    - **Pending Packages** (No shipping label yet):
+ *      - Allows adding/removing items to/from packages.
+ *      - Allows modifying weight and dimensions.
+ *      - Enables "Auto Distribute" button.
+ *    - **Label Generated** (Package has `shipping_label`):
+ *      - Disables package modifications (no adding/removing).
+ *      - Enables "Print Label" button.
+ *    - **Tracking in Progress** (Package has `shipping_status`):
+ *      - Displays tracking status instead of "Print Label" button.
+ *      - Prevents modifications or deletions.
+ *
+ * 3. **User Interactions**:
+ *    - **Add Package**: Creates a new package and updates the UI.
+ *    - **Assign Items**: Moves items from the available list into a package.
+ *    - **Remove Items**: Unassigns items from a package back to the available list.
+ *    - **Auto Distribute**: Algorithmically distributes items across packages.
+ *    - **Generate Shipping Labels**: Requests a shipping label for each package.
+ *    - **Print Label**: Opens a modal displaying the shipping label PDF.
+ *
+ * 4. **Event Listeners & AJAX Handling**:
+ *    - Each user action triggers an AJAX request to update WooCommerce metadata.
+ *    - Responses update the UI dynamically without requiring a full page reload.
+ *
+ * ## JSON Data Structure (rc_order_colis Example)
+ * ```json
+ * [
+ *   {
+ *     "items": { "83": 2 },
+ *     "weight": 240,
+ *     "dimensions": { "height": 0, "width": 0, "length": 0 },
+ *     "shipping_label": "4H013000008101",
+ *     "shipping_label_pdf": "<PDF URL>",
+ *     "shipping_status": "status_rc_depose_en_relais"
+ *   }
+ * ]
+ * ```
+ *
+ * @package   RelaisColisWoocommerce
+ * @author    Ludovic Maillet / Sukellos
+ * @version   1.0.0
+ * @since     1.0.0
+ */
 jQuery(document).ready(function ($) {
 
     console.log('RC Order Packages initialized');
@@ -10,6 +73,19 @@ jQuery(document).ready(function ($) {
     function renderColisUI() {
         let container = $('#rc-colis-container');
         container.empty();
+
+        // Ajout du conteneur pour les erreurs
+        container.append(`
+                <div id="rc-error-message" class="rc-error hidden">
+                    <span class="rc-error-message"></span>
+                    <button class="rc-error-close">&times;</button>
+                </div>
+            `);
+
+        // Permet de cacher l'erreur en cliquant dessus
+        $(document).on('click', '#rc-error-message', function () {
+            $(this).fadeOut();
+        });
 
         // Modale Shipping label PDF
         container.append(`
@@ -92,9 +168,9 @@ jQuery(document).ready(function ($) {
                 </div>
                 <div class="rc-colis-items">
                     ${Object.entries(colis.items).map(([productId, quantity]) => {
-                        let product = rc_order_items.find(p => p.id == productId);
-                        let totalProductsWeight = product ? product.weight * quantity : 0;
-                        return `
+                let product = rc_order_items.find(p => p.id == productId);
+                let totalProductsWeight = product ? product.weight * quantity : 0;
+                return `
                                     <div class="rc-colis-item">
                                         <span class="rc-colis-item-name">${product ? product.name : rc_order_packages.label_unknown}</span>
                                         <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_unit_weight}</strong> ${product ? product.weight + ' ' + rc_order_packages.label_weight_units : '-'}</span>
@@ -103,7 +179,7 @@ jQuery(document).ready(function ($) {
                                         ${colis.shipping_label ? '' : `<button class="rc-remove-from-colis" data-product-id="${productId}" data-colis-index="${index}">${rc_order_packages.label_remove_from_package}</button>`}
                                     </div>
                                 `;
-                    }).join('')}
+            }).join('')}
                 </div>
 
                 <!-- Récapitulatif modifiable (désactivé si un shipping_label existe) -->
@@ -123,18 +199,25 @@ jQuery(document).ready(function ($) {
 
             // Ajouter une ligne au récapitulatif
             let recapItem = $(`
-            <div class="rc-recap-item">
-                <span class="rc-recap-package">${rc_order_packages.label_package} ${index + 1}</span>
-                <span class="rc-recap-weight">${colis.weight} ${rc_order_packages.label_weight_units}</span>
-                ${colis.shipping_status ? `<span class="rc-recap-status">${colis.shipping_status}</span>` :
+                <div class="rc-recap-item">
+                    <span class="rc-recap-package">${rc_order_packages.label_package} ${index + 1}</span>
+                    <span class="rc-recap-weight">${colis.weight} ${rc_order_packages.label_weight_units}</span>
+                    ${colis.c2c_shipping_price ? `<span class="rc-recap-price"><strong>${rc_order_packages.label_estimated_shipping_price}</strong> ${colis.c2c_shipping_price} €</span>` : ''}
+                    ${colis.shipping_status_label ? `<span class="rc-recap-status">${colis.shipping_status_label}</span>` :
                 (colis.shipping_label ? `<button class="rc-print-label" data-colis-index="${index}" data-pdf-url="${pdf_url}">${rc_order_packages.label_print_shipping_label}</button>` : '')}
-            </div>
-        `);
+                </div>
+            `);
+
             recapContainer.append(recapItem);
         });
 
         // Button to add new package
         hasShippingLabel ? '' : container.append(`<button class="rc-add-colis">${rc_order_packages.label_add_a_package}</button>`);
+
+        // Vérifier si au moins un colis est "status_rc_livre" pour afficher le bouton de retour
+        let hasDeliveredPackage = rc_order_colis.some(colis => colis.shipping_status === "status_rc_livre");
+        console.log('hasDeliveredPackage? ' + hasDeliveredPackage);
+        console.log('c2c_mode? ' + c2c_mode);
 
         // Ajouter le total au récapitulatif
         let recapTotal = $(`
@@ -154,10 +237,49 @@ jQuery(document).ready(function ($) {
         // Si plus aucun produit n'est à répartir et aucun `shipping_label` n'existe, afficher le bouton de génération d'étiquette
         if (allProductsAssigned && !hasShippingLabel) {
             container.append(`<button class="rc-place-shipping-label">${rc_order_packages.label_place_shipping_label}</button>`);
+            if (c2c_mode == '1') {
+                container.append(`<button class="rc-get-packages-price">${rc_order_packages.label_get_packages_price}</button>`);
+            }
+        }
+
+        // Vérifier si une étiquette de retour existe
+        let hasReturnLabel = return_bordereau_smart_url && return_bordereau_smart_url.trim() !== "";
+
+        // Afficher l'étiquette de retour si disponible, sinon afficher le bouton
+        if (hasDeliveredPackage && (c2c_mode == '0')) {
+            if (hasReturnLabel) {
+                container.append(`
+            <div class="rc-return-info">
+                <h3>${rc_order_packages.label_return_information}</h3>
+                <p><strong>${rc_order_packages.label_return_number}:</strong> ${return_number}</p>
+                <p><strong>${rc_order_packages.label_return_number_cab}:</strong> ${return_number_cab}</p>
+                <p><strong>${rc_order_packages.label_return_limit_date}:</strong> ${return_limit_date}</p>
+                <p><a href="${return_bordereau_smart_url}" target="_blank">${rc_order_packages.label_view_return_label}</a></p>
+                ${return_image_url ? `<img src="${return_image_url}" alt="Return Label Image" style="max-width: 200px;">` : ''}
+            </div>
+        `);
+            } else {
+                container.append(`<button class="rc-generate-return-label">${rc_order_packages.label_generate_return_label}</button>`);
+            }
         }
 
         bindColisEvents();
     }
+
+    /**
+     * Affiche un message d'erreur et permet de le fermer
+     * @param {string} message - Message d'erreur à afficher
+     */
+    function showError(message) {
+        let errorContainer = $('#rc-error-message');
+        errorContainer.find('.rc-error-message').text(message); // Ajoute le message
+        errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
+    }
+
+    // Permet de cacher l'erreur en cliquant sur la croix
+    $(document).on('click', '.rc-error-close', function () {
+        $('#rc-error-message').fadeOut();
+    });
 
     /**
      * Attach event listeners dynamically
@@ -180,7 +302,13 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });
@@ -201,7 +329,13 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });
@@ -231,7 +365,13 @@ jQuery(document).ready(function ($) {
                             rc_order_colis = response.data.colis;
                             rc_order_items = response.data.items;
                             renderColisUI();
+                        } else {
+                            showError(response.data.message || "Erreur inconnue.");
                         }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                        showError(errorMessage);
                     }
                 });
             }
@@ -259,7 +399,13 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });
@@ -283,7 +429,13 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });
@@ -314,7 +466,13 @@ jQuery(document).ready(function ($) {
                     if (response.success) {
                         rc_order_colis = response.data.colis;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });
@@ -335,7 +493,75 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
+                }
+            });
+        });
+
+        $(".rc-generate-return-label").off().on("click", function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            $.ajax({
+                url: rc_order_packages.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'rc_generate_return_label',
+                    order_id: rc_order_id,
+                    nonce: rc_order_packages.nonce
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Mettre à jour les variables globales
+                        return_bordereau_smart_url = response.data.return_bordereau_smart_url;
+                        return_number = response.data.return_number;
+                        return_number_cab = response.data.return_number_cab;
+                        return_limit_date = response.data.return_limit_date;
+                        return_image_url = response.data.return_image_url;
+                        return_token = response.data.return_token;
+                        return_created_at = response.data.return_created_at;
+
+                        // Rafraîchir l'interface
+                        renderColisUI();
+                    } else {
+                        showError(response.data.message || "An unknown error occurred.");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
+                }
+            });
+        });
+
+        $(".rc-get-packages-price").off().on("click", function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            $.ajax({
+                url: rc_order_packages.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'rc_get_packages_price',
+                    order_id: rc_order_id,
+                    nonce: rc_order_packages.nonce
+                },
+                success: function (response) {
+                    if (response.success) {
+                        rc_order_colis = response.data.colis;
+                        rc_order_items = response.data.items;
+                        renderColisUI();
+                    } else {
+                        showError(response.data.message || "Erreur inconnue.");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : "A network error occurred: " + textStatus;
+                    showError(errorMessage);
                 }
             });
         });

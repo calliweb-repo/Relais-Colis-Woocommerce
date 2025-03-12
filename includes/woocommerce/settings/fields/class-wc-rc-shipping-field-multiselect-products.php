@@ -54,6 +54,7 @@ class WC_RC_Shipping_Field_Multiselect_Products {
 
         // JS
         wp_enqueue_script( self::FIELD_RC_MULTISELECT_PRODUCTS.'_js', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/js/field-multiselect-products.js', array( 'jquery' ), '1.0', true );
+        wp_enqueue_script( self::FIELD_RC_MULTISELECT_PRODUCTS.'select2_fr_js', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/js/select2-fr.js', array( 'jquery' ), '1.0', true );
 
         // CSS (if needed in the future)
         wp_enqueue_style(self::FIELD_RC_MULTISELECT_PRODUCTS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/field-multiselect-products.css', array(), '1.0', 'all');

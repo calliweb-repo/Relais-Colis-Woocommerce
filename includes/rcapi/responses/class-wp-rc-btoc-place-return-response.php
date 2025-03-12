@@ -105,7 +105,7 @@ class WP_RC_B2C_Place_Return_Response extends WP_Relais_Colis_Response {
     use WP_RC_Enseigne;
 
     private $mandatory_properties = array(
-        'enseigne' => 'object',
+        //'enseigne' => 'object',
         'order_id' => 'string',
         'customer_id' => 'string',
         'enseigne_id' => 'string',

@@ -94,16 +94,18 @@
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_Manager' => 'includes/woocommerce/orders/class-wc-orders-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_RC_Status_Manager' => 'includes/woocommerce/orders/class-wc-orders-rc-status-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_List_Table_Manager' => 'includes/woocommerce/orders/class-wc-orders-list-table-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Csv_Export_Manager' => 'includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Order_Packages_Manager' => 'includes/woocommerce/orders/class-wc-order-packages-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Packages' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php',
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Label' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Price' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Return' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php',
         // DAOs
         'RelaisColisWoocommerce\\DAO\\WP_Configuration_DAO' => 'includes/dao/class-wp-configuration-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Information_DAO' => 'includes/dao/class-wp-information-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Services_DAO' => 'includes/dao/class-wp-services-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Products_DAO' => 'includes/dao/class-wp-products-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Tariff_Grids_DAO' => 'includes/dao/class-wp-tariff-grids-dao.php',
-        'RelaisColisWoocommerce\\DAO\\WP_Orders_DAO' => 'includes/dao/class-wp-orders-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Orders_Rel_Shipping_Labels_DAO' => 'includes/dao/class-wp-orders-rel-shipping-labels-dao.php',
     );
 

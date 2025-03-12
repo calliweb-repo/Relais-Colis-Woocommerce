@@ -147,25 +147,25 @@ abstract class WC_RC_Choose_Services_Manager {
         }
 
         // Session will be updated
-        WC()->session->__unset( 'rc_services' ); // Fees
-        WC()->session->__unset( 'rc_service_infos' ); // Additional infos
+        WC()->session->__unset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ); // Fees
+        WC()->session->__unset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ); // Additional infos
         $rc_services = array();
         $rc_service_infos = array();
 
         // Check if services sent
-        if ( isset( $_POST[ 'rc_services' ] ) && is_array( $_POST[ 'rc_services' ] ) ) {
+        if ( isset( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ] ) && is_array( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ] ) ) {
 
-            $rc_services = $_POST[ 'rc_services' ];
+            $rc_services = $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ];
         }
-        if ( isset( $_POST[ 'rc_service_infos' ] ) && is_array( $_POST[ 'rc_service_infos' ] ) ) {
+        if ( isset( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ] ) && is_array( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ] ) ) {
 
-            $rc_service_infos = $_POST[ 'rc_service_infos' ];
+            $rc_service_infos = $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ];
         }
 
         // Save sent services in session
-        WC()->session->set( 'rc_services', $rc_services );
-        WC()->session->set( 'rc_service_infos', $rc_service_infos );
-        WP_Log::debug( __METHOD__.' - Session content', [ 'rc_services' => WC()->session->get( 'rc_services' ), 'rc_service_infos' => WC()->session->get( 'rc_service_infos' ) ], 'relais-colis-woocommerce' );
+        WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES, $rc_services );
+        WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS, $rc_service_infos );
+        WP_Log::debug( __METHOD__.' - Session content', [ 'rc_services' => WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ), 'rc_service_infos' => WC()->session->get( 'rc_service_infos' ) ], 'relais-colis-woocommerce' );
 
         // JSON response
         wp_send_json_success( [ 'message' => 'Services updated successfully', 'selected service fees' => $rc_services, 'selected service infos' => $rc_service_infos ] );
@@ -185,18 +185,18 @@ abstract class WC_RC_Choose_Services_Manager {
         }
 
         // Session will be updated
-        if ( WC()->session->__isset( 'rc_service_infos' ) ) {
-            WC()->session->__unset( 'rc_service_infos' );
+        if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ) ) {
+            WC()->session->__unset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
         }
-        if ( WC()->session->__isset( 'rc_services' ) ) {
-            WC()->session->__unset( 'rc_services' );
+        if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ) ) {
+            WC()->session->__unset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
         }
         $rc_services = array();
         $rc_service_infos = array();
 
         // Save sent services in session
-        WC()->session->set( 'rc_services', $rc_services );
-        WC()->session->set( 'rc_service_infos', $rc_service_infos );
+        WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES, $rc_services );
+        WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS, $rc_service_infos );
 
         // JSON response
         wp_send_json_success( [ 'message' => 'Service infos reset successfully' ] );
@@ -223,9 +223,9 @@ abstract class WC_RC_Choose_Services_Manager {
      */
     protected function calculate_fees( WC_Cart $cart ) {
 
-        if ( WC()->session->__isset( 'rc_services' ) ) {
+        if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ) ) {
 
-            $session_rc_services = WC()->session->get( 'rc_services' );
+            $session_rc_services = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
 
             //    [rc_services] => Array
             //        (
@@ -281,16 +281,7 @@ abstract class WC_RC_Choose_Services_Manager {
                     // Adding fee with taxable `false` and `''` for tax_class
                     $cart->add_fee( $service_label, floatval( $service_price ), false, 'standard' );
                 }
-            } else {
-
-                // Remove all known RC fees from cart
-                //WP_Log::debug( __METHOD__.' Remove all fees', [], 'relais-colis-woocommerce' );
-                //$cart->fees_api()->remove_all_fees();
             }
-
-            // Empty session
-            //WC()->session->__unset( 'rc_services' );
-            //WC()->cart->set_session();  // Force la mise à jour de la session
 
             WP_Log::debug( __METHOD__.' - Get fees from cart', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-woocommerce' );
         }
@@ -327,7 +318,7 @@ abstract class WC_RC_Choose_Services_Manager {
         $session_rc_services = array();
         if ( WC()->session->__isset( 'rc_services' ) ) {
 
-            $session_rc_services = WC()->session->get( 'rc_services' );
+            $session_rc_services = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
             WP_Log::debug( __METHOD__.' - Session content', [ '$session_rc_services' => $session_rc_services ], 'relais-colis-woocommerce' );
         }
         

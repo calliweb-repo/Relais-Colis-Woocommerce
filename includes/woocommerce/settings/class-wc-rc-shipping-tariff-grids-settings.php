@@ -31,9 +31,6 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      */
     public function init() {
 
-        // Only for C2C interaction mode
-        if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return;
-
         // Register settings section
         add_filter( 'woocommerce_get_sections_'.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS, array( $this, 'filter_woocommerce_get_sections_rc' ) );
 
@@ -50,6 +47,11 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      * @return mixed
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
+
+        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+
+        // Only for B2C interaction mode
+        if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return $sections;
 
         $sections[ self::SECTION_TARIFF_GRIDS ] = __( 'Prices Grid', 'relais-colis-woocommerce' );
         return $sections;
@@ -153,6 +155,8 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      * @return array
      */
     private function get_settings() {
+
+        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
         // Other tabs loaded only if RC API access is valid
         if ( !WC_RC_Shipping_Config_Manager::instance()->is_rc_api_valid_access() ) {

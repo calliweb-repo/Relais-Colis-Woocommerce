@@ -4,7 +4,6 @@ namespace RelaisColisWoocommerce\DAO;
 
 defined( 'ABSPATH' ) or exit;
 
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 
 /**

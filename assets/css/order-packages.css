@@ -112,6 +112,8 @@
 #rc-colis-container .rc-update-colis,
 #rc-colis-container .rc-print-label,
 #rc-colis-container .rc-place-shipping-label,
+#rc-colis-container .rc-get-packages-price,
+#rc-colis-container .rc-generate-return-label,
 #rc-colis-container .rc-remove-from-colis {
     display: inline-flex;
     align-items: center;
@@ -127,7 +129,9 @@
 #rc-colis-container .rc-update-colis,
 #rc-colis-container .rc-auto-distribute,
 #rc-colis-container .rc-place-shipping-label,
+#rc-colis-container .rc-get-packages-price,
 #rc-colis-container .rc-print-label,
+#rc-colis-container .rc-generate-return-label,
 #rc-colis-container .rc-add-colis {
     background-color: #D0DD72;
     color: white;
@@ -230,4 +234,41 @@
     right: 15px;
     font-size: 25px;
     cursor: pointer;
+}
+/** Zone erreur dans la gestion des colis **/
+#rc-colis-container .rc-error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ff6f6a; /* Rouge */
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas */
+}
+
+#rc-colis-container .rc-error .rc-error-message {
+    flex-grow: 1; /* Permet au message d'occuper l'espace disponible */
+}
+
+#rc-colis-container .rc-error .rc-error-close {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: none;
+    border: none;
+}
+#rc-colis-container .rc-error .rc-error-close:hover {
+    color: #ffcccc;
+}
+#rc-colis-container .hidden {
+    display: none;
 }

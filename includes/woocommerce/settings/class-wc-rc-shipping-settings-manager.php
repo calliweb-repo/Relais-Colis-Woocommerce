@@ -42,7 +42,7 @@ class WC_RC_Shipping_Settings_Manager {
         WC_RC_Shipping_Infos_Settings::instance();
         WC_RC_Shipping_Units_Settings::instance();
 
-        // C2C
+        // B2C
         WC_RC_Shipping_Services_Settings::instance();
         WC_RC_Shipping_Tariff_Grids_Settings::instance();
 

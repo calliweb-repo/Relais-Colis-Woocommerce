@@ -76,7 +76,7 @@ class WC_Orders_List_Table_Manager {
 
         WP_Log::debug( __METHOD__, [ '$columns' => $columns ], 'relais-colis-woocommerce' );
 
-        $columns[ WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD ] = __( 'RC Shipping method', 'relais-colis-woocommerce' );
+        $columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD ] = __( 'RC Shipping method', 'relais-colis-woocommerce' );
         // TODO $columns[ 'rc_shipping_status' ] = __( 'RC Shipping status', 'relais-colis-woocommerce' );
         return $columns;
     }
@@ -92,7 +92,7 @@ class WC_Orders_List_Table_Manager {
         WP_Log::debug( __METHOD__, [ '$column' => $column, '$order_or_order_id' => $order_or_order_id ], 'relais-colis-woocommerce' );
 
         switch ( $column ) {
-            case WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD:
+            case WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD:
                 // Get WC order
                 // Legacy CPT-based order compatibility
                 $wc_order = $order_or_order_id instanceof WC_Order ? $order_or_order_id : wc_get_order( $order_or_order_id );
@@ -132,7 +132,7 @@ class WC_Orders_List_Table_Manager {
 
         WP_Log::debug( __METHOD__, [ '$sortable_columns' => $sortable_columns ], 'relais-colis-woocommerce' );
 
-        $sortable_columns[ WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD ] = 'by_rc_shipping_method';
+        $sortable_columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD ] = 'by_rc_shipping_method';
         return $sortable_columns;
     }
 
@@ -154,7 +154,7 @@ class WC_Orders_List_Table_Manager {
 
             // Order by custom meta data rc_shipping_method
             // Legacy – for CPT-based orders
-            $query->set( 'meta_key', WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD );
+            $query->set( 'meta_key', WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD );
             $query->set( 'orderby', 'meta_value' );
 
         }
@@ -167,7 +167,7 @@ class WC_Orders_List_Table_Manager {
                 $query->get( 'meta_query' ) ?: array(),
                 array(
                     array(
-                        'key' => WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD,
+                        'key' => WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD,
                         'value' => $rc_shipping_method,
                         'compare' => '='
                     )
@@ -197,7 +197,7 @@ class WC_Orders_List_Table_Manager {
             // Order by custom meta data rc_shipping_method
             $query_vars['orderby'] = 'meta_value';
             $query_vars['order'] = isset($_GET['order']) && strtoupper($_GET['order']) === 'DESC' ? 'DESC' : 'ASC';
-            $query_vars['meta_key'] = WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD;
+            $query_vars['meta_key'] = WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD;
 
 
         }
@@ -207,7 +207,7 @@ class WC_Orders_List_Table_Manager {
             $rc_shipping_method = sanitize_text_field( $_GET[ 'filter_rc_shipping_method' ] );
 
             $query_vars['meta_query'][] = [
-                'key'     => WC_RC_Shipping_Constants::OPTION_RC_SHIPPING_METHOD,
+                'key'     => WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD,
                 'value'   => $rc_shipping_method,
                 'compare' => '='
             ];

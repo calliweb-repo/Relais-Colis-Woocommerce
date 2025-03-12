@@ -2,7 +2,6 @@
 
 namespace RelaisColisWoocommerce\RCAPI;
 
-use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 
 defined( 'ABSPATH' ) or exit;

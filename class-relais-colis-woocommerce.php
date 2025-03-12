@@ -3,6 +3,7 @@
 namespace RelaisColisWoocommerce;
 
 use RelaisColisWoocommerce\Shipping\WC_Order_Packages_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Csv_Export_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_List_Table_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_RC_Status_Manager;
@@ -50,6 +51,7 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
         WC_RC_Relay_Choose_Relay_Manager::instance();
         WC_Order_Packages_Manager::instance();
         WC_Orders_RC_Status_Manager::instance();
+        WC_Orders_C2c_Csv_Export_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();

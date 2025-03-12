@@ -249,6 +249,10 @@ trait WP_RC_Enseigne {
         return $this->get_rc_int( WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
     }
 
+    public function get_xeett() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
+    }
+
     public function get_options() {
         return isset( $this->rc_configuration->options->entry )
             ? json_decode( json_encode( $this->rc_configuration->options->entry ), true )
