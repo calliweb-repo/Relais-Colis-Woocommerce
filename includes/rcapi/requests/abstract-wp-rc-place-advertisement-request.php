@@ -39,6 +39,7 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
     const SHIPPING_COUNTRY_CODE = 'shippingCountryCode';
     const SHIPPMENT_WEIGHT = 'shippmentWeight';
     const WEIGHT = 'weight';
+    const PSEUDO_RVC = 'pseudoRvc';
 
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,
@@ -103,18 +104,29 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
 
         $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
+        // These params are always the sames
+        //"activityCode" correspond au type d'envoi "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
+        //"customerId" c'est bien l'id du customer dans le cms
+        //"orderReference" c'est le numéro de commande dans woocommerce
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
+            // "deliveryPaymentMethod" c'est une valeur constante "3"
             self::DELIVERY_PAYMENT_METHOD => '3',
+            // "deliveryType" c'est une valeur constante "00"
             self::DELIVERY_TYPE => '00',
             self::LANGUAGE => 'FR',
+            //"orderType" c'est une valeur constante "1"
             self::ORDER_TYPE => '1',
+            //"orderTypeSub" c'est une valeur constante "1"
             self::ORDER_TYPE_SUB => '1',
+            //"pickingSite"  c'est une valeur constante "0"
             self::PICKING_SITE => '0',
+            //"productFamily" pour un relais la valeur est "08" et pour un home ou home + "55"
             self::PRODUCT_FAMILY => '08',
+            //"sensitiveProduct" c'est une valeur constante "0"
             self::SENSITIVE_PRODUCT => '0',
-            self::SHIPPMENT_WEIGHT => '1000',
-            self::WEIGHT => '1000',
+            //"pseudoRvc" c'est un champ vide, l'api le comble après avec le pseudo_rvc du relais
+            self::PSEUDO_RVC => '',
         );
 
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );

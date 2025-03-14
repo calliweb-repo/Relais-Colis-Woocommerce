@@ -168,3 +168,43 @@ h2 {
 .wc-wp-version-gte-53 .woocommerce table.form-table th label .woocommerce-help-tip {
     margin: -7px -14px 0 0 !important;
 }
+/** Shipping infos - Admin **/
+.rc-shipping-info {
+    border: 1px solid #c0d248;
+    background: #c0d24833;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+    margin: 0px 0px 20px 0px;
+}
+
+.rc-shipping-info .rc-logo {
+    max-width: 236px;
+    height: auto;
+    width: 118px;
+}
+.rc-shipping-info h3 {
+    margin: 12px 0px !important;
+}
+.rc-shipping-info h4 {
+    margin: 12px 0px;
+}
+.rc-shipping-info p {
+    margin: 6px 0px;
+}
+.rc-shipping-info ul {
+    margin: 6px 0px;
+}
+/** Shipping infos - Customer page **/
+.woocommerce-order-details .rc-shipping-info h4 {
+    margin: 18px 0px;
+}
+.woocommerce-order-details .rc-shipping-info p {
+    margin: 12px 0px;
+}
+.woocommerce-order-details .rc-shipping-info ul {
+    margin: 12px 0px;
+    list-style-type: none;
+}
+.woocommerce-order-details .rc-shipping-info .rc-logo {
+    width: 236px;
+}

@@ -21,6 +21,10 @@ defined( 'ABSPATH' ) or exit;
  * ```json
  * {
  *     "activationKey": "{{activationKey}}"
+ *      "parcelNumbers" : [
+ *          "parcelNumbers1",
+ *          "parcelNumbers2"
+ *      ]
  * }
  * ```
  *
@@ -38,9 +42,11 @@ defined( 'ABSPATH' ) or exit;
 class WP_RC_Get_Packages_Status extends WP_Relais_Colis_Request {
 
     const ACTIVATION_KEY = 'activationKey';
+    const PARCEL_NUMBERS = 'parcelNumbers';
 
     private $mandatory_params = array(
         self::ACTIVATION_KEY,
+        self::PARCEL_NUMBERS,
     );
 
     /**
@@ -75,7 +81,7 @@ class WP_RC_Get_Packages_Status extends WP_Relais_Colis_Request {
             self::ACTIVATION_KEY => $activationKey,
         );
 
-        // No params
+        $this->data = array_merge( $this->data, $params );
 
         $this->validate();
 

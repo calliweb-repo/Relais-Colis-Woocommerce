@@ -114,6 +114,8 @@
 #rc-colis-container .rc-place-shipping-label,
 #rc-colis-container .rc-get-packages-price,
 #rc-colis-container .rc-generate-return-label,
+#rc-colis-container .rc-print-way-bill,
+#rc-colis-container .rc-generate-way-bill,
 #rc-colis-container .rc-remove-from-colis {
     display: inline-flex;
     align-items: center;
@@ -132,6 +134,8 @@
 #rc-colis-container .rc-get-packages-price,
 #rc-colis-container .rc-print-label,
 #rc-colis-container .rc-generate-return-label,
+#rc-colis-container .rc-print-way-bill,
+#rc-colis-container .rc-generate-way-bill,
 #rc-colis-container .rc-add-colis {
     background-color: #D0DD72;
     color: white;

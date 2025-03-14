@@ -196,7 +196,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function action_http_api_debug( array|WP_Error $response, string $context, string $class, array $parsed_args, string $url ) {
 
-        WP_Log::debug( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
+        WP_Log::notice( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
     }
 
     /**
@@ -344,6 +344,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
     /**
      * 01 - B2C - Récupération du compte enseigne
+     *
      *
      * @param boolean $raw to get a raw response, instead of a formatted one
      * @return array|WP_RC_Get_Configuration_Response
@@ -515,8 +516,8 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * @return array|WP_RC_Transport_Generate_Response
      * @throws Exception
      */
-    public function get_packages_status( $raw = false ) {
+    public function get_packages_status( $params=array(), $raw = false ) {
 
-        return $this->rc_api_request( self::REQUEST_GET_PACKAGES_STATUS, null, $raw );
+        return $this->rc_api_request( self::REQUEST_GET_PACKAGES_STATUS, $params, $raw );
     }
 }

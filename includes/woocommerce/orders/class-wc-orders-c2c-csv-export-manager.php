@@ -74,7 +74,7 @@ class WC_Orders_C2c_Csv_Export_Manager {
 
         // Generate CSV
         $this->generate_and_download_csv( $order_ids );
-        WP_Log::notice( __METHOD__, ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-woocommerce' );
 
         // Prevent redirection
         exit;

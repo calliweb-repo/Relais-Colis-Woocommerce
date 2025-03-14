@@ -12,6 +12,7 @@ use RelaisColisWoocommerce\RCAPI\WP_RC_Place_Advertisement_Request;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Place_Return_V3;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
+use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
@@ -78,13 +79,25 @@ class WC_RC_Ajax_Shipping_Return {
             if ( $is_c2c_interaction_mode ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'Invalid B2C mode', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid mode: only B2C is authorized', 'relais-colis-woocommerce' )
                 ] );
             }
             // Country
             $country = get_option( 'woocommerce_default_country' ); // Eg: "FR:IDF"
             $country_array = explode( ":", $country );
             $store_country = $country_array[ 0 ]; // Country (Eg: FR)
+
+            // Get xeett for relay, from meta data
+            $xeett = null;
+
+            // Check if relay_data
+            $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
+            WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
+            if ( !empty( $rc_relay_data ) ) {
+
+                // Extract informations
+                $xeett = $rc_relay_data[ 'Xeett' ] ?? '';
+            }
 
             // Request RC API api/return/placeReturnV3
             // Dynamic params
@@ -94,8 +107,6 @@ class WC_RC_Ajax_Shipping_Return {
                         WP_RC_Place_Return_V3::ORDER_ID => $wc_order_id,
                         WP_RC_Place_Return_V3::CUSTOMER_ID => $wc_order->get_customer_id(),
                         WP_RC_Place_Return_V3::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
-                        WP_RC_Place_Return_V3::XEETT => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_XEETT, 'I4040' ), // FIXME ??
-                        WP_RC_Place_Return_V3::XEETT_NAME => 'La Poste', // FIXME ??
                         WP_RC_Place_Return_V3::CUSTOMER_PHONE => $wc_order->get_shipping_phone(),
                         WP_RC_Place_Return_V3::CUSTOMER_MOBILE => $wc_order->get_shipping_phone(),
                         WP_RC_Place_Return_V3::REFERENCE => $wc_order_id,
@@ -105,10 +116,40 @@ class WC_RC_Ajax_Shipping_Return {
                         WP_RC_Place_Return_V3::CUSTOMER_POSTCODE => $wc_order->get_shipping_postcode(),
                         WP_RC_Place_Return_V3::CUSTOMER_CITY => $wc_order->get_shipping_city(),
                         WP_RC_Place_Return_V3::CUSTOMER_COUNTRY => $store_country,
-                        WP_RC_Place_Return_V3::PRESTATIONS => "1", // FIXME ???
                     ),
                 ),
             );
+
+            // If relay, then insert xeett
+            if ( !is_null( $xeett ) ) {
+
+                $dynamic_params[ WP_RC_Place_Return_V3::REQUESTS ][ WP_RC_Place_Return_V3::XEETT ] = $xeett;
+                $dynamic_params[ WP_RC_Place_Return_V3::REQUESTS ][ WP_RC_Place_Return_V3::XEETT_NAME ] = $xeett;
+            }
+
+            // If there are services chosen, then add them too
+            // Check if rc_services
+            $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
+            $prestations = array();
+            if ( !empty( $rc_services ) ) {
+
+                foreach ( $rc_services as $rc_service ) {
+
+                    // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                    if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
+
+                    // Extract slug
+                    // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                    $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
+
+                    $rc_service_name = WC_RC_Services_Manager::instance()->get_fixed_service_name( $slug );
+
+                    // Add in prestations
+                    $prestations[] = $rc_service_name;
+                }
+                $dynamic_params[ WP_RC_Place_Return_V3::REQUESTS ][ WP_RC_Place_Return_V3::PRESTATIONS ] = implode( ',', $prestations );
+            }
+
 
             // RC API call
             $b2c_place_return = WP_Relais_Colis_API::instance()->b2c_place_return_v3( $dynamic_params, false );
@@ -117,7 +158,7 @@ class WC_RC_Ajax_Shipping_Return {
 
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
                 wp_send_json_error( [
-                    'message' => __( 'No response', 'relais-colis-woocommerce' )
+                    'message' => __( 'No response from Relais Colis API', 'relais-colis-woocommerce' )
                 ] );
             }
 
@@ -145,18 +186,18 @@ class WC_RC_Ajax_Shipping_Return {
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Valid response', ['$b2c_place_return'=>$b2c_place_return], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Valid response', [ '$b2c_place_return' => $b2c_place_return ], 'relais-colis-woocommerce' );
             }
 
             // Success response
             wp_send_json_success( [
-             'return_bordereau_smart_url' => $b2c_place_return->get_bordereau_smart_url(),
-             'return_number' => $b2c_place_return->get_return_number(),
-             'return_number_cab' => $b2c_place_return->get_number_cab(),
-             'return_limit_date' => $b2c_place_return->get_limit_date(),
-             'return_image_url' => $b2c_place_return->get_image_url(),
-             'return_token' => $b2c_place_return->get_token(),
-             'return_created_at' => $b2c_place_return->get_created_at(),
+                'return_bordereau_smart_url' => $b2c_place_return->get_bordereau_smart_url(),
+                'return_number' => $b2c_place_return->get_return_number(),
+                'return_number_cab' => $b2c_place_return->get_number_cab(),
+                'return_limit_date' => $b2c_place_return->get_limit_date(),
+                'return_image_url' => $b2c_place_return->get_image_url(),
+                'return_token' => $b2c_place_return->get_token(),
+                'return_created_at' => $b2c_place_return->get_created_at(),
             ] );
 
         } catch ( Exception $e ) {
@@ -166,7 +207,7 @@ class WC_RC_Ajax_Shipping_Return {
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while placing return', 'relais-colis-woocommerce' ).' '.$e->getMessage()
+                'message' => __( 'An error occurred while generating return label', 'relais-colis-woocommerce' ).' '.$e->getMessage()
             ] );
         }
     }

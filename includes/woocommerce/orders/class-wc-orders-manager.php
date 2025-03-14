@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
@@ -78,10 +79,6 @@ class WC_Orders_Manager {
     // Use Trait Singleton
     use Singleton;
 
-    ////////////////////////////////// TEST //////////////////////////////////
-    private static $hook_list = array();
-    ////////////////////////////////// END TEST //////////////////////////////////
-
     /**
      * Default init method called when instance created
      * This method can be overridden if needed.
@@ -90,21 +87,6 @@ class WC_Orders_Manager {
      * @access protected
      */
     public function init() {
-
-        ////////////////////////////////// TEST //////////////////////////////////
-        // Show hooks
-        /*add_action( 'all', function ( $hook_name ) {
-            if ( (strpos($hook_name, 'restrict_') !== false) && (strpos($hook_name, 'manage_') !== false)) {
-
-                if ( !in_array( $hook_name, self::$hook_list ) ) {
-
-                    echo "<p style='color: red;'>HOOK WooCommerce exécuté : $hook_name</p>";
-                    WP_Log::debug( __METHOD__."🔥 Hook détecté", [ '$hook_name' => $hook_name ], 'relais-colis-woocommerce' );
-                }
-                self::$hook_list[] = $hook_name;
-            }
-        } );*/
-        ////////////////////////////////// END TEST //////////////////////////////////
 
         // WC_MultiShipping marketing conflict !
         // May disable WC_MultiShipping buttons in order
@@ -139,6 +121,24 @@ class WC_Orders_Manager {
 
         // Use woocommerce_admin_order_data_after_shipping_address to display RC shipping info
         add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'action_woocommerce_admin_order_data_after_shipping_address' ), 10, 1 );
+
+        // Register scripts
+        add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
+    }
+
+    /***
+     * Adding CSS and JS into header
+     * Default add assets/admin.css and assets/admin.js
+     */
+    public function action_admin_enqueue_scripts() {
+
+        // Check if we are in the WordPress admin area
+        if ( !$this->is_order_page() ) {
+            return;
+        }
+
+        // CSS
+        wp_enqueue_style(WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/relais-colis.css', array(), '1.0', 'all');
     }
 
     /**
@@ -197,164 +197,8 @@ class WC_Orders_Manager {
         if ( !$this->is_order_page() ) {
             return;
         }
-        WP_Log::debug( __METHOD__, [ 'wc_order' => $wc_order ], 'relais-colis-woocommerce' );
 
-        // Check if the shipping method is "Relais Colis"
-        $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
-        if ( $rc_shipping_method !== false ) {
-
-            // Treated infos:
-            // - Choose Relais Colis    -> rc_relay_data
-            // - Choose Home options    -> rc_services
-            // - Choose Home+ options   -> rc_service_infos
-            $rc_shipping_infos_html = null;
-            switch ( $rc_shipping_method ) {
-                case WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID:
-
-                    // Check if relay_data
-                    $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
-                    if ( !empty( $rc_relay_data ) ) {
-
-                        $rc_shipping_infos_html = '
-                            <h3>'.__( 'Relais Colis - Opening hours', 'relais-colis-woocommerce' ).'</h3>
-                            <table class="rc-delivery-hours">
-                                <tbody>
-                                    <tr><td>'.__( 'Monday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairelundimatin' ].' / '.$rc_relay_data[ 'Horairelundiapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Tuesday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairemardimatin' ].' / '.$rc_relay_data[ 'Horairemardiapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Wednesday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairemercredimatin' ].' / '.$rc_relay_data[ 'Horairemercrediapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Thursday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairejeudimatin' ].' / '.$rc_relay_data[ 'Horairejeudiapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Friday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairevendredimatin' ].' / '.$rc_relay_data[ 'Horairevendrediapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Saturday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairesamedimatin' ].' / '.$rc_relay_data[ 'Horairesamediapm' ].'</td></tr>
-                                    <tr><td>'.__( 'Sunday', 'relais-colis-woocommerce' ).'</td><td>'.$rc_relay_data[ 'Horairedimanchematin' ].' / '.$rc_relay_data[ 'Horairedimancheapm' ].'</td></tr>
-                                </tbody>
-                            </table>
-                        ';
-
-                    }
-                    break;
-                case WC_RC_Shipping_Method_Home::WC_RC_SHIPPING_METHOD_HOME_ID:
-
-                    // Check if rc_services
-                    $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
-                    if ( !empty( $rc_services ) ) {
-
-                        $rc_shipping_infos_html = '<h3>'.__( 'Services', 'relais-colis-woocommerce' ).'</h3>';
-                        //    [$session_rc_service_fees] => Array
-                        //        (
-                        //            [0] => rc_service_two_person_delivery
-                        //            [1] => rc_service_two_person_delivery
-                        //        )
-                        //
-
-                        foreach ( $rc_services as $rc_service ) {
-
-                            // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                            if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
-
-                            // Extract slug
-                            // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                            $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
-
-                            $rc_shipping_infos_html .= '<br>'.WC_RC_Services_Manager::instance()->get_fixed_service_name( $slug );
-                        }
-                    }
-
-                    break;
-                case WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID:
-
-                    // Check if rc_services
-                    $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
-
-                    // Check if rc_service_infos
-                    $rc_service_infos = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
-                    WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
-
-                    // Title
-                    if ( !empty( $rc_services ) && !empty( $rc_service_infos ) ) {
-
-                        $rc_shipping_infos_html = '<h3>'.__( 'Services', 'relais-colis-woocommerce' ).'</h3>';
-                    }
-
-                    // Services content
-                    if ( !empty( $rc_services ) ) {
-
-                        //    [$session_rc_service_fees] => Array
-                        //        (
-                        //            [0] => rc_service_two_person_delivery
-                        //            [1] => rc_service_two_person_delivery
-                        //        )
-                        //
-                        foreach ( $rc_services as $rc_service ) {
-
-                            // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                            if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
-
-                            // Extract slug
-                            // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                            $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
-
-                            $rc_shipping_infos_html .= '<br>'.WC_RC_Services_Manager::instance()->get_fixed_service_name( $slug );
-                        }
-                    }
-
-                    // Service infos content
-                    if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
-
-                        $rc_shipping_infos_html = '<h3>'.__( 'Relais Colis - Additional infos', 'relais-colis-woocommerce' ).'</h3>';
-
-                        //    [$session_rc_service_infos] => Array
-                        //        (
-                        //            [rc_service_digicode] => 1315
-                        //            [rc_service_floor] => 2
-                        //            [rc_service_type_habitat] => apartment
-                        //            [rc_service_elevator] => 1
-                        //            [rc_service_informations_complementaires] => Blabla
-                        //Prendre à gauche
-                        //Puis à droite
-                        //        )
-                        $homeplus_addon_infos_fields = WC_RC_Services_Manager::instance()->get_homeplus_addon_infos_fields();
-                        foreach ( $homeplus_addon_infos_fields as $homeplus_addon_infos_slug => $homeplus_addon_infos_field ) {
-
-                            if ( !array_key_exists( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug, $rc_service_infos ) ) continue;
-
-                            switch ( $homeplus_addon_infos_field[ 'type' ] ) {
-                                case 'text':
-                                    $rc_shipping_infos_html .= '<br>'.$homeplus_addon_infos_field[ 'label' ].': '.$rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ];
-                                    break;
-                                case 'textarea':
-                                    $rc_shipping_infos_html .= '<br>'.$homeplus_addon_infos_field[ 'label' ].':<br>'.$rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ];
-                                    break;
-                                case 'select':
-                                    $rc_shipping_infos_html .= '<br>'.$homeplus_addon_infos_field[ 'label' ].': '.$homeplus_addon_infos_field[ 'options' ][ ''.$rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ] ];
-                                    break;
-                                case 'checkbox':
-                                    $rc_shipping_infos_html .= '<br>'.$homeplus_addon_infos_field[ 'label' ].': '.( $rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ] === 1 ? __( 'Yes', 'relais-colis-woocommerce' ) : __( 'No', 'relais-colis-woocommerce' ) );
-                                    break;
-                                default:
-                                    // Does nothing
-                                    break;
-                            }
-                        }
-                    }
-
-                    break;
-                default:
-                    // Does nothing
-                    break;
-            }
-
-            $html_content = '
-                <div class="rc-shipping-info">
-                    <h3>'.__( 'Relais Colis - Informations', 'relais-colis-woocommerce' ).'</h3>
-                    <p>'.WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ).'</p>
-                    '.( !is_null( $rc_shipping_infos_html ) ? $rc_shipping_infos_html : '' ).'
-                </div>';
-
-            echo $html_content;
-        }
+        WC_Order_Shipping_Infos_Manager::instance()->render_shipping_infos( $wc_order );
     }
 
     /**
@@ -386,6 +230,9 @@ class WC_Orders_Manager {
 
             // Store a meta data for shipping method to ease ordering by RC shipping method
             $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD, $rc_shipping_method );
+
+            // Init order RC state
+            $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED );
 
             // Save order
             $wc_order->save();
@@ -465,15 +312,9 @@ class WC_Orders_Manager {
         WP_Log::debug( __METHOD__.' - Auto distribution of packages if C2C mode?', [ 'is_c2c_interaction_mode?' => WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()?'true':'false' ], 'relais-colis-woocommerce' );
         if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) {
 
-            // Load packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $wc_order->get_id() );
-
             // Distribution strategy is : try and put as max as possible items in each package
-            $colis = WC_Order_Packages_Manager::instance()->auto_distribute_packages( $items );
+            WC_Order_Packages_Manager::instance()->auto_distribute_packages( $wc_order->get_id() );
 
-            // Save packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $wc_order->get_id() );
-            WP_Log::debug( __METHOD__.' - Auto distribution in C2C mode with success', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
         }
     }
 }

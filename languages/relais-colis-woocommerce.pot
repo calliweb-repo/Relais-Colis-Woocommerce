@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-12T17:43:32+00:00\n"
+"POT-Creation-Date: 2025-03-14T20:09:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: relais-colis-woocommerce\n"
@@ -39,246 +39,266 @@ msgstr ""
 msgid "https://www.calliweb.fr/"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:156
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:169
 msgid "Enseigne ID"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:157
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:170
 msgid "Enseigne ID Light"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:158
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:171
 msgid "Enseigne Name"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:159
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:172
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:345
 msgid "Activation Key"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:160
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:173
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:173
 msgid "Active"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:161
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:174
 msgid "Use Enseigne ID"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:162
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:175
 msgid "Address Line 1"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:163
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:176
 msgid "Postal Code"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:164
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:177
 msgid "City"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:165
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:178
 msgid "Live Mapping API"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:166
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:179
 msgid "Live Mapping PID"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:167
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:180
 msgid "Live Mapping Key"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:168
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:181
 msgid "Folder"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:169
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:182
 msgid "Return Version"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:170
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:183
 msgid "Return Login"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:171
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:184
 msgid "Return Password"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:172
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:185
 msgid "Agency Code"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:173
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:186
 msgid "Return Site"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:174
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:187
 msgid "Updated By"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:175
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:188
 msgid "Created At"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:176
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:189
 msgid "Updated At"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:177
-msgid "Xeett"
-msgstr ""
-
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:180
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:192
 msgid "Unknown Field"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:191
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:203
 msgid "Option ID"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:192
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:204
 msgid "Option Name"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:193
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:205
 msgid "Option Value"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:194
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:206
 msgid "Option Active"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:197
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:209
 msgid "Unknown Option"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:207
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:219
 msgid "A4 Format"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:208
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:220
 msgid "A5 Format"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:209
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:221
 msgid "10x15 Format"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:220
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:232
 msgid "Millimeters (mm)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:221
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:233
 msgid "Centimeters (cm)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:222
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:234
 msgid "Decimeters (dm)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:223
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:235
 msgid "Meters (m)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:234
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:246
 msgid "Milligrams (mg)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:235
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:247
 msgid "Centigrams (mg)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:236
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:248
 msgid "Decigrams (dg)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:237
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:249
 msgid "Grams (g)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:238
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:250
 msgid "Kilograms (kg)"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:249
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:268
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:261
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:280
 msgid "The shipping labels for the order have been generated"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:250
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:269
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:262
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:281
 msgid "The product has been registered by the departure relay"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:251
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:270
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:263
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:282
 msgid "The product has been picked up by the carrier"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:252
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:271
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:264
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:283
 msgid "The package has been dropped off at the relay point"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:253
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:272
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:265
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:284
 msgid "The package has been collected from the relay point"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:254
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:273
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:266
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:285
 msgid "The package was not picked up"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:255
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:274
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:267
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:286
 msgid "The package has been returned to the sender"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:256
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:275
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:268
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:287
 msgid "The package is currently being returned to the sender"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:278
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:290
 msgid "Unknown status"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:289
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:301
 msgid "Result ID"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:290
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:302
 msgid "First Name"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:291
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:303
 msgid "Last Name"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:292
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:304
 msgid "Email"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:293
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:305
 msgid "Balance"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:294
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:306
 msgid "Account Status"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:295
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:307
 msgid "Account Type"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:296
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:308
 msgid "Code Enseigne"
 msgstr ""
 
-#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:299
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:311
 msgid "Unknown Information"
+msgstr ""
+
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:322
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:338
+msgid "Items to be distributed"
+msgstr ""
+
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:323
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:339
+msgid "Items distributed"
+msgstr ""
+
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:324
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:340
+msgid "Shipping labels placed"
+msgstr ""
+
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:325
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:341
+msgid "Way bills generated"
+msgstr ""
+
+#: includes/woocommerce/abstract-wc-rc-shipping-constants.php:328
+msgid "Unknown order state"
 msgstr ""
 
 #: includes/woocommerce/checkout/abstract-wc-rc-choose-services-manager.php:311
@@ -436,212 +456,401 @@ msgid "Relais Colis"
 msgstr ""
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:143
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:431
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:176
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:489
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:134
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:201
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:66
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:67
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:68
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-way-bill.php:58
 msgid "Invalid order ID"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:182
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:262
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:320
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:370
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:413
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:465
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:187
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:354
 msgid "An error occurred while adding a package"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:212
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:344
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:217
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:378
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:148
 msgid "Package not found"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:218
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:293
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:223
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:311
 msgid "Invalid product"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:234
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:239
 msgid "Not enough product remaining quantity"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:287
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:280
+msgid "An error occurred while adding product to a package"
+msgstr ""
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:305
 msgid "Product not found in package"
 msgstr ""
 
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:420
+msgid "An error occurred while removing product from package"
+msgstr ""
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:500
+msgid "The products have already been distributed into packages"
+msgstr ""
+
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:471
+msgid "An error occurred while auto distributing products into packages"
+msgstr ""
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:534
 msgid "An error occurred while updating the package"
 msgstr ""
 
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:178
+msgid "An error occurred while downloading shipping label"
+msgstr ""
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:233
+msgid "An error occurred while placing shipping label"
+msgstr ""
+
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:82
-msgid "Invalid C2C mode"
+msgid "Invalid mode: only C2C is authorized"
 msgstr ""
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:141
 msgid "An error occurred while getting price"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:81
-msgid "Invalid B2C mode"
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:82
+msgid "Invalid mode: only B2C is authorized"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:120
-msgid "No response"
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:161
+msgid "No response from Relais Colis API"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:169
-msgid "An error occurred while placing return"
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:210
+msgid "An error occurred while generating return label"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:224
-msgid "remaining"
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-way-bill.php:84
+msgid "An error occurred while generating way bill"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:225
-msgid "Auto distribute"
+#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:94
+msgid "Order"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:226
-msgid "Package"
+#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:134
+msgid "You do not have sufficient permissions to bulk auto distribute items in packages."
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:227
-msgid "Add in package"
+#: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-auto-distribute-manager.php:55
+msgid "Bulk auto distribute"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:228
-msgid "Please add a package."
+#: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-generate-way-bills-manager.php:56
+msgid "Bulk generate way bills"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:229
-msgid "Products to distribute"
+#: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-place-labels-manager.php:56
+msgid "Bulk place labels"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:230
-msgid "Delete Package"
+#: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-place-labels-manager.php:87
+msgid "All the shipping labels have been placed"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:231
-msgid "pcs"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:232
-msgid "Remove from package"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:233
-msgid "Add a package"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:234
-msgid "Existing Packages"
+#: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-print-shipping-labels-manager.php:56
+msgid "Bulk print shipping labels"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:235
-msgid "Unknown"
+msgid "remaining"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:236
-msgid "Total weight"
+msgid "Auto distribute"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:237
-msgid "Dimensions"
+msgid "Package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:238
-msgid "height"
+msgid "Add in package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:239
-msgid "width"
+msgid "Please add a package."
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:240
-msgid "length"
+msgid "Products to distribute"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:241
-msgid "Unit weight"
+msgid "Delete Package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:242
-msgid "Quantity to be distributed"
+msgid "pcs"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:243
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:113
-msgid "Quantity"
+msgid "Remove from package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:244
-msgid "Update package"
+msgid "Add a package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:245
-msgid "All products have been assigned to a package."
+msgid "Existing Packages"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:246
+msgid "Unknown"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:247
+msgid "Total weight"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:248
-msgid "Total"
+msgid "Dimensions"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:249
-msgid "Summary"
+msgid "height"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:250
-msgid "Place shipping label"
+msgid "width"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:251
-msgid "Print shipping label"
+msgid "length"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:252
-msgid "Shipping label:"
+msgid "Unit weight"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:253
-msgid "Estimate your shipment"
+msgid "Quantity to be distributed"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:254
-msgid "Estimated shipping price:"
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:95
+msgid "Quantity"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:255
-msgid "Generate return label"
+msgid "Update package"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:256
-msgid "Return information"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:257
-msgid "Return number"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:258
-msgid "Cab number"
+msgid "All products have been assigned to a package."
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:259
-msgid "Deadline associated with the return"
+msgid "Total"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:260
+msgid "Summary"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:261
+msgid "Place shipping label"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:262
+msgid "Print shipping label"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:263
+msgid "Shipping label:"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:264
+msgid "Estimate your shipment"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:265
+msgid "Estimated shipping price:"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:266
+msgid "Generate return label"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:267
+msgid "Return information"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:268
+msgid "Return number"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:269
+msgid "Cab number"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:270
+msgid "Deadline associated with the return"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:271
 msgid "URL for related return label"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:501
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:547
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:272
+msgid "Generate way bill"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:273
+msgid "Print way bill"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:274
+msgid "A network error occurred: "
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:275
+msgid "Unknown error."
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:276
+msgid "Unknown error while generating the way bill"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:572
+msgid "All the packages have been distributed"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:584
+msgid "There are still packages to be distributed"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:600
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:646
 msgid "Order not found"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:508
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:607
 msgid "Invalid Relais Colis method"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:678
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1136
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1260
+msgid "Shipping labels must be placed first"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:746
+msgid "The packages in the order must first be divided into packages"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:752
+msgid "Product shipping labels have already been generated"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1210
+msgid "Click <a href='%s' target='_blank'>here</a> to download the shipping labels."
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1344
+msgid "Click <a href='%s' target='_blank'>here</a> to download the way bills."
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:64
+msgid "Unknown Relay"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:65
+msgid "No address available"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:70
+msgid "Monday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:71
+msgid "Tuesday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:72
+msgid "Wednesday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:73
+msgid "Thursday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:74
+msgid "Friday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:75
+msgid "Saturday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:76
+msgid "Sunday"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:81
+msgid "Relay Name:"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:82
+msgid "Address:"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:83
+msgid "View on Google Maps"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:84
+msgid "Opening Hours"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:101
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:130
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:56
+msgid "Services"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:158
+msgid "Relais Colis - Additional infos"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:186
+#: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:440
+#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-enable.php:75
+msgid "Yes"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:186
+#: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:440
+#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-enable.php:76
+msgid "No"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:207
+msgid "Relais Colis - Informations"
+msgstr ""
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:208
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:79
+msgid "RC Shipping method"
 msgstr ""
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:53
@@ -652,130 +861,76 @@ msgstr ""
 msgid "You do not have sufficient permissions to export orders."
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:114
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:96
 msgid "Weight"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:115
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:97
 msgid "Conforming dimensions"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:116
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:98
 msgid "Conforming goods"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:117
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:99
 msgid "Recipient title"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:118
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:100
 msgid "Recipient last name"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:119
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:101
 msgid "Recipient first name"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:120
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:102
 msgid "Destination address line 1"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:121
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:103
 msgid "Destination address line 2"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:122
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:104
 msgid "Destination postal code"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:123
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:105
 msgid "Destination city"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:124
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:106
 msgid "Destination country"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:125
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:107
 msgid "Recipient email"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:126
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:108
 msgid "Recipient phone"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:127
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:109
 msgid "Destination ID"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:128
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:110
 msgid "Destination name"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:79
-msgid "RC Shipping method"
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:80
+msgid "RC State"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:247
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:302
 msgid "All Relais Colis shipping methods"
 msgstr ""
 
-#: includes/woocommerce/orders/class-wc-orders-manager.php:220
-msgid "Relais Colis - Opening hours"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:223
-msgid "Monday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:224
-msgid "Tuesday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:225
-msgid "Wednesday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:226
-msgid "Thursday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:227
-msgid "Friday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:228
-msgid "Saturday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:229
-msgid "Sunday"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:243
-#: includes/woocommerce/orders/class-wc-orders-manager.php:278
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:56
-msgid "Services"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:306
-msgid "Relais Colis - Additional infos"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:334
-#: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:440
-#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-enable.php:75
-msgid "Yes"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:334
-#: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:440
-#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-enable.php:76
-msgid "No"
-msgstr ""
-
-#: includes/woocommerce/orders/class-wc-orders-manager.php:351
-msgid "Relais Colis - Informations"
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:318
+msgid "All Relais Colis order states"
 msgstr ""
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:123

@@ -99,7 +99,11 @@ class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Reque
     protected function get_specific_dedicated_params() {
 
         return array(
+            // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '08',
+            // pour un relais la valeur est "08" et pour un home ou home + "55"
+            self::PRODUCT_FAMILY => '55',
+
         );
     }
 

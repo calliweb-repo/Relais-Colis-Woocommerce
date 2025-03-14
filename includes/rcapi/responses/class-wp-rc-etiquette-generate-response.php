@@ -31,11 +31,14 @@ class WP_RC_Etiquette_Generate_Response {
      */
     public function get_pdf_delivery_label() {
 
+        WP_Log::notice( __METHOD__, [ '$this->filename' => '##'.$this->filename.'##' ], 'relais-colis-woocommerce' );
+
         // Current date prefix
-        $date_prefixed_filename = date('Y-m-d-H-i-s') .'-'. $this->filename;
+        $date_prefixed_filename = date('Y-m-d-H-i-s') .'-'. trim($this->filename, "\xC2\xA0\x20");
 
         $upload_dir = wp_upload_dir();
         $file_path = $upload_dir['path'] . '/' . $date_prefixed_filename;
+        WP_Log::notice( __METHOD__, [ '$file_path' => '##'.$file_path.'##' ], 'relais-colis-woocommerce' );
 
         // Write data as PDF
         if ( file_put_contents($file_path, $this->response_data) === false ) {

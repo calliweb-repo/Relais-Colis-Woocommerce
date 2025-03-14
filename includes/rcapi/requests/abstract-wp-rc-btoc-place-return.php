@@ -85,6 +85,12 @@ abstract class WP_RC_Place_Return extends WP_Relais_Colis_Request {
 
         $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
+        //"orderId" cela correspond à la commande woocommerce
+        //"customerId" c'est l'id woocommerce du client
+        //"xeett" c'est le xeett du relais choisi par le clint lors de la commande (qui fait l'objet du retour)
+        //"xeettName" idem que pour le xeett
+        //"reference" c'est la référence de la commande dans woocommerce
+        //"prestations" c'est la liste des prestation choisi lors de la commande
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
         );

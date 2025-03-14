@@ -115,6 +115,7 @@ class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
     const HASH_TOKEN = 'hash_token';
 
     private $specific_mandatory_params = array(
+        //"xeett" c'est la valeur xeett de l'objet relais (du relais sélectionné pour la commande)
         self::XEETT,
         self::ADDRESS1_EXPEDITEUR,
         self::ADDRESS2_EXPEDITEUR,
@@ -145,7 +146,11 @@ class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
         $c2c_hashtoken = get_option( WC_RC_Shipping_Constants::OPTION_C2C_HASH_TOKEN );
 
         return array(
+            // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '05',
+            // pour un relais la valeur est "08" et pour un home ou home + "55"
+            self::PRODUCT_FAMILY => '08',
+
             self::HASH_TOKEN => $c2c_hashtoken,
         );
     }

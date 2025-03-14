@@ -79,7 +79,7 @@ class WC_RC_Ajax_Shipping_Price {
             if ( !$is_c2c_interaction_mode ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'Invalid C2C mode', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid mode: only C2C is authorized', 'relais-colis-woocommerce' )
                 ] );
             }
 

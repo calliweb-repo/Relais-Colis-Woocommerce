@@ -25,10 +25,10 @@ defined( 'ABSPATH' ) or exit;
  * ```json
  * {
  *     "activationKey": "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v",
- *     "search_by": "TODO",
- *     "letter_number": "TODO",
- *     "colis1": "TODO",
- *     "colis2": "TODO"
+ *     "search_by": "order",
+ *     "letter_number": "3",
+ *     "colis1": "169", // Order id
+ *     "colis2": "179"
  * }
  * ```
  *
@@ -51,12 +51,13 @@ class WP_RC_Transport_Generate extends WP_Relais_Colis_Request {
     const ACTIVATION_KEY = 'activationKey';
     const SEARCH_BY = 'search_by';
     const LETTER_NUMBER = 'letter_number';
+    const COLIS0 = 'colis0';
     const COLIS1 = 'colis1';
     const COLIS2 = 'colis2';
+    const COLIS = 'colis';
 
     private $mandatory_params = array(
         self::ACTIVATION_KEY,
-        self::SEARCH_BY,
     );
 
     /**
@@ -84,8 +85,13 @@ class WP_RC_Transport_Generate extends WP_Relais_Colis_Request {
 
         $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
 
+        //search_by -> la valeur est toujours à "order"
+        //letter_number -> valeur fixe à 3
+        //colis1 , 2 etc ce sont en fait les référence woocommerce des commandes que l'on veut voir apparaitre sur la lettre de voiture.
         $this->data = array(
             self::ACTIVATION_KEY => $activationKey,
+            self::LETTER_NUMBER => '3',
+            self::SEARCH_BY => 'order',
         );
 
         $this->data = array_merge( $this->data, $params );

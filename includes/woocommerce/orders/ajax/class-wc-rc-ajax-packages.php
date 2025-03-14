@@ -166,10 +166,15 @@ class WC_RC_Ajax_Packages {
                 'updated_colis' => $colis
             ], 'relais-colis-woocommerce' );
 
+            // Get order state
+            $wc_order = wc_get_order( $order_id );
+            $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items
+                'items' => $items,
+                'rc_order_state' => $order_state
             ] );
 
         } catch ( Exception $e ) {
@@ -243,12 +248,25 @@ class WC_RC_Ajax_Packages {
             // Save packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
+            // If no remaining items, then order change to state ORDER_STATE_ITEMS_DISTRIBUTED
+            if ( !WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
+
+                $order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED );
+
+                // Save order
+                $order->save();
+            }
+
             WP_Log::debug( __METHOD__.' - After adding product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+
+            // Get order state
+            $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items
+                'items' => $items,
+                'rc_order_state' => $order_state
             ] );
 
         } catch ( Exception $e ) {
@@ -259,7 +277,7 @@ class WC_RC_Ajax_Packages {
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while adding product to a package', 'relais-colis-woocommerce' ),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -301,12 +319,28 @@ class WC_RC_Ajax_Packages {
             // Save packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
+            // Get WC order
+            $order = wc_get_order( $order_id );
+
+            // If remaining items, then order change to state ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED
+            if ( WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
+
+                $order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED );
+
+                // Save order
+                $order->save();
+            }
+
             WP_Log::debug( __METHOD__.' - After removing product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+
+            // Get order state
+            $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items
+                'items' => $items,
+                'rc_order_state' => $order_state
             ] );
 
         } catch ( Exception $e ) {
@@ -351,12 +385,28 @@ class WC_RC_Ajax_Packages {
             // Save packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
+            // Get WC order
+            $order = wc_get_order( $order_id );
+
+            // If remaining items, then order change to state ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED
+            if ( WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
+
+                $order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED );
+
+                // Save order
+                $order->save();
+            }
+
             WP_Log::debug( __METHOD__.' - After deleting package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+
+            // Get order state
+            $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items
+                'items' => $items,
+                'rc_order_state' => $order_state
             ] );
 
         } catch ( Exception $e ) {
@@ -367,7 +417,7 @@ class WC_RC_Ajax_Packages {
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while removing product from package', 'relais-colis-woocommerce' ),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -383,14 +433,17 @@ class WC_RC_Ajax_Packages {
 
             $order_id = intval( $_POST[ 'order_id' ] );
 
+            // Distribution strategy is : try and put as max as possible items in each package
+            $auto_distribute_packages_result = WC_Order_Packages_Manager::instance()->auto_distribute_packages( $order_id );
+            if ( $auto_distribute_packages_result === false ) {
+
+                wp_send_json_error( [
+                    'message' => __( 'The products have already been distributed into packages', 'relais-colis-woocommerce' ),
+                ] );
+            }
+
             // Load packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
-
-            // Distribution strategy is : try and put as max as possible items in each package
-            $colis = WC_Order_Packages_Manager::instance()->auto_distribute_packages( $items );
-
-            // Save packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
 
             WP_Log::debug( __METHOD__.' - After auto distribute', [
                 'order_id' => $order_id,
@@ -398,9 +451,14 @@ class WC_RC_Ajax_Packages {
                 'colis' => $colis,
             ], 'relais-colis-woocommerce' );
 
+            // Get order state
+            $order = wc_get_order( $order_id );
+            $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => $items
+                'items' => $items,
+                'rc_order_state' => $order_state
             ] );
         } catch ( Exception $e ) {
 
@@ -410,7 +468,7 @@ class WC_RC_Ajax_Packages {
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while auto distributing products into packages', 'relais-colis-woocommerce' ),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -455,10 +513,15 @@ class WC_RC_Ajax_Packages {
 
             WP_Log::debug( __METHOD__.' - After updating package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
 
+            // Get order state
+            $order = wc_get_order( $order_id );
+            $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+
             // Send success response
             wp_send_json_success( [
                 'colis' => $colis,
-                'items' => WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false )
+                'items' => WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false ),
+                'rc_order_state' => $order_state
             ] );
 
         } catch ( Exception $e ) {

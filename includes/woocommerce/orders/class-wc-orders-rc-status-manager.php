@@ -5,6 +5,7 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
+use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Packages_Status;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
@@ -97,16 +98,25 @@ class WC_Orders_RC_Status_Manager {
     public function action_wp_loaded() {
 
         // Get pending shipping status
-        $has_orders_pending_update = WP_Orders_Rel_Shipping_Labels_DAO::instance()->has_orders_pending_update();
-        WP_Log::debug( __METHOD__, [ '$has_orders_pending_update' => $has_orders_pending_update?'true':'false' ], 'relais-colis-woocommerce' );
+        $orders_pending_update = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_orders_pending_update();
+        WP_Log::debug( __METHOD__, [ '$orders_pending_update' => $orders_pending_update?'true':'false' ], 'relais-colis-woocommerce' );
 
         // If not empty, need to update a few shipping status
-        if ( !$has_orders_pending_update ) return;
+        if ( !empty( $orders_pending_update ) ) return;
         
         // Call API
         try {
+            // Get shipping labels
+            $parcel_numbers = array();
+            foreach ( $orders_pending_update as $order_pending_update ) {
 
-            $packages_status = WP_Relais_Colis_API::instance()->get_packages_status( false );
+                $parcel_numbers[] = $order_pending_update['shipping_label'];
+            }
+            $params = array(
+                WP_RC_Get_Packages_Status::PARCEL_NUMBERS => $parcel_numbers,
+            );
+
+            $packages_status = WP_Relais_Colis_API::instance()->get_packages_status( $params, false );
 
             if ( is_null( $packages_status ) ) {
 

@@ -5,13 +5,23 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
+use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Generate;
+use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Relay_Place_Advertisement;
+use RelaisColisWoocommerce\RCAPI\WP_RC_Bulk_Generate;
+use RelaisColisWoocommerce\RCAPI\WP_RC_C2C_Relay_Place_Advertisement;
+use RelaisColisWoocommerce\RCAPI\WP_RC_Place_Advertisement_Request;
+use RelaisColisWoocommerce\RCAPI\WP_RC_Transport_Generate;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use WP_Post;
 use Exception;
 use WC_Order;
+use WC_Order_Query;
 
 /**
  * Class WC_Order_Packages_Manager
@@ -144,6 +154,7 @@ class WC_Order_Packages_Manager {
         WC_RC_Ajax_Shipping_Label::instance();
         WC_RC_Ajax_Shipping_Price::instance();
         WC_RC_Ajax_Shipping_Return::instance();
+        WC_RC_Ajax_Way_Bill::instance();
     }
 
     /**
@@ -196,10 +207,10 @@ class WC_Order_Packages_Manager {
         $screen = get_current_screen();
 
         // Log for debugging
-        WP_Log::debug(__METHOD__, ['screen_id' => $screen->id, 'post_type' => get_post_type()], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'screen_id' => $screen->id, 'post_type' => get_post_type() ], 'relais-colis-woocommerce' );
 
         // Ensure we are on a WooCommerce order edit page
-        if ($screen && $screen->id !== 'shop_order' && $screen->id !== 'woocommerce_page_wc-orders') {
+        if ( $screen && $screen->id !== 'shop_order' && $screen->id !== 'woocommerce_page_wc-orders' ) {
 
             return;
         }
@@ -258,8 +269,12 @@ class WC_Order_Packages_Manager {
             'label_return_number_cab' => __( 'Cab number', 'relais-colis-woocommerce' ),
             'label_return_limit_date' => __( 'Deadline associated with the return', 'relais-colis-woocommerce' ),
             'label_view_return_label' => __( 'URL for related return label', 'relais-colis-woocommerce' ),
+            'label_generate_way_bill' => __( 'Generate way bill', 'relais-colis-woocommerce' ),
+            'label_print_way_bill' => __( 'Print way bill', 'relais-colis-woocommerce' ),
+            'label_error_network' => __( 'A network error occurred: ', 'relais-colis-woocommerce' ),
+            'label_error_unknown' => __( 'Unknown error.', 'relais-colis-woocommerce' ),
+            'label_error_unknown_generate_way_bill' => __( 'Unknown error while generating the way bill', 'relais-colis-woocommerce' ),
         ) );
-
     }
 
     /**
@@ -286,11 +301,29 @@ class WC_Order_Packages_Manager {
     }
 
     /**
+     * Check if items are all distributed
+     * @param $items
+     * @return bool
+     */
+    public function has_remaining_items( $items ) {
+
+        $remaining_quantity = 0;
+        foreach ( $items as $item_id => $item ) {
+
+            if ( isset( $item[ 'remaining_quantity' ] ) ) {
+
+                $remaining_quantity += $item[ 'remaining_quantity' ];
+            }
+        }
+        return ( $remaining_quantity > 0 );
+    }
+
+    /**
      * Build the JSON for remaing items, depending on packages distribution
      * @param WC_Order $order
      * @return string
      */
-    public function build_remaining_items( WC_Order $order, $colis, $json_encoded=true ) {
+    public function build_remaining_items( WC_Order $order, $colis, $json_encoded = true ) {
 
         // Get order items (products purchased in the order).
         $items = $order->get_items();
@@ -308,7 +341,7 @@ class WC_Order_Packages_Manager {
                 'remaining_quantity' => $item->get_quantity() - $this->rc_count_product_in_colis( $product_id, $colis )
             ];
         }
-        WP_Log::debug( __METHOD__.' - After rebuilding items', ['$items_json' => $items_json], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After rebuilding items', [ '$items_json' => $items_json ], 'relais-colis-woocommerce' );
         if ( $json_encoded ) $items_json = json_encode( $items_json );
         return $items_json;
     }
@@ -331,20 +364,20 @@ class WC_Order_Packages_Manager {
 
             if ( array_key_exists( 'shipping_label', $c_colis ) ) {
 
-                $shipping_label = $c_colis['shipping_label'];
+                $shipping_label = $c_colis[ 'shipping_label' ];
 
                 // Get shipping status
                 $shipping_status = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_shipping_status_by_shipping_label( $shipping_label );
-                WP_Log::debug( __METHOD__, ['$shipping_label'=>$shipping_label, '$shipping_status'=>$shipping_status], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ '$shipping_label' => $shipping_label, '$shipping_status' => $shipping_status ], 'relais-colis-woocommerce' );
 
                 if ( !is_null( $shipping_status ) && ( $shipping_status !== WC_RC_Shipping_Constants::STATUS_RC_PENDING ) ) {
 
-                    $c_colis['shipping_status_label'] = WC_RC_Shipping_Constants::get_rc_status_title( $shipping_status );
-                    $c_colis['shipping_status'] = $shipping_status;
+                    $c_colis[ 'shipping_status_label' ] = WC_RC_Shipping_Constants::get_rc_status_title( $shipping_status );
+                    $c_colis[ 'shipping_status' ] = $shipping_status;
                 }
             }
         }
-        WP_Log::debug( __METHOD__.' - Updated colis with shipping statuses', ['$colis'=>$colis], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Updated colis with shipping statuses', [ '$colis' => $colis ], 'relais-colis-woocommerce' );
 
         // Prepare JSON data to pass to JavaScript
         $colis_json = json_encode( $colis );
@@ -369,10 +402,15 @@ class WC_Order_Packages_Manager {
         $return_image_url = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_IMAGE_URL );
         $return_token = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_TOKEN );
         $return_created_at = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_CREATED_AT );
+        // Get way bill info
+        $rc_way_bill = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_WAY_BILL );
+        // Get order state
+        $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+        WP_Log::debug( __METHOD__.' - Order loaded', [ '$order_state' => $order_state, '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
 
         // Inject JSON data into JavaScript
         echo "<script>
-            var c2c_mode = ".(WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()?"1":"0").";
+            var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
             var rc_order_colis = $colis_json;
             var rc_order_items = $items_json;
             var rc_order_id = ".esc_js( $post->ID ).";
@@ -383,6 +421,8 @@ class WC_Order_Packages_Manager {
             var return_image_url = '".$return_image_url."';
             var return_token = '".$return_token."';
             var return_created_at = '".$return_created_at."';
+            var rc_way_bill = '".$rc_way_bill."';
+            var rc_order_state = '".$order_state."';
           </script>";
 
         // Empty container where JavaScript will generate the UI dynamically
@@ -435,9 +475,34 @@ class WC_Order_Packages_Manager {
     /**
      * Auto distribute items in packages
      * @param $items array items to be distributed. These param is modified as a reference
-     * @return array list of packages
+     * @return array list of packages, false if problem occurred
      */
-    public function auto_distribute_packages( &$items ) {
+    public function auto_distribute_packages( $order_id ) {
+
+        // Get WC order
+        $order = wc_get_order( $order_id );
+
+        // Get order state
+        $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+        if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED ) {
+
+            WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, __( 'The products have already been distributed into packages', 'relais-colis-woocommerce' ) );
+            return false;
+        }
+
+        // Load packages
+        [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
 
         // Distribution strategy is : try and put as max as possible items in each package
         $max_weight = 20000; // max per package
@@ -483,7 +548,41 @@ class WC_Order_Packages_Manager {
 
             $colis[] = $current_colis;
         }
-        return $colis;
+
+        // Save packages
+        [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
+
+        // If no remaining items, then order change to state ORDER_STATE_ITEMS_DISTRIBUTED
+        if ( !WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
+
+            $order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED );
+
+            // Save order
+            $order->save();
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, __( 'All the packages have been distributed', 'relais-colis-woocommerce' ) );
+        } else {
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, __( 'There are still packages to be distributed', 'relais-colis-woocommerce' ) );
+        }
     }
 
     /**
@@ -520,7 +619,7 @@ class WC_Order_Packages_Manager {
         $colis = is_array( $colis ) ? array_values( $colis ) : [];
 
         // List of remaining items
-        $items = WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false );
+        $items = $this->build_remaining_items( $order, $colis, false );
 
         WP_Log::debug( __METHOD__.' - Before auto distribute', [
             'order_id' => $order_id,
@@ -555,8 +654,713 @@ class WC_Order_Packages_Manager {
         $wc_order->save();
 
         // List of remaining items
-        $items = WC_Order_Packages_Manager::instance()->build_remaining_items( $wc_order, $packages, false );
+        $items = $this->build_remaining_items( $wc_order, $packages, false );
 
         return array( $packages, $items );
+    }
+
+    /**
+     * Place a way bill for all packages (/transport/generate RC API)
+     * @param WC_Order $wc_orders
+     * @return string the way bill
+     */
+    public function generate_way_bill( WC_Order $wc_orders ) {
+
+        try {
+
+            // Get order state
+            $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+            if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
+
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+            }
+
+            $wc_order_id = $wc_order->get_id();
+
+            // Get interaction mode
+            $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
+
+            // Only for B2C mode
+            if ( $is_c2c_interaction_mode ) {
+
+                // Pb occurred... invalid mode
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
+            }
+
+            // Prepare request (generic part)
+            $dynamic_params = array(
+                WP_RC_Transport_Generate::COLIS0 => $wc_order_id,
+            );
+
+            // Call API
+            $transport_generate = WP_Relais_Colis_API::instance()->transport_generate( $dynamic_params, false );
+
+            if ( is_null( $transport_generate ) ) {
+
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+            }
+
+            // Affect to order :
+            // rc_way_bill
+            $rc_way_bill = $transport_generate->get_pdf_transport_label();
+
+            // Update order
+            $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_WAY_BILL, $rc_way_bill );
+
+            // All is right then change state
+            $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_WAY_BILLS_GENERATED );
+
+            $wc_order->save();
+
+            return $rc_way_bill;
+
+        } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            throw $wp_relais_colis_api_exception;
+        }
+    }
+
+    /**
+     * Place a shipping label for an order
+     * @param $wc_order the WooCommerce order
+     * @return array 2-uple colis and items
+     */
+    public function place_shipping_label( WC_Order $wc_order ) {
+
+        try {
+
+            // Get order state
+            $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+            if ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED ) {
+
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( __( 'The packages in the order must first be divided into packages', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+            } else if ( ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) || ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_WAY_BILLS_GENERATED ) ) {
+
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( __( 'Product shipping labels have already been generated', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+            }
+
+            // Load packages
+            $wc_order_id = $wc_order->get_id();
+            [ $colis, $items ] = $this->load_order_packages( $wc_order_id );
+            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
+
+            // Get interaction mode
+            $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
+
+            // Prepare request (generic part)
+            // Country
+            $country = get_option( 'woocommerce_default_country' ); // Eg: "FR:IDF"
+            $country_array = explode( ":", $country );
+            $store_country = $country_array[ 0 ]; // Country (Eg: FR)
+
+            // Dynamic common params
+            $dynamic_params_place_shipping_label = array(
+                WP_RC_Place_Advertisement_Request::AGENCY_CODE => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, 'C3' ), // Code de l'agence
+                WP_RC_Place_Advertisement_Request::CUSTOMER_ID => ''.$wc_order->get_customer_id(),
+                WP_RC_Place_Advertisement_Request::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
+                WP_RC_Place_Advertisement_Request::CUSTOMER_EMAIL => $wc_order->get_billing_email(),
+                WP_RC_Place_Advertisement_Request::CUSTOMER_PHONE => $wc_order->get_shipping_phone(),
+                WP_RC_Place_Advertisement_Request::CUSTOMER_MOBILE => $wc_order->get_shipping_phone(),
+                WP_RC_Place_Advertisement_Request::ORDER_REFERENCE => $wc_order->get_order_number(),
+                WP_RC_Place_Advertisement_Request::SHIPPING_ADDRESS_1 => $wc_order->get_shipping_address_1(),
+                WP_RC_Place_Advertisement_Request::SHIPPING_ADDRESS_2 => $wc_order->get_shipping_address_2(),
+                WP_RC_Place_Advertisement_Request::SHIPPING_POSTCODE => $wc_order->get_shipping_postcode(),
+                WP_RC_Place_Advertisement_Request::SHIPPING_CITY => $wc_order->get_shipping_city(),
+                WP_RC_Place_Advertisement_Request::SHIPPING_COUNTRY_CODE => $store_country,
+                WP_RC_Place_Advertisement_Request::LANGUAGE => 'FR',
+            );
+
+            // Check if the shipping method is "Relais Colis"
+            $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
+
+            switch ( $rc_shipping_method ) {
+                case WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID:
+
+                    // Get xeett for relay, from meta data
+                    $xeett = '';
+
+                    // Check if relay_data
+                    $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
+                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
+                    if ( !empty( $rc_relay_data ) ) {
+
+                        // Extract informations
+                        $xeett = $rc_relay_data[ 'Xeett' ] ?? '';
+                    }
+
+                    // Request RC API place_advertisement
+                    foreach ( $colis as &$c_colis ) {
+
+                        // Depend on interaction mode (B2C or C2C)
+
+                        // Get package weight
+                        // Weight and dimensions unit
+                        $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+                        $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
+
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$weight;
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$weight;
+
+                        // C2C - Relay
+                        if ( $is_c2c_interaction_mode ) {
+
+                            // Dynamic params
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = $xeett;
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS1_EXPEDITEUR ] = get_option( 'woocommerce_store_address' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS2_EXPEDITEUR ] = get_option( 'woocommerce_store_address_2' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::EMAIL_EXPEDITEUR ] = get_option( 'woocommerce_email_from_address' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CITY_EXPEDITEUR ] = get_option( 'woocommerce_store_city' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::NAME_EXPEDITEUR ] = get_option( 'blogname' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::PHONE_EXPEDITEUR ] = get_option( 'woocommerce_store_phone' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::POSTCODE_EXPEDITEUR ] = get_option( 'woocommerce_store_postcode' );
+
+                            // Call API
+                            $c2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->c2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
+
+                            if ( is_null( $c2c_relay_place_advertisement ) ) {
+
+                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                            }
+
+                            // Display response
+                            if ( $c2c_relay_place_advertisement->validate() ) {
+
+                                $entry = $c2c_relay_place_advertisement->entry;
+
+                                WP_Log::debug( __METHOD__.' - Valid response', [
+                                    'Entry' => $entry,
+                                ], 'relais-colis-woocommerce' );
+
+                                // Set shipping label in colis
+                                $c_colis[ 'shipping_label' ] = $entry;
+
+                                // Init RC status
+                                WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
+
+                            } else {
+
+                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                            }
+                        } // B2C - Relay
+                        else {
+
+                            // Dynamic params
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
+
+                            // Call API
+                            $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
+
+                            if ( is_null( $b2c_relay_place_advertisement ) ) {
+
+                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                            }
+
+                            // Display response
+                            if ( $b2c_relay_place_advertisement->validate() ) {
+
+                                $entry = $b2c_relay_place_advertisement->entry;
+
+                                WP_Log::debug( __METHOD__.' - Valid response', [
+                                    'Entry' => $entry,
+                                ], 'relais-colis-woocommerce' );
+
+                                // Set shipping label in colis
+                                $c_colis[ 'shipping_label' ] = $entry;
+
+                                // Init RC status
+                                WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
+
+                            } else {
+
+                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                            }
+                        }
+                    }
+                    break;
+
+                case WC_RC_Shipping_Method_Home::WC_RC_SHIPPING_METHOD_HOME_ID:
+                case WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID:
+
+                    // Request RC API place_advertisement
+                    foreach ( $colis as &$c_colis ) {
+
+                        // Depend on interaction mode (B2C or C2C)
+
+                        // C2C - Home
+                        if ( $is_c2c_interaction_mode ) {
+
+                            // Not supported
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ] );
+                        } // B2C - Home
+                        else {
+
+                            // Get package weight
+                            // Weight and dimensions unit
+                            $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+                            $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
+
+                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$weight;
+                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$weight;
+
+                            // Call API
+                            $b2c_home_place_advertisement = WP_Relais_Colis_API::instance()->b2c_home_place_advertisement( $dynamic_params_place_shipping_label, false );
+
+                            if ( is_null( $b2c_home_place_advertisement ) ) {
+
+                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                            }
+
+                            // Display response
+                            if ( $b2c_home_place_advertisement->validate() ) {
+
+                                $entry = $b2c_home_place_advertisement->entry;
+
+                                WP_Log::debug( __METHOD__.' - Valid response', [
+                                    'Entry' => $entry,
+                                ], 'relais-colis-woocommerce' );
+
+                                // Set shipping label in colis
+                                $c_colis[ 'shipping_label' ] = $entry;
+
+                                // Init RC status
+                                WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
+
+                            } else {
+
+                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+
+                                // Pb occured... HTML response not permitted
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            // Save packages
+            [ $colis, $items ] = $this->save_order_packages( $colis, $wc_order_id );
+
+            // All is right then change state
+            $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED );
+
+            // Save order
+            $wc_order->save();
+
+            return [ $colis, $items ];
+
+        } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+
+            throw $wp_relais_colis_api_exception;
+        }
+    }
+
+    /**
+     * Place a shipping label for an order
+     * @param $wc_order the WooCommerce order
+     * @return array 2-uple colis and items
+     */
+    public function print_shipping_label( WC_Order $wc_order, $colis_index, $shipping_label ) {
+
+        try {
+
+            // Load packages
+            $wc_order_id = $wc_order->get_id();
+            [ $colis, $items ] = $this->load_order_packages( $wc_order_id );
+            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
+
+            // Get interaction mode
+            $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
+
+            // C2C - Relay
+            if ( $is_c2c_interaction_mode ) {
+
+                // If shipping label is received, then download PDF format
+                // Dynamic params
+                $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
+                $dynamic_params_generate = array(
+                    WP_RC_B2C_Generate::FORMAT => $option_rc_label_format,
+                    WP_RC_B2C_Generate::PDF => $shipping_label,
+                );
+                $c2c_generate = WP_Relais_Colis_API::instance()->c2c_generate( $dynamic_params_generate, false );
+
+                if ( is_null( $c2c_generate ) ) {
+
+                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                    // Pb occured... HTML response not permitted
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                }
+
+                // PDF downloaded successfully
+                $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+
+            } // B2C - Relay
+            else {
+
+                // If shipping label is received, then download PDF format
+                // Dynamic params
+                $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
+                $dynamic_params_generate = array(
+                    WP_RC_B2C_Generate::FORMAT => $option_rc_label_format,
+                    WP_RC_B2C_Generate::PDF => $shipping_label,
+                );
+                $c2c_generate = WP_Relais_Colis_API::instance()->b2c_generate( $dynamic_params_generate, false );
+
+                if ( is_null( $c2c_generate ) ) {
+
+                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                    // Pb occured... HTML response not permitted
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                }
+
+                // PDF downloaded successfully
+                $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+
+            }
+
+            // Save packages
+            [ $colis, $items ] = $this->save_order_packages( $colis, $wc_order_id );
+
+            // All is right then change state
+            $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED );
+
+            // Save order
+            $wc_order->save();
+
+            return [ $colis, $items ];
+
+        } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+
+            throw $wp_relais_colis_api_exception;
+        }
+    }
+
+    /**
+     * Get all orders which are in a given state :
+     * @param $state string One of ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED, ORDER_STATE_ITEMS_DISTRIBUTED, ORDER_STATE_SHIPPING_LABELS_PLACED, ORDER_STATE_WAY_BILLS_GENERATED
+     * @return array of order ids
+     */
+    public function get_orders_with_state( $state ) {
+
+        // Check that state does exist
+        $authorized_states = WC_RC_Shipping_Constants::get_order_states();
+        WP_Log::debug( __METHOD__, [ '$authorized_states' => $authorized_states ], 'relais-colis-woocommerce' );
+
+        if ( !array_key_exists( $state, $authorized_states ) ) {
+
+            return array();
+        }
+
+        $args = [
+            'limit' => -1,
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'return' => 'ids',
+            'meta_query' => [
+                [
+                    'key' => WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE,
+                    'value' => $state,
+                    'compare' => '='
+                ],
+            ],
+        ];
+
+        $query = new WC_Order_Query( $args );
+        WP_Log::debug( __METHOD__, [ '$query' => $query, 'args' => $args ], 'relais-colis-woocommerce' );
+
+        $order_ids = $query->get_orders();
+        WP_Log::debug( __METHOD__, [ '$order_ids' => $order_ids ], 'relais-colis-woocommerce' );
+        return $order_ids;
+    }
+
+    /**
+     * Bulk print shipping labels
+     * @param $order_ids array of order IDs
+     * @return void
+     */
+    public function bulk_print_shipping_labels( $order_ids ) {
+
+        // Final result : if a few errors occurred, notices will be displayed, but not PDF returned
+        $final_result = true;
+        $shipping_labels_to_printed = array();
+
+        // Parse all orders
+        foreach ( $order_ids as $order_id ) {
+
+            try {
+                // Get WC order
+                $wc_order = wc_get_order( $order_id );
+
+                // Get order state
+                $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+                if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
+
+                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+                    // Pb occured... HTML response not permitted
+                    $final_result = false;
+                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                }
+
+                // State is ok then get all shipping labels for these order
+                $shipping_labels_by_order_id = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_shipping_labels_by_order_id( $order_id );
+                if ( !empty( $shipping_labels_by_order_id ) ) {
+
+                    foreach ( $shipping_labels_by_order_id as $shipping_label_by_order_id ) {
+
+                        $shipping_labels_to_printed[] = $shipping_label_by_order_id[ 'shipping_label' ];
+                    }
+                }
+
+
+            } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+
+                /**
+                 * Notify 3rd party code on Relais Colis bulk action result
+                 *
+                 * @param int $order_id The order ID
+                 * @param boolean $is_success true if success, otherwise false
+                 * @param string $message A message associated with the hook
+                 * @since 1.0.0
+                 *
+                 */
+                do_action( "after_bulk_actions_rc_shop_order", $order_id, false, $wp_relais_colis_api_exception->getMessage() );
+
+            }
+        }
+
+        // If errors occured, no need to call API
+        if ( !$final_result ) return;
+
+        WP_Log::debug( __METHOD__.' - Shipping labels extracted from orders', [ '$shipping_labels_to_printed' => $shipping_labels_to_printed, 'order_ids' => $order_ids ], 'relais-colis-woocommerce' );
+
+        // Call API
+        try {
+            // Get format from config
+            $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
+
+            // Dynamic params
+            $dynamic_params = array(
+                WP_RC_Bulk_Generate::FORMAT => $option_rc_label_format,
+            );
+            $index = 1;
+            foreach ( $shipping_labels_to_printed as $shipping_label_to_printed ) {
+
+                $dynamic_params[ WP_RC_Bulk_Generate::ETIQUETTE.''.$index ] = $shipping_label_to_printed;
+                $index++;
+            }
+
+            // Call API
+            $bulk_generate = WP_Relais_Colis_API::instance()->bulk_generate( $dynamic_params, false );
+
+            if ( is_null( $bulk_generate ) ) {
+
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+            }
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            $message = sprintf(
+                __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
+                esc_url( $bulk_generate->get_pdf_delivery_label() )
+            );
+            WP_Log::notice( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-woocommerce' );
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, $message );
+
+        } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, $wp_relais_colis_api_exception->getMessage() );
+
+        }
+    }
+
+    /**
+     * Bulk generate way bills
+     * @param $order_ids array of order IDs
+     * @return void
+     */
+    public function bulk_generate_way_bills( $order_ids ) {
+
+        // Final result : if a few errors occurred, notices will be displayed, but not PDF returned
+        $final_result = true;
+        $way_bills_to_be_generated = array();
+
+        // Parse all orders
+        foreach ( $order_ids as $order_id ) {
+
+            try {
+                // Get WC order
+                $wc_order = wc_get_order( $order_id );
+
+                // Get order state
+                $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+                if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
+
+                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+
+                    // Pb occured... HTML response not permitted
+                    $final_result = false;
+                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                }
+
+            } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+
+                /**
+                 * Notify 3rd party code on Relais Colis bulk action result
+                 *
+                 * @param int $order_id The order ID
+                 * @param boolean $is_success true if success, otherwise false
+                 * @param string $message A message associated with the hook
+                 * @since 1.0.0
+                 *
+                 */
+                do_action( "after_bulk_actions_rc_shop_order", $order_id, false, $wp_relais_colis_api_exception->getMessage() );
+
+            }
+        }
+
+        // If errors occured, no need to call API
+        if ( !$final_result ) return;
+
+        // Call API
+        try {
+
+            // Get interaction mode
+            $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
+
+            // Only for B2C mode
+            if ( $is_c2c_interaction_mode ) {
+
+                // Pb occurred... invalid mode
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
+            }
+
+            // Prepare request (generic part)
+            $dynamic_params = array();
+            $index = 0;
+            foreach ( $order_ids as $order_id ) {
+
+                $dynamic_params[ WP_RC_Transport_Generate::COLIS.''.$index ] = $order_id;
+            }
+
+            // Call API
+            $transport_generate = WP_Relais_Colis_API::instance()->transport_generate( $dynamic_params, false );
+
+            if ( is_null( $transport_generate ) ) {
+
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+
+                // Pb occured... HTML response not permitted
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+            }
+
+            // Affect to order :
+            // rc_way_bill
+            $rc_way_bill = $transport_generate->get_pdf_transport_label();
+
+            // Update order states
+            foreach ( $order_ids as $order_id ) {
+
+                // Get WC order
+                $wc_order = wc_get_order( $order_id );
+
+                $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_WAY_BILL, $rc_way_bill );
+
+                // All is right then change state
+                $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_WAY_BILLS_GENERATED );
+
+                $wc_order->save();
+            }
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            $message = sprintf(
+                __( "Click <a href='%s' target='_blank'>here</a> to download the way bills.", 'relais-colis-woocommerce' ),
+                esc_url( $rc_way_bill )
+            );
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, $message );
+
+        } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
+
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+
+            /**
+             * Notify 3rd party code on Relais Colis bulk action result
+             *
+             * @param int $order_id The order ID
+             * @param boolean $is_success true if success, otherwise false
+             * @param string $message A message associated with the hook
+             * @since 1.0.0
+             *
+             */
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, $wp_relais_colis_api_exception->getMessage() );
+
+        }
     }
 }

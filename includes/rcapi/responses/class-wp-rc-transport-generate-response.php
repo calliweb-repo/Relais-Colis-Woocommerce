@@ -31,8 +31,6 @@ class WP_RC_Transport_Generate_Response {
      */
     public function get_pdf_transport_label() {
 
-        // TODO Adapter selon RC API
-
         // Current date prefix
         $date_prefixed_filename = date('Y-m-d-H-i-s') .'-'. $this->filename;
 

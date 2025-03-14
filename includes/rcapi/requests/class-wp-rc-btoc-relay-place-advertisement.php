@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) or exit;
  *
  * Example Parameters:
  * - activationKey (string): The activation key used for authentication (e.g., "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v").
- * - activityCode (string): The activity code for the operation (e.g., "05").
+ * - activityCode (string): The activity code for the operation (e.g., "05") -> "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
  * - agencyCode (string): The code of the agency responsible for the delivery (e.g., "AGENCY123").
  * - customerId (string): The unique identifier of the customer (e.g., "99").
  * - customerFullname (string): The full name of the customer (e.g., "Tom Hatte").
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) or exit;
  * - orderType (string): The type of the order (e.g., "1").
  * - orderTypeSub (string): The subtype of the order (e.g., "1").
  * - pickingSite (string): The picking site for the delivery (e.g., "0").
- * - productFamily (string): The product family code (e.g., "08").
+ * - productFamily (string): The product family code (e.g., "08"). -> pour un relais la valeur est "08" et pour un home ou home + "55"
  * - pseudoRvc (string): The pseudo RVC identifier (e.g., "RVC123").
  * - orderReference (string): The reference ID of the order (e.g., "ORD123456789").
  * - sensitiveProduct (string): Indicates if the product is sensitive (e.g., "0").
@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) or exit;
  * ```json
  * {
  *     "activationKey": "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v",
- *     "activityCode": "05",
+ *     "activityCode": "05", -> "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
  *     "agencyCode": "AGENCY123",
  *     "customerId": "99",
  *     "customerFullname": "Tom Hatte",
@@ -57,7 +57,7 @@ defined( 'ABSPATH' ) or exit;
  *     "orderType": "1",
  *     "orderTypeSub": "1",
  *     "pickingSite": "0",
- *     "productFamily": "08",
+ *     "productFamily": "08", -> pour un relais la valeur est "08" et pour un home ou home + "55"
  *     "pseudoRvc": "RVC123",
  *     "orderReference": "ORD123456789",
  *     "sensitiveProduct": "0",
@@ -85,11 +85,10 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Request {
 
-    const PSEUDO_RVC = 'pseudoRvc';
     const XEETT = 'xeett';
 
     private $specific_mandatory_params = array(
-        self::PSEUDO_RVC,
+        //"xeett" c'est la valeur xeett de l'objet relais (du relais sélectionné pour la commande)
         self::XEETT,
     );
 
@@ -110,7 +109,10 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
     protected function get_specific_dedicated_params() {
 
         return array(
+            // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '05',
+            // pour un relais la valeur est "08" et pour un home ou home + "55"
+            self::PRODUCT_FAMILY => '08',
         );
     }
 

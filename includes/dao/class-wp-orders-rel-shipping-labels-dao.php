@@ -123,7 +123,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         $one_day_ago = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 
         $sql = "
-            SELECT DISTINCT order_id 
+            SELECT * 
             FROM {$this->table_name}
             WHERE last_updated < %s
             AND shipping_status NOT IN (%s, %s)

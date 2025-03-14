@@ -11,6 +11,17 @@ defined( 'ABSPATH' ) or exit;
  */
 abstract class WC_RC_Shipping_Constants {
 
+    // States for orders packaging
+    // State is store in meta data WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE
+    // Just after order checkout, state is ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED
+    // When distribution of items in packages is finished, state becomes ORDER_STATE_ITEMS_DISTRIBUTED
+    // From state ORDER_STATE_ITEMS_DISTRIBUTED, when shipping labels have been placed (generated), state becomes ORDER_STATE_SHIPPING_LABELS_PLACED
+    // From state ORDER_STATE_SHIPPING_LABELS_PLACED, when way bills have been generated, state becomes ORDER_STATE_WAY_BILLS_GENERATED
+    const ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED = 'order_state_items_to_be_distributed';
+    const ORDER_STATE_ITEMS_DISTRIBUTED = 'order_state_items_distributed';
+    const ORDER_STATE_SHIPPING_LABELS_PLACED = 'order_state_shipping_labels_placed';
+    const ORDER_STATE_WAY_BILLS_GENERATED = 'order_state_way_bills_generated';
+
     // List or order meta data
     // -> Misc. infos about shipping
     const ORDER_META_DATA_RC_COLIS = '_rc_colis';
@@ -18,6 +29,7 @@ abstract class WC_RC_Shipping_Constants {
     const ORDER_META_DATA_RC_SERVICES = 'rc_services';
     const ORDER_META_DATA_RC_RELAY_DATA = 'rc_relay_data';
     const ORDER_META_DATA_RC_SHIPPING_METHOD = 'rc_shipping_method';
+    const ORDER_META_DATA_RC_STATE = 'rc_state';
     // -> For return
     const ORDER_META_DATA_RC_RETURN_BORDEREAU_SMART_URL = 'rc_return_bordereau_smart_url';
     const ORDER_META_DATA_RC_RETURN_RETURN_NUMBER = 'rc_return_return_number';
@@ -26,6 +38,8 @@ abstract class WC_RC_Shipping_Constants {
     const ORDER_META_DATA_RC_RETURN_IMAGE_URL = 'rc_return_image_url';
     const ORDER_META_DATA_RC_RETURN_TOKEN = 'rc_return_token';
     const ORDER_META_DATA_RC_RETURN_CREATED_AT = 'rc_return_created_at';
+    // -> For waybill
+    const ORDER_META_DATA_RC_WAY_BILL = 'rc_way_bill';
 
     // Live / Test mode
     // Option key
@@ -92,7 +106,7 @@ abstract class WC_RC_Shipping_Constants {
     // Api C2C hash token
     const OPTION_C2C_HASH_TOKEN = WC_RC_Shipping_Constants::RC_OPTION_PREFIX.'c2c_hash_token';
 
-    // Configuration
+    // Configuration stored as option
     const CONFIGURATION_ENSEIGNE_ID = 'ens_id';
     const CONFIGURATION_ENSEIGNE_ID_LIGHT = 'ens_id_light';
     const CONFIGURATION_ENSEIGNE_NOM = 'ens_name';
@@ -114,7 +128,6 @@ abstract class WC_RC_Shipping_Constants {
     const CONFIGURATION_UPDATED_BY = 'updated_by';
     const CONFIGURATION_CREATED_AT = 'created_at';
     const CONFIGURATION_UPDATED_AT = 'updated_at';
-    const CONFIGURATION_XEETT = 'xeett';
 
     // Configuration options
     const CONFIGURATION_OPTION_ID = 'id';
@@ -174,7 +187,6 @@ abstract class WC_RC_Shipping_Constants {
             self::CONFIGURATION_UPDATED_BY => __( 'Updated By', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_CREATED_AT => __( 'Created At', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_UPDATED_AT => __( 'Updated At', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_XEETT => __( 'Xeett', 'relais-colis-woocommerce' ),
         ];
 
         return $titles[ $rc_configuration_slug ] ?? __( 'Unknown Field', 'relais-colis-woocommerce' );
@@ -297,6 +309,37 @@ abstract class WC_RC_Shipping_Constants {
         ];
 
         return $titles[ $information_slug ] ?? __( 'Unknown Information', 'relais-colis-woocommerce' );
+    }
+
+    /**
+     * Get title from order state
+     * @param $order_state the slug of the order state
+     * @return string|void the human-readable title
+     */
+    public static function get_order_state_title( string $order_state ) {
+
+        $titles = [
+            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-woocommerce' ),
+        ];
+
+        return $titles[ $order_state ] ?? __( 'Unknown order state', 'relais-colis-woocommerce' );
+    }
+
+    /**
+     * Get order states
+     * @return string[]
+     */
+    public static function get_order_states() {
+
+        return array(
+            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-woocommerce' ),
+        );
     }
 
     /**

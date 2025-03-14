@@ -92,6 +92,9 @@
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Shipping_Field_Multiselect_Products' => 'includes/woocommerce/settings/fields/class-wc-rc-shipping-field-multiselect-products.php',
         // ORDERS
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_Manager' => 'includes/woocommerce/orders/class-wc-orders-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Customer_Orders_Manager' => 'includes/woocommerce/orders/class-wc-customer-orders-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Emails_Orders_Manager' => 'includes/woocommerce/orders/class-wc-emails-orders-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Order_Shipping_Infos_Manager' => 'includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_RC_Status_Manager' => 'includes/woocommerce/orders/class-wc-orders-rc-status-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_List_Table_Manager' => 'includes/woocommerce/orders/class-wc-orders-list-table-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Csv_Export_Manager' => 'includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php',
@@ -100,6 +103,13 @@
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Label' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php',
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Price' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php',
         'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Shipping_Return' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_RC_Ajax_Way_Bill' => 'includes/woocommerce/orders/ajax/class-wc-rc-ajax-way-bill.php',
+        // BULK ACTIONS
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Actions_Manager' => 'includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Auto_Distribute_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-auto-distribute-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Place_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-place-labels-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Print_Shipping_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-print-shipping-labels-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-generate-way-bills-manager.php',
         // DAOs
         'RelaisColisWoocommerce\\DAO\\WP_Configuration_DAO' => 'includes/dao/class-wp-configuration-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Information_DAO' => 'includes/dao/class-wp-information-dao.php',

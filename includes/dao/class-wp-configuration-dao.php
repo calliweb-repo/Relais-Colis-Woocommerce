@@ -44,7 +44,6 @@ class WP_Configuration_DAO {
         $return_login = sanitize_text_field( $response->get_return_login() );
         $return_pass = sanitize_text_field( $response->get_return_pass() );
         $agency_code = sanitize_text_field( $response->get_agency_code() );
-        $xeett = sanitize_text_field( $response->get_xeett() );
         $return_site = sanitize_text_field( $response->get_return_site() );
         $updated_by = absint( $response->get_updated_by() );
         $created_at = date( 'Y-m-d H:i:s', strtotime( $response->get_created_at() ) );
@@ -69,7 +68,6 @@ class WP_Configuration_DAO {
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS, $return_pass );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, $agency_code );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE, $return_site );
-        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_XEETT, $xeett );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, $updated_by );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, $created_at );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT, $updated_at );
@@ -140,7 +138,6 @@ class WP_Configuration_DAO {
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT );
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT );
-        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_XEETT );
 
         // Delete related options
         global $wpdb;
@@ -183,7 +180,6 @@ class WP_Configuration_DAO {
                 WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY => absint( get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, 0 ) ),
                 WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, '' ),
                 WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT, '' ),
-                WC_RC_Shipping_Constants::CONFIGURATION_XEETT => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_XEETT, '' ),
             ];
         //}
 
