@@ -131,7 +131,7 @@ class WC_RC_Shipping_Infos_Settings {
         }
 
         // Get RC configuration
-        $rc_configuration = WP_Configuration_DAO::instance()->get_rc_configuration();
+        $rc_configuration = WP_Configuration_DAO::instance()->get_rc_configuration( true );
         WP_Log::debug( __METHOD__, [ '$rc_configuration' => $rc_configuration ], 'relais-colis-woocommerce' );
 
         // Generate HTML for configurations

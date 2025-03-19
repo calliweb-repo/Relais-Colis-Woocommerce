@@ -196,7 +196,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function action_http_api_debug( array|WP_Error $response, string $context, string $class, array $parsed_args, string $url ) {
 
-        WP_Log::notice( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
     }
 
     /**

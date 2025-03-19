@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-
     console.log('🚀 RC Choose Options init - Old Checkout');
 
     "use strict";
@@ -8,25 +7,26 @@ jQuery(document).ready(function ($) {
         console.error('❌ rc_choose_options_h or rc_choose_options_hp is undefined. Check if wp_localize_script() is properly set.');
         return;
     }
+    let lastUpdateShippingRequest = null; // Stocke la dernière méthode de livraison sélectionnée
 
     /**
      * Detect the selected shipping method
      */
     function getSelectedShippingMethod() {
+        console.log("🔍 Début de la détection de la méthode de livraison sélectionnée.");
         let selectedMethod = null;
+        let selectedValue = $('input[name="shipping_method[0]"]:checked').val() || $('input[name="shipping_method[0]"]').val();
+        console.log("💡 Valeur sélectionnée:", selectedValue);
 
-        // Detect WooCommerce Checkout (old shortcode)
-        $('input[type="radio"][name="shipping_method[0]"]:checked').each(function () {
-            if ($(this).val() === 'wc_rc_shipping_method_home') {
-                selectedMethod = 'home';
-            } else if ($(this).val() === 'wc_rc_shipping_method_homeplus') {
-                selectedMethod = 'homeplus';
-            } else if ($(this).val() === 'wc_rc_shipping_method_relay') {
-                selectedMethod = 'relay';
-            }
-        });
+        if (selectedValue === 'wc_rc_shipping_method_home') {
+            selectedMethod = 'home';
+        } else if (selectedValue === 'wc_rc_shipping_method_homeplus') {
+            selectedMethod = 'homeplus';
+        } else if (selectedValue === 'wc_rc_shipping_method_relay') {
+            selectedMethod = 'relay';
+        }
 
-        console.log("Selected method is "+selectedMethod);
+        console.log("✅ Méthode de livraison sélectionnée:", selectedMethod);
         return selectedMethod;
     }
 
@@ -41,38 +41,57 @@ jQuery(document).ready(function ($) {
     }
 
     /**
-     * Affiche/Masque les options de livraison en fonction du choix de l'utilisateur
+     * HTML code for Relay selection button
+     */
+    function getRelayColisHtml() {
+        return `
+        <div id="relais-colis-block">
+            <button id="btnChooseRelay" class="rc-btn rc-btn-primary">
+                Choisir un point relais
+            </button>
+            <div id="selected-relay-info">
+                <strong>Relais sélectionné :</strong>
+                <p id="selected-relay-name"></p>
+                <p id="selected-relay-address"></p>
+                <p id="selected-relay-zip-city"></p>
+            </div>
+        </div>`;
+    }
+
+    /**
+     * Display/hide shipping options based on user selection
      */
     function checkRCOldShippingMethod() {
         const selectedMethod = getSelectedShippingMethod();
 
         if (selectedMethod === 'home') {
             if (!$('#'+rc_choose_options_h.div_id).length) {
-                console.log("✅ Adding block Relais Colis...");
+
                 $('#shipping_method').after(rc_choose_options_h.html);
             }
             $('#'+rc_choose_options_h.div_id).show();
             $('#'+rc_choose_options_hp.div_id).hide();
+            $('#relais-colis-block').hide().remove();
 
         } else if (selectedMethod === 'homeplus') {
+
             if (!$('#'+rc_choose_options_hp.div_id).length) {
-                console.log("✅ Adding block Relais Colis...");
                 $('#shipping_method').after(rc_choose_options_hp.html);
             }
             $('#'+rc_choose_options_hp.div_id).show();
             $('#'+rc_choose_options_h.div_id).hide();
-        } else {
+            $('#relais-colis-block').hide().remove();
+
+        } else if (selectedMethod === 'relay') {
+
             $('#'+rc_choose_options_h.div_id).hide();
             $('#'+rc_choose_options_hp.div_id).hide();
 
-            // Forcer un reset AJAX des services et frais
-            //resetRCOldSelectedServices();
+            $('#shipping_method').after(getRelayColisHtml());
+            $('#relais-colis-block').show();
         }
     }
 
-    /**
-     * Update WooCommerce with selected services
-     */
     function updateRCOldSelectedServices() {
         const params = getAjaxParams();
         const selectedMethod = getSelectedShippingMethod();
@@ -114,9 +133,6 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        console.log(`✅ Services sélectionnés pour ${selectedMethod}:`, selectedServiceFees);
-        console.log(`✅ Services infos sélectionnés pour ${selectedMethod}:`, selectedServiceInfos);
-
         // Sauvegarde temporaire en localStorage
         localStorage.setItem('rc_selected_service_fees', JSON.stringify(selectedServiceFees));
         localStorage.setItem('rc_selected_service_infos', JSON.stringify(selectedServiceInfos));
@@ -134,6 +150,7 @@ jQuery(document).ready(function ($) {
             },
             success: function () {
                 console.log("✅ Options mises à jour, rafraîchissement du checkout.");
+                lastUpdateShippingRequest = selectedMethod;
                 $('body').trigger('update_checkout');
             },
             error: function (xhr) {
@@ -149,9 +166,11 @@ jQuery(document).ready(function ($) {
         console.log("🔄 Réinitialisation des services...");
         const params = getAjaxParams();
 
+        // Local storage reset
         localStorage.setItem('rc_selected_service_fees', JSON.stringify([]));
         localStorage.setItem('rc_selected_service_infos', JSON.stringify({}));
 
+        // Reset des champs
         $('li.service-fee input[name^="rc_service_"]').prop('checked', false);
         $('li.service-info input[name^="rc_service_"], li.service-info select[name^="rc_service_"], li.service-info textarea[name^="rc_service_"]').each(function () {
             let fieldType = $(this).attr('type');
@@ -191,32 +210,39 @@ jQuery(document).ready(function ($) {
         restoreRCOldSelectedServices();
     });
 
+    /**
+     * Interception de la requête WooCommerce update_order_review
+     * Cette requete est effectuée en amont de updated_checkout et auto par WooCOmmerce...
+     */
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (options.url.indexOf('wc-ajax=update_order_review') !== -1) {
+            console.log('Intercepted WooCommerce update_order_review request.');
 
-    // Initialisation
-    setTimeout(() => {
-        console.log("⏳ Vérification post-chargement du mode de livraison...");
-        checkRCOldShippingMethod();
-        resetRCOldSelectedServices();
-        updateRCOldSelectedServices();
-    }, 400);
+            let currentShippingMethod = getSelectedShippingMethod();
+
+            // Si la méthode de livraison a changé depuis la dernière requête, ajoute rc_reset_infos=1
+            if (lastUpdateShippingRequest === null || lastUpdateShippingRequest !== currentShippingMethod) {
+                console.log('Shipping method changed, adding rc_reset_infos parameter.');
+                options.data += '&rc_reset_infos=1';
+            }
+        }
+    });
 
     // Listeners
     $(document).on('change', 'input[type="radio"][name="shipping_method[0]"]', function () {
-        checkRCOldShippingMethod();
-        setTimeout(() => {
-            console.log("⏳ Vérification post-chargement du mode de livraison...");
-            resetRCOldSelectedServices();
-            updateRCOldSelectedServices();
-        }, 400);
+
+        resetRCOldSelectedServices();
     });
 
-    $(document).on('change', 'input[name^="rc_service_"], select[name^="rc_service_"], textarea[name^="rc_service_"]', function () {
-        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-            if (options.url.indexOf('wc-ajax=update_order_review') !== -1) {
-                options.async = false;  // Force la mise à jour à être synchrone
-            }
-        });
+    // Vérifier si on est bien sur la page Checkout
+    if ($("body").hasClass("woocommerce-checkout")) {
+        console.log("✅ Chargement initial de la page Checkout détecté");
+        resetRCOldSelectedServices();
+    }
 
+
+    $(document).on('change', 'input[name^="rc_service_"], select[name^="rc_service_"], textarea[name^="rc_service_"]', function () {
+        console.log("🔄 Clic sur service détecté...");
         updateRCOldSelectedServices();
     });
 });

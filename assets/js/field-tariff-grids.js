@@ -16,8 +16,8 @@ jQuery(document).ready(function ($) {
                     <label>${rc_ajax.delivery_method_label}</label>
                     <select name="tariffs[${tariffIndex}][method_name]">
                         <option value="rc" ${tariff.method_name === 'rc' ? 'selected' : ''}>Relais Colis</option>
-                        <option value="h" ${tariff.method_name === 'h' ? 'selected' : ''}>Home</option>
-                        <option value="hp" ${tariff.method_name === 'hp' ? 'selected' : ''}>Home+</option>
+                        <option value="h" ${tariff.method_name === 'h' ? 'selected' : ''}>Relais Colis Home</option>
+                        <option value="hp" ${tariff.method_name === 'hp' ? 'selected' : ''}>Relais Colis Home+</option>
                     </select>
 
                     <label>${rc_ajax.criteria_label}</label>
@@ -54,8 +54,8 @@ jQuery(document).ready(function ($) {
                 <label>${rc_ajax.delivery_method_label}</label>
                 <select name="tariffs[${tariffIndex}][method_name]">
                     <option value="rc">Relais Colis</option>
-                    <option value="h">Home</option>
-                    <option value="hp">Home+</option>
+                    <option value="h">Relais Colis Home</option>
+                    <option value="hp">Relais Colis Home+</option>
                 </select>
                 
                 <label>${rc_ajax.criteria_label}</label>

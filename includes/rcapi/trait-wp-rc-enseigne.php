@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) or exit;
  *     - <livemapping_api>, <livemapping_pid>, <livemapping_key> (string/int): Mapping and API configuration data.
  *     - <return_version>, <return_login>, <return_pass> (string): Return-related configuration details.
  *     - <folder> (string): Name of the folder associated with the configuration.
- *     - <address1>, <postcode>, <city>, <agency_code> (string): Address and agency details.
+ *     - <address1>, <address2>, <postcode>, <city>, <agency_code> (string): Address and agency details.
  *     - <return_site> (string): Return site identifier.
  *     - <activation_key> (string): Activation key for the configuration.
  *     - <created_at>, <updated_at> (datetime): Timestamps indicating creation and last update times.
@@ -199,6 +199,10 @@ trait WP_RC_Enseigne {
 
     public function get_address1() {
         return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1 );
+    }
+
+    public function get_address2() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE2 );
     }
 
     public function get_postcode() {

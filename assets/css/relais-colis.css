@@ -208,3 +208,18 @@ h2 {
 .woocommerce-order-details .rc-shipping-info .rc-logo {
     width: 236px;
 }
+
+/** Shipping infos - Thank you page **/
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info h4 {
+    margin: 18px 0px;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info p {
+    margin: 12px 0px;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info ul {
+    margin: 12px 0px;
+    list-style-type: none;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info .rc-logo {
+    width: 236px;
+}

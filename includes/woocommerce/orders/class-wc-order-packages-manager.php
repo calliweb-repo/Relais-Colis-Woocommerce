@@ -1210,7 +1210,7 @@ class WC_Order_Packages_Manager {
                 __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
                 esc_url( $bulk_generate->get_pdf_delivery_label() )
             );
-            WP_Log::notice( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-woocommerce' );
             do_action( "after_bulk_actions_rc_shop_order", $order_id, true, $message );
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {

@@ -63,6 +63,7 @@ defined( 'ABSPATH' ) or exit;
  *     - <return_pass> (string): Password for return configuration (wrapped in <![CDATA[]]>).
  *     - <folder> (string): Related folder name.
  *     - <address1> (string): Address associated with the service.
+ *     - <address2> (string): Address associated with the service.
  *     - <postcode> (string): Postal code of the address.
  *     - <city> (string): City of the address.
  *     - <agency_code> (string): Agency code associated with the service.
@@ -104,6 +105,7 @@ defined( 'ABSPATH' ) or exit;
  *     <return_pass><![CDATA[Wsret4Hprod]]></return_pass>
  *     <folder><![CDATA[Testweplusprepod]]></folder>
  *     <address1><![CDATA[123 rue du test]]></address1>
+ *     <address2><![CDATA[123 rue du test]]></address2>
  *     <postcode><![CDATA[59000]]></postcode>
  *     <city><![CDATA[lille]]></city>
  *     <agency_code><![CDATA[P9]]></agency_code>

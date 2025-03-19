@@ -100,8 +100,14 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
 
             foreach ( $tariff[ 'lines' ] as $line ) {
 
-                if ( !isset( $line[ 'min' ], $line[ 'price' ] ) || !is_numeric( $line[ 'min' ] ) || !is_numeric( $line[ 'price' ] ) ) {
+                if ( !isset( $line[ 'min' ] ) || !is_numeric( $line[ 'min' ] ) ) {
 
+                    WC_Admin_Settings::add_error( __( "A min value must be entered.", 'relais-colis-woocommerce' ) );
+                    continue;
+                }
+                if ( !isset( $line[ 'price' ] ) || !is_numeric( $line[ 'price' ] ) ) {
+
+                    WC_Admin_Settings::add_error( __( "A price value must be entered.", 'relais-colis-woocommerce' ) );
                     continue;
                 }
 

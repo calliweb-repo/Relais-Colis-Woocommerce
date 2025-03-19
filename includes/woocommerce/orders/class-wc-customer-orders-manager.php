@@ -5,10 +5,7 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
-use RelaisColisWoocommerce\WC_RC_Services_Manager;
-use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
-use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 /**
  * Class WC_Customer_Orders_Manager
@@ -54,7 +51,10 @@ class WC_Customer_Orders_Manager {
         ////////////////////////////////// END TEST //////////////////////////////////
 
         // Display infos on customer order details page, in My account -> Orders -> Order page
-        add_action( 'woocommerce_order_details_after_order_table', array( $this, 'woocommerce_order_details_after_order_table' ), 10, 1 );
+        add_action( 'woocommerce_order_details_after_order_table', array( $this, 'action_woocommerce_order_details_after_order_table' ), 10, 1 );
+
+        // And on thank you page
+        add_action( 'woocommerce_thankyou', array( $this, 'action_woocommerce_thankyou' ), 10, 1 );
 
         // Register scripts
         add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
@@ -66,7 +66,7 @@ class WC_Customer_Orders_Manager {
     public function action_wp_enqueue_scripts() {
 
         // Check if we are in the WordPress admin area
-        if ( !is_account_page() || !is_wc_endpoint_url( 'view-order' ) ) {
+        if ( !is_account_page() && !is_wc_endpoint_url( 'view-order' ) && !is_wc_endpoint_url( 'order-received' ) ) {
             return;
         }
 
@@ -75,11 +75,29 @@ class WC_Customer_Orders_Manager {
     }
 
     /**
+     * Display infos n thank you page
+     * @param $order_id
+     */
+    public function action_woocommerce_thankyou( $order_id ) {
+
+        if ( ! $order_id ) {
+            return;
+        }
+
+        // Get order
+        $wc_order = wc_get_order( $order_id );
+        if ( ! $wc_order ) {
+            return;
+        }
+        WC_Order_Shipping_Infos_Manager::instance()->render_shipping_infos( $wc_order );
+    }
+
+    /**
      * Display infos on customer order details page, in My account -> Orders -> Order page
      * @param $wc_order
      * @return void
      */
-    public function woocommerce_order_details_after_order_table( $wc_order ) {
+    public function action_woocommerce_order_details_after_order_table( $wc_order ) {
 
         // Check if we are in the WordPress admin area
         if ( !is_account_page() || !is_wc_endpoint_url( 'view-order' ) ) {

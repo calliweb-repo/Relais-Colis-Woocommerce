@@ -10,34 +10,10 @@ jQuery(document).ready(function ($) {
         return;
     }
 
-    /************************************/
-    /***** Checkout button insertion ****/
-    /************************************/
-
-    /**
-     * HTML code for Checkout button
-     * @returns {string}
-     */
-    function getRelayColisHtml() {
-        return `
-        <div id="relais-colis-block">
-            <button id="btnChooseRelay" class="rc-btn rc-btn-primary">
-                Choisir un point relais
-            </button>
-            <div id="selected-relay-info">
-                <strong>Relais sélectionné :</strong>
-                <p id="selected-relay-name"></p>
-                <p id="selected-relay-address"></p>
-                <p id="selected-relay-zip-city"></p>
-            </div>
-        </div>
-    `;
-    }
-
     /**
      * Detect checkout mode : classical using shortcode, or new with FSE (Gutenberg)
      * Then insert button to open modale -> btnChooseRelay
-     */
+     *
     function checkShippingMethod() {
         var isRelaisColisSelected = false;
         var isCheckoutFSE = true;
@@ -100,6 +76,11 @@ jQuery(document).ready(function ($) {
         checkShippingMethod();
     });
 
+*/
+
+    /*********************************/
+    /******* Choose relay modal ******/
+    /*********************************/
 
     // Ouvrir la modale au clic sur le bouton
     $(document).on("click", "#btnChooseRelay", function (e) {
@@ -107,10 +88,6 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
         $("#relayModal").dialog("open");
     });
-
-    /*********************************/
-    /******* Choose relay modal ******/
-    /*********************************/
 
     /**
      * JQuery UI Dialog modal

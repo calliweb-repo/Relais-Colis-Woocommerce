@@ -190,6 +190,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
         if ( $interaction_mode === WC_RC_Shipping_Constants::C2C_INTERACTION_MODE ) {
 
             try {
+                /*
                 //
                 // Call API - Get balance
                 //
@@ -198,7 +199,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
                 if ( is_null( $c2c_get_infos ) ) {
 
                     WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
-                    return;
+                    $balance = 0;
                 }
 
                 // Display response
@@ -212,9 +213,9 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
                 } else {
 
                     WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
-                    return;
+                    $balance = 0;
                 }
-
+                */
                 //
                 // Call API - Get package price
                 //
@@ -241,16 +242,17 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
                     ], 'relais-colis-woocommerce' );
 
                     // Check that balance is enough
-                    if ( $balance < $shipping_price ) {
+                    /*if ( $balance < $shipping_price ) {
 
                         WP_Log::debug( __METHOD__.' - Balance is not enough', [], 'relais-colis-woocommerce' );
                         return;
-                    }
+                    }*/
 
 
                 } else {
 
                     WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                    return;
                 }
 
 

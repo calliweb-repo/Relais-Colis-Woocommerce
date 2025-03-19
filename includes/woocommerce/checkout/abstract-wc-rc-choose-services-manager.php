@@ -9,6 +9,7 @@ use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use WC_Cart;
+use WC_Cart_Session;
 
 /**
  * WooCommerce Relais Colis Block Manager for all choose services
@@ -38,6 +39,12 @@ abstract class WC_RC_Choose_Services_Manager {
         add_action( 'wp_ajax_reset_rc_infos', array( $this, 'action_wp_ajax_reset_rc_infos' ) );
         add_action( 'wp_ajax_nopriv_reset_rc_infos', array( $this, 'action_wp_ajax_reset_rc_infos' ) );
 
+        /*add_action( 'woocommerce_checkout_update_order_review', function() {
+
+            WP_Log::debug( __METHOD__, ["POST"=> $_POST], 'relais-colis-woocommerce');
+
+        } );*/
+
         // FSE checkout
         if ( WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) {
 
@@ -47,16 +54,9 @@ abstract class WC_RC_Choose_Services_Manager {
         // Old checkout
         else {
 
-            // FIXME utility ?
-            if ( did_action( 'woocommerce_cart_calculate_fees' ) >= 2 ) {
-
-                WP_Log::debug( __METHOD__.' - Abort because woocommerce_cart_calculate_fees called twice', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
-                return;
-            }
-
             // Triggered by update_checkout JS call
             // Add a custom calculated fee conditionally to cart
-            add_action( 'woocommerce_cart_calculate_fees', array( $this, 'action_woocommerce_cart_calculate_fees' ), 10, 1 );
+            add_action( 'woocommerce_cart_calculate_fees', array( $this, 'action_woocommerce_cart_calculate_fees' ), 999, 1 );
         }
     }
 
@@ -115,19 +115,50 @@ abstract class WC_RC_Choose_Services_Manager {
      */
     public function action_woocommerce_cart_calculate_fees( $cart ) {
 
-        WP_Log::debug( __METHOD__, [
-            'POST' => $_POST,
-            'is_admin' => is_admin(),
-            'doing_ajax' => defined( 'DOING_AJAX' ) ? DOING_AJAX : 'false',
-            'is_checkout' => is_checkout() ? 'true' : 'false',
-            'is_rest' => defined( 'REST_REQUEST' ) ? REST_REQUEST : 'false',
-        ], 'relais-colis-woocommerce' );
+        // Ignore internal call
+        if ( is_admin() || !defined( 'DOING_AJAX' ) || !DOING_AJAX ) {
 
-        if ( is_admin() && !defined( 'DOING_AJAX' ) || ( !is_checkout() && ( !WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) ) ) {
-
-            WP_Log::debug( __METHOD__.' - Abort', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Ignore internal call', [], 'relais-colis-woocommerce' );
             return;
         }
+
+        // Ignore other than checkout page
+        if ( !is_checkout() ) {
+
+            WP_Log::debug( __METHOD__.' - Ignore other than checkout page', [], 'relais-colis-woocommerce' );
+            return;
+        }
+
+        // Ignore FSE checkout mode
+        if ( WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) {
+
+            WP_Log::debug( __METHOD__.' - Ignore FSE checkout mode', [], 'relais-colis-woocommerce' );
+            return;
+        }
+
+
+        // Ignore second hook call
+        static $already_ran = false;
+        if ($already_ran) {
+            WP_Log::debug( __METHOD__.' - Ignore second hook call', [], 'relais-colis-woocommerce' );
+            return;
+        }
+        $already_ran = true;
+
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10); // Limite à 10 niveaux pour éviter trop de bruit
+
+        WP_Log::debug("Triggering `woocommerce_cart_calculate_fees`",
+            [
+                'is_admin()'   => is_admin() ? 'true' : 'false',
+                'DOING_AJAX'   => defined('DOING_AJAX') && DOING_AJAX ? 'true' : 'false',
+                'DOING_CRON'   => defined('DOING_CRON') && DOING_CRON ? 'true' : 'false',
+                'IS_ADMIN'     => is_admin() ? 'true' : 'false',
+                'IS_CHECKOUT'  => is_checkout() ? 'true' : 'false',
+                'POST'         => $_POST, // Attention, peut contenir des données sensibles
+                'BACKTRACE'    => array_column($backtrace, 'function') // Affiche seulement les fonctions de la stack
+            ],
+            'relais-colis-woocommerce'
+        );
 
         // Calculate fees
         $this->calculate_fees( $cart );
@@ -144,6 +175,12 @@ abstract class WC_RC_Choose_Services_Manager {
         $nonce_check = check_ajax_referer( 'rc_choose_options', 'nonce', false );
         if ( !$nonce_check ) {
             wp_send_json_error( [ 'message' => 'Nonce verification failed' ] );
+        }
+
+        if ( WC()->session->__isset( 'reset_rc_infos' ) ) {
+
+            WC()->session->__unset( 'reset_rc_infos' ); // Fees
+
         }
 
         // Session will be updated
@@ -184,6 +221,7 @@ abstract class WC_RC_Choose_Services_Manager {
             wp_send_json_error( [ 'message' => 'Nonce verification failed' ] );
         }
 
+
         // Session will be updated
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ) ) {
             WC()->session->__unset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
@@ -222,6 +260,27 @@ abstract class WC_RC_Choose_Services_Manager {
      * @return void
      */
     protected function calculate_fees( WC_Cart $cart ) {
+
+        // May reset fees
+        // Old checkout
+        if (isset($_POST['rc_reset_infos']) && $_POST['rc_reset_infos'] == '1') {
+
+            WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES);
+            WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS);
+
+            WP_Log::debug(__METHOD__ . ' - Old checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-woocommerce');
+        }
+
+        // FSE checkout
+        if (!empty($_GET['rc_reset_infos'])) {
+            //WC()->session->set('rc_selected_services', []); // Vide la session des services
+            //WC()->session->set('rc_selected_service_infos', []); // Vide les détails des services
+
+            WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES);
+            WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS);
+
+            WP_Log::debug(__METHOD__ . ' - FSE checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-woocommerce');
+        }
 
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ) ) {
 
@@ -281,6 +340,12 @@ abstract class WC_RC_Choose_Services_Manager {
                     // Adding fee with taxable `false` and `''` for tax_class
                     $cart->add_fee( $service_label, floatval( $service_price ), false, 'standard' );
                 }
+            } else {
+
+                WP_Log::debug( __METHOD__.' Session is detected with no fee:', [  ], 'relais-colis-woocommerce' );
+                //$cart->fees_api()->remove_all_fees();
+                //$cart->calculate_totals();
+                //$cart->fees_api()->add_fee([]);
             }
 
             WP_Log::debug( __METHOD__.' - Get fees from cart', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-woocommerce' );

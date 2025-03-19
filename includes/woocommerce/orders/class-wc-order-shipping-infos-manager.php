@@ -32,6 +32,7 @@ class WC_Order_Shipping_Infos_Manager {
      * @access protected
      */
     public function init() {
+
     }
 
     /**

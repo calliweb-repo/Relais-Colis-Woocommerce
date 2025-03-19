@@ -77,8 +77,8 @@ abstract class WC_RC_Shipping_Constants {
 
     // Offers
     const OFFER_RELAIS_COLIS = 'Relais Colis';
-    const OFFER_HOME = 'Home';
-    const OFFER_HOME_PLUS = 'Home+';
+    const OFFER_HOME = 'Relais Colis Home';
+    const OFFER_HOME_PLUS = 'Relais Colis Home+';
 
     const METHOD_NAME_RELAIS_COLIS = 'rc';
     const METHOD_NAME_HOME = 'h';
@@ -114,6 +114,7 @@ abstract class WC_RC_Shipping_Constants {
     const CONFIGURATION_ACTIVE = 'active';
     const CONFIGURATION_USEIDENS = 'useidens';
     const CONFIGURATION_ADDRESS_LINE1 = 'address1';
+    const CONFIGURATION_ADDRESS_LINE2 = 'address2';
     const CONFIGURATION_POSTAL_CODE = 'postcode';
     const CONFIGURATION_CITY = 'city';
     const CONFIGURATION_LIVEMAPPING_API = 'livemapping_api';
@@ -173,6 +174,7 @@ abstract class WC_RC_Shipping_Constants {
             self::CONFIGURATION_ACTIVE => __( 'Active', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_USEIDENS => __( 'Use Enseigne ID', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_ADDRESS_LINE1 => __( 'Address Line 1', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_ADDRESS_LINE2 => __( 'Address Line 2', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_POSTAL_CODE => __( 'Postal Code', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_CITY => __( 'City', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_LIVEMAPPING_API => __( 'Live Mapping API', 'relais-colis-woocommerce' ),
