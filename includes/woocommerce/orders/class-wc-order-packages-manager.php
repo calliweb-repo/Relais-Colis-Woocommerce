@@ -664,7 +664,7 @@ class WC_Order_Packages_Manager {
      * @param WC_Order $wc_orders
      * @return string the way bill
      */
-    public function generate_way_bill( WC_Order $wc_orders ) {
+    public function generate_way_bill( WC_Order $wc_order ) {
 
         try {
 
@@ -768,7 +768,8 @@ class WC_Order_Packages_Manager {
 
             // Dynamic common params
             $dynamic_params_place_shipping_label = array(
-                WP_RC_Place_Advertisement_Request::AGENCY_CODE => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, 'C3' ), // Code de l'agence
+                // Agency code BUG FIXME le place doit recevoir C3 pour que le print fonctionne ensuite, donc valeur FIXE WP_RC_Place_Advertisement_Request::AGENCY_CODE => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, 'C3' ), // Code de l'agence
+                WP_RC_Place_Advertisement_Request::AGENCY_CODE => 'C3', // Code de l'agence
                 WP_RC_Place_Advertisement_Request::CUSTOMER_ID => ''.$wc_order->get_customer_id(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_EMAIL => $wc_order->get_billing_email(),
@@ -807,12 +808,8 @@ class WC_Order_Packages_Manager {
                         // Depend on interaction mode (B2C or C2C)
 
                         // Get package weight
-                        // Weight and dimensions unit
-                        $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
-                        $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
-
-                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$weight;
-                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$weight;
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$c_colis[ 'weight' ];
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
 
                         // C2C - Relay
                         if ( $is_c2c_interaction_mode ) {
@@ -845,6 +842,7 @@ class WC_Order_Packages_Manager {
 
                                 WP_Log::debug( __METHOD__.' - Valid response', [
                                     'Entry' => $entry,
+                                    'Shipping method' => $rc_shipping_method,
                                 ], 'relais-colis-woocommerce' );
 
                                 // Set shipping label in colis
@@ -884,6 +882,7 @@ class WC_Order_Packages_Manager {
 
                                 WP_Log::debug( __METHOD__.' - Valid response', [
                                     'Entry' => $entry,
+                                    'Shipping method' => $rc_shipping_method,
                                 ], 'relais-colis-woocommerce' );
 
                                 // Set shipping label in colis
@@ -921,12 +920,8 @@ class WC_Order_Packages_Manager {
                         else {
 
                             // Get package weight
-                            // Weight and dimensions unit
-                            $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
-                            $weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
-
-                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$weight;
-                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$weight;
+                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$c_colis[ 'weight' ];
+                            $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
 
                             // Call API
                             $b2c_home_place_advertisement = WP_Relais_Colis_API::instance()->b2c_home_place_advertisement( $dynamic_params_place_shipping_label, false );
@@ -946,6 +941,7 @@ class WC_Order_Packages_Manager {
 
                                 WP_Log::debug( __METHOD__.' - Valid response', [
                                     'Entry' => $entry,
+                                    'Shipping method' => $rc_shipping_method,
                                 ], 'relais-colis-woocommerce' );
 
                                 // Set shipping label in colis
@@ -1010,7 +1006,7 @@ class WC_Order_Packages_Manager {
                 $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
                 $dynamic_params_generate = array(
                     WP_RC_B2C_Generate::FORMAT => $option_rc_label_format,
-                    WP_RC_B2C_Generate::PDF => $shipping_label,
+                    WP_RC_B2C_Generate::ETIQUETTE1 => $shipping_label,
                 );
                 $c2c_generate = WP_Relais_Colis_API::instance()->c2c_generate( $dynamic_params_generate, false );
 
@@ -1024,6 +1020,7 @@ class WC_Order_Packages_Manager {
 
                 // PDF downloaded successfully
                 $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+                WP_Log::debug( __METHOD__.' - Print label - C2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
 
             } // B2C - Relay
             else {
@@ -1033,7 +1030,7 @@ class WC_Order_Packages_Manager {
                 $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
                 $dynamic_params_generate = array(
                     WP_RC_B2C_Generate::FORMAT => $option_rc_label_format,
-                    WP_RC_B2C_Generate::PDF => $shipping_label,
+                    WP_RC_B2C_Generate::ETIQUETTE1 => $shipping_label,
                 );
                 $c2c_generate = WP_Relais_Colis_API::instance()->b2c_generate( $dynamic_params_generate, false );
 
@@ -1047,6 +1044,7 @@ class WC_Order_Packages_Manager {
 
                 // PDF downloaded successfully
                 $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+                WP_Log::debug( __METHOD__.' - Print label - B2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
 
             }
 

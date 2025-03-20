@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
 /**
  * Class WC_Customer_Orders_Manager
@@ -23,7 +24,7 @@ class WC_Customer_Orders_Manager {
     use Singleton;
 
     ////////////////////////////////// TEST //////////////////////////////////
-    private static $hook_list = array();
+    //private static $hook_list = array();
     ////////////////////////////////// END TEST //////////////////////////////////
 
     /**
@@ -34,11 +35,11 @@ class WC_Customer_Orders_Manager {
      * @access protected
      */
     public function init() {
-
+/*
         ////////////////////////////////// TEST //////////////////////////////////
         // Show hooks
-        /*add_action( 'all', function ( $hook_name ) {
-            if ( (strpos($hook_name, 'woocommerce_order_details_after_order_table') !== false) ) {
+        add_action( 'all', function ( $hook_name ) {
+            if ( (strpos($hook_name, 'handle_bulk_actions-') !== false) ) {
 
                 if ( !in_array( $hook_name, self::$hook_list ) ) {
 
@@ -47,9 +48,9 @@ class WC_Customer_Orders_Manager {
                 }
                 self::$hook_list[] = $hook_name;
             }
-        } );*/
+        } );
         ////////////////////////////////// END TEST //////////////////////////////////
-
+*/
         // Display infos on customer order details page, in My account -> Orders -> Order page
         add_action( 'woocommerce_order_details_after_order_table', array( $this, 'action_woocommerce_order_details_after_order_table' ), 10, 1 );
 

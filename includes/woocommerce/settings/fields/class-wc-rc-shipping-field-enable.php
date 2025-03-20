@@ -75,6 +75,7 @@ class WC_RC_Shipping_Field_Enable {
             'yes_label' => __('Yes', 'relais-colis-woocommerce'),
             'no_label'  => __('No', 'relais-colis-woocommerce'),
             'default'   => 'no',
+            'disabled'   => false,
         );
         $field  = wp_parse_args( $field, $defaults );
 
@@ -99,6 +100,7 @@ class WC_RC_Shipping_Field_Enable {
                             id="<?php echo esc_attr( $field[ 'id' ] ); ?>"
                             type="checkbox"
                             value="yes"
+                        <?php disabled( $field[ 'disabled' ], true ); ?>
                         <?php checked( $value, 'yes' ); ?>
                     >
                     <div class="toggle-switch"></div>

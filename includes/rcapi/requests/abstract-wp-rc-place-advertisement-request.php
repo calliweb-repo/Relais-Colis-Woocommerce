@@ -127,6 +127,8 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
             self::SENSITIVE_PRODUCT => '0',
             //"pseudoRvc" c'est un champ vide, l'api le comble après avec le pseudo_rvc du relais
             self::PSEUDO_RVC => '',
+            // Agency code BUG FIXME le place doit recevoir C3 pour que le print fonctionne ensuite, donc valeur FIXE
+            self::AGENCY_CODE => 'C3',
         );
 
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );

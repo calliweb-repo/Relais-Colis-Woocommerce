@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
@@ -35,20 +36,37 @@ class WC_Orders_C2c_Csv_Export_Manager {
         // Only available in C2C mode
         if ( !WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return;
 
-        // Add a custom bulk action for exporting orders to CSV
-        add_filter( 'bulk_actions-edit-shop_order', array( $this, 'filter_bulk_actions_edit_shop_order' ), 10, 1 );
+        add_action( 'woocommerce_init', function () {
 
-        // Handle the bulk export action
-        add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            // HPOS
+            if ( WC_WooCommerce_Manager::instance()->is_hpos_enabled() ) {
+
+                // Support for HPOS (High Performance Order Storage)
+                add_action( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'filter_bulk_actions_edit_shop_order' ) );
+                add_action( 'handle_bulk_actions-woocommerce_page_wc-orders', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            }
+            // Legacy mode
+            else {
+
+                // Add a custom bulk action for exporting orders to CSV
+                add_filter( 'bulk_actions-edit-shop_order', array( $this, 'filter_bulk_actions_edit_shop_order' ), 10, 1 );
+
+                // Handle the bulk export action
+                add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            }
+        });
     }
 
     /**
-     * Add a custom bulk action for exporting orders to CSV
+     * Add a custom bulk action for exporting orders to CSVs
+     * HPOS & Legacy
      *
      * @param array $bulk_actions The existing bulk actions
      * @return array Updated bulk actions with our custom action
      */
     public function filter_bulk_actions_edit_shop_order( $bulk_actions ) {
+
+        WP_Log::debug( __METHOD__.' - HPOS & Legacy', ['$bulk_actions'=>$bulk_actions ], 'relais-colis-woocommerce' );
 
         $bulk_actions[self::RC_EXPORT_CSV_ACTION] = __( 'Export in CSV (C2C)', 'relais-colis-woocommerce' );
         return $bulk_actions;
@@ -56,6 +74,7 @@ class WC_Orders_C2c_Csv_Export_Manager {
 
     /**
      * Handle the bulk export action
+     * Legacy
      *
      * @param string $redirect_url The URL to redirect to after processing
      * @param string $action The action being processed
@@ -63,6 +82,8 @@ class WC_Orders_C2c_Csv_Export_Manager {
      * @return string Updated redirect URL
      */
     public function filter_handle_bulk_actions_edit_shop_order( $redirect_url, $action, $order_ids ) {
+
+        WP_Log::debug( __METHOD__.' - Legacy', ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-woocommerce' );
 
         if ( $action !== self::RC_EXPORT_CSV_ACTION ) return $redirect_url;
 

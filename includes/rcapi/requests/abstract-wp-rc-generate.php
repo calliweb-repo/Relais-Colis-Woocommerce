@@ -67,5 +67,6 @@ abstract class WP_RC_Generate extends WP_Relais_Colis_Request {
 
         WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
         $this->data = json_encode( $this->data );
+
     }
 }

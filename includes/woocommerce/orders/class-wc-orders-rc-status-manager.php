@@ -102,7 +102,7 @@ class WC_Orders_RC_Status_Manager {
         WP_Log::debug( __METHOD__, [ '$orders_pending_update' => $orders_pending_update?'true':'false' ], 'relais-colis-woocommerce' );
 
         // If not empty, need to update a few shipping status
-        if ( !empty( $orders_pending_update ) ) return;
+        if ( empty( $orders_pending_update ) ) return;
         
         // Call API
         try {

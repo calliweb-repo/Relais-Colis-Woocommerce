@@ -373,7 +373,7 @@ abstract class WC_RC_Choose_Services_Manager {
 
         if ( empty( $services ) ) {
 
-            $html_content .= '<p>'.__( 'No service available for this delivery method', 'relais-colis-woocommerce' ).'</p>';
+            //$html_content .= '<p>'.__( 'No service available for this delivery method', 'relais-colis-woocommerce' ).'</p>';
             return $html_content;
         }
 

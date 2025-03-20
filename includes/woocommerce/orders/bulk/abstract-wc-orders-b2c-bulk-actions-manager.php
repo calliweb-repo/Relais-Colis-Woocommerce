@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 
@@ -34,11 +35,25 @@ abstract class WC_Orders_B2c_Bulk_Actions_Manager {
         // Only available in B2C mode
         if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return;
 
-        // Add a custom bulk action for exporting orders to CSV
-        add_filter( 'bulk_actions-edit-shop_order', array( $this, 'filter_bulk_actions_edit_shop_order' ), 10, 1 );
+        add_action( 'woocommerce_init', function () {
 
-        // Handle the bulk export action
-        add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            // HPOS
+            if ( WC_WooCommerce_Manager::instance()->is_hpos_enabled() ) {
+
+                // Support for HPOS (High Performance Order Storage)
+                add_action( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'filter_bulk_actions_edit_shop_order' ) );
+                add_action( 'handle_bulk_actions-woocommerce_page_wc-orders', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            }
+            // Legacy mode
+            else {
+
+                // Add a custom bulk action for exporting orders to CSV
+                add_filter( 'bulk_actions-edit-shop_order', array( $this, 'filter_bulk_actions_edit_shop_order' ), 10, 1 );
+
+                // Handle the bulk export action
+                add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'filter_handle_bulk_actions_edit_shop_order' ), 10, 3 );
+            }
+        });
 
         /**
          * Notify 3rd party code on autodistribute result

@@ -147,22 +147,75 @@ XML;
 
                         break;
                     case WP_Relais_Colis_API::REQUEST_B2C_GENERATE:
-                    case WP_Relais_Colis_API::REQUEST_C2C_GENERATE:
                     case WP_Relais_Colis_API::REQUEST_BULK_GENERATE:
+
+                        // Response from RCAPI can have 2 different Content-Type :
+                        // REQUEST_B2C_GENERATE - Relay & Home
+                        //  B2C Relais & Home will return:
+                        //      Content-Type: application/pdf, PDF NOT encoded
+                        //  C2C Relais will return:
+                        //      Content-Type: application/octet-stream, NOT encoded
+
+                        // REQUEST_BULK_GENERATE - B2C - Relay & Home
+                        //  B2C Relais & Home will return:
+                        //      Content-Type: application/pdf, PDF NOT encoded
+                        //  C2C Relais will return:
+                        //      Content-Type: application/octet-stream, Base64 encoded
+
+
                         if ( ( strpos( $response_content_type, 'application/pdf') === false ) && ( strpos( $response_content_type, 'application/octet-stream') === false ) )  {
 
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
                         }
 
-                        // Extract filename from content-disposition
-                        // [content-disposition] => inline; filename="Etiquette.pdf"; filename*=UTF-8''Etiquette.pdf
                         $content_disposition = $response_headers['content-disposition'];
                         $filename = 'etiquette.pdf';
+
+                        // Extract filename from content-disposition
+                        // [content-disposition] => inline; filename="Etiquette.pdf"; filename*=UTF-8''Etiquette.pdf
                         if (preg_match('/filename="([^"]+)"/', $content_disposition, $matches)) {
 
                             $filename = $matches[1];
                         }
+                        WP_Log::debug( __METHOD__, ['$response_content_type'=>$response_content_type], 'relais-colis-wocommerce' );
+
+                        // C2C will return:
+                        //      Content-Type: application/octet-stream, Base64 encoded
+                        //      Content-Disposition: attachment; filename="CC070000092001.pdf"
+                        if ( strpos( $response_content_type, 'application/octet-stream') !== false )  {
+
+                            WP_Log::debug( __METHOD__.' - application/octet-stream detected', ['$response_content_type'=>$response_content_type], 'relais-colis-wocommerce' );
+                            $response_data = base64_decode( $response_data );
+                        }
+                        // B2C will return:
+                        //      Content-Type: application/pdf, PDF directly encoded
+                        //      Content-Disposition: inline; filename="Etiquette.pdf"; filename*=UTF-8''Etiquette.pdf
+                        // Nothing else to do
+
+                        $response = new WP_RC_Etiquette_Generate_Response( $response_data, $filename );
+                        break;
+                    case WP_Relais_Colis_API::REQUEST_C2C_GENERATE:
+
+                        // C2C will return:
+                        //      Content-Type: application/octet-stream, NOT encoded
+
+                        if ( ( strpos( $response_content_type, 'application/pdf') === false ) && ( strpos( $response_content_type, 'application/octet-stream') === false ) )  {
+
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                        }
+
+                        $content_disposition = $response_headers['content-disposition'];
+                        $filename = 'etiquette.pdf';
+
+                        // Extract filename from content-disposition
+                        // [content-disposition] => inline; filename="Etiquette.pdf"; filename*=UTF-8''Etiquette.pdf
+                        if (preg_match('/filename="([^"]+)"/', $content_disposition, $matches)) {
+
+                            $filename = $matches[1];
+                        }
+                        WP_Log::debug( __METHOD__, ['$response_content_type'=>$response_content_type], 'relais-colis-wocommerce' );
 
                         $response = new WP_RC_Etiquette_Generate_Response( $response_data, $filename );
                         break;
@@ -181,6 +234,18 @@ XML;
 
                             $filename = $matches[1];
                         }
+
+                        // C2C will return:
+                        //      Content-Type: application/octet-stream, Base64 encoded
+                        //      Content-Disposition: attachment; filename="CC070000092001.pdf"
+                        if ( strpos( $response_content_type, 'application/octet-stream') === false )  {
+
+                            $response_data = base64_decode( $response_data );
+                        }
+                        // B2C will return:
+                        //      Content-Type: application/pdf, PDF directly encoded
+                        //      Content-Disposition: inline; filename="Etiquette.pdf"; filename*=UTF-8''Etiquette.pdf
+                        // Nothing else to do
 
                         $response = new WP_RC_Transport_Generate_Response( $response_data, $filename );
                         break;

@@ -92,6 +92,7 @@ class WC_RC_Shipping_Services_Settings {
             // Get updated values from the form
             $slug = $service['slug'];
             $client_choice = isset( $_POST[ self::SECTION_SERVICES.'_'.$slug.'_client_choice' ] ) ? $_POST[ self::SECTION_SERVICES.'_'.$slug.'_client_choice' ] : $service[ 'client_choice' ];
+            $products_enabled = isset( $_POST[ self::SECTION_SERVICES.'_'.$slug.'_products_enabled' ] ) ? $_POST[ self::SECTION_SERVICES.'_'.$slug.'_products_enabled' ] : $service[ 'products_enabled' ];
             $delivery_method = isset( $_POST[ self::SECTION_SERVICES.'_'.$slug.'_delivery_method' ] ) ? $_POST[ self::SECTION_SERVICES.'_'.$slug.'_delivery_method' ] : $service[ 'delivery_method' ];
             $enabled = isset( $_POST[ self::SECTION_SERVICES.'_'.$slug.'_enabled' ] ) ? $_POST[ self::SECTION_SERVICES.'_'.$slug.'_enabled' ] : $service[ 'enabled' ];
             $price = floatval( $_POST[ self::SECTION_SERVICES.'_'.$slug.'_price' ] ?? $service[ 'price' ] );
@@ -102,6 +103,7 @@ class WC_RC_Shipping_Services_Settings {
                 $service[ 'name' ],
                 $slug,
                 $client_choice,
+                $products_enabled,
                 $delivery_method,
                 $enabled,
                 $price
@@ -154,13 +156,6 @@ class WC_RC_Shipping_Services_Settings {
             ];
 
             $settings[] = [
-                'title' => __( 'Client Choice', 'relais-colis-woocommerce' ),
-                'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
-                'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
-                'default' => $service['client_choice'],
-            ];
-
-            $settings[] = [
                 'type' => 'select',
                 'title' => __( 'Delivery Method', 'relais-colis-woocommerce' ),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_delivery_method',
@@ -169,17 +164,18 @@ class WC_RC_Shipping_Services_Settings {
             ];
 
             $settings[] = [
+                'title' => __( 'Client Choice', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
-                'title' => __( 'Active', 'relais-colis-woocommerce' ),
-                'id' => self::SECTION_SERVICES.'_'.$slug.'_enabled',
-                'default' => $service['enabled'],
+                'default' => $service['client_choice'],
+                'disabled' => true,
             ];
-
             $settings[] = [
-                'type' => 'text',
-                'title' => __( 'Price', 'relais-colis-woocommerce' ),
-                'id' => self::SECTION_SERVICES.'_'.$slug.'_price',
-                'default' => $service['price'],
+                'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
+                'title' => __( 'Product choice', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_products_enabled',
+                'default' => $service['products_enabled'],
+                'disabled' => true,
             ];
 
             $settings[] = [
@@ -190,7 +186,22 @@ class WC_RC_Shipping_Services_Settings {
                 'desc'          => __( 'Select products for this service', 'relais-colis-woocommerce' ),
                 'service_id'    => $service['id'],
                 'class'         => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
+                'disabled' => true,
             ];
+
+            $settings[] = [
+                'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
+                'title' => __( 'Active', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_enabled',
+                'default' => $service['enabled'],
+            ];
+
+            /*$settings[] = [
+                'type' => 'text',
+                'title' => __( 'Price', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_price',
+                'default' => $service['price'],
+            ];*/
 
             // End of section
             $settings[] = [

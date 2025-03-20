@@ -86,16 +86,11 @@ class WC_RC_Ajax_Shipping_Price {
             // Request RC API place_advertisement
             foreach ( $colis as &$c_colis ) {
 
-                // Get package weight
-                // Weight and dimensions unit
-                $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
-                $package_weight = WP_Helper::convert_to_grams( $c_colis[ 'weight' ], $option_rc_weight_unit );
-
                 //
                 // Call API - Get package price
                 //
                 $dynamic_params = array(
-                    WP_RC_C2C_Get_Packages_Price::PACKAGES_WEIGHT => array( $package_weight ),
+                    WP_RC_C2C_Get_Packages_Price::PACKAGES_WEIGHT => array( $c_colis[ 'weight' ] ),
                 );
                 WP_Log::debug( __METHOD__.' - Dynamic params ready for c2c_get_packages_price', [ '$dynamic_params' => $dynamic_params ], 'relais-colis-woocommerce' );
 

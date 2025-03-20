@@ -180,7 +180,8 @@ class WP_Configuration_DAO {
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_VERSION, '' );
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_LOGIN, '' );
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_PASS, '' );
-            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, '' );
+            // Agency code BUG FIXME le place doit recevoir C3 pour que le print fonctionne ensuite, donc valeur FIXE $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, '' );
+            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE] = 'C3';
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, '' );
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_RETURN_SITE, '' );
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, '' );

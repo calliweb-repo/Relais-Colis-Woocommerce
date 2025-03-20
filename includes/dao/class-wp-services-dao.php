@@ -43,6 +43,7 @@ class WP_Services_DAO {
                 'name' => sanitize_text_field( $name ),
                 'slug' => sanitize_text_field( $slug ),
                 'client_choice' => 'no', // Default to client_choice = false
+                'products_enabled' => 'no', // Default to client_choice = false
                 'delivery_method' => sanitize_text_field( $delivery_method ),
                 'enabled' => 'no', // Default to disabled
                 'price' => 0.00, // Default price to 0.00
@@ -161,12 +162,13 @@ class WP_Services_DAO {
      * @param string $name The name of the service.
      * @param string $slug The slug of the service.
      * @param bool $client_choice Whether the client can choose this service, yes or no
+     * @param bool $products_enabled Whether the client can choose products, yes or no
      * @param string $delivery_method The delivery method associated with the service.
      * @param bool $enabled Whether the service is enabled or not, yes or no
      * @param float $price The price of the service.
      * @return int|false Inserted row ID on success, false on failure.
      */
-    public function insert_service( $name, $slug, $client_choice, $delivery_method, $enabled, $price ) {
+    public function insert_service( $name, $slug, $client_choice, $products_enabled, $delivery_method, $enabled, $price ) {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
@@ -176,6 +178,7 @@ class WP_Services_DAO {
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
             'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
+            'products_enabled' => ( $products_enabled === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
             'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),
@@ -195,12 +198,13 @@ class WP_Services_DAO {
      * @param string $name The name of the service.
      * @param string $slug The slug of the service.
      * @param bool $client_choice Whether the client can choose this service, yes or no
+     * @param bool $products_enabled Whether the client can choose products, yes or no
      * @param string $delivery_method The delivery method associated with the service.
      * @param bool $enabled Whether the service is enabled or not, yes or no
      * @param float $price The price of the service.
      * @return int|false Rows affected on success, false on failure.
      */
-    public function update_service( $service_id, $name, $slug, $client_choice, $delivery_method, $enabled, $price ) {
+    public function update_service( $service_id, $name, $slug, $client_choice, $products_enabled, $delivery_method, $enabled, $price ) {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
@@ -212,6 +216,7 @@ class WP_Services_DAO {
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
             'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
+            'products_enabled' => ( $products_enabled === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
             'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),

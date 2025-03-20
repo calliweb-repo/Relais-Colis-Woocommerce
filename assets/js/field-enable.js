@@ -8,6 +8,11 @@ jQuery(document).ready(function ($) {
         let checkBox = $(this).find('input[type="checkbox"]');
         let hiddenInput = $(this).find('input[type="hidden"]');
 
+        // Vérifie si l'élément est désactivé
+        if (checkBox.prop('disabled') || $(this).prop('disabled')) {
+            return; // Ne pas modifier si désactivé
+        }
+
         // Bascule l'état actif uniquement pour cet élément
         $(this).toggleClass('active');
 

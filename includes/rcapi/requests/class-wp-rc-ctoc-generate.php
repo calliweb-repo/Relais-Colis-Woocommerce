@@ -39,10 +39,10 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_C2C_Generate extends WP_RC_Generate {
 
-    const PDF = 'pdf';
+    const ETIQUETTE1 = 'etiquette1';
 
     private $specific_mandatory_params = array(
-        self::PDF,
+        self::ETIQUETTE1,
     );
 
     /**

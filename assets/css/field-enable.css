@@ -53,6 +53,19 @@
     color: #555;
 }
 
+.rc_enable_checkbox:has(input:disabled) {
+    cursor: default;
+}
+
+.rc_enable_checkbox:has(input:disabled) .toggle-switch {
+    background: #ccc;
+    box-shadow: none;
+}
+
+.rc_enable_checkbox:has(input:disabled) .label-off {
+    color: #bbb;
+}
+
 .rc_enable_checkbox .label-on {
     left: 12px;
     opacity: 0;

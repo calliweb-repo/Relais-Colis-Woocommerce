@@ -73,7 +73,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         //    'logger_level_debug' => 'DEBUG',
         update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-woocommerce', 'logger_level_notice' );
 
-        add_action('before_woocommerce_init', function () {
+        add_action( 'before_woocommerce_init', function () {
 
             WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
@@ -86,19 +86,19 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
              *
              * @param string $feature_id Unique feature id.
              * @param string $plugin_file The full plugin file path.
-             * @param bool   $positive_compatibility True if the plugin declares being compatible with the feature, false if it declares being incompatible.
+             * @param bool $positive_compatibility True if the plugin declares being compatible with the feature, false if it declares being incompatible.
              * @return bool True on success, false on error (feature doesn't exist or not inside the required hook).
              */
-            if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
                 $compatibility = \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
                     'custom_order_tables',
                     //Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_path(),
                     __FILE__,
                     true
                 );
-                WP_Log::debug( __METHOD__, ['$compatibility'=>$compatibility?'true':'false'], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ '$compatibility' => $compatibility ? 'true' : 'false' ], 'relais-colis-woocommerce' );
             }
-        });
+        } );
 
         parent::init();
 
@@ -233,12 +233,22 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                 name VARCHAR(255) NOT NULL,               -- Name of the service
                 slug VARCHAR(255) NOT NULL,               -- Slug of the service
                 client_choice VARCHAR(3) NOT NULL DEFAULT 'no', -- Whether the client can choose this service
+                products_enabled VARCHAR(3) NOT NULL DEFAULT 'no', -- Whether the client can choose the products
                 delivery_method VARCHAR(255) NOT NULL,    -- Delivery method associated with the service
                 enabled VARCHAR(3) NOT NULL DEFAULT 'no',        -- Whether the service is active
                 price DECIMAL(10,2) NOT NULL DEFAULT 0.00 -- Price of the service (default: free)
             ) $charset_collate;
 
         ";
+
+        // Check if the column exists
+        $column_exists = $wpdb->get_results( "SHOW COLUMNS FROM $table_services LIKE 'products_enabled'" );
+
+        if ( empty( $column_exists ) ) {
+
+            // Add column if it doesn't exist
+            $wpdb->query( "ALTER TABLE $table_services ADD COLUMN products_enabled VARCHAR(3) NOT NULL DEFAULT 'no' AFTER client_choice" );
+        }
 
         // SQL for creating the rc_services_rel_products table
         $sql_services_rel_products = "

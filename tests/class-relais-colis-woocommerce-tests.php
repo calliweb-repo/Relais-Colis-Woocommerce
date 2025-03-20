@@ -29,7 +29,7 @@ class Relais_Colis_Woocommerce_Tests {
     // Use Trait Singleton
     use Singleton;
 
-    private $active = false;
+    private $active = true;
 
     /**
      * Default init method called when instance created
@@ -45,17 +45,17 @@ class Relais_Colis_Woocommerce_Tests {
         ///////////////
         // TESTS WP_Relais_Colis_API - Request get_b2c_configuration
         ///////////////
-        $this->test_wp_relais_colis_api_get_b2c_configuration_success();
+//        $this->test_wp_relais_colis_api_get_b2c_configuration_success();
 //        $this->test_wp_relais_colis_api_get_b2c_configuration_error();
 //        $this->test_wp_relais_colis_api_get_c2c_configuration_success();
 //        $this->test_wp_relais_colis_api_get_c2c_configuration_error();
 //        $this->test_wp_relais_colis_api_b2c_relay_place_advertisement_success();
 //        $this->test_wp_relais_colis_api_b2c_relay_place_advertisement_error();
-//        $this->test_wp_relais_colis_api_b2c_home_place_advertisement_success();
+      //  $this->test_wp_relais_colis_api_b2c_home_place_advertisement_success();
 //        $this->test_wp_relais_colis_api_b2c_home_place_advertisement_error();
 //        $this->test_wp_relais_colis_api_c2c_relay_place_advertisement_success();
 //        $this->test_wp_relais_colis_api_c2c_relay_place_advertisement_error();
-//        $this->test_wp_relais_colis_api_b2c_generate_success();
+      //   $this->test_wp_relais_colis_api_b2c_generate_success();
 //        $this->test_wp_relais_colis_api_c2c_generate_success();
 //        $this->test_wp_relais_colis_api_b2c_generate_error();
 //        $this->test_wp_relais_colis_api_c2c_generate_error();
@@ -63,7 +63,7 @@ class Relais_Colis_Woocommerce_Tests {
 //        $this->test_wp_relais_colis_api_b2c_place_return_success();
 //        $this->test_wp_relais_colis_api_b2c_place_return_v3_success();
 //        $this->test_wp_relais_colis_api_b2c_place_return_v3_error();
-        $this->test_wp_relais_colis_api_c2c_get_infos_success();
+ //       $this->test_wp_relais_colis_api_c2c_get_infos_success();
 //        $this->test_wp_relais_colis_api_c2c_get_infos_error();
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_success();
 //        $this->test_wp_relais_colis_api_c2c_get_packages_price_error();
@@ -470,17 +470,22 @@ class Relais_Colis_Woocommerce_Tests {
             // Dynamic params
             $dynamic_params = array(
                 WP_RC_B2C_Home_Place_Advertisement::AGENCY_CODE => 'C3',            // Code de l'agence
-                WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_ID => '99',           // ID du client
+                //WP_RC_B2C_Home_Place_Advertisement::AGENCY_CODE => 'P9',            // Code de l'agence
+                //WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_ID => '99',           // ID du client
+                WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_ID => '3',           // ID du client
                 WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_FULLNAME => 'Tom Hatte',     // Nom complet du client
                 WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_EMAIL => 'tom.hatte@yopmail.com',        // Email du client
                 WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_PHONE => '0412356789',        // Numéro de téléphone du client
                 WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_MOBILE => '0606060606',       // Numéro de mobile du client
-                WP_RC_B2C_Home_Place_Advertisement::ORDER_REFERENCE => '99',       // Référence de commande
+                //WP_RC_B2C_Home_Place_Advertisement::ORDER_REFERENCE => '99',       // Référence de commande
+                WP_RC_B2C_Home_Place_Advertisement::ORDER_REFERENCE => '206',       // Référence de commande
                 WP_RC_B2C_Home_Place_Advertisement::SHIPPING_ADDRESS_1 => "12 rue de l'épinoy",    // Adresse de livraison ligne 1
                 WP_RC_B2C_Home_Place_Advertisement::SHIPPING_ADDRESS_2 => '',    // Adresse de livraison ligne 2 (facultatif)
                 WP_RC_B2C_Home_Place_Advertisement::SHIPPING_POSTCODE => '59175',     // Code postal de livraison
                 WP_RC_B2C_Home_Place_Advertisement::SHIPPING_CITY => 'Templatemars',         // Ville de livraison
                 WP_RC_B2C_Home_Place_Advertisement::SHIPPING_COUNTRY_CODE => 'FR', // Code pays de livraison
+                WP_RC_B2C_Home_Place_Advertisement::SHIPPMENT_WEIGHT => 1000, // Code pays de livraison
+                WP_RC_B2C_Home_Place_Advertisement::WEIGHT => 1000, // Code pays de livraison
             );
 
             $b2c_home_place_advertisement = WP_Relais_Colis_API::instance()->b2c_home_place_advertisement( $dynamic_params, false );
@@ -726,7 +731,7 @@ class Relais_Colis_Woocommerce_Tests {
             // Dynamic params
             $dynamic_params = array(
                 WP_RC_B2C_Generate::FORMAT => WP_RC_B2C_Generate::FORMAT_A5,
-                WP_RC_B2C_Generate::PDF => '4H013000006401', // Result of b2c_relay_place_advertisement
+                WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000031701', // Result of b2c_relay_place_advertisement
             );
 
             $b2c_generate = WP_Relais_Colis_API::instance()->b2c_generate( $dynamic_params, false );
@@ -766,8 +771,8 @@ class Relais_Colis_Woocommerce_Tests {
             $dynamic_params = array(
                 WP_RC_B2C_Generate::FORMAT => WP_RC_B2C_Generate::FORMAT_A5,
                 // ERROR 500 Internal Server Error
-                WP_RC_B2C_Generate::PDF => '4H013000239501--', // Result of b2c_relay_place_advertisement
-                //WP_RC_B2C_Generate::PDF => '4H013000239501', // Result of b2c_relay_place_advertisement
+                WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000239501--', // Result of b2c_relay_place_advertisement
+                //WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000239501', // Result of b2c_relay_place_advertisement
             );
 
             $b2c_generate = WP_Relais_Colis_API::instance()->b2c_generate( $dynamic_params, false );
@@ -805,7 +810,7 @@ class Relais_Colis_Woocommerce_Tests {
             // Dynamic params
             $dynamic_params = array(
                 WP_RC_B2C_Generate::FORMAT => WP_RC_B2C_Generate::FORMAT_A4,
-                WP_RC_B2C_Generate::PDF => '4H013000007501', // Result of c2c_relay_place_advertisement
+                WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000007501', // Result of c2c_relay_place_advertisement
             );
 
             $c2c_generate = WP_Relais_Colis_API::instance()->c2c_generate( $dynamic_params, false );
@@ -845,8 +850,8 @@ class Relais_Colis_Woocommerce_Tests {
             $dynamic_params = array(
                 WP_RC_B2C_Generate::FORMAT => WP_RC_B2C_Generate::FORMAT_A4,
                 // ERROR 500 Internal Server Error
-                //WP_RC_B2C_Generate::PDF => '4H013000007501--', // Result of c2c_relay_place_advertisement
-                WP_RC_B2C_Generate::PDF => '4H013000007501', // Result of c2c_relay_place_advertisement
+                //WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000007501--', // Result of c2c_relay_place_advertisement
+                WP_RC_B2C_Generate::ETIQUETTE1 => '4H013000007501', // Result of c2c_relay_place_advertisement
             );
 
             $c2c_generate = WP_Relais_Colis_API::instance()->c2c_generate( $dynamic_params, false );

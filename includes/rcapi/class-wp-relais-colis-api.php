@@ -318,6 +318,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
             // Add API key as header
             //-H 'Content-Type: application/json' -H 'X-Goog-Api-Key: API_KEY' \
             $this->set_request_header( 'Content-Type', 'application/json' );
+            //$this->set_request_header( 'Content-Type', 'multipart/form-data' );
 
             // Send request
             $response_raw = $this->perform_request( $request );

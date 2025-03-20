@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
 "woocommerce\n"
-"POT-Creation-Date: 2025-03-18T11:16:15+00:00\n"
-"PO-Revision-Date: 2025-03-18 12:18+0100\n"
+"POT-Creation-Date: 2025-03-20T12:18:37+00:00\n"
+"PO-Revision-Date: 2025-03-20 13:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -157,16 +157,16 @@ msgid "Unknown Option"
 msgstr "Option inconnue"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:221
-msgid "A4 Format"
-msgstr "Format A4"
+msgid "10 X 15 : 4 PER PAGE"
+msgstr "10 X 15 : 4 PAR PAGE"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:222
-msgid "A5 Format"
-msgstr "Format A5"
+msgid "A5"
+msgstr "A5"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:223
-msgid "10x15 Format"
-msgstr "Format 10x15"
+msgid "10 X 15 : ZEBRA"
+msgstr "10 X 15 : ZEBRA"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:234
 msgid "Millimeters (mm)"
@@ -307,10 +307,6 @@ msgstr "Lettres de voiture générées"
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:330
 msgid "Unknown order state"
 msgstr "État de commande inconnu"
-
-#: includes/woocommerce/checkout/abstract-wc-rc-choose-services-manager.php:376
-msgid "No service available for this delivery method"
-msgstr "Aucun service disponible pour cette méthode de livraison"
 
 #: includes/woocommerce/checkout/abstract-wc-rc-choose-services-manager.php:381
 msgid "Available services:"
@@ -534,7 +530,7 @@ msgstr ""
 msgid "Invalid mode: only C2C is authorized"
 msgstr "Mode invalide, seul le mode C2C est autorisé"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:141
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:136
 msgid "An error occurred while getting price"
 msgstr "Une erreur s’est produite lors de la récupération du prix du colis"
 
@@ -555,11 +551,11 @@ msgid "An error occurred while generating way bill"
 msgstr ""
 "Une erreur s’est produite lors de la génération de la lettre de voiture"
 
-#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:94
+#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:109
 msgid "Order"
 msgstr "Commande"
 
-#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:134
+#: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:149
 msgid ""
 "You do not have sufficient permissions to bulk auto distribute items in "
 "packages."
@@ -664,7 +660,7 @@ msgid "Quantity to be distributed"
 msgstr "Quantité à répartir"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:254
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:95
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:116
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -768,8 +764,8 @@ msgid "Invalid Relais Colis method"
 msgstr "Méthode Relais Colis invalide"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:678
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1136
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1260
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1134
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1258
 msgid "Shipping labels must be placed first"
 msgstr "Les étiquettes de livraison doivent être générées au préalable"
 
@@ -781,13 +777,13 @@ msgstr "Les colis dans la commande doivent tout d’abord être divisés"
 msgid "Product shipping labels have already been generated"
 msgstr "Les étiquettes ont déjà été générées"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1210
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1208
 msgid ""
 "Click <a href='%s' target='_blank'>here</a> to download the shipping labels."
 msgstr ""
 "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les étiquettes."
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1344
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1342
 msgid "Click <a href='%s' target='_blank'>here</a> to download the way bills."
 msgstr ""
 "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les lettres de "
@@ -876,73 +872,73 @@ msgstr "Relais Colis - Informations"
 msgid "RC Shipping method"
 msgstr "Méthode de livraison Relais Colis"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:53
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:71
 msgid "Export in CSV (C2C)"
 msgstr "Exporter en CSV (C2C)"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:72
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:93
 msgid "You do not have sufficient permissions to export orders."
 msgstr ""
 "Vous ne disposez pas des autorisations suffisantes pour exporter des "
 "commandes."
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:96
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:117
 msgid "Weight"
 msgstr "Poids"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:97
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:118
 msgid "Conforming dimensions"
 msgstr "Dimensions conformes"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:98
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:119
 msgid "Conforming goods"
 msgstr "Marchandises conformes"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:99
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:120
 msgid "Recipient title"
 msgstr "Civilité du destinataire"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:100
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:121
 msgid "Recipient last name"
 msgstr "Nom du destinataire"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:101
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:122
 msgid "Recipient first name"
 msgstr "Prénom du destinataire"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:102
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:123
 msgid "Destination address line 1"
 msgstr "Adresse de la destination"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:103
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:124
 msgid "Destination address line 2"
 msgstr "Adresse de la destination ligne 2"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:104
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:125
 msgid "Destination postal code"
 msgstr "Code postal de la destination"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:105
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:126
 msgid "Destination city"
 msgstr "Ville de la destination"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:106
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:127
 msgid "Destination country"
 msgstr "Pays de la destination"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:107
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:128
 msgid "Recipient email"
 msgstr "Email du destinataire"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:108
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:129
 msgid "Recipient phone"
 msgstr "Téléphone du destinataire"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:109
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:130
 msgid "Destination ID"
 msgstr "ID de la destination"
 
-#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:110
+#: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:131
 msgid "Destination name"
 msgstr "Nom de la destination"
 
@@ -1248,6 +1244,18 @@ msgid ""
 msgstr ""
 "%s n'est pas actif, car il nécessite WordPress en version %s ou supérieure. "
 "Veuillez %smise à jour WordPress &raquo;%s"
+
+#~ msgid "A4 Format"
+#~ msgstr "Format A4"
+
+#~ msgid "A5 Format"
+#~ msgstr "Format A5"
+
+#~ msgid "10x15 Format"
+#~ msgstr "Format 10x15"
+
+#~ msgid "No service available for this delivery method"
+#~ msgstr "Aucun service disponible pour cette méthode de livraison"
 
 #~ msgid "Xeett"
 #~ msgstr "Xeett"

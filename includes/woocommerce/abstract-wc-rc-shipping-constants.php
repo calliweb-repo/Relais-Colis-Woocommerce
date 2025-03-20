@@ -218,9 +218,9 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_format_units() {
 
         return array(
-            'A4' => __( 'A4 Format', 'relais-colis-woocommerce' ),
-            'A5' => __( 'A5 Format', 'relais-colis-woocommerce' ),
-            '10x15' => __( '10x15 Format', 'relais-colis-woocommerce' ),
+            'A4' => __( '10 X 15 : 4 PER PAGE', 'relais-colis-woocommerce' ),
+            'A5' => __( 'A5', 'relais-colis-woocommerce' ),
+            'ZEBRA' => __( '10 X 15 : ZEBRA', 'relais-colis-woocommerce' ),
         );
     }
 
