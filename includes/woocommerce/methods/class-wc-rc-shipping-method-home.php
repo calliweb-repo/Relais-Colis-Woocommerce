@@ -29,11 +29,11 @@ class WC_RC_Shipping_Method_Home extends WC_RC_Shipping_Method {
 
         // Unique ID
         $this->id = self::WC_RC_SHIPPING_METHOD_HOME_ID;
-        
+
         // Relais colis
-        $this->method_title = $this->get_wc_rc_shipping_method_default_title();
+        //$this->method_title = $this->get_wc_rc_shipping_method_default_title();
         $this->method_description = __( 'Relais Colis: home deliveries.', 'relais-colis-woocommerce' );
-        $this->title = $this->get_wc_rc_shipping_method_default_title();
+        //$this->title = isset( $this->settings[ 'title' ] ) ? $this->settings[ 'title' ] : $this->get_wc_rc_shipping_method_default_title();
 
         // Load method options
         $this->init();

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-20T12:18:37+00:00\n"
+"POT-Creation-Date: 2025-03-24T10:28:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: relais-colis-woocommerce\n"
@@ -57,7 +57,7 @@ msgid "Activation Key"
 msgstr ""
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:174
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:173
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:185
 msgid "Active"
 msgstr ""
 
@@ -309,6 +309,10 @@ msgstr ""
 msgid "Available services:"
 msgstr ""
 
+#: includes/woocommerce/checkout/class-wc-rc-checkout-scripts-manager.php:66
+msgid "Please select a relay point"
+msgstr ""
+
 #: includes/woocommerce/class-wc-rc-services-manager.php:77
 msgid "Appointment Scheduling"
 msgstr ""
@@ -333,99 +337,99 @@ msgstr ""
 msgid "Oversized Items"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:121
+#: includes/woocommerce/class-wc-rc-services-manager.php:120
 msgid "Product Unpacking"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:128
+#: includes/woocommerce/class-wc-rc-services-manager.php:127
 msgid "Packaging Removal"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:135
+#: includes/woocommerce/class-wc-rc-services-manager.php:134
 msgid "Removal of Old Equipment"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:143
+#: includes/woocommerce/class-wc-rc-services-manager.php:142
 msgid "Delivery to Desired Room"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:150
+#: includes/woocommerce/class-wc-rc-services-manager.php:149
 msgid "Curbside Delivery"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:168
+#: includes/woocommerce/class-wc-rc-services-manager.php:167
 msgid "Digicode"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:173
+#: includes/woocommerce/class-wc-rc-services-manager.php:172
 msgid "Floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:175
+#: includes/woocommerce/class-wc-rc-services-manager.php:174
 msgid "Please select a floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:176
+#: includes/woocommerce/class-wc-rc-services-manager.php:175
 msgid "Ground floor (RDC)"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:177
+#: includes/woocommerce/class-wc-rc-services-manager.php:176
 msgid "1st floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:178
+#: includes/woocommerce/class-wc-rc-services-manager.php:177
 msgid "2nd floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:179
+#: includes/woocommerce/class-wc-rc-services-manager.php:178
 msgid "3rd floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:180
+#: includes/woocommerce/class-wc-rc-services-manager.php:179
 msgid "4th floor"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:181
+#: includes/woocommerce/class-wc-rc-services-manager.php:180
 msgid "5th floor and above"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:187
+#: includes/woocommerce/class-wc-rc-services-manager.php:186
 msgid "Type of residence"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:189
+#: includes/woocommerce/class-wc-rc-services-manager.php:188
 msgid "Please select a type"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:190
+#: includes/woocommerce/class-wc-rc-services-manager.php:189
 msgid "House"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:191
+#: includes/woocommerce/class-wc-rc-services-manager.php:190
 msgid "Apartment"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:197
+#: includes/woocommerce/class-wc-rc-services-manager.php:196
 msgid "Elevator"
 msgstr ""
 
-#: includes/woocommerce/class-wc-rc-services-manager.php:202
+#: includes/woocommerce/class-wc-rc-services-manager.php:201
 msgid "Additional delivery instructions"
 msgstr ""
 
-#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:148
+#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:222
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:150
+#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:224
 msgid "Enable this shipping method."
 msgstr ""
 
-#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:154
+#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:228
 msgid "Title"
 msgstr ""
 
-#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:156
+#: includes/woocommerce/methods/abstract-wc-rc-shipping-method.php:230
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
@@ -1031,24 +1035,24 @@ msgstr ""
 msgid "Configure all services."
 msgstr ""
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:157
-msgid "Client Choice"
-msgstr ""
-
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:165
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:159
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:180
-msgid "Price"
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:167
+msgid "Client Choice"
 msgstr ""
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:187
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:175
 msgid "Assigned Products"
 msgstr ""
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:190
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:178
 msgid "Select products for this service"
+msgstr ""
+
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:192
+msgid "Price"
 msgstr ""
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:86

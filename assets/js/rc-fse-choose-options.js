@@ -226,7 +226,7 @@ jQuery(window).on("load", function () {
     const originalFetch = window.fetch;
     window.fetch = async function (...args) {
         console.log("🕵️ Interception fetch:", args[0]); // URL de la requête
-        let url = args[0];
+        let url = typeof args[0] === 'string' ? args[0] : args[0].url;
 
         // Vérifie si c'est la requête de sélection de mode de livraison
         if (typeof url === "string" && url.includes('/wp-json/wc/store/v1/cart/select-shipping-rate')) {
@@ -243,6 +243,36 @@ jQuery(window).on("load", function () {
 
             // Remplace l'URL par la nouvelle version modifiée
             args[0] = url;
+        }
+
+        // Blocage si validation sans relais sélectionné
+        // 🕵️ Interception fetch:"https://calliweb.sukellos.fr/wp-json/wc/store/v1/checkout?_locale=site"
+        if ( (typeof url === "string" && url.includes('/wp-json/wc/store/v1/checkout')) || (url.includes('/wp-json/wc/store/v1/checkout')) ) {
+            console.log("🛑 Tentative de validation de commande...");
+
+            const selectedMethod = getSelectedShippingMethod();
+            const relayId = document.querySelector('#selected-relay-name')?.textContent.trim();
+
+            console.log('Mode de livraison:', selectedMethod);
+            console.log('Relay ID:', relayId);
+
+            if (selectedMethod === 'relay' && (!relayId || relayId === '')) {
+                console.warn("❌ Validation bloquée : aucun point relais sélectionné.");
+
+                // Simuler une réponse rejetée avec message d’erreur WooCommerce
+                return Promise.resolve(new Response(JSON.stringify({
+                    code: "no_relay_selected",
+                    message: rc_choose_options.label_please_select_relay,
+                    data: {
+                        status: 400
+                    }
+                }), {
+                    status: 400,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }));
+            }
         }
 
         return originalFetch.apply(this, args);

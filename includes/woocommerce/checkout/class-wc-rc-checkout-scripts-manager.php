@@ -60,6 +60,13 @@ class WC_RC_Checkout_Scripts_Manager {
         // CSS - Relais Colis
         wp_enqueue_style( self::PREFIX_RC.'_home_css', $plugin_url.'assets/css/rc-home-choose-options.css', array(), '1.0', 'all' );
         wp_enqueue_style( self::PREFIX_RC.'_homeplus_css', $plugin_url.'assets/css/rc-homeplus-choose-options.css', array(), '1.0', 'all' );
+
+        wp_localize_script( self::PREFIX_RC.'_js', 'rc_choose_options',
+            array(
+                'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-woocommerce' )
+            )
+        );
+
     }
 
     /**

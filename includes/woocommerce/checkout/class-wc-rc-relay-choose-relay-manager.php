@@ -5,9 +5,10 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
-use WP_Error;
+use Exception;
 
 /**
  * WooCommerce Relais Colis Block Manager for relais picking.
@@ -34,11 +35,50 @@ class WC_RC_Relay_Choose_Relay_Manager {
         // Inject JS template at the end of page
         add_action( 'wp_footer', array( $this, 'action_wp_footer' ) );
 
-        // Relais Colis REST API used to update WooCOmmerce wth selected relay
+        // Relais Colis REST API used to update WooCOmmerce with selected relay
         add_action( 'wp_ajax_update_relay', array( $this, 'wp_ajax_update_relay' ) );
         add_action( 'wp_ajax_nopriv_update_relay', array( $this, 'wp_ajax_update_relay' ) );
 
+        /**
+         * Provides an opportunity to check cart items before checkout. This generally occurs during checkout validation.
+         *
+         * @see WC_Checkout::validate_checkout()
+         * @since 3.0.0 or earlier
+         */
+        //add_action( 'woocommerce_check_cart_items', array( $this, 'action_woocommerce_check_cart_items' ) );
+        add_action( 'woocommerce_after_checkout_validation', array( $this, 'action_woocommerce_after_checkout_validation' ), 10, 2 );
     }
+
+    /**
+     * Provides an opportunity to check cart items before checkout. This generally occurs during checkout validation.
+     * Used to check that a relay point has been selected
+     * Old shortcode checkout mode
+     *
+     * @see WC_Checkout::validate_checkout()
+     * @since 3.0.0 or earlier
+     */
+    public function action_woocommerce_after_checkout_validation( $data, $errors ) {
+
+        WP_Log::notice( __METHOD__, [], 'relais-colis-woocommerce' );
+
+        if ( !WC()->session->__isset( 'chosen_shipping_methods' ) || empty( WC()->session->get( 'chosen_shipping_methods' ) )  ) return;
+
+        $chosen_shipping = WC()->session->get( 'chosen_shipping_methods' )[ 0 ];
+
+        // Check if it is the RC relais mode
+        if ( $chosen_shipping !== WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID ) return;
+        WP_Log::notice( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-woocommerce' );
+
+        // Must have selected a relay
+        // Get rc_relay_data from WC session
+        if ( ( !WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) )
+            || empty( WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) ) {
+
+            WP_Log::debug( __METHOD__.' - Please select a relay point', [], 'relais-colis-woocommerce' );
+            $errors->add( 'shipping', __( 'Please select a relay point', 'woocommerce' ) );
+        }
+    }
+
 
     /**
      * Enqueue needed scripts

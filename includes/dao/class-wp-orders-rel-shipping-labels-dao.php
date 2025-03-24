@@ -136,7 +136,9 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
             WC_RC_Shipping_Constants::STATUS_RC_ECHEC_LIVRAISON
         );
 
-        return $wpdb->get_col( $query );
+        $results = $wpdb->get_results( $query, ARRAY_A );
+
+        return $results;
     }
 
     /**

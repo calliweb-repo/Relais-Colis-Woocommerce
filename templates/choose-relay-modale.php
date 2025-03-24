@@ -1,4 +1,4 @@
-<div id="relayModal" title="Sélectionnez un point relais">
+<div id="relayModal" title="Sélectionnez un point relais" style="display: none;">
     <div class="rc-container-fluid">
         <div class="rc-row">
             <div class="rc-col-sm-6 divCompleteAdress">

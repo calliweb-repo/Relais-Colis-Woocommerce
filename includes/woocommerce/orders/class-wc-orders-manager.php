@@ -296,13 +296,27 @@ class WC_Orders_Manager {
             $session_rc_relay_data = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
             WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_relay_data' => $session_rc_relay_data ], 'relais-colis-woocommerce' );
 
+            // TEST
+            // Save customer info
+            $customer_shipping_address = array(
+                'shipping_address_1' => WC()->customer->get_shipping_address_1(),
+                'shipping_address_2' => WC()->customer->get_shipping_address_2(),
+                'shipping_postcode' => WC()->customer->get_shipping_postcode(),
+                'shipping_city' => WC()->customer->get_shipping_city(),
+                'shipping_company' => WC()->customer->get_shipping_company(),
+                'shipping_country' => WC()->customer->get_shipping_country(),
+            );
+            set_transient( 'rc_customer_shipping_address', $customer_shipping_address, 60 );
+            WP_Log::debug( __METHOD__.' - Customer info set in transient.', [ 'set_transient' => $customer_shipping_address ], 'relais-colis-woocommerce' );
+
+
             // Change shipping address (displayed in customer order confirmation, and in order admin)
-            /*$wc_order->set_shipping_company( $session_rc_relay_data[ 'Nomrelais' ] );
+            $wc_order->set_shipping_company( $session_rc_relay_data[ 'Nomrelais' ] );
             $wc_order->set_shipping_address_1( $session_rc_relay_data[ 'Geocoadresse' ] );
             $wc_order->set_shipping_address_2( '' );
             $wc_order->set_shipping_postcode( $session_rc_relay_data[ 'Postalcode' ] );
             $wc_order->set_shipping_city( $session_rc_relay_data[ 'Commune' ] );
-            $wc_order->set_shipping_country( 'FR' ); // Countrycode or countryLabel ?*/
+            $wc_order->set_shipping_country( 'FR' ); // Countrycode or countryLabel ?
 
             // Supported WooCommerce country codes
             //AF, ZA, AX, AL, DZ, DE, AS, AD, AO, AI, AQ, AG, SA, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, PW, BE, BZ, BJ, BM, BT, BY, BO, BA, BW, BR, BN, BG, BF, BI, KH, CM, CA, CV, CL, CN, CX, CY, CO, KM, CG, CD, KP, KR, CR, CI, HR, CU, CW, DK, DJ, DM, EG, AE, EC, ER, ES, EE, SZ, US, ET, FJ, FI, FR, GA, GM, GE, GS, GH, GI, GR, GD, GL, GP, GU, GT, GG, GN, GQ, GW, GY, GF, HT, HN, HK, HU, BV, IM, NF, KY, CC, CK, FK, FO, HM, MH, UM, SB, TC, IN, ID, IR, IQ, IE, IS, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KW, KG, RE, LA, LS, LV, LB, LR, LY, LI, LT, LU, MO, MK, MG, MY, MW, MV, ML, MT, MA, MQ, MU, MR, YT, MX, FM, MD, MC, MN, ME, MS, MZ, MM, NA, NR, NP, NI, NE, NG, NU, MP, NO, NC, NZ, OM, PK, PA, PG, PY, NL, PE, PH, PN, PL, PF, PT, PR, QA, CF, DO, CZ, RO, GB, RU, RW, BQ, EH, BL, PM, KN, MF, SX, VC, SH, LC, SV, WS, SM, ST, SN, RS, SC, SL, SG, SK, SI, SO, SD, SS, LK, SE, CH, SR, SJ, SY, TW, TJ, TZ, TD, TF, IO, PS, TH, TL, TG, TK, TO, TT, TN, TM, TR, TV, UG, UA, UY, UZ, VU, VA, VE, VN, VG, VI, WF, YE, ZM, ZW

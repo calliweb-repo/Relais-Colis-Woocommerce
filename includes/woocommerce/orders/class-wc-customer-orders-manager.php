@@ -90,6 +90,30 @@ class WC_Customer_Orders_Manager {
         if ( ! $wc_order ) {
             return;
         }
+
+        // Set original customer info
+        $rc_customer_shipping_address = get_transient( 'rc_customer_shipping_address' ) ?: [];
+        if ( !empty( $rc_customer_shipping_address ) ) {
+
+            WP_Log::debug( __METHOD__.' - Customer info present in transient.', [ '$rc_customer_shipping_address' => $rc_customer_shipping_address ], 'relais-colis-woocommerce' );
+
+            if ( !empty( $rc_customer_shipping_address ) ) {
+
+                $customer = new \WC_Customer( $wc_order->get_customer_id() );
+                foreach ( $rc_customer_shipping_address as $key => $value ) {
+                    // Use setters where available.
+                    if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
+                        $customer->{"set_{$key}"}( $value );
+                    }
+                }
+                $customer->save();
+            }
+
+            // Delete transient after usage
+            delete_transient( 'rc_customer_shipping_address' );
+        }
+
+
         WC_Order_Shipping_Infos_Manager::instance()->render_shipping_infos( $wc_order );
     }
 

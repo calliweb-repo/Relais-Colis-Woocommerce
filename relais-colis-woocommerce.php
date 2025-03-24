@@ -98,6 +98,17 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                 );
                 WP_Log::debug( __METHOD__, [ '$compatibility' => $compatibility ? 'true' : 'false' ], 'relais-colis-woocommerce' );
             }
+
+
+            // Remove the 'products_enabled' column if it exists
+            global $wpdb;
+            $table_services = $wpdb->prefix.'rc_services';
+            $column_exists = $wpdb->get_results( "SHOW COLUMNS FROM $table_services LIKE 'products_enabled'" );
+            if ( !empty( $column_exists ) ) {
+
+                $wpdb->query( "ALTER TABLE $table_services DROP COLUMN products_enabled" );
+                WP_Log::debug( __METHOD__, [ 'products_enabled column removed from rc_services' => true ], 'relais-colis-woocommerce' );
+            }
         } );
 
         parent::init();
@@ -233,22 +244,12 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                 name VARCHAR(255) NOT NULL,               -- Name of the service
                 slug VARCHAR(255) NOT NULL,               -- Slug of the service
                 client_choice VARCHAR(3) NOT NULL DEFAULT 'no', -- Whether the client can choose this service
-                products_enabled VARCHAR(3) NOT NULL DEFAULT 'no', -- Whether the client can choose the products
                 delivery_method VARCHAR(255) NOT NULL,    -- Delivery method associated with the service
                 enabled VARCHAR(3) NOT NULL DEFAULT 'no',        -- Whether the service is active
                 price DECIMAL(10,2) NOT NULL DEFAULT 0.00 -- Price of the service (default: free)
             ) $charset_collate;
 
         ";
-
-        // Check if the column exists
-        $column_exists = $wpdb->get_results( "SHOW COLUMNS FROM $table_services LIKE 'products_enabled'" );
-
-        if ( empty( $column_exists ) ) {
-
-            // Add column if it doesn't exist
-            $wpdb->query( "ALTER TABLE $table_services ADD COLUMN products_enabled VARCHAR(3) NOT NULL DEFAULT 'no' AFTER client_choice" );
-        }
 
         // SQL for creating the rc_services_rel_products table
         $sql_services_rel_products = "

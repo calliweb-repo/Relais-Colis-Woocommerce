@@ -36,14 +36,13 @@ class WP_Services_DAO {
             // Determine the delivery method (Home or Home+)
             $name = $fixed_service[ 0 ];
             $delivery_methods = $fixed_service[ 1 ];
-            $delivery_method = in_array( WC_RC_Shipping_Constants::OFFER_HOME, $delivery_methods ) ? 'h' : 'hp';
+            $delivery_method = implode( ', ', array_keys( $delivery_methods ) );
 
             // Prepare data for insertion
             $data = [
                 'name' => sanitize_text_field( $name ),
                 'slug' => sanitize_text_field( $slug ),
                 'client_choice' => 'no', // Default to client_choice = false
-                'products_enabled' => 'no', // Default to client_choice = false
                 'delivery_method' => sanitize_text_field( $delivery_method ),
                 'enabled' => 'no', // Default to disabled
                 'price' => 0.00, // Default price to 0.00
@@ -55,7 +54,7 @@ class WP_Services_DAO {
     }
 
     /**
-     * Get a pric by service slug
+     * Get a price by service slug
      * @param $slug
      * @return float
      */
@@ -98,7 +97,12 @@ class WP_Services_DAO {
 
             $query .= $wpdb->prepare( " WHERE id = %d", $service_id );
         }
-        return $wpdb->get_results( $query, ARRAY_A );
+        $results = $wpdb->get_results( $query, ARRAY_A );
+        foreach ( $results as &$result ) {
+
+            $result['delivery_method'] = explode( ',', $result['delivery_method'] );
+        }
+        return $results;
     }
 
     /**
@@ -162,23 +166,23 @@ class WP_Services_DAO {
      * @param string $name The name of the service.
      * @param string $slug The slug of the service.
      * @param bool $client_choice Whether the client can choose this service, yes or no
-     * @param bool $products_enabled Whether the client can choose products, yes or no
-     * @param string $delivery_method The delivery method associated with the service.
+     * @param array $delivery_method_list The delivery method associated with the service.
      * @param bool $enabled Whether the service is enabled or not, yes or no
      * @param float $price The price of the service.
      * @return int|false Inserted row ID on success, false on failure.
      */
-    public function insert_service( $name, $slug, $client_choice, $products_enabled, $delivery_method, $enabled, $price ) {
+    public function insert_service( $name, $slug, $client_choice, $delivery_method_list, $enabled, $price ) {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
+
+        $delivery_method = implode( ',', $delivery_method_list );
 
         // Data to insert into the table
         $data = [
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
             'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
-            'products_enabled' => ( $products_enabled === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
             'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),
@@ -198,16 +202,17 @@ class WP_Services_DAO {
      * @param string $name The name of the service.
      * @param string $slug The slug of the service.
      * @param bool $client_choice Whether the client can choose this service, yes or no
-     * @param bool $products_enabled Whether the client can choose products, yes or no
-     * @param string $delivery_method The delivery method associated with the service.
+     * @param array $delivery_method_list The delivery method associated with the service.
      * @param bool $enabled Whether the service is enabled or not, yes or no
      * @param float $price The price of the service.
      * @return int|false Rows affected on success, false on failure.
      */
-    public function update_service( $service_id, $name, $slug, $client_choice, $products_enabled, $delivery_method, $enabled, $price ) {
+    public function update_service( $service_id, $name, $slug, $client_choice, $delivery_method_list, $enabled, $price ) {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
+
+        $delivery_method = implode( ',', $delivery_method_list );
 
         WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$name' => $name, '$slug' => $slug, '$client_choice' => $client_choice, '$delivery_method' => $delivery_method, '$enabled' => $enabled, '$price' => $price ], 'relais-colis-woocommerce' );
 
@@ -216,7 +221,6 @@ class WP_Services_DAO {
             'name' => sanitize_text_field( $name ),
             'slug' => sanitize_text_field( $slug ),
             'client_choice' => ( $client_choice === 'yes' ? 'yes' : 'no' ),
-            'products_enabled' => ( $products_enabled === 'yes' ? 'yes' : 'no' ),
             'delivery_method' => sanitize_text_field( $delivery_method ),
             'enabled' => ( $enabled === 'yes' ? 'yes' : 'no' ),
             'price' => floatval( $price ),
@@ -300,14 +304,14 @@ class WP_Services_DAO {
         $table_services = $wpdb->prefix.'rc_services';
         $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
 
-        // uild request to get services
+        // Build request to get services
         $query = "
         SELECT s.id, s.name, s.slug, s.price
         FROM {$table_services} s
         LEFT JOIN {$table_services_rel_products} rp ON rp.service_id = s.id
         WHERE s.client_choice = 'yes'
           AND s.enabled = 'yes'
-          AND s.delivery_method = %s
+          AND FIND_IN_SET(%s, s.delivery_method) > 0
     ";
 
         // Si le service est lié à des produits spécifiques, filtrer en fonction des produits dans le panier

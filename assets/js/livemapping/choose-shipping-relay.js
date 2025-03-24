@@ -10,74 +10,6 @@ jQuery(document).ready(function ($) {
         return;
     }
 
-    /**
-     * Detect checkout mode : classical using shortcode, or new with FSE (Gutenberg)
-     * Then insert button to open modale -> btnChooseRelay
-     *
-    function checkShippingMethod() {
-        var isRelaisColisSelected = false;
-        var isCheckoutFSE = true;
-
-        // Shipping method detection
-        // Old shortcode checkout
-        $('input[type="radio"][name="shipping_method[0]"]').each(function () {
-            if ($(this).is(':checked') && $(this).val().includes('wc_rc_shipping_method_relay')) {
-                isRelaisColisSelected = true;
-                isCheckoutFSE = false;
-            }
-        });
-        // Checkout FSE
-        $('input[type="radio"][name="radio-control-0"]').each(function () {
-            if ($(this).is(':checked') && $(this).val().includes('wc_rc_shipping_method_relay')) {
-                isRelaisColisSelected = true;
-                isCheckoutFSE = true;
-            }
-        });
-
-        if (isRelaisColisSelected) {
-
-            if (!$('#relais-colis-block').length) {
-
-                console.log("🚀 Adding block Relais Colis...");
-
-                if ( !isCheckoutFSE ) {
-                    // Old shortcode checkout
-                    //$('.woocommerce-shipping-methods').after(getRelayColisHtml());
-                    //$('#payment').before(getRelayColisHtml());
-                    $('#shipping_method').after(getRelayColisHtml());
-
-                } else {
-
-                    // Checkout FSE
-                    $('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
-                }
-            }
-            $('#relais-colis-block').show();
-
-        } else {
-
-            console.log(" Relais Colis not selected, hide and remove it.");
-            $('#relais-colis-block').hide().remove();
-        }
-    }
-
-    // WooCommerce update
-    $(document.body).on('updated_checkout checkout_block_render', function () {
-        console.log("🔄 WooCommerce update detected.");
-        checkShippingMethod();
-    });
-
-    // Initial loading
-    checkShippingMethod();
-
-    // Listen to shipping methods changes
-    $(document).on('change', 'input[type="radio"][name="radio-control-0"]', function () {
-        console.log("🔀 Shipping method change detected.");
-        checkShippingMethod();
-    });
-
-*/
-
     /*********************************/
     /******* Choose relay modal ******/
     /*********************************/
@@ -94,6 +26,9 @@ jQuery(document).ready(function ($) {
      */
     $("#relayModal").dialog({
         autoOpen: false, // Ne pas ouvrir automatiquement
+        create: function () {
+            $("#relayModal").css("display", "none");
+        },
         modal: true, // Bloque l'interaction avec la page derrière
         width: 1200,
         minHeight: 500,

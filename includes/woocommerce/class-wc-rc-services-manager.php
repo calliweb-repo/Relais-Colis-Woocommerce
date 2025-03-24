@@ -112,7 +112,6 @@ class WC_RC_Services_Manager {
             self::OVERSIZED_ITEMS => array(
                 __( 'Oversized Items', 'relais-colis-woocommerce' ),
                 [
-                    WC_RC_Shipping_Constants::METHOD_NAME_HOME => WC_RC_Shipping_Constants::OFFER_HOME,
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),

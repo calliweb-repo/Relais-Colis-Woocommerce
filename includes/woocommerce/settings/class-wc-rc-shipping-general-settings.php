@@ -368,7 +368,7 @@ class WC_RC_Shipping_General_Settings {
                 'type' => 'sectionend',
                 'id' => 'rc_api_section_end',
             ];
-
+/*
         // Render refresh button only if RC API access is valid
         if ( WC_RC_Shipping_Config_Manager::instance()->is_rc_api_valid_access() ) {
 
@@ -384,7 +384,7 @@ class WC_RC_Shipping_General_Settings {
                     'type' => 'sectionend',
                     'id' => 'rc_api_refresh_section_end',
                 ];
-        }
+        }*/
 
         // When RC API access is valid, then display customer infos
         if ( $is_rc_api_valid_access ) {
