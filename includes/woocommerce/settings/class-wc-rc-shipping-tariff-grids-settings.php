@@ -51,7 +51,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
         // Only for B2C interaction mode
-        if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return $sections;
+        //if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return $sections;
 
         $sections[ self::SECTION_TARIFF_GRIDS ] = __( 'Prices Grid', 'relais-colis-woocommerce' );
         return $sections;

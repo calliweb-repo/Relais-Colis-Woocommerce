@@ -768,8 +768,6 @@ class WC_Order_Packages_Manager {
 
             // Dynamic common params
             $dynamic_params_place_shipping_label = array(
-                // Agency code BUG FIXME le place doit recevoir C3 pour que le print fonctionne ensuite, donc valeur FIXE WP_RC_Place_Advertisement_Request::AGENCY_CODE => get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_AGENCY_CODE, 'C3' ), // Code de l'agence
-                WP_RC_Place_Advertisement_Request::AGENCY_CODE => 'C3', // Code de l'agence
                 WP_RC_Place_Advertisement_Request::CUSTOMER_ID => ''.$wc_order->get_customer_id(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
                 WP_RC_Place_Advertisement_Request::CUSTOMER_EMAIL => $wc_order->get_billing_email(),
@@ -790,16 +788,20 @@ class WC_Order_Packages_Manager {
             switch ( $rc_shipping_method ) {
                 case WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID:
 
-                    // Get xeett for relay, from meta data
+                    // Get xeett and agency code for relay, from meta data
                     $xeett = '';
+                    $agency_code = '';
 
                     // Check if relay_data
+                    //            [Xeett] => G2013
+                    //            [Agencecode] => G2
                     $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
                     WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
                     if ( !empty( $rc_relay_data ) ) {
 
                         // Extract informations
                         $xeett = $rc_relay_data[ 'Xeett' ] ?? '';
+                        $agency_code = $rc_relay_data[ 'Agencecode' ] ?? '';
                     }
 
                     // Request RC API place_advertisement
@@ -816,6 +818,7 @@ class WC_Order_Packages_Manager {
 
                             // Dynamic params
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = $xeett;
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS1_EXPEDITEUR ] = get_option( 'woocommerce_store_address' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS2_EXPEDITEUR ] = get_option( 'woocommerce_store_address_2' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::EMAIL_EXPEDITEUR ] = get_option( 'woocommerce_email_from_address' );
@@ -863,6 +866,7 @@ class WC_Order_Packages_Manager {
 
                             // Dynamic params
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
 
                             // Call API
                             $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );

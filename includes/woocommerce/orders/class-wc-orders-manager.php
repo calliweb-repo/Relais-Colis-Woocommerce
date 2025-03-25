@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
@@ -124,6 +125,21 @@ class WC_Orders_Manager {
 
         // Register scripts
         add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
+
+        // Sync rc_services_rel_products with existing orders
+        add_action( 'deleted_post', array( $this, 'action_deleted_post' ) );
+    }
+
+    /**
+     * Sync rc_services_rel_products with existing orders
+     * @param $post_id
+     * @return void
+     */
+    public function action_deleted_post( $post_id ) {
+
+        WP_Log::debug( __METHOD__, [ '$post_id' => $post_id ], 'relais-colis-woocommerce' );
+
+        WP_Orders_Rel_Shipping_Labels_DAO::instance()->delete_shipping_labels_for_order_and_orphans( $post_id );
     }
 
     /***
@@ -294,9 +310,8 @@ class WC_Orders_Manager {
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) {
 
             $session_rc_relay_data = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_relay_data' => $session_rc_relay_data ], 'relais-colis-woocommerce' );
+            WP_Log::notice( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_relay_data' => $session_rc_relay_data ], 'relais-colis-woocommerce' );
 
-            // TEST
             // Save customer info
             $customer_shipping_address = array(
                 'shipping_address_1' => WC()->customer->get_shipping_address_1(),
@@ -322,6 +337,70 @@ class WC_Orders_Manager {
             //AF, ZA, AX, AL, DZ, DE, AS, AD, AO, AI, AQ, AG, SA, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, PW, BE, BZ, BJ, BM, BT, BY, BO, BA, BW, BR, BN, BG, BF, BI, KH, CM, CA, CV, CL, CN, CX, CY, CO, KM, CG, CD, KP, KR, CR, CI, HR, CU, CW, DK, DJ, DM, EG, AE, EC, ER, ES, EE, SZ, US, ET, FJ, FI, FR, GA, GM, GE, GS, GH, GI, GR, GD, GL, GP, GU, GT, GG, GN, GQ, GW, GY, GF, HT, HN, HK, HU, BV, IM, NF, KY, CC, CK, FK, FO, HM, MH, UM, SB, TC, IN, ID, IR, IQ, IE, IS, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KW, KG, RE, LA, LS, LV, LB, LR, LY, LI, LT, LU, MO, MK, MG, MY, MW, MV, ML, MT, MA, MQ, MU, MR, YT, MX, FM, MD, MC, MN, ME, MS, MZ, MM, NA, NR, NP, NI, NE, NG, NU, MP, NO, NC, NZ, OM, PK, PA, PG, PY, NL, PE, PH, PN, PL, PF, PT, PR, QA, CF, DO, CZ, RO, GB, RU, RW, BQ, EH, BL, PM, KN, MF, SX, VC, SH, LC, SV, WS, SM, ST, SN, RS, SC, SL, SG, SK, SI, SO, SD, SS, LK, SE, CH, SR, SJ, SY, TW, TJ, TZ, TD, TF, IO, PS, TH, TL, TG, TK, TO, TT, TN, TM, TR, TV, UG, UA, UY, UZ, VU, VA, VE, VN, VG, VI, WF, YE, ZM, ZW
 
             // Update WooCommerce order meta data
+            //            [IconeLogo] => logoOuvert.png
+            //            [AffichageLien] => OK
+            //            [Distance] => 3426
+            //            [Xeett] => G2013
+            //            [Nomrelais] => CARREFOUR MARKET
+            //            [Lon] => 6.52549
+            //            [Lat] => 45.486
+            //            [Nomdepositaire] => CARREFOUR MARKET
+            //            [Geocoadresse] => 49 RUE DES BOULEAUX
+            //            [Complementadresse] =>
+            //            [Postalcode] => 73600
+            //            [Commune] => MOUTIERS
+            //            [Countrycode] => FRA
+            //            [Urlrelais] => javascript:window.open(\'https://service.relaiscolis.com/tracking/point_relaiscolis.aspx?RelCode=G2013\', \'window\', \'toolbar=no,status=no,menubar=no,scrollbars=auto,resizable=no,width=430,height=457,left=0,top=0\')
+            //            [Depositaireetat] => A
+            //            [Depositairenom] => CARREFOUR MARKET PROVENCIA
+            //            [Photopath] => https://service.relaiscolis.com/PhotosRelais/245925.JPG
+            //            [Photoname] => 245925.JPG
+            //            [Horairelundimatin] => 08:30-12:00
+            //            [Horairelundiapm] => 12:00-19:45
+            //            [Horairemardimatin] => 08:30-12:00
+            //            [Horairemardiapm] => 12:00-19:45
+            //            [Horairemercredimatin] => 08:30-12:00
+            //            [Horairemercrediapm] => 12:00-19:45
+            //            [Horairejeudimatin] => 08:30-12:00
+            //            [Horairejeudiapm] => 12:00-19:45
+            //            [Horairevendredimatin] => 08:30-12:00
+            //            [Horairevendrediapm] => 12:00-19:45
+            //            [Horairesamedimatin] => 08:30-12:00
+            //            [Horairesamediapm] => 12:00-19:45
+            //            [Horairedimanchematin] => 09:00-12:00
+            //            [Horairedimancheapm] => -
+            //            [Datecreation] => 25/03/2019
+            //            [Datepremiercolis] => 08/05/2020
+            //            [Datederniercolis] => 17/03/2020
+            //            [Datefermeture] => 17/03/2020
+            //            [Agencecode] => G2
+            //            [Agencenom] => CHAMBERY
+            //            [Agenceadresse1] => 92 RUE JACQUES CARTIER
+            //            [Agenceadresse2] =>
+            //            [Agencecodepostal] => 73800
+            //            [Agenceville] => STE HELENE DU LAC
+            //            [Icone] => 1
+            //            [Relaismax] => 0
+            //            [Relaissmart] => 0
+            //            [formattedAddressLine] => 49 RUE DES BOULEAUX
+            //            [countryLabel] => France
+            //            [countryISO] => FRA
+            //            [streetLabel] => 49 RUE DES BOULEAUX
+            //            [Info1] =>
+            //            [Info2] =>
+            //            [Info3] =>
+            //            [Info4] =>
+            //            [Info5] =>
+            //            [Info6] =>
+            //            [Info7] =>
+            //            [Info8] =>
+            //            [Info9] =>
+            //            [Info10] =>
+            //            [Pseudorvc] => 06483
+            //            [MessageConges] =>
+            //            [AgenceCountryISO] => FRA
+            //            [IsLocker] => 0
+            //            [RelaisId] => 106401-06
             $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA, $session_rc_relay_data );
 
             // Save order

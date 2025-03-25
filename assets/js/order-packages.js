@@ -78,12 +78,21 @@ jQuery(document).ready(function ($) {
         container.append(`
                 <div id="rc-error-message" class="rc-error hidden">
                     <span class="rc-error-message"></span>
-                    <button class="rc-error-close">&times;</button>
+                    <button type="button" class="rc-error-close">&times;</button>
+                </div>
+            `);
+        container.append(`
+                <div id="rc-success-message" class="rc-success hidden">
+                    <span class="rc-success-message"></span>
+                    <button type="button" class="rc-success-close">&times;</button>
                 </div>
             `);
 
         // Hide error message on click
         $(document).on('click', '#rc-error-message', function () {
+            $(this).fadeOut();
+        });
+        $(document).on('click', '#rc-success-message', function () {
             $(this).fadeOut();
         });
 
@@ -327,6 +336,16 @@ jQuery(document).ready(function ($) {
      * Affiche un message d'erreur et permet de le fermer
      * @param {string} message - Message d'erreur à afficher
      */
+    function showSuccess(message) {
+        let errorContainer = $('#rc-success-message');
+        errorContainer.find('.rc-success-message').text(message); // Ajoute le message
+        errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
+    }
+
+    /**
+     * Affiche un message d'erreur et permet de le fermer
+     * @param {string} message - Message d'erreur à afficher
+     */
     function showError(message) {
         let errorContainer = $('#rc-error-message');
         errorContainer.find('.rc-error-message').text(message); // Ajoute le message
@@ -334,6 +353,9 @@ jQuery(document).ready(function ($) {
     }
 
     // Permet de cacher l'erreur en cliquant sur la croix
+    $(document).on('click', '.rc-success-close', function () {
+        $('#rc-success-message').fadeOut();
+    });
     $(document).on('click', '.rc-error-close', function () {
         $('#rc-error-message').fadeOut();
     });
@@ -388,6 +410,7 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -529,6 +552,7 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -557,6 +581,7 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -592,6 +617,7 @@ jQuery(document).ready(function ($) {
 
                         // Rafraîchir l'interface
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || "An unknown error occurred.");
                     }
@@ -619,6 +645,7 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -695,6 +722,7 @@ jQuery(document).ready(function ($) {
 
                         // Rafraîchir l'interface pour afficher "Imprimer la lettre de voiture"
                         renderColisUI();
+                        showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown_generate_way_bill);
                     }

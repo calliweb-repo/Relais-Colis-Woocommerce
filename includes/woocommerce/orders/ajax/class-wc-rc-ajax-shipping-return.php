@@ -88,7 +88,8 @@ class WC_RC_Ajax_Shipping_Return {
             $store_country = $country_array[ 0 ]; // Country (Eg: FR)
 
             // Get xeett for relay, from meta data
-            $xeett = null;
+            //            [Xeett] => G2013
+            $xeett = '';
 
             // Check if relay_data
             $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
@@ -121,7 +122,7 @@ class WC_RC_Ajax_Shipping_Return {
             );
 
             // If relay, then insert xeett
-            if ( !is_null( $xeett ) ) {
+            if ( !empty( $xeett ) ) {
 
                 $dynamic_params[ WP_RC_Place_Return_V3::REQUESTS ][ WP_RC_Place_Return_V3::XEETT ] = $xeett;
                 $dynamic_params[ WP_RC_Place_Return_V3::REQUESTS ][ WP_RC_Place_Return_V3::XEETT_NAME ] = $xeett;

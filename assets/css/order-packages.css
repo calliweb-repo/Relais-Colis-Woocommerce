@@ -223,7 +223,7 @@
 #rc-colis-container .rc-modal-content {
     background-color: white;
     margin: 10% auto;
-    padding: 20px;
+    padding: 40px;
     border: 1px solid #888;
     width: 80%;
     max-width: 1200px;
@@ -256,11 +256,29 @@
     width: 100%;
     box-sizing: border-box; /* Assure que le padding ne dépasse pas */
 }
+#rc-colis-container .rc-success {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4fbb4f; /* Vert */
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas */
+}
 
+#rc-colis-container .rc-success .rc-success-message,
 #rc-colis-container .rc-error .rc-error-message {
     flex-grow: 1; /* Permet au message d'occuper l'espace disponible */
 }
 
+#rc-colis-container .rc-success .rc-success-close,
 #rc-colis-container .rc-error .rc-error-close {
     cursor: pointer;
     margin-left: 10px;
@@ -272,6 +290,9 @@
 }
 #rc-colis-container .rc-error .rc-error-close:hover {
     color: #ffcccc;
+}
+#rc-colis-container .rc-success .rc-success-close:hover {
+    color: rgba(112, 208, 112, 0.42);
 }
 #rc-colis-container .hidden {
     display: none;

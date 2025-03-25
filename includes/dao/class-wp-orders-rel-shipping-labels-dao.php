@@ -62,6 +62,41 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
     }
 
     /**
+     * Deletes all records related to a specific order ID, as well as orphaned entries
+     * whose order_id no longer exists in the WooCommerce orders table.
+     *
+     * @param int $order_id The WooCommerce order ID that was deleted.
+     */
+    public function delete_shipping_labels_for_order_and_orphans( $order_id ) {
+
+        global $wpdb;
+
+        // Delete all entries directly linked to the given order ID
+        $wpdb->delete(
+            $this->table_name,
+            [ 'order_id' => $order_id ],
+            [ '%d' ]
+        );
+
+        // Find all order_ids in the table
+        $all_order_ids = $wpdb->get_col( "SELECT DISTINCT order_id FROM {$this->table_name}" );
+
+        if ( empty( $all_order_ids ) ) {
+            return;
+        }
+
+        foreach ( $all_order_ids as $maybe_orphan_id ) {
+            if ( ! wc_get_order( $maybe_orphan_id ) ) {
+                $wpdb->delete(
+                    $this->table_name,
+                    [ 'order_id' => $maybe_orphan_id ],
+                    [ '%d' ]
+                );
+            }
+        }
+    }
+
+    /**
      * Insert a new relation between an order ID and a shipping label.
      * The initial shipping status is set to STATUS_RC_COLIS_ANNONCE.
      *
@@ -213,6 +248,6 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         $query = $wpdb->prepare( $sql, $order_id );
         $results = $wpdb->get_results( $query, ARRAY_A );
 
-        return !empty($results) ? $results : null;
+        return !empty( $results ) ? $results : null;
     }
 }

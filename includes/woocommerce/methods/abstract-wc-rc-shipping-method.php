@@ -86,7 +86,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
             // Persist in DB
             update_option( $this->get_option_key(), $this->settings );
             $this->init_settings();
-            $this->title = $this->settings['title']; // Assure la mise à jour
+            $this->title = $this->settings[ 'title' ]; // Assure la mise à jour
         }
 
         return true;
@@ -172,11 +172,11 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
 
         // Load parameters
         $this->init_form_fields();
-        WP_Log::debug( __METHOD__.' - After init_form_fields ', ['$this->settings' => $this->settings], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After init_form_fields ', [ '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
 
         $this->init_settings();
 
-        WP_Log::debug( __METHOD__.' - After init_form_fields and init_settings', ['$this->settings' => $this->settings], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After init_form_fields and init_settings', [ '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
 
         //$this->title = $this->get_option('title');
         $this->title = isset( $this->settings[ 'title' ] ) ? sanitize_text_field( $this->settings[ 'title' ] ) : $this->get_wc_rc_shipping_method_default_title();
@@ -185,7 +185,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
         // Save parameters
         add_action( 'woocommerce_update_options_shipping_'.$this->id, array( $this, 'process_admin_options' ) );
 
-        WP_Log::debug( __METHOD__.' - Init at the end', ['$this->settings' => $this->settings,], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init at the end', [ '$this->settings' => $this->settings, ], 'relais-colis-woocommerce' );
     }
 
     /**
@@ -201,11 +201,11 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
     public function init_settings() {
         WP_Log::debug( __METHOD__.' - Beginning', [], 'relais-colis-woocommerce' );
         $this->settings = get_option( $this->get_option_key(), null );
-        WP_Log::debug( __METHOD__.' - After get_option_key ', ['$this->settings' => $this->settings, 'option_key'=>$this->get_instance_option_key()], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After get_option_key ', [ '$this->settings' => $this->settings, 'option_key' => $this->get_instance_option_key() ], 'relais-colis-woocommerce' );
 
         // If there are no settings defined, use defaults.
-        if ( ! is_array( $this->settings ) ) {
-            $form_fields    = $this->get_form_fields();
+        if ( !is_array( $this->settings ) ) {
+            $form_fields = $this->get_form_fields();
             $this->settings = array_merge( array_fill_keys( array_keys( $form_fields ), '' ), wp_list_pluck( $form_fields, 'default' ) );
         }
     }
@@ -231,7 +231,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
                 'default' => $this->get_wc_rc_shipping_method_default_title(),
             ],
         ];
-        WP_Log::debug( __METHOD__.' - Init Form fields OK', ['$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init Form fields OK', [ '$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
     }
 
     /**
@@ -253,110 +253,25 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
             return;
         }
 
-        $shipping_price = 0;
+        // Get cart total price
+        $cart_total_price = $package[ 'contents_cost' ];
 
-        // Get interaction mode
-        $interaction_mode = WC_RC_Shipping_Config_Manager::instance()->get_rc_interaction_mode();
+        // Check if price-based pricing is available in the tariff grid
+        $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $cart_total_price, 'price' );
+        WP_Log::debug( __METHOD__.' - price-based pricing?', [ '$cart_total_price' => $cart_total_price, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
 
-        //
-        // C2C interaction mode
-        //
-        if ( $interaction_mode === WC_RC_Shipping_Constants::C2C_INTERACTION_MODE ) {
+        if ( is_null( $shipping_price ) ) {
 
-            try {
-                /*
-                //
-                // Call API - Get balance
-                //
-                $c2c_get_infos = WP_Relais_Colis_API::instance()->c2c_get_infos( false );
+            // Switch to weight-based pricing
+            $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $package_weight, 'weight' );
+            WP_Log::debug( __METHOD__.' - weight-based pricing?', [ '$package_weight' => $package_weight, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
+        }
 
-                if ( is_null( $c2c_get_infos ) ) {
+        // If no matching tariff is found, do not display this shipping method
+        if ( is_null( $shipping_price ) ) {
 
-                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
-                    $balance = 0;
-                }
-
-                // Display response
-                if ( $c2c_get_infos->validate() ) {
-
-                    // Get balance
-                    $balance = $c2c_get_infos->get_balance();
-
-                    WP_Log::debug( __METHOD__.' - Valid response', [ 'Client - Solde' => $balance ], 'relais-colis-woocommerce' );
-
-                } else {
-
-                    WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
-                    $balance = 0;
-                }
-                */
-                //
-                // Call API - Get package price
-                //
-                $dynamic_params = array(
-                    WP_RC_C2C_Get_Packages_Price::PACKAGES_WEIGHT => array( $package_weight ),
-                );
-                WP_Log::debug( __METHOD__.' - Dynamic params ready for c2c_get_packages_price', [ '$dynamic_params' => $dynamic_params ], 'relais-colis-woocommerce' );
-
-                $c2c_get_packages_price = WP_Relais_Colis_API::instance()->c2c_get_packages_price( $dynamic_params, false );
-
-                if ( is_null( $c2c_get_packages_price ) ) {
-
-                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
-                    return;
-                }
-
-                // Display response
-                if ( $c2c_get_packages_price->validate() ) {
-
-                    $shipping_price = $c2c_get_packages_price->entry;
-
-                    WP_Log::debug( __METHOD__.' - Valid response', [
-                        'packages_price' => $shipping_price,
-                    ], 'relais-colis-woocommerce' );
-
-                    // Check that balance is enough
-                    /*if ( $balance < $shipping_price ) {
-
-                        WP_Log::debug( __METHOD__.' - Balance is not enough', [], 'relais-colis-woocommerce' );
-                        return;
-                    }*/
-
-
-                } else {
-
-                    WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
-                    return;
-                }
-
-
-            } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
-
-                WP_Log::warning( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
-                return;
-            }
-        } else if ( $interaction_mode === WC_RC_Shipping_Constants::B2C_INTERACTION_MODE ) {
-
-            // Get cart total price
-            $cart_total_price = $package[ 'contents_cost' ];
-
-            // Check if price-based pricing is available in the tariff grid
-            $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $cart_total_price, 'price' );
-            WP_Log::debug( __METHOD__.' - price-based pricing?', [ '$cart_total_price' => $cart_total_price, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
-
-            if ( is_null( $shipping_price ) ) {
-
-                // Switch to weight-based pricing
-                $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $package_weight, 'weight' );
-                WP_Log::debug( __METHOD__.' - weight-based pricing?', [ '$package_weight' => $package_weight, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
-            }
-
-            // If no matching tariff is found, do not display this shipping method
-            if ( is_null( $shipping_price ) ) {
-
-                WP_Log::debug( __METHOD__.' - No pricing found', [], 'relais-colis-woocommerce' );
-                return;
-            }
+            WP_Log::debug( __METHOD__.' - No pricing found', [], 'relais-colis-woocommerce' );
+            return;
         }
 
         // Set rate
