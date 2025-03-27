@@ -298,7 +298,7 @@ class WP_Services_DAO {
      * @param $product_ids product id list
      * @return array|object|\stdClass[]|null
      */
-    public function get_available_services( $delivery_method = 'h', $product_ids ) {
+    public function get_available_services( $delivery_method, $product_ids ) {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';

@@ -9,7 +9,7 @@
             <div class="rc-col-sm-3 divBoutonOK">
                 <button id="btnSearch" class="rc-btn boutonOK" type="button">
                     Trouver mon relais
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <i class="fa-solid fa-arrow-right" style="font-family: 'Font Awesome 6 Free'; font-weight: 900;"></i>
                 </button>
             </div>
             <div class="rc-col-sm-3 rc-hidden-xs divLogoRelaisColis">

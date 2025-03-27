@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
 use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Generate;
+use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Home_Place_Advertisement;
 use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Relay_Place_Advertisement;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Bulk_Generate;
 use RelaisColisWoocommerce\RCAPI\WP_RC_C2C_Relay_Place_Advertisement;
@@ -14,6 +15,7 @@ use RelaisColisWoocommerce\RCAPI\WP_RC_Transport_Generate;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
+use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
@@ -440,33 +442,56 @@ class WC_Order_Packages_Manager {
      */
     public function put_items_in_package( &$items, &$current_colis, &$items_to_distribute, $max_weight ) {
 
+        WP_Log::debug( __METHOD__.' - Put items in package', [ '$items' => $items, '$current_colis' => $current_colis, '$items_to_distribute' => $items_to_distribute, '$max_weight' => $max_weight ], 'relais-colis-woocommerce' );
+
         foreach ( $items as &$item ) {
 
-            $item_id = $item[ 'id' ];
-            $item_weight = $item[ 'weight' ];
+            $item_id = isset( $item[ 'id' ] ) ? $item[ 'id' ] : null;
+            $item_weight = isset( $item[ 'weight' ] ) ? (float)$item[ 'weight' ] : 0;
+            $remaining_qty = isset( $item[ 'remaining_quantity' ] ) ? (int)$item[ 'remaining_quantity' ] : 0;
 
-            // If weigth is too important, then cannot distribute product
-            if ( $item_weight > $max_weight ) continue;
+            // If no ID or weight invalid, skip
+            if ( !$item_id || $item_weight <= 0 ) {
+                continue;
+            }
 
-            // Distribute per colis as max as possible
-            while ( $item[ 'remaining_quantity' ] > 0 ) {
+            // If item is heavier than the max allowed, skip
+            if ( $item_weight > $max_weight ) {
+                continue;
+            }
 
-                // Package will become too heavy ?
-                if ( ( $current_colis[ 'weight' ] + $item_weight ) > $max_weight ) continue 2; // Next item...
+            // Init weight if not set
+            if ( !isset( $current_colis[ 'weight' ] ) ) {
+                $current_colis[ 'weight' ] = 0;
+            }
 
-                // Can add an item in this package
+            // Init items array
+            if ( !isset( $current_colis[ 'items' ] ) || !is_array( $current_colis[ 'items' ] ) ) {
+                $current_colis[ 'items' ] = [];
+            }
+
+            while ( $remaining_qty > 0 ) {
+
+                $current_weight = (float)$current_colis[ 'weight' ];
+
+                // Will package become too heavy?
+                if ( ( $current_weight + $item_weight ) > $max_weight ) {
+                    break; // Go to next item
+                }
+
+                // Add or increment item in the package
                 if ( !isset( $current_colis[ 'items' ][ $item_id ] ) ) {
-
-                    // Create an entry for this product in the package
                     $current_colis[ 'items' ][ $item_id ] = 1;
                 } else {
-
-                    $current_colis[ 'items' ][ $item_id ] = $current_colis[ 'items' ][ $item_id ] + 1;
+                    $current_colis[ 'items' ][ $item_id ] += 1;
                 }
+
+                // Update weight
                 $current_colis[ 'weight' ] += $item_weight;
 
-                // Remaining quantity decrement
-                $item[ 'remaining_quantity' ] = $item[ 'remaining_quantity' ] - 1;
+                // Update quantities
+                $remaining_qty--;
+                $item[ 'remaining_quantity' ] = $remaining_qty;
                 $items_to_distribute--;
             }
         }
@@ -508,11 +533,14 @@ class WC_Order_Packages_Manager {
         $max_weight = 20000; // max per package
         $items_to_distribute = 0;
 
-        // First parse all items to calculate total number of productsto distribute
+        // First parse all items to calculate total number of products to distribute
         foreach ( $items as $item ) {
 
             // If weigth is too important, then cannot distribute product
             if ( $item[ 'weight' ] > $max_weight ) continue;
+
+            // If weight is not defined, then cannot distribute product
+            if ( !isset( $item[ 'weight' ] ) || empty( $item[ 'weight' ] ) ) continue;
 
             // Add remaining to total
             $items_to_distribute += $item[ 'remaining_quantity' ];
@@ -532,6 +560,9 @@ class WC_Order_Packages_Manager {
         // Finally, try to distribute in new packages
         while ( $items_to_distribute > 0 ) {
 
+            // Keeping nb to distribute in memory
+            $items_to_distribute_before = $items_to_distribute;
+
             // Add a new empty package
             $current_colis = [
                 'items' => [],
@@ -545,6 +576,9 @@ class WC_Order_Packages_Manager {
 
             // Try to put as much as possible items in a package
             $this->put_items_in_package( $items, $current_colis, $items_to_distribute, $max_weight );
+
+            // If no items distributed, exit...
+            if ( $items_to_distribute_before === $items_to_distribute ) break;
 
             $colis[] = $current_colis;
         }
@@ -927,6 +961,150 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$c_colis[ 'weight' ];
                             $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
 
+                            // Home+ - Add a few new params
+                            if ( $rc_shipping_method === WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ) {
+
+                                $rc_service_infos = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
+                                $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
+                                WP_Log::notice( __METHOD__, [ '$rc_services' => $rc_services, '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
+
+                                // Init values with defaults
+                                // Extract informations
+                                //            "digicode": "{{DATA_CLT_digicode}}", # code de 0 à 8 caractères
+                                //            "floor": "{{DATA_CLT_floor}}",
+                                //            "housingType": "{{DATA_CLT_housing}}" # valeurs possible "maison" ou "appartement",
+                                //            "lift": "{{DATA_CLT_lift}}" # présence d'un ascenceur "1" ou "0",
+                                //            "urgent": "{{DATA_CLT_urgent}}" # valeurs possible "1" ou "0",
+                                //            "homePlus": "{{DATA_CLT_plus}}", # valeurs possible "1" ou "0"
+                                //            "cpSchedule": "{{DATA_CLT_schedule}}" # valeurs possible "1" ou "0" (livraison programmée)
+                                //            "cpDeliveryOnTheFloor": "{{DATA_CLT_onthefloor}}", # valeurs possible "1" ou "0" (livraison sur le palier)
+                                //            "cpDeliveryAtTwo": "{{DATA_CLT_atTwo}}", # valeurs possible "1" ou "0" (livraison à deux)
+                                //            "cpTurnOnHomeAppliance": "{{DATA_CLT_turnOn}}", # valeurs possible "1" ou "0" (mise en route)
+                                //            "cpMountFurniture": "{{DATA_CLT_mount}}", # valeurs possible "1" ou "0" (montage)
+                                //            "cpNonStandart": "{{DATA_CLT_nonStandart}}", # valeurs possible "1" ou "0" (hors norme)
+                                //            "cpUnpacking": "{{DATA_CLT_unpacking}}", # valeurs possible "1" ou "0"
+                                //            "cpEvacuationPackaging": "{{DATA_CLT_evacuation}}", # valeurs possible "1" ou "0"
+                                //            "cpRecovery": "{{DATA_CLT_recovery}}", # valeurs possible "1" ou "0"
+                                //            "cpDeliveryDesiredRoom": "{{DATA_CLT_desiredRoom}}", # valeurs possible "1" ou "0"
+                                //            "cpDeliveryEco": "{{DATA_CLT_eco}}", # valeurs possible "1" ou "0"
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::DIGICODE ] = '';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::FLOOR ] = '';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOUSING_TYPE ] = '';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::LIFT ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::URGENT ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOME_PLUS ] = '1';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_SCHEDULE ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ON_THE_FLOOR ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_AT_TWO ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_TURN_ON_HOME_APPLIANCE ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_MOUNT_FURNITURE ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_NON_STANDART ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_UNPACKING ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_EVACUATION_PACKAGING ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_RECOVERY ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_DESIRED_ROOM ] = '0';
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ECO ] = '0';
+
+                                if ( !empty( $rc_services ) && is_array( $rc_services ) ) {
+
+                                    foreach ( $rc_services as $rc_service ) {
+
+                                        // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                                        if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
+
+                                        // Extract slug
+                                        // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                                        $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
+
+                                        switch ( $slug ) {
+
+                                            case WC_RC_Services_Manager::APPOINTMENT_SCHEDULING:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_SCHEDULE ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::DELIVERY_TO_FLOOR:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ON_THE_FLOOR ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::TWO_PERSON_DELIVERY:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_AT_TWO ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::SETUP_LARGE_APPLIANCES:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_TURN_ON_HOME_APPLIANCE ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::QUICK_ASSEMBLY:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_MOUNT_FURNITURE ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::OVERSIZED_ITEMS:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_NON_STANDART ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::PRODUCT_UNPACKING:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_UNPACKING ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::PACKAGING_REMOVAL:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_EVACUATION_PACKAGING ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::REMOVAL_OLD_EQUIPMENT:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_RECOVERY ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::DELIVERY_DESIRED_ROOM:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_DESIRED_ROOM ] = '1';
+                                                break;
+                                            case WC_RC_Services_Manager::CURBSIDE_DELIVERY:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ECO ] = '1';
+                                                break;
+                                        }
+                                    }
+                                }
+                                if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
+
+                                    //    [$session_rc_service_infos] => Array
+                                    //        (
+                                    //            [rc_service_digicode] => 1315
+                                    //            [rc_service_floor] => 2
+                                    //            [rc_service_type_habitat] => apartment
+                                    //            [rc_service_elevator] => 1
+                                    //            [rc_service_informations_complementaires] => Blabla
+                                    //Prendre à gauche
+                                    //Puis à droite
+                                    //        )
+                                    foreach ( $rc_service_infos as $rc_service_info => $rc_service_info_value ) {
+
+                                        // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                                        if ( strpos( $rc_service_info, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
+
+                                        // Extract slug
+                                        // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                                        $slug = substr( $rc_service_info, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
+
+                                        // Extract informations
+                                        //            "digicode": "{{DATA_CLT_digicode}}", # code de 0 à 8 caractères
+                                        //            "floor": "{{DATA_CLT_floor}}",
+                                        //            "housingType": "{{DATA_CLT_housing}}" # valeurs possible "maison" ou "appartement",
+                                        //            "lift": "{{DATA_CLT_lift}}" # présence d'un ascenceur "1" ou "0",
+
+                                        switch ( $slug ) {
+
+                                            case WC_RC_Services_Manager::SERVICE_HOMEPLUS_DIGICODE:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::DIGICODE ] = $rc_service_info_value;
+                                                break;
+                                            case WC_RC_Services_Manager::SERVICE_HOMEPLUS_FLOOR:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::FLOOR ] = ''.$rc_service_info_value;
+                                                break;
+                                            case WC_RC_Services_Manager::SERVICE_HOMEPLUS_TYPE_OF_RESIDENCE:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOUSING_TYPE ] = ($rc_service_info_value=="house"?"0":($rc_service_info_value=="apartment"?"1":""));
+                                                break;
+                                            case WC_RC_Services_Manager::SERVICE_HOMEPLUS_ELEVATOR:
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::LIFT ] = ''.$rc_service_info_value;
+                                                break;
+                                        }
+                                    }
+                                }
+                                WP_Log::notice( __METHOD__.' - New request params', [ '$dynamic_params_place_shipping_label' => $dynamic_params_place_shipping_label ], 'relais-colis-woocommerce' );
+                            }
+                            else {
+
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOME_PLUS ] = '0';
+                            }
+
                             // Call API
                             $b2c_home_place_advertisement = WP_Relais_Colis_API::instance()->b2c_home_place_advertisement( $dynamic_params_place_shipping_label, false );
 
@@ -1023,7 +1201,7 @@ class WC_Order_Packages_Manager {
                 }
 
                 // PDF downloaded successfully
-                $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+                $colis[ $colis_index ][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
                 WP_Log::debug( __METHOD__.' - Print label - C2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
 
             } // B2C - Relay
@@ -1047,7 +1225,7 @@ class WC_Order_Packages_Manager {
                 }
 
                 // PDF downloaded successfully
-                $colis[$colis_index][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
+                $colis[ $colis_index ][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
                 WP_Log::debug( __METHOD__.' - Print label - B2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
 
             }

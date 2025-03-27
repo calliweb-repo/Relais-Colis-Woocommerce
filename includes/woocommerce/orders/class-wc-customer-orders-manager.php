@@ -35,22 +35,22 @@ class WC_Customer_Orders_Manager {
      * @access protected
      */
     public function init() {
-/*
+
         ////////////////////////////////// TEST //////////////////////////////////
         // Show hooks
-        add_action( 'all', function ( $hook_name ) {
-            if ( (strpos($hook_name, 'handle_bulk_actions-') !== false) ) {
+        /*add_action( 'all', function ( $hook_name ) {
+            if ( (strpos($hook_name, 'woocommerce-') !== false) ) {
 
                 if ( !in_array( $hook_name, self::$hook_list ) ) {
 
-                    echo "<p style='color: red;'>HOOK WooCommerce exécuté : $hook_name</p>";
+                    //echo "<p style='color: red;'>HOOK WooCommerce exécuté : $hook_name</p>";
                     WP_Log::debug( __METHOD__."🔥 Hook détecté", [ '$hook_name' => $hook_name ], 'relais-colis-woocommerce' );
                 }
                 self::$hook_list[] = $hook_name;
             }
-        } );
+        } );*/
         ////////////////////////////////// END TEST //////////////////////////////////
-*/
+
         // Display infos on customer order details page, in My account -> Orders -> Order page
         add_action( 'woocommerce_order_details_after_order_table', array( $this, 'action_woocommerce_order_details_after_order_table' ), 10, 1 );
 

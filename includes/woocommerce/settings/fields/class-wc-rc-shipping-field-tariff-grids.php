@@ -67,6 +67,20 @@ class WC_RC_Shipping_Field_Tariff_Grids {
             $option_rc_weight_unit = $weight_units[ $option_rc_weight_unit ];
         }
 
+        // Check which offers are enabled
+        $shipping_config_manager = WC_RC_Shipping_Config_Manager::instance();
+        $available_offers = array();
+
+        if ( $shipping_config_manager->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS ) ) {
+            $available_offers[] = array( 'value' => 'rc', 'label' => 'Relais Colis' );
+        }
+        if ( $shipping_config_manager->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_HOME ) ) {
+            $available_offers[] = array( 'value' => 'h', 'label' => 'Relais Colis Home' );
+        }
+        if ( $shipping_config_manager->has_delivery_offer_enabled( WC_RC_Shipping_Constants::OFFER_HOME_PLUS ) ) {
+            $available_offers[] = array( 'value' => 'hp', 'label' => 'Relais Colis Home+' );
+        }
+
         // Pass script params to JS
         wp_localize_script( self::FIELD_RC_TARIFF_GRIDS.'_js', 'rc_ajax', array(
             'delete_label' => __( 'Delete', 'relais-colis-woocommerce' ), // Supprimer
@@ -77,6 +91,7 @@ class WC_RC_Shipping_Field_Tariff_Grids {
             'tariff_ranges_label' => __( 'Tariff ranges', 'relais-colis-woocommerce' ), // Plages tarifaires
             'add_line_label' => __( 'Add a line', 'relais-colis-woocommerce' ), // Ajouter une ligne
             'weight_unit_label' => $option_rc_weight_unit,
+            'available_offers' => $available_offers,
         ) );
 
         // Load tariff grids

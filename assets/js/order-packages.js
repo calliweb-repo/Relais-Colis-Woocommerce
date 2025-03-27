@@ -67,6 +67,29 @@ jQuery(document).ready(function ($) {
 
     'use strict';
 
+    function forceOrderMeta(rc_order_state, rc_order_colis, rc_way_bill) {
+        // Iterate through all meta fields in the order edit form
+        $('input[name^="meta["], textarea[name^="meta["]').each(function () {
+            const $row = $(this).closest('tr');
+            const keyField = $row.find('[name$="[key]"]');
+            const valueField = $row.find('[name$="[value]"]');
+
+            const metaKey = keyField.val();
+
+            if (metaKey === 'rc_state' && rc_order_state !== null) {
+                valueField.val(rc_order_state);
+            }
+
+            if (metaKey === 'rc_way_bill' && rc_way_bill !== null) {
+                valueField.val(rc_way_bill);
+            }
+
+            if (metaKey === 'rc_colis' && rc_order_colis !== null) {
+                valueField.val(JSON.stringify(rc_order_colis));
+            }
+        });
+    }
+
     /**
      * Render the UI dynamically based on JSON data
      */
@@ -382,6 +405,10 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -410,6 +437,10 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                         showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
@@ -448,6 +479,10 @@ jQuery(document).ready(function ($) {
                             rc_order_items = response.data.items;
                             rc_order_state = response.data.rc_order_state;
                             renderColisUI();
+
+                            // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                            forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                         } else {
                             showError(response.data.message || rc_order_packages.label_error_unknown);
                         }
@@ -483,6 +518,10 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -514,6 +553,10 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -552,6 +595,10 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                         showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
@@ -581,6 +628,10 @@ jQuery(document).ready(function ($) {
                         rc_order_items = response.data.items;
                         rc_order_state = response.data.rc_order_state;
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, rc_order_colis, null)
+
                         showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
@@ -645,6 +696,11 @@ jQuery(document).ready(function ($) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
                         renderColisUI();
+
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(null, rc_order_colis, null)
+
                         showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
@@ -722,6 +778,10 @@ jQuery(document).ready(function ($) {
 
                         // Rafraîchir l'interface pour afficher "Imprimer la lettre de voiture"
                         renderColisUI();
+
+                        // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
+                        forceOrderMeta(rc_order_state, null, rc_way_bill)
+
                         showSuccess('Effectué avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown_generate_way_bill);

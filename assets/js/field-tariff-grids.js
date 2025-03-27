@@ -6,6 +6,13 @@ jQuery(document).ready(function ($) {
 
     let tariffIndex = 0;
 
+    function buildDeliveryMethodOptions(selected = '') {
+        return rc_ajax.available_offers.map(offer => {
+            let isSelected = offer.value === selected ? 'selected' : '';
+            return `<option value="${offer.value}" ${isSelected}>${offer.label}</option>`;
+        }).join('');
+    }
+
     // Charger les grilles existantes
     if (Object.keys(groupedTariffs).length > 0) {
         Object.entries(groupedTariffs).forEach(([key, tariff]) => {
@@ -15,9 +22,7 @@ jQuery(document).ready(function ($) {
 
                     <label>${rc_ajax.delivery_method_label}</label>
                     <select name="tariffs[${tariffIndex}][method_name]">
-                        <option value="rc" ${tariff.method_name === 'rc' ? 'selected' : ''}>Relais Colis</option>
-                        <option value="h" ${tariff.method_name === 'h' ? 'selected' : ''}>Relais Colis Home</option>
-                        <option value="hp" ${tariff.method_name === 'hp' ? 'selected' : ''}>Relais Colis Home+</option>
+                        ${buildDeliveryMethodOptions(tariff.method_name)}
                     </select>
 
                     <label>${rc_ajax.criteria_label}</label>
@@ -53,9 +58,7 @@ jQuery(document).ready(function ($) {
                 
                 <label>${rc_ajax.delivery_method_label}</label>
                 <select name="tariffs[${tariffIndex}][method_name]">
-                    <option value="rc">Relais Colis</option>
-                    <option value="h">Relais Colis Home</option>
-                    <option value="hp">Relais Colis Home+</option>
+                    ${buildDeliveryMethodOptions()}
                 </select>
                 
                 <label>${rc_ajax.criteria_label}</label>

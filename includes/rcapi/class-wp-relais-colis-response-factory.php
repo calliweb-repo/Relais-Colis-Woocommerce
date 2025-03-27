@@ -90,7 +90,42 @@ class WP_Relais_Colis_Response_Factory {
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
                         }
+                        // New case, entry is received but containing error: prefix
+                        //    [response] => Array
+                        //        (
+                        //            [headers] => Array
+                        //                (
+                        //                    [WpOrg\Requests\Utility\CaseInsensitiveDictionary] => Array
+                        //                        (
+                        //                        )
+                        //
+                        //                )
+                        //
+                        //            [body] => <xml version="1.0" encoding="UTF-8">
+                        //<result>
+                        //  <entry><![CDATA[error:MISSING_FIELD_VALUE]]></entry>
+                        //</result>
+                        //
+                        //            [response] => Array
+                        //                (
+                        //                    [code] => 200
+                        //                    [message] => OK
+                        //                )
+
                         $response = new WP_RC_Place_Advertisement_Response( $response_data );
+                        if ( $response->validate() ) {
+
+                            $entry = $response->entry;
+
+                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-woocommerce');
+
+                            if ( strpos( $entry, 'error:' ) !== false ) {
+
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE].$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            }
+                        }
+
+
                         break;
                     case WP_Relais_Colis_API::REQUEST_B2C_PLACE_RETURN_V2:
                     case WP_Relais_Colis_API::REQUEST_B2C_PLACE_RETURN_V3:

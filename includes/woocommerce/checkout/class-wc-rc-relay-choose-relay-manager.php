@@ -59,7 +59,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
      */
     public function action_woocommerce_after_checkout_validation( $data, $errors ) {
 
-        WP_Log::notice( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
         if ( !WC()->session->__isset( 'chosen_shipping_methods' ) || empty( WC()->session->get( 'chosen_shipping_methods' ) )  ) return;
 
@@ -67,7 +67,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
         // Check if it is the RC relais mode
         if ( $chosen_shipping !== WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID ) return;
-        WP_Log::notice( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-woocommerce' );
 
         // Must have selected a relay
         // Get rc_relay_data from WC session
@@ -92,6 +92,15 @@ class WC_RC_Relay_Choose_Relay_Manager {
         $plugin_url = Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url();
         $prefix_rc = WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID;
 
+        // CSS - JQuery, UI, Dialog, Leaflet
+        wp_enqueue_style( $prefix_rc.'_font_awesome_css', "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", array(), '6.0.0' );
+        wp_enqueue_style( $prefix_rc.'_jquery_ui_css', "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" );
+        wp_enqueue_style( $prefix_rc.'_leaflet_css', $plugin_url.'assets/css/livemapping/leaflet.css', array(), '1.0', 'all' );
+
+        // CSS - Relais Colis
+        wp_enqueue_style( $prefix_rc.'_listerelais_css', $plugin_url.'assets/css/livemapping/listerelais.css', array(), '1.0', 'all' );
+        wp_enqueue_style( $prefix_rc.'_css', $plugin_url.'assets/css/livemapping/choose-shipping-relay.css', array(), '1.0', 'all' );
+
         // JS - JQuery, UI, Dialog, Leaflet, Lodash
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( "jquery-ui-dialog" );
@@ -101,15 +110,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
         // JS - Relais Colis
         wp_enqueue_script( $prefix_rc.'_js', $plugin_url.'assets/js/livemapping/choose-shipping-relay.js', array( 'jquery' ), '1.0', true );
-
-        // CSS - JQuery, UI, Dialog, Leaflet
-        wp_enqueue_style( $prefix_rc.'_font_awesome_css', "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", array(), '6.0.0' );
-        wp_enqueue_style( $prefix_rc.'_jquery_ui_css', "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" );
-        wp_enqueue_style( $prefix_rc.'_leaflet_css', $plugin_url.'assets/css/livemapping/leaflet.css', array(), '1.0', 'all' );
-
-        // CSS - Relais Colis
-        wp_enqueue_style( $prefix_rc.'_listerelais_css', $plugin_url.'assets/css/livemapping/listerelais.css', array(), '1.0', 'all' );
-        wp_enqueue_style( $prefix_rc.'_css', $plugin_url.'assets/css/livemapping/choose-shipping-relay.css', array(), '1.0', 'all' );
 
         // Get Wooc customer address
         $shipping_address = array(

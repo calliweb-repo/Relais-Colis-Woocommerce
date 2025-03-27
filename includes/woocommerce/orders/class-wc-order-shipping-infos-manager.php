@@ -156,7 +156,7 @@ class WC_Order_Shipping_Infos_Manager {
                     // Service infos content
                     if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
 
-                        $rc_shipping_infos_html = '<h4>'.__( 'Relais Colis - Additional infos', 'relais-colis-woocommerce' ).'</h4>';
+                        $rc_shipping_infos_html .= '<h4>'.__( 'Relais Colis - Additional infos', 'relais-colis-woocommerce' ).'</h4>';
 
                         //    [$session_rc_service_infos] => Array
                         //        (

@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
 "woocommerce\n"
-"POT-Creation-Date: 2025-03-24T10:28:40+00:00\n"
-"PO-Revision-Date: 2025-03-24 11:29+0100\n"
+"POT-Creation-Date: 2025-03-27T08:18:39+00:00\n"
+"PO-Revision-Date: 2025-03-27 09:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -41,6 +41,55 @@ msgstr "Calliweb"
 #: relais-colis-woocommerce.php
 msgid "https://www.calliweb.fr/"
 msgstr "https://www.calliweb.fr/"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:67
+msgid "RC API: Invalid activation key"
+msgstr "API RC : clé d’activation non valide"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:68
+msgid "Missing or empty required parameter: "
+msgstr "Paramètre obligatoire manquant ou vide :"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:69
+msgid "RC API: Invalid response content type: "
+msgstr "API RC : type de contenu de réponse non valide :"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:70
+msgid "A pricing rule conflicts with an existing one."
+msgstr "Une règle de tarification entre en conflit avec une règle existante."
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:71
+msgid "Response status of place return request is error"
+msgstr "Le statut de réponse de la demande de retour de lieu est une erreur"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:72
+msgid "RC API: Invalid response "
+msgstr "API RC : réponse non valide"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:73
+msgid "RC API: No response "
+msgstr "API RC : aucune réponse "
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:74
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:82
+msgid "Invalid mode: only B2C is authorized"
+msgstr "Mode invalide : seul le mode B2C est autorisé"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:75
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:82
+msgid "Invalid mode: only C2C is authorized"
+msgstr "Mode invalide, seul le mode C2C est autorisé"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:76
+msgid "Order invalid state"
+msgstr "État de la commande invalide"
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:77
+msgid ""
+"Shipping label generation is not supported for C2C home/home+ delivery mode"
+msgstr ""
+"La génération d’étiquettes d’expédition n’est pas prise en charge pour le "
+"mode de livraison C2C Home/Home+"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:170
 msgid "Enseigne ID"
@@ -202,7 +251,7 @@ msgstr "Grammes (g)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:252
 msgid "Kilograms (kg)"
-msgstr "Kilogrammes (kg)"
+msgstr "Kilogramme (kg)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:263
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:282
@@ -444,19 +493,19 @@ msgstr "Relais Colis : livraison à domicile."
 msgid "Relais Colis Home"
 msgstr "Relais Colis Home"
 
-#: includes/woocommerce/methods/class-wc-rc-shipping-method-homeplus.php:32
+#: includes/woocommerce/methods/class-wc-rc-shipping-method-homeplus.php:31
 msgid "Relais Colis: home deliveries with options."
 msgstr "Relais Colis : livraisons à domicile avec options."
 
-#: includes/woocommerce/methods/class-wc-rc-shipping-method-homeplus.php:44
+#: includes/woocommerce/methods/class-wc-rc-shipping-method-homeplus.php:42
 msgid "Relais Colis Home+"
 msgstr "Relais Colis Home+"
 
-#: includes/woocommerce/methods/class-wc-rc-shipping-method-relay.php:34
+#: includes/woocommerce/methods/class-wc-rc-shipping-method-relay.php:33
 msgid "Relais Colis: concerns collection from relay points."
 msgstr "Relais Colis : concerne la collecte en point relais."
 
-#: includes/woocommerce/methods/class-wc-rc-shipping-method-relay.php:54
+#: includes/woocommerce/methods/class-wc-rc-shipping-method-relay.php:52
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings.php:24
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings.php:83
 msgid "Relais Colis"
@@ -506,7 +555,7 @@ msgstr ""
 "Une erreur s’est produite lors de la suppression d’un produit d’un colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:500
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:525
 msgid "The products have already been distributed into packages"
 msgstr "Tous les produits ont déjà été affectés à des colis"
 
@@ -530,23 +579,15 @@ msgid "An error occurred while placing shipping label"
 msgstr ""
 "Une erreur s’est produite lors la génération de l’étiquette de livraison"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:82
-msgid "Invalid mode: only C2C is authorized"
-msgstr "Mode invalide, seul le mode C2C est autorisé"
-
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:136
 msgid "An error occurred while getting price"
 msgstr "Une erreur s’est produite lors de la récupération du prix du colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:82
-msgid "Invalid mode: only B2C is authorized"
-msgstr "Mode invalide : seul le mode B2C est autorisé"
-
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:161
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:162
 msgid "No response from Relais Colis API"
 msgstr "Aucune réponse de l’API Relais Colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:210
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:211
 msgid "An error occurred while generating return label"
 msgstr "Une erreur s’est produite lors la génération de l’étiquette de retour"
 
@@ -587,207 +628,207 @@ msgstr "Toutes les étiquettes ont été générées"
 msgid "Bulk print shipping labels"
 msgstr "Imprimer les étiquettes en masse"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:235
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:237
 msgid "remaining"
 msgstr "restant(s)"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:236
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:238
 msgid "Auto distribute"
 msgstr "Répartition automatique des produits dans des colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:237
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:239
 msgid "Package"
 msgstr "Colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:238
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:240
 msgid "Add in package"
 msgstr "Ajouter dans un colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:239
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:241
 msgid "Please add a package."
 msgstr "Veuillez ajouter un colis."
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:240
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:242
 msgid "Products to distribute"
 msgstr "Produits à répartir dans des colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:241
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:243
 msgid "Delete Package"
 msgstr "Supprimer le colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:242
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:244
 msgid "pcs"
 msgstr "unité(s)"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:243
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:245
 msgid "Remove from package"
 msgstr "Retirer"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:244
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:246
 msgid "Add a package"
 msgstr "Ajouter un colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:245
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:247
 msgid "Existing Packages"
 msgstr "Colis existants"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:246
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:248
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:247
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:249
 msgid "Total weight"
 msgstr "Poids total"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:248
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:250
 msgid "Dimensions"
 msgstr "Dimensions"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:249
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:251
 msgid "height"
 msgstr "hauteur"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:250
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:252
 msgid "width"
 msgstr "largeur"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:251
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:253
 msgid "length"
 msgstr "longueur"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:252
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:254
 msgid "Unit weight"
 msgstr "Poids unitaire"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:253
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:255
 msgid "Quantity to be distributed"
 msgstr "Quantité à répartir"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:254
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:256
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:116
 msgid "Quantity"
 msgstr "Quantité"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:255
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:257
 msgid "Update package"
 msgstr "Mettre à jour le colis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:256
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:258
 msgid "All products have been assigned to a package."
 msgstr "Tous les produits ont été affectés à un colis."
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:259
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:261
 msgid "Total"
 msgstr "Total"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:260
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:262
 msgid "Summary"
 msgstr "Récapitulatif"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:261
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:263
 msgid "Place shipping label"
 msgstr "Générer les étiquettes"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:262
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:264
 msgid "Print shipping label"
 msgstr "Imprimer l’étiquette"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:263
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:265
 msgid "Shipping label:"
 msgstr "Étiquette de livraison :"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:264
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:266
 msgid "Estimate your shipment"
 msgstr "Estimer votre envoi"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:265
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:267
 msgid "Estimated shipping price:"
 msgstr "Prix estimé de livraison :"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:266
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:268
 msgid "Generate return label"
 msgstr "Générer l’étiquette de retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:267
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:269
 msgid "Return information"
 msgstr "Informations de retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:268
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:270
 msgid "Return number"
 msgstr "Numéro de retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:269
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:271
 msgid "Cab number"
 msgstr "Numéro Cab"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:270
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:272
 msgid "Deadline associated with the return"
 msgstr "Date limite associée au retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:271
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:273
 msgid "URL for related return label"
 msgstr "URL pour l’étiquette de retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:272
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:274
 msgid "Generate way bill"
 msgstr "Générer la lettre de voiture"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:273
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:275
 msgid "Print way bill"
 msgstr "Imprimer la lettre de retour"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:274
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:276
 msgid "A network error occurred: "
 msgstr "Une erreur de réseau s’est produite : "
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:275
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:277
 msgid "Unknown error."
 msgstr "Erreur inconnue."
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:276
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:278
 msgid "Unknown error while generating the way bill"
 msgstr ""
 "Une erreur inconnue s’est produite lors de la génération de la lettre de "
 "voiture"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:572
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:606
 msgid "All the packages have been distributed"
 msgstr "Tous les produits ont été répartis"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:584
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:618
 msgid "There are still packages to be distributed"
 msgstr "Il reste des produits à répartir"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:600
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:646
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:634
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:680
 msgid "Order not found"
 msgstr "Commande introuvable"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:607
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:641
 msgid "Invalid Relais Colis method"
 msgstr "Méthode Relais Colis invalide"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:678
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1134
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1258
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:712
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1316
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1440
 msgid "Shipping labels must be placed first"
 msgstr "Les étiquettes de livraison doivent être générées au préalable"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:746
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:780
 msgid "The packages in the order must first be divided into packages"
 msgstr "Les colis dans la commande doivent tout d’abord être divisés"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:752
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:786
 msgid "Product shipping labels have already been generated"
 msgstr "Les étiquettes ont déjà été générées"
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1208
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1390
 msgid ""
 "Click <a href='%s' target='_blank'>here</a> to download the shipping labels."
 msgstr ""
 "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les étiquettes."
 
-#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1342
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:1524
 msgid "Click <a href='%s' target='_blank'>here</a> to download the way bills."
 msgstr ""
 "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les lettres de "
@@ -950,11 +991,11 @@ msgstr "Nom de la destination"
 msgid "RC State"
 msgstr "État Relais Colis"
 
-#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:302
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:300
 msgid "All Relais Colis shipping methods"
 msgstr "Tous les modes d’expédition Relais Colis"
 
-#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:318
+#: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:316
 msgid "All Relais Colis order states"
 msgstr "Tous les états Relais Colis"
 
@@ -1110,15 +1151,20 @@ msgstr "Un minimum doit être saisi."
 msgid "A price value must be entered."
 msgstr "Un prix doit être saisi."
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:155
+#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:122
+msgid "Min value (%s) must be less than Max value (%s)."
+msgstr ""
+"La valeur minimale (%s) doit être inférieure à la valeur maximale (%s)."
+
+#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:156
 msgid "Tariff grids updated successfully!"
 msgstr "Grilles tarifaires mises à jour avec succès !"
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:185
+#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:186
 msgid "Tariff Grids"
 msgstr "Grilles tarifaires"
 
-#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:187
+#: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:188
 msgid "Add prices with a free threshold. The unit of weight is %s"
 msgstr "Ajoutez des prix avec un seuil gratuit. L’unité de poids est le %s"
 
@@ -1176,7 +1222,7 @@ msgstr "Supprimer"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:73
 msgid "Delivery method name"
-msgstr "Nom de la méthode de livraison"
+msgstr "Méthode de livraison"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:74
 msgid "Criteria type"
@@ -1270,9 +1316,6 @@ msgstr ""
 #~ msgid "Invalid B2C mode"
 #~ msgstr "Mode B2C invalide"
 
-#~ msgid "No response"
-#~ msgstr "Aucune réponse"
-
 #~ msgid "Relais Colis - Opening hours"
 #~ msgstr "Relais Colis - Horaires d’ouverture"
 
@@ -1296,9 +1339,6 @@ msgstr ""
 
 #~ msgid "Clé API manquante"
 #~ msgstr "Clé API manquante"
-
-#~ msgid "Clé API valide"
-#~ msgstr "Clé API valide"
 
 #~ msgid "Name"
 #~ msgstr "Nom"

@@ -44,7 +44,7 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,
         self::ACTIVITY_CODE,
-        self::AGENCY_CODE,
+        //self::AGENCY_CODE,
         self::CUSTOMER_ID,
         self::CUSTOMER_FULLNAME,
         self::CUSTOMER_EMAIL,
@@ -128,10 +128,18 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
             //"pseudoRvc" c'est un champ vide, l'api le comble après avec le pseudo_rvc du relais
             self::PSEUDO_RVC => '',
             // Agency code
-            self::AGENCY_CODE => 'C3',
+            //self::AGENCY_CODE => 'C3',
         );
 
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );
+
+        // Unset empty params
+        $new_datas = array();
+        foreach ( $this->data as $c_data_key => $c_data_value ) {
+
+            if ( !empty( $c_data_value ) ) $new_datas[$c_data_key] = $c_data_value;
+        }
+        $this->data = $new_datas;
 
         $this->validate();
 
