@@ -70,6 +70,22 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_Place_Return_V3 extends WP_RC_Place_Return {
 
+    //           "orderId": "{{DATA_CLT_orderId}}", // mandatory
+    //           "customerId": "{{DATA_CLT_customerId}}", // mandatory
+    //           "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+    //           "xeett": "{{DATA_CLT_XeettId}}", // mandatory informations of th order relay
+    //           "xeettName": "{{DATA_CLT_XeettName}}", // informations of th order relay
+    //           "customerPhone": "{{DATA_CLT_phoneNumber}}", // mandatory but can be empty
+    //           "customerMobile": "{{DATA_CLT_mobileNumber}}", // mandatory but can be empty
+    //           "reference": "{{DATA_CLT_orderId}}", // mandatory
+    //           "customerCompany": "{{DATA_CLT_company}}", // mandatory, can be the name of shop
+    //           "customerAddress1": "{{DATA_CLT_address1}}", // mandatory
+    //           "customerAddress2": "{{DATA_CLT_address2}}", // mandatory but can be empty
+    //           "customerPostcode": "{{DATA_CLT_postcode}}",// mandatory
+    //           "customerCity": "{{DATA_CLT_city}}", // mandatory
+    //           "customerCountry": "FR", // constant value
+    //           "prestations": "{{DATA_CLT_prestations}}" // optional
+
     /**
      * Template Method used to get the specific return path (V2 or V3...)
      * @return mixed

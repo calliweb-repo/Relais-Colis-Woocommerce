@@ -23,7 +23,6 @@ abstract class WP_Relais_Colis_Request extends WP_API_JSON_Request {
 
         $mandatory_params = $this->get_mandatory_params();
 
-        WP_Log::debug( __METHOD__, [ 'mandatory params' => $mandatory_params, 'post data' => $this->data ], 'relais-colis-woocommerce' );
         foreach ( $mandatory_params as $param ) {
 
             if ( !isset( $this->data[ $param ] ) || is_null( $this->data[ $param ] ) ) {

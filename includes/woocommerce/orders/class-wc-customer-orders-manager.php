@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) or exit;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+use SimplePie\Exception;
+use WC_Customer;
 
 /**
  * Class WC_Customer_Orders_Manager
@@ -99,14 +101,24 @@ class WC_Customer_Orders_Manager {
 
             if ( !empty( $rc_customer_shipping_address ) ) {
 
-                $customer = new \WC_Customer( $wc_order->get_customer_id() );
-                foreach ( $rc_customer_shipping_address as $key => $value ) {
-                    // Use setters where available.
-                    if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
-                        $customer->{"set_{$key}"}( $value );
+                try {
+
+                    $customer = new WC_Customer( $wc_order->get_customer_id() );
+                    foreach ( $rc_customer_shipping_address as $key => $value ) {
+                        // Use setters where available.
+                        if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
+
+                            if ( $key === 'billing_email' && ! is_email( $value ) ) {
+                                continue;
+                            }
+                            $customer->{"set_{$key}"}( $value );
+                        }
                     }
+                    $customer->save();
+
+                } catch (Exception $exception ) {
+
                 }
-                $customer->save();
             }
 
             // Delete transient after usage

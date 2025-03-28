@@ -46,14 +46,12 @@ abstract class WP_RC_Place_Return extends WP_Relais_Colis_Request {
         self::XEETT_NAME,
         self::CUSTOMER_PHONE,
         self::CUSTOMER_MOBILE,
+        self::REFERENCE,
         self::CUSTOMER_COMPANY,
         self::CUSTOMER_ADDRESS1,
         self::CUSTOMER_ADDRESS2,
         self::CUSTOMER_POSTCODE,
         self::CUSTOMER_CITY,
-        self::CUSTOMER_COUNTRY,
-        self::PRESTATIONS,
-        self::REFERENCE,
     );
 
     /**

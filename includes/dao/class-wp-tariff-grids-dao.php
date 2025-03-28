@@ -102,6 +102,23 @@ class WP_Tariff_Grids_DAO {
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
+        // Check if another criteria already exists for the same method
+        $existing_criteria = $wpdb->get_col( $wpdb->prepare(
+            "SELECT DISTINCT criteria FROM $table_name WHERE method_name = %s",
+            $method_name
+        ));
+
+        if ( !empty($existing_criteria) && !in_array($criteria, $existing_criteria, true) ) {
+            WP_Log::debug( __METHOD__, [
+                'criteria_conflict' => 'Another criteria already exists for this method_name',
+                '$method_name' => $method_name,
+                '$existing_criteria' => $existing_criteria,
+                '$new_criteria' => $criteria,
+            ], 'relais-colis-woocommerce' );
+
+            return true;
+        }
+
         // Query with not null max
         if ( !is_null( $max_value ) ) {
 

@@ -70,37 +70,38 @@ function getRelayColisHtml() {
  * Affiche/Masque les options de livraison en fonction du choix de l'utilisateur
  */
 function checkRCFseShippingMethod(force = false) {
-
     const selectedMethod = getSelectedShippingMethod();
 
     if (selectedMethod === 'home') {
-
-        if (!jQuery('#'+rc_choose_options_h.div_id).length || force) {
-
+        if (!jQuery('#' + rc_choose_options_h.div_id).length || force) {
             jQuery('.wc-block-components-shipping-rates-control').after(rc_choose_options_h.html);
         }
-        jQuery('#'+rc_choose_options_h.div_id).show();
-        jQuery('#'+rc_choose_options_hp.div_id).hide();
-        jQuery('#relais-colis-block').hide().remove();
+        jQuery('#' + rc_choose_options_h.div_id).show();
+        jQuery('#' + rc_choose_options_hp.div_id).hide();
+        jQuery('#relais-colis-block').remove();
 
     } else if (selectedMethod === 'homeplus') {
-
-        if (!jQuery('#'+rc_choose_options_hp.div_id).length || force) {
-
+        if (!jQuery('#' + rc_choose_options_hp.div_id).length || force) {
             jQuery('.wc-block-components-shipping-rates-control').after(rc_choose_options_hp.html);
         }
-        jQuery('#'+rc_choose_options_hp.div_id).show();
-        jQuery('#'+rc_choose_options_h.div_id).hide();
-        jQuery('#relais-colis-block').hide().remove();
+        jQuery('#' + rc_choose_options_hp.div_id).show();
+        jQuery('#' + rc_choose_options_h.div_id).hide();
+        jQuery('#relais-colis-block').remove();
 
     } else if (selectedMethod === 'relay') {
+        jQuery('#' + rc_choose_options_hp.div_id).hide();
+        jQuery('#' + rc_choose_options_h.div_id).hide();
 
-        jQuery('#'+rc_choose_options_hp.div_id).hide();
-        jQuery('#'+rc_choose_options_h.div_id).hide();
-
-        // Checkout FSE
-        jQuery('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
+        if (!jQuery('#relais-colis-block').length || force) {
+            jQuery('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
+        }
         jQuery('#relais-colis-block').show();
+
+    } else {
+        // Cas d'un mode de livraison autre (Colissimo, retrait magasin, etc.)
+        jQuery('#' + rc_choose_options_h.div_id).hide();
+        jQuery('#' + rc_choose_options_hp.div_id).hide();
+        jQuery('#relais-colis-block').remove();
     }
 }
 

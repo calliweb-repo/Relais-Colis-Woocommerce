@@ -80,62 +80,47 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Request {
 
-    // News 2025 03 26
-    //Bonjour Ludovic, comme promis je te fait un retour sur les prestations.
-    //Comme annoncé lors de notre call, l'annonce d'une commande en Home ou Home + avec le body suivant:
-    //[
-    //      {
-    //            "activationKey" : "{{activationKey}}",
-    //            "activityCode": "08",
-    //            "agencyCode" : "{{DATA_agencyCode}}",
-    //            "customerId": "{{DATA_CLT_customerId}}",
-    //            "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}",
-    //            "customerEmail": "{{DATA_CLT_email}}",
-    //            "customerPhone": "{{DATA_CLT_phoneNumber}}",
-    //            "customerMobile": "{{DATA_CLT_mobileNumber}}",
-    //            "deliveryPaymentMethod": "3",
-    //            "deliveryType": "00",
-    //            "language": "FR",
-    //            "orderReference": "{{DATA_CLT_orderId}}",
-    //            "orderType": "1",
-    //            "orderTypeSub": "1",
-    //            "pickingSite": "0",
-    //            "productFamily": "08",
-    //            "shippingAddress1": "{{DATA_CLT_address1}}",
-    //            "shippingAddress2": "{{DATA_CLT_address2}}",
-    //            "shippingPostcode": "{{DATA_CLT_postcode}}",
-    //            "shippingCity": "{{DATA_CLT_city}}",
-    //            "shippmentWeight": "{{DATA_CLT_total_weight}}", # poids total des différents colis si la commandes en contient plusieurs
-    //            "shippingCountryCode": "{{DATA_CLT_countryCode}}",
-    //            "sensitiveProduct": "0",
-    //            "weight": "{{DATA_CLT_weight}}", # poids du colis en cours
-
-    // NEW --->
-    ////// Home+
-    //            "digicode": "{{DATA_CLT_digicode}}", # code de 0 à 8 caractères
-    //            "floor": "{{DATA_CLT_floor}}",
-    //            "housingType": "{{DATA_CLT_housing}}" # valeurs possible "maison" ou "appartement",
-    //            "lift": "{{DATA_CLT_lift}}" # présence d'un ascenceur "1" ou "0",
-    //            "urgent": "{{DATA_CLT_urgent}}" # valeurs possible "1" ou "0",
-    //            "homePlus": "{{DATA_CLT_plus}}", # valeurs possible "1" ou "0"
-    /////// les lignes suivantes ne sont utilisés que pour le home+
-    //            "cpSchedule": "{{DATA_CLT_schedule}}" # valeurs possible "1" ou "0" (livraison programmée)
-    //            "cpDeliveryOnTheFloor": "{{DATA_CLT_onthefloor}}", # valeurs possible "1" ou "0" (livraison sur le palier)
-    //            "cpDeliveryAtTwo": "{{DATA_CLT_atTwo}}", # valeurs possible "1" ou "0" (livraison à deux)
-    //            "cpTurnOnHomeAppliance": "{{DATA_CLT_turnOn}}", # valeurs possible "1" ou "0" (mise en route)
-    //            "cpMountFurniture": "{{DATA_CLT_mount}}", # valeurs possible "1" ou "0" (montage)
-    //            "cpNonStandart": "{{DATA_CLT_nonStandart}}", # valeurs possible "1" ou "0" (hors norme)
-    //            "cpUnpacking": "{{DATA_CLT_unpacking}}", # valeurs possible "1" ou "0"
-    //            "cpEvacuationPackaging": "{{DATA_CLT_evacuation}}", # valeurs possible "1" ou "0"
-    //            "cpRecovery": "{{DATA_CLT_recovery}}", # valeurs possible "1" ou "0"
-    //            "cpDeliveryDesiredRoom": "{{DATA_CLT_desiredRoom}}", # valeurs possible "1" ou "0"
-    //            "cpDeliveryEco": "{{DATA_CLT_eco}}", # valeurs possible "1" ou "0"
-    //      }
-    //]
-
-    // 26 mars 2025 Pour les changement:
-    //Les champs vides ne doivent plus être présents dans le corps de l'appel.
-    //housingType indique maintenant 0 pour Maison et 1 pour appartement
+    // NEWS 2025 03 28
+    //      "activationKey" : "{{activationKey}}", // mandatory
+    //       "activityCode": "08", // contant value
+    //       "customerId": "{{DATA_CLT_customerId}}", // mandatory
+    //       "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+    //       "customerEmail": "{{DATA_CLT_email}}", // mandatory
+    //       "customerPhone": "{{DATA_CLT_phoneNumber}}", // mandatory but can be empty
+    //       "customerMobile": "{{DATA_CLT_mobileNumber}}", // mandatory but can be empty
+    //       "deliveryPaymentMethod": "3", // constant value
+    //       "deliveryType": "00", // constant value
+    //       "language": "FR", // constant value
+    //       "orderReference": "{{DATA_CLT_orderId}}",  // mandatory
+    //       "orderType": "1", // constant value
+    //       "orderTypeSub": "1", // constant value
+    //       "pickingSite": "0", // cosntant value
+    //       "productFamily": "08", // constant value
+    //       "shippingAddress1": "{{DATA_CLT_address1}}", // mandatory same as customer datas
+    //       "shippingAddress2": "{{DATA_CLT_address2}}",// mandatory same as customer datas
+    //       "shippingPostcode": "{{DATA_CLT_postcode}}",// mandatory same as customer datas
+    //       "shippingCity": "{{DATA_CLT_city}}",// mandatory same as customer datas
+    //       "shippmentWeight": "1000", // mandatory total weight of the order
+    //       "shippingCountryCode": "{{DATA_CLT_countryCode}}", // mandatory same as customer datas
+    //       "sensitiveProduct": "0", // constant value
+    //       "weight": "1000", // mandatory weight of the package
+    //       "digicode": "{{DATA_CLT_digicode}}", // optional
+    //       "floor": "{{DATA_CLT_floor}}", // optional
+    //       "housingType": "{{DATA_CLT_housing}}", // optional; 0 = house and 1 = apartment
+    //       "homePlus": "{{DATA_CLT_homePlus}}", // optional. 0 = false and  1 = true,
+    //       "urgent": "{{DATA_CLT_urgent}}", // optional. 0 = false and  1 = true,
+    //       "prestations": {{DATA_CLT_prestations}}  // Optional. It's use for home and home plus
+    //          '1' => 'cpSchedule',
+    //          '3' => 'cpDeliveryOnTheFloor',
+    //          '4' => 'cpDeliveryAtTwo',
+    //          '5' => 'cpTurnOnHomeAppliance',
+    //          '6' => 'cpMountFurniture',
+    //          '7' => 'cpNonStandard',
+    //          '8' => 'cpUnpacking',
+    //           '9' => 'cpEvacuationPackaging',
+    //          '10' => 'cpRecovery',
+    //          '11' => 'cpDeliveryDesiredRoom',
+    //           '18' => 'cpDeliveryEco',
 
     const DIGICODE = 'digicode';
     const FLOOR = 'floor';
@@ -143,19 +128,24 @@ class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Reque
     const LIFT = 'lift';
     const URGENT = 'urgent';
     const HOME_PLUS = 'homePlus';
-    const CP_SCHEDULE = 'cpSchedule';
-    const CP_DELIVERY_ON_THE_FLOOR = 'cpDeliveryOnTheFloor';
-    const CP_DELIVERY_AT_TWO = 'cpDeliveryAtTwo';
-    const CP_TURN_ON_HOME_APPLIANCE = 'cpTurnOnHomeAppliance';
-    const CP_MOUNT_FURNITURE = 'cpMountFurniture';
-    const CP_NON_STANDART = 'cpNonStandart';
-    const CP_UNPACKING = 'cpUnpacking';
-    const CP_EVACUATION_PACKAGING = 'cpEvacuationPackaging';
-    const CP_RECOVERY = 'cpRecovery';
-    const CP_DELIVERY_DESIRED_ROOM = 'cpDeliveryDesiredRoom';
-    const CP_DELIVERY_ECO = 'cpDeliveryEco';
 
-    private $specific_mandatory_params = array();
+    const PRESTATIONS = 'prestations';
+    private $specific_mandatory_params = array(
+        self::ACTIVATION_KEY,
+        self::CUSTOMER_ID,
+        self::CUSTOMER_FULLNAME,
+        self::CUSTOMER_EMAIL,
+        self::CUSTOMER_PHONE,
+        self::CUSTOMER_MOBILE,
+        self::ORDER_REFERENCE,
+        self::SHIPPING_ADDRESS_1,
+        self::SHIPPING_ADDRESS_2,
+        self::SHIPPING_POSTCODE,
+        self::SHIPPING_CITY,
+        self::SHIPPING_COUNTRY_CODE,
+        self::SHIPPMENT_WEIGHT,
+        self::WEIGHT,
+    );
 
     /**
      * Template Method used to get specific mandatory properties
@@ -175,8 +165,14 @@ class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Reque
         return array(
             // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '08',
-            // pour un relais la valeur est "08" et pour un home ou home + "55"
-            self::PRODUCT_FAMILY => '55',
+            self::DELIVERY_PAYMENT_METHOD => '3',
+            self::DELIVERY_TYPE => '00',
+            self::LANGUAGE => 'FR',
+            self::ORDER_TYPE => '1',
+            self::ORDER_TYPE_SUB => '1',
+            self::PICKING_SITE => '0',
+            self::PRODUCT_FAMILY => '08',
+            self::SENSITIVE_PRODUCT => '0',
 
         );
     }

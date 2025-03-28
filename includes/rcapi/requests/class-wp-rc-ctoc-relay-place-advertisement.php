@@ -59,39 +59,39 @@ defined( 'ABSPATH' ) or exit;
  * Example JSON Request:
  * ```json
  * {
- *     "activationKey": "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v",
- *     "hash_token": "sEcReTtOkEn123",
- *     "customerId": "99",
- *     "customerFullname": "Tom Hatte",
- *     "customerEmail": "tom.hatte@example.com",
- *     "customerPhone": "0412356789",
- *     "customerMobile": "0606060606",
- *     "address1Expediteur": "123 Rue Test",
- *     "address2Expediteur": "Appartement 2",
- *     "emailExpediteur": "expediteur@example.com",
- *     "cityExpediteur": "Lille",
- *     "nameExpediteur": "CompanyName",
- *     "phoneExpediteur": "0320654789",
- *     "postcodeExpediteur": "59000",
- *     "orderReference": "ORD123456789",
- *     "shippingAddress1": "45 Avenue Example",
- *     "shippingAddress2": "Bâtiment B",
- *     "shippingPostcode": "59175",
- *     "shippingCity": "Templatemars",
- *     "shippingCountryCode": "FR",
- *     "shippmentWeight": 1000,
- *     "weight": 1000,
- *     "activityCode": "05",
- *     "agencyCode": "AGENCY123",
- *     "deliveryPaymentMethod": "3",
- *     "deliveryType": "00",
- *     "language": "FR",
- *     "pickingSite": "0",
- *     "productFamily": "08",
- *     "orderType": "1",
- *     "orderTypeSub": "1",
- *     "sensitiveProduct": "0",
- *     "xeett": "I4040"
+ *    "activationKey" : "{{C2C_activationKey}}", // mandatory
+ *     "hash_token" : "{{C2C_hashToken}}", // mandatory
+ *     "customerId": "{{DATA_CLT_customerId}}", // mandatory
+ *     "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+ *     "customerEmail": "{{DATA_CLT_email}}", // mandatory
+ *     "customerPhone": "{{DATA_CLT_phoneNumber}}", // optional
+ *     "customerMobile": "{{DATA_CLT_mobileNumber}}", //optional
+ *     "address1Expediteur": "{{DATA_EXP_address1}}", // mandatory
+ *     "address2Expediteur": "{{DATA_EXP_address2}}", //optional
+ *     "emailExpediteur": "{{DATA_EXP_email}}", //mandatory
+ *     "cityExpediteur": "{{DATA_EXP_city}}",// mandatory
+ *     "nameExpediteur": "{{DATA_EXP_company}}", // mandatory
+ *     "phoneExpediteur": "{{DATA_EXP_phone}}", // optional, must b present only if not null
+ *     "postcodeExpediteur": "{{DATA_EXP_postcode}}", // mandatory
+ *     "orderReference": "{{DATA_CLT_orderId}}", //Mandatory
+ *     "shippingAddress1": "{{DATA_CLT_address1}}", // mandatory relay address
+ *     "shippingAddress2": "{{DATA_CLT_address2}}", // mandatory relay address
+ *     "shippingPostcode": "{{DATA_CLT_postcode}}", // mandatory relay address
+ *     "shippingCity": "{{DATA_CLT_city}}", // mandatory relay address
+ *     "shippingCountryCode": "{{DATA_CLT_countryCode}}",// mandatory
+ *     "shippmentWeight": "{{DATA_CLT_shipmentWeight}}", // mandatory. in grams
+ *     "weight": "{{DATA_CLT_shipmentWeight}}", // mandatory. in grams
+ *     "activityCode": "05", // constant value
+ *     "agencyCode" : "{{DATA_agencyCode}}", // optional
+ *     "deliveryPaymentMethod": "3",// constant value
+ *     "deliveryType": "00", // constant value
+ *     "language": "FR", // constant value
+ *     "pickingSite": "0", // constant value
+ *     "productFamily": "08", // constant value
+ *     "orderType": "1", // constant value
+ *     "orderTypeSub": "1", // constant value
+ *     "sensitiveProduct": "0", // constant value
+ *     "xeett": "{{DATA_CLT_XeettId}}" // mandatory relay information
  * }
  * ```
  *
@@ -104,6 +104,39 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Request {
 
+    //      "activationKey" : "{{C2C_activationKey}}", // mandatory
+    //       "hash_token" : "{{C2C_hashToken}}", // mandatory
+    //       "customerId": "{{DATA_CLT_customerId}}", // mandatory
+    //       "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+    //       "customerEmail": "{{DATA_CLT_email}}", // mandatory
+    //       "customerPhone": "{{DATA_CLT_phoneNumber}}", // optional
+    //       "customerMobile": "{{DATA_CLT_mobileNumber}}", //optional
+    //       "address1Expediteur": "{{DATA_EXP_address1}}", // mandatory
+    //       "address2Expediteur": "{{DATA_EXP_address2}}", //optional
+    //       "emailExpediteur": "{{DATA_EXP_email}}", //mandatory
+    //       "cityExpediteur": "{{DATA_EXP_city}}",// mandatory
+    //       "nameExpediteur": "{{DATA_EXP_company}}", // mandatory
+    //       "phoneExpediteur": "{{DATA_EXP_phone}}", // optional, must b present only if not null
+    //       "postcodeExpediteur": "{{DATA_EXP_postcode}}", // mandatory
+    //       "orderReference": "{{DATA_CLT_orderId}}", //Mandatory
+    //       "shippingAddress1": "{{DATA_CLT_address1}}", // mandatory relay address
+    //       "shippingAddress2": "{{DATA_CLT_address2}}", // mandatory relay address
+    //       "shippingPostcode": "{{DATA_CLT_postcode}}", // mandatory relay address
+    //       "shippingCity": "{{DATA_CLT_city}}", // mandatory relay address
+    //       "shippingCountryCode": "{{DATA_CLT_countryCode}}",// mandatory
+    //       "shippmentWeight": "{{DATA_CLT_shipmentWeight}}", // mandatory. in grams
+    //       "weight": "{{DATA_CLT_shipmentWeight}}", // mandatory. in grams
+    //       "activityCode": "05", // constant value
+    //       "agencyCode" : "{{DATA_agencyCode}}", // optional
+    //       "deliveryPaymentMethod": "3",// constant value
+    //       "deliveryType": "00", // constant value
+    //       "language": "FR", // constant value
+    //       "pickingSite": "0", // constant value
+    //       "productFamily": "08", // constant value
+    //       "orderType": "1", // constant value
+    //       "orderTypeSub": "1", // constant value
+    //       "sensitiveProduct": "0", // constant value
+    //       "xeett": "{{DATA_CLT_XeettId}}" // mandatory relay information
     const XEETT = 'xeett';
     const ADDRESS1_EXPEDITEUR = 'address1Expediteur';
     const ADDRESS2_EXPEDITEUR = 'address2Expediteur';
@@ -115,16 +148,26 @@ class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
     const HASH_TOKEN = 'hash_token';
 
     private $specific_mandatory_params = array(
-        //"xeett" c'est la valeur xeett de l'objet relais (du relais sélectionné pour la commande)
-        self::XEETT,
+        self::ACTIVATION_KEY,
+        self::HASH_TOKEN,
+        self::CUSTOMER_ID,
+        self::CUSTOMER_FULLNAME,
+        self::CUSTOMER_EMAIL,
         self::ADDRESS1_EXPEDITEUR,
-        self::ADDRESS2_EXPEDITEUR,
         self::EMAIL_EXPEDITEUR,
         self::CITY_EXPEDITEUR,
         self::NAME_EXPEDITEUR,
-        self::PHONE_EXPEDITEUR,
         self::POSTCODE_EXPEDITEUR,
-        self::HASH_TOKEN,
+        self::ORDER_REFERENCE,
+        self::SHIPPING_ADDRESS_1,
+        self::SHIPPING_ADDRESS_2,
+        self::SHIPPING_POSTCODE,
+        self::SHIPPING_CITY,
+        self::SHIPPING_COUNTRY_CODE,
+        self::SHIPPMENT_WEIGHT,
+        self::WEIGHT,
+        //"xeett" c'est la valeur xeett de l'objet relais (du relais sélectionné pour la commande)
+        self::XEETT,
     );
 
 
@@ -148,9 +191,16 @@ class WP_RC_C2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
         return array(
             // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '05',
+            self::DELIVERY_PAYMENT_METHOD => '3',
             // pour un relais la valeur est "08" et pour un home ou home + "55"
             self::PRODUCT_FAMILY => '08',
-
+            self::DELIVERY_TYPE => '00',
+            self::LANGUAGE => 'FR',
+            self::PICKING_SITE => '0',
+            self::PRODUCT_FAMILY => '08',
+            self::ORDER_TYPE => '1',
+            self::ORDER_TYPE_SUB => '1',
+            self::SENSITIVE_PRODUCT => '0',
             self::HASH_TOKEN => $c2c_hashtoken,
         );
     }

@@ -5,6 +5,7 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
+use RelaisColisWoocommerce\RCAPI\WP_RC_B2C_Home_Place_Advertisement;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
@@ -215,6 +216,87 @@ class WC_Orders_Manager {
         }
 
         WC_Order_Shipping_Infos_Manager::instance()->render_shipping_infos( $wc_order );
+    }
+
+
+    /**
+     * Build services RC params array from relay_data
+     * @param WC_Order $wc_order
+     * @return string
+     */
+    public function build_rc_prestations_param( WC_Order $wc_order ) {
+
+        $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
+        WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+
+        if ( !empty( $rc_services ) && is_array( $rc_services ) ) {
+
+            //          '1' => 'cpSchedule',
+            //          '3' => 'cpDeliveryOnTheFloor',
+            //          '4' => 'cpDeliveryAtTwo',
+            //          '5' => 'cpTurnOnHomeAppliance',
+            //          '6' => 'cpMountFurniture',
+            //          '7' => 'cpNonStandard',
+            //          '8' => 'cpUnpacking',
+            //           '9' => 'cpEvacuationPackaging',
+            //          '10' => 'cpRecovery',
+            //          '11' => 'cpDeliveryDesiredRoom',
+            //           '18' => 'cpDeliveryEco',
+            $prestations = [];
+
+            foreach ( $rc_services as $rc_service ) {
+
+                // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
+
+                // Extract slug
+                // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
+                $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
+
+                switch ( $slug ) {
+
+                    case WC_RC_Services_Manager::APPOINTMENT_SCHEDULING:
+                        $prestations[] = '1';
+                        break;
+                    case WC_RC_Services_Manager::DELIVERY_TO_FLOOR:
+                        $prestations[] = '3';
+                        break;
+                    case WC_RC_Services_Manager::TWO_PERSON_DELIVERY:
+                        $prestations[] = '4';
+                        break;
+                    case WC_RC_Services_Manager::SETUP_LARGE_APPLIANCES:
+                        $prestations[] = '5';
+                        break;
+                    case WC_RC_Services_Manager::QUICK_ASSEMBLY:
+                        $prestations[] = '6';
+                        break;
+                    case WC_RC_Services_Manager::OVERSIZED_ITEMS:
+                        $prestations[] = '7';
+                        break;
+                    case WC_RC_Services_Manager::PRODUCT_UNPACKING:
+                        $prestations[] = '8';
+                        break;
+                    case WC_RC_Services_Manager::PACKAGING_REMOVAL:
+                        $prestations[] = '9';
+                        break;
+                    case WC_RC_Services_Manager::REMOVAL_OLD_EQUIPMENT:
+                        $prestations[] = '10';
+                        break;
+                    case WC_RC_Services_Manager::DELIVERY_DESIRED_ROOM:
+                        $prestations[] = '11';
+                        break;
+                    case WC_RC_Services_Manager::CURBSIDE_DELIVERY:
+                        $prestations[] = '18';
+                        break;
+                }
+            }
+            if ( !empty( $prestations ) ) {
+
+                $prestations = array_map('intval', $prestations);
+                return $prestations;
+            }
+        }
+        return '';
     }
 
     /**

@@ -800,22 +800,6 @@ class WC_Order_Packages_Manager {
             $country_array = explode( ":", $country );
             $store_country = $country_array[ 0 ]; // Country (Eg: FR)
 
-            // Dynamic common params
-            $dynamic_params_place_shipping_label = array(
-                WP_RC_Place_Advertisement_Request::CUSTOMER_ID => ''.$wc_order->get_customer_id(),
-                WP_RC_Place_Advertisement_Request::CUSTOMER_FULLNAME => $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name(),
-                WP_RC_Place_Advertisement_Request::CUSTOMER_EMAIL => $wc_order->get_billing_email(),
-                WP_RC_Place_Advertisement_Request::CUSTOMER_PHONE => $wc_order->get_shipping_phone(),
-                WP_RC_Place_Advertisement_Request::CUSTOMER_MOBILE => $wc_order->get_shipping_phone(),
-                WP_RC_Place_Advertisement_Request::ORDER_REFERENCE => $wc_order->get_order_number(),
-                WP_RC_Place_Advertisement_Request::SHIPPING_ADDRESS_1 => $wc_order->get_shipping_address_1(),
-                WP_RC_Place_Advertisement_Request::SHIPPING_ADDRESS_2 => $wc_order->get_shipping_address_2(),
-                WP_RC_Place_Advertisement_Request::SHIPPING_POSTCODE => $wc_order->get_shipping_postcode(),
-                WP_RC_Place_Advertisement_Request::SHIPPING_CITY => $wc_order->get_shipping_city(),
-                WP_RC_Place_Advertisement_Request::SHIPPING_COUNTRY_CODE => $store_country,
-                WP_RC_Place_Advertisement_Request::LANGUAGE => 'FR',
-            );
-
             // Check if the shipping method is "Relais Colis"
             $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
 
@@ -829,6 +813,7 @@ class WC_Order_Packages_Manager {
                     // Check if relay_data
                     //            [Xeett] => G2013
                     //            [Agencecode] => G2
+                    //            [Pseudorvc] => 06366
                     $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
                     WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
                     if ( !empty( $rc_relay_data ) ) {
@@ -836,7 +821,10 @@ class WC_Order_Packages_Manager {
                         // Extract informations
                         $xeett = $rc_relay_data[ 'Xeett' ] ?? '';
                         $agency_code = $rc_relay_data[ 'Agencecode' ] ?? '';
+                        $pseudo_rvc = $rc_relay_data[ 'Pseudorvc' ] ?? '';
                     }
+
+                    $dynamic_params_place_shipping_label = array();
 
                     // Request RC API place_advertisement
                     foreach ( $colis as &$c_colis ) {
@@ -851,15 +839,30 @@ class WC_Order_Packages_Manager {
                         if ( $is_c2c_interaction_mode ) {
 
                             // Dynamic params
-                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = $xeett;
-                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
+
+                            // Dynamic common params
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_ID ] = ''.$wc_order->get_customer_id();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_FULLNAME ] = $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_EMAIL ] = $wc_order->get_billing_email();
+                            $customer_phone = $wc_order->get_shipping_phone();
+                            if ( empty( $customer_phone ) ) $customer_phone = '061234567890'; // FIXME ... trouver une autre solution
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_PHONE ] = $customer_phone;
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_MOBILE ] = $wc_order->get_shipping_phone() ?? '';
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS1_EXPEDITEUR ] = get_option( 'woocommerce_store_address' );
-                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS2_EXPEDITEUR ] = get_option( 'woocommerce_store_address_2' );
+                            if ( !empty( get_option( 'woocommerce_store_address_2' ) ) ) $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS2_EXPEDITEUR ] = get_option( 'woocommerce_store_address_2' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::EMAIL_EXPEDITEUR ] = get_option( 'woocommerce_email_from_address' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CITY_EXPEDITEUR ] = get_option( 'woocommerce_store_city' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::NAME_EXPEDITEUR ] = get_option( 'blogname' );
-                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::PHONE_EXPEDITEUR ] = get_option( 'woocommerce_store_phone' );
+                            if ( !empty( get_option( 'woocommerce_store_phone' ) ) ) $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::PHONE_EXPEDITEUR ] = get_option( 'woocommerce_store_phone' );
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::POSTCODE_EXPEDITEUR ] = get_option( 'woocommerce_store_postcode' );
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ORDER_REFERENCE ] = $wc_order->get_order_number();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::SHIPPING_ADDRESS_1 ] = $wc_order->get_shipping_address_1();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::SHIPPING_ADDRESS_2 ] = $wc_order->get_shipping_address_2();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::SHIPPING_POSTCODE ] = $wc_order->get_shipping_postcode();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::SHIPPING_CITY ] = $wc_order->get_shipping_city();
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::SHIPPING_COUNTRY_CODE ] = $store_country;
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
+                            $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::XEETT ] = $xeett;
 
                             // Call API
                             $c2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->c2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
@@ -899,8 +902,23 @@ class WC_Order_Packages_Manager {
                         else {
 
                             // Dynamic params
-                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_ID ] = ''.$wc_order->get_customer_id();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_FULLNAME ] = $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_EMAIL ] = $wc_order->get_billing_email() ?? '';
+                            $customer_phone = $wc_order->get_shipping_phone();
+                            if ( empty( $customer_phone ) ) $customer_phone = '061234567890'; // FIXME ... trouver une autre solution
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_PHONE ] = $customer_phone;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_MOBILE ] = $wc_order->get_shipping_phone() ?? '';
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::PSEUDO_RVC ] = $pseudo_rvc;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::ORDER_REFERENCE ] = $wc_order->get_order_number();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_ADDRESS_1 ] = $wc_order->get_shipping_address_1();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_ADDRESS_2 ] = $wc_order->get_shipping_address_2() ?? '';
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_POSTCODE ] = $wc_order->get_shipping_postcode();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_CITY ] = $wc_order->get_shipping_city();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_COUNTRY_CODE ] = $store_country;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
+                            WP_Log::debug( __METHOD__.' - B2C - Relay Params', ['$dynamic_params_place_shipping_label'=>$dynamic_params_place_shipping_label], 'relais-colis-woocommerce' );
 
                             // Call API
                             $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
@@ -910,7 +928,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                             }
 
                             // Display response
@@ -961,99 +979,38 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$c_colis[ 'weight' ];
                             $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
 
+                            $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
+                            WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+
+                            // Init values with defaults
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_ID ] = ''.$wc_order->get_customer_id();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_FULLNAME ] = $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_EMAIL ] = $wc_order->get_billing_email() ?? '';
+                            $customer_phone = $wc_order->get_shipping_phone();
+                            if ( empty( $customer_phone ) ) $customer_phone = '061234567890'; // FIXME ... trouver une autre solution
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_PHONE ] = $customer_phone;
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_MOBILE ] = $wc_order->get_shipping_phone() ?? '';
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::ORDER_REFERENCE ] = $wc_order->get_order_number();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::SHIPPING_ADDRESS_1 ] = $wc_order->get_shipping_address_1();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::SHIPPING_ADDRESS_2 ] = $wc_order->get_shipping_address_2() ?? '';
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::SHIPPING_POSTCODE ] = $wc_order->get_shipping_postcode();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::SHIPPING_CITY ] = $wc_order->get_shipping_city();
+                            $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::SHIPPING_COUNTRY_CODE ] = $store_country;
+
+                            // Build services RC params array from relay_data
+                            $rc_prestations_param = WC_Orders_Manager::instance()->build_rc_prestations_param( $wc_order );
+                            WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-woocommerce' );
+                            if ( !empty( $rc_prestations_param ) ) {
+
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::PRESTATIONS ] = $rc_prestations_param;
+                            }
+
                             // Home+ - Add a few new params
                             if ( $rc_shipping_method === WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ) {
 
                                 $rc_service_infos = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
-                                $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                                WP_Log::notice( __METHOD__, [ '$rc_services' => $rc_services, '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
+                                WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
 
-                                // Init values with defaults
-                                // Extract informations
-                                //            "digicode": "{{DATA_CLT_digicode}}", # code de 0 à 8 caractères
-                                //            "floor": "{{DATA_CLT_floor}}",
-                                //            "housingType": "{{DATA_CLT_housing}}" # valeurs possible "maison" ou "appartement",
-                                //            "lift": "{{DATA_CLT_lift}}" # présence d'un ascenceur "1" ou "0",
-                                //            "urgent": "{{DATA_CLT_urgent}}" # valeurs possible "1" ou "0",
-                                //            "homePlus": "{{DATA_CLT_plus}}", # valeurs possible "1" ou "0"
-                                //            "cpSchedule": "{{DATA_CLT_schedule}}" # valeurs possible "1" ou "0" (livraison programmée)
-                                //            "cpDeliveryOnTheFloor": "{{DATA_CLT_onthefloor}}", # valeurs possible "1" ou "0" (livraison sur le palier)
-                                //            "cpDeliveryAtTwo": "{{DATA_CLT_atTwo}}", # valeurs possible "1" ou "0" (livraison à deux)
-                                //            "cpTurnOnHomeAppliance": "{{DATA_CLT_turnOn}}", # valeurs possible "1" ou "0" (mise en route)
-                                //            "cpMountFurniture": "{{DATA_CLT_mount}}", # valeurs possible "1" ou "0" (montage)
-                                //            "cpNonStandart": "{{DATA_CLT_nonStandart}}", # valeurs possible "1" ou "0" (hors norme)
-                                //            "cpUnpacking": "{{DATA_CLT_unpacking}}", # valeurs possible "1" ou "0"
-                                //            "cpEvacuationPackaging": "{{DATA_CLT_evacuation}}", # valeurs possible "1" ou "0"
-                                //            "cpRecovery": "{{DATA_CLT_recovery}}", # valeurs possible "1" ou "0"
-                                //            "cpDeliveryDesiredRoom": "{{DATA_CLT_desiredRoom}}", # valeurs possible "1" ou "0"
-                                //            "cpDeliveryEco": "{{DATA_CLT_eco}}", # valeurs possible "1" ou "0"
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::DIGICODE ] = '';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::FLOOR ] = '';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOUSING_TYPE ] = '';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::LIFT ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::URGENT ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOME_PLUS ] = '1';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_SCHEDULE ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ON_THE_FLOOR ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_AT_TWO ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_TURN_ON_HOME_APPLIANCE ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_MOUNT_FURNITURE ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_NON_STANDART ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_UNPACKING ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_EVACUATION_PACKAGING ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_RECOVERY ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_DESIRED_ROOM ] = '0';
-                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ECO ] = '0';
-
-                                if ( !empty( $rc_services ) && is_array( $rc_services ) ) {
-
-                                    foreach ( $rc_services as $rc_service ) {
-
-                                        // Service key must start with WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                                        if ( strpos( $rc_service, WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) !== 0 ) continue;
-
-                                        // Extract slug
-                                        // Start after prefix WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX
-                                        $slug = substr( $rc_service, strlen( WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX ) );
-
-                                        switch ( $slug ) {
-
-                                            case WC_RC_Services_Manager::APPOINTMENT_SCHEDULING:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_SCHEDULE ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::DELIVERY_TO_FLOOR:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ON_THE_FLOOR ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::TWO_PERSON_DELIVERY:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_AT_TWO ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::SETUP_LARGE_APPLIANCES:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_TURN_ON_HOME_APPLIANCE ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::QUICK_ASSEMBLY:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_MOUNT_FURNITURE ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::OVERSIZED_ITEMS:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_NON_STANDART ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::PRODUCT_UNPACKING:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_UNPACKING ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::PACKAGING_REMOVAL:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_EVACUATION_PACKAGING ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::REMOVAL_OLD_EQUIPMENT:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_RECOVERY ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::DELIVERY_DESIRED_ROOM:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_DESIRED_ROOM ] = '1';
-                                                break;
-                                            case WC_RC_Services_Manager::CURBSIDE_DELIVERY:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CP_DELIVERY_ECO ] = '1';
-                                                break;
-                                        }
-                                    }
-                                }
                                 if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
 
                                     //    [$session_rc_service_infos] => Array
@@ -1090,7 +1047,7 @@ class WC_Order_Packages_Manager {
                                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::FLOOR ] = ''.$rc_service_info_value;
                                                 break;
                                             case WC_RC_Services_Manager::SERVICE_HOMEPLUS_TYPE_OF_RESIDENCE:
-                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOUSING_TYPE ] = ($rc_service_info_value=="house"?"0":($rc_service_info_value=="apartment"?"1":""));
+                                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOUSING_TYPE ] = ( $rc_service_info_value == "house" ? "0" : ( $rc_service_info_value == "apartment" ? "1" : "" ) );
                                                 break;
                                             case WC_RC_Services_Manager::SERVICE_HOMEPLUS_ELEVATOR:
                                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::LIFT ] = ''.$rc_service_info_value;
@@ -1098,9 +1055,8 @@ class WC_Order_Packages_Manager {
                                         }
                                     }
                                 }
-                                WP_Log::notice( __METHOD__.' - New request params', [ '$dynamic_params_place_shipping_label' => $dynamic_params_place_shipping_label ], 'relais-colis-woocommerce' );
-                            }
-                            else {
+                                WP_Log::debug( __METHOD__.' - New request params', [ '$dynamic_params_place_shipping_label' => $dynamic_params_place_shipping_label ], 'relais-colis-woocommerce' );
+                            } else {
 
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOME_PLUS ] = '0';
                             }
@@ -1113,7 +1069,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                             }
 
                             // Display response
@@ -1137,7 +1093,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
                             }
                         }
                     }

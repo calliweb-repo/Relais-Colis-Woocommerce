@@ -43,28 +43,6 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
 
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,
-        self::ACTIVITY_CODE,
-        //self::AGENCY_CODE,
-        self::CUSTOMER_ID,
-        self::CUSTOMER_FULLNAME,
-        self::CUSTOMER_EMAIL,
-        self::CUSTOMER_PHONE,
-        self::CUSTOMER_MOBILE,
-        self::DELIVERY_PAYMENT_METHOD,
-        self::DELIVERY_TYPE,
-        self::LANGUAGE,
-        self::ORDER_TYPE,
-        self::ORDER_TYPE_SUB,
-        self::PICKING_SITE,
-        self::PRODUCT_FAMILY,
-        self::ORDER_REFERENCE,
-        self::SENSITIVE_PRODUCT,
-        self::SHIPPING_ADDRESS_1,
-        self::SHIPPING_POSTCODE,
-        self::SHIPPING_CITY,
-        self::SHIPPING_COUNTRY_CODE,
-        self::SHIPPMENT_WEIGHT,
-        self::WEIGHT,
     );
 
 
@@ -110,36 +88,9 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
         //"orderReference" c'est le numéro de commande dans woocommerce
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
-            // "deliveryPaymentMethod" c'est une valeur constante "3"
-            self::DELIVERY_PAYMENT_METHOD => '3',
-            // "deliveryType" c'est une valeur constante "00"
-            self::DELIVERY_TYPE => '00',
-            self::LANGUAGE => 'FR',
-            //"orderType" c'est une valeur constante "1"
-            self::ORDER_TYPE => '1',
-            //"orderTypeSub" c'est une valeur constante "1"
-            self::ORDER_TYPE_SUB => '1',
-            //"pickingSite"  c'est une valeur constante "0"
-            self::PICKING_SITE => '0',
-            //"productFamily" pour un relais la valeur est "08" et pour un home ou home + "55"
-            self::PRODUCT_FAMILY => '08',
-            //"sensitiveProduct" c'est une valeur constante "0"
-            self::SENSITIVE_PRODUCT => '0',
-            //"pseudoRvc" c'est un champ vide, l'api le comble après avec le pseudo_rvc du relais
-            self::PSEUDO_RVC => '',
-            // Agency code
-            //self::AGENCY_CODE => 'C3',
         );
 
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );
-
-        // Unset empty params
-        $new_datas = array();
-        foreach ( $this->data as $c_data_key => $c_data_value ) {
-
-            if ( !empty( $c_data_value ) ) $new_datas[$c_data_key] = $c_data_value;
-        }
-        $this->data = $new_datas;
 
         $this->validate();
 

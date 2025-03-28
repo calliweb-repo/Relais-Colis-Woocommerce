@@ -243,7 +243,7 @@ class WC_RC_Ajax_Packages {
 
             // Adjust package
             $colis[ $colis_index ][ 'items' ][ $product_id ] = ( $colis[ $colis_index ][ 'items' ][ $product_id ] ?? 0 ) + $quantity;
-            $colis[ $colis_index ][ 'weight' ] += $product->get_weight() * $quantity;
+            $colis[ $colis_index ][ 'weight' ] += (float) $product->get_weight() * $quantity;
 
             // Save packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );

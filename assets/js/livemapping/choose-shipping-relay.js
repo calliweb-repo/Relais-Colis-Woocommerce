@@ -44,14 +44,12 @@ jQuery(document).ready(function ($) {
             }
         },
         open: function () {
-
             console.log("Modale ouverte !");
+            // Always prefill address before modal opening
+            prefillShippingAddress();
+
             // Load map only once
             if (!$("#relayModal").hasClass("loaded")) {
-
-                // Prefill address before modal opening
-                prefillShippingAddress();
-
                 $("#relayModal").addClass("loaded");
                 LancerCarte();
             }

@@ -43,32 +43,32 @@ defined( 'ABSPATH' ) or exit;
  * Example JSON Request:
  * ```json
  * {
- *     "activationKey": "fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v",
- *     "activityCode": "05", -> "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
- *     "agencyCode": "AGENCY123",
- *     "customerId": "99",
- *     "customerFullname": "Tom Hatte",
- *     "customerEmail": "tom.hatte@example.com",
- *     "customerPhone": "0412356789",
- *     "customerMobile": "0606060606",
- *     "deliveryPaymentMethod": "3",
- *     "deliveryType": "00",
- *     "language": "FR",
- *     "orderType": "1",
- *     "orderTypeSub": "1",
- *     "pickingSite": "0",
- *     "productFamily": "08", -> pour un relais la valeur est "08" et pour un home ou home + "55"
- *     "pseudoRvc": "RVC123",
- *     "orderReference": "ORD123456789",
- *     "sensitiveProduct": "0",
- *     "shippingAddress1": "12 Rue Example",
- *     "shippingAddress2": "Bâtiment A",
- *     "shippingPostcode": "59000",
- *     "shippingCity": "Lille",
- *     "shippingCountryCode": "FR",
- *     "shippmentWeight": 1000,
- *     "weight": 1000,
- *     "xeett": "I4040"
+ *       "activationKey" : "{{activationKey}}", // mandatory
+ *       "activityCode": "05", // constant value
+ *       "agencyCode": "{{DATA_agencyCode}}", // mandatory agency relay code selected
+ *       "customerId": "{{DATA_CLT_customerId}}", // mandatory customer id in csm
+ *       "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+ *       "customerEmail": "{{DATA_CLT_email}}", // mandatory but can be empty
+ *       "customerPhone": "{{DATA_CLT_phoneNumber}}", //mandatory but can be empty
+ *       "customerMobile": "{{DATA_CLT_mobileNumber}}",// mandatory but can be empty
+ *       "deliveryPaymentMethod": "3", // constant value
+ *       "deliveryType": "00", // constant value
+ *       "language": "FR", //constant value
+ *       "orderType": "1", // constant value
+ *       "orderTypeSub": "1", //constant value
+ *       "pickingSite": "0", //constant value
+ *       "productFamily": "08", // constant value
+ *       "pseudoRvc": "{{DATA_pseudoRvc}}", // mandatory, retrned in relay information
+ *       "orderReference": "{{DATA_CLT_orderId}}", // order reference in cms
+ *       "sensitiveProduct": "0", // constant value
+ *       "shippingAddress1": "{{DATA_CLT_address1}}", // mandatory relay address
+ *       "shippingAddress2": "{{DATA_CLT_address2}}", // mandatory but can be empty
+ *       "shippingPostcode": "{{DATA_CLT_postcode}}",  // mandatory relay address
+ *       "shippingCity": "{{DATA_CLT_city}}", // mandatory relay address
+ *       "shippingCountryCode": "FR", // constant value
+ *       "shippmentWeight": "1000", // mandatory total weight of the order
+ *       "weight": "1000", // mandatory weight of the package
+ *       "xeett": "{{DATA_CLT_XeettId}}" // mandatory returned in relay information
  * }
  * ```
  *
@@ -85,10 +85,50 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Request {
 
+    //    "activationKey" : "{{activationKey}}", // mandatory
+    //    "activityCode": "05", // constant value
+    //    "agencyCode": "{{DATA_agencyCode}}", // mandatory agency relay code selected
+    //    "customerId": "{{DATA_CLT_customerId}}", // mandatory customer id in csm
+    //    "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
+    //    "customerEmail": "{{DATA_CLT_email}}", // mandatory but can be empty
+    //    "customerPhone": "{{DATA_CLT_phoneNumber}}", //mandatory but can be empty
+    //    "customerMobile": "{{DATA_CLT_mobileNumber}}",// mandatory but can be empty
+    //    "deliveryPaymentMethod": "3", // constant value
+    //    "deliveryType": "00", // constant value
+    //    "language": "FR", //constant value
+    //    "orderType": "1", // constant value
+    //    "orderTypeSub": "1", //constant value
+    //    "pickingSite": "0", //constant value
+    //    "productFamily": "08", // constant value
+    //    "pseudoRvc": "{{DATA_pseudoRvc}}", // mandatory, retrned in relay information
+    //    "orderReference": "{{DATA_CLT_orderId}}", // order reference in cms
+    //    "sensitiveProduct": "0", // constant value
+    //    "shippingAddress1": "{{DATA_CLT_address1}}", // mandatory relay address
+    //    "shippingAddress2": "{{DATA_CLT_address2}}", // mandatory but can be empty
+    //    "shippingPostcode": "{{DATA_CLT_postcode}}",  // mandatory relay address
+    //    "shippingCity": "{{DATA_CLT_city}}", // mandatory relay address
+    //    "shippingCountryCode": "FR", // constant value
+    //    "shippmentWeight": "1000", // mandatory total weight of the order
+    //    "weight": "1000", // mandatory weight of the package
+    //    "xeett": "{{DATA_CLT_XeettId}}" // mandatory returned in relay information
     const XEETT = 'xeett';
 
     private $specific_mandatory_params = array(
-        //"xeett" c'est la valeur xeett de l'objet relais (du relais sélectionné pour la commande)
+        self::ACTIVATION_KEY,
+        self::AGENCY_CODE,
+        self::CUSTOMER_ID,
+        self::CUSTOMER_FULLNAME,
+        self::CUSTOMER_EMAIL,
+        self::CUSTOMER_PHONE,
+        self::CUSTOMER_MOBILE,
+        self::PSEUDO_RVC,
+        self::SHIPPING_ADDRESS_1,
+        self::SHIPPING_ADDRESS_2,
+        self::SHIPPING_POSTCODE,
+        self::SHIPPING_CITY,
+        self::SHIPPMENT_WEIGHT,
+        self::WEIGHT,
+        // "xeett" mandatory returned in relay information
         self::XEETT,
     );
 
@@ -111,8 +151,20 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
         return array(
             // "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
             self::ACTIVITY_CODE => '05',
-            // pour un relais la valeur est "08" et pour un home ou home + "55"
+            // "deliveryPaymentMethod" c'est une valeur constante "3"
+            self::DELIVERY_PAYMENT_METHOD => '3',
+            // "deliveryType" c'est une valeur constante "00"
+            self::DELIVERY_TYPE => '00',
+            self::LANGUAGE => 'FR',
+            //"orderType" c'est une valeur constante "1"
+            self::ORDER_TYPE => '1',
+            //"orderTypeSub" c'est une valeur constante "1"
+            self::ORDER_TYPE_SUB => '1',
+            //"pickingSite"  c'est une valeur constante "0"
+            self::PICKING_SITE => '0',
+            //"productFamily" pour un relais la valeur est "08" et pour un home ou home + "55"
             self::PRODUCT_FAMILY => '08',
+            self::SHIPPING_COUNTRY_CODE => 'FR',
         );
     }
 
