@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
 "woocommerce\n"
 "POT-Creation-Date: 2025-03-27T08:18:39+00:00\n"
-"PO-Revision-Date: 2025-03-27 09:19+0100\n"
+"PO-Revision-Date: 2025-03-28 08:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -219,35 +219,35 @@ msgstr "10 X 15 : ZEBRA"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:234
 msgid "Millimeters (mm)"
-msgstr "Millimètres (mm)"
+msgstr "Millimètre (mm)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:235
 msgid "Centimeters (cm)"
-msgstr "Centimètres (cm)"
+msgstr "Centimètre (cm)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:236
 msgid "Decimeters (dm)"
-msgstr "Décimètres (dm)"
+msgstr "Décimètre (dm)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:237
 msgid "Meters (m)"
-msgstr "Mètres (m)"
+msgstr "Mètre (m)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:248
 msgid "Milligrams (mg)"
-msgstr "Milligrammes (mg)"
+msgstr "Milligramme (mg)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:249
 msgid "Centigrams (mg)"
-msgstr "Centigrammes (cg)"
+msgstr "Centigramme (cg)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:250
 msgid "Decigrams (dg)"
-msgstr "Décigrammes (dg)"
+msgstr "Décigramme (dg)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:251
 msgid "Grams (g)"
-msgstr "Grammes (g)"
+msgstr "Gramme (g)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:252
 msgid "Kilograms (kg)"
@@ -915,7 +915,7 @@ msgstr "Relais Colis - Informations"
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:209
 #: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:79
 msgid "RC Shipping method"
-msgstr "Méthode de livraison Relais Colis"
+msgstr "Méthode de livraison"
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:71
 msgid "Export in CSV (C2C)"

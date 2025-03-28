@@ -4,7 +4,6 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
-use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 

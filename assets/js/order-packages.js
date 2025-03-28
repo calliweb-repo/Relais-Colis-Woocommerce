@@ -344,7 +344,7 @@ jQuery(document).ready(function ($) {
 
             if (orderState === 'order_state_shipping_labels_placed') {
 
-                container.append(`<button class="rc-generate-way-bill">${rc_order_packages.label_generate_way_bill}</button>`);
+                //container.append(`<button class="rc-generate-way-bill">${rc_order_packages.label_generate_way_bill}</button>`);
             }
             else if (orderState === 'order_state_way_bills_generated') {
 
