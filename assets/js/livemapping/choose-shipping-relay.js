@@ -114,7 +114,7 @@ jQuery(document).ready(function ($) {
     var maxZoom = 19;
     var minZoom = 5;
     var zoom = 14;
-    var relaisColisMax = RetrieveParameterFromUrlSimple("relaisColisMax").trim();//Uniquement des Relais Max ? si oui mettre 1
+    var relaisColisMax = rc_choose_relay.relaisColisMax || '1'; // Utilisation du paramètre passé via wp_localize_script
     var relaisCodeCountry = RetrieveParameterFromUrlSimple("relaisCodeCountry").trim().toUpperCase();//Localisation des relais FRA ou BEL ou MCO.
     var relaisColisSmart = RetrieveParameterFromUrlSimple("relaisColisSmart").trim();
     var adresseCodeCountry = RetrieveParameterFromUrlSimple("adresseCodeCountry").trim().toUpperCase();
