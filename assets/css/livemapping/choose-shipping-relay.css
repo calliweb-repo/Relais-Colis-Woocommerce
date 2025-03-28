@@ -1123,6 +1123,54 @@
     border: 0;
     border-bottom: 1px solid #e5e5e5;
 }
+/** Div emplacement **/
+#divEmplacement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#divEmplacement .lblPrecision label {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+#divEmplacement #selectListAddress {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 36px;
+    line-height: 1.2;
+}
+#divEmplacement .rc-col-md-2,
+#divEmplacement .rc-col-md-4,
+#divEmplacement .rc-col-md-3 {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+#divEmplacement .boutonAfficher {
+    font-size: 0.9rem;
+    padding: 7px 14px;
+    height: 36px;
+}
+
+/** Autocomplete **/
+#ui-id-2.ui-autocomplete .ui-menu-item {
+    font-size: 14px;
+    z-index: 9999 !important;
+    background-color: #fff;
+}
+
 #relayModal label {
     display: inline-block;
     max-width: 100%;

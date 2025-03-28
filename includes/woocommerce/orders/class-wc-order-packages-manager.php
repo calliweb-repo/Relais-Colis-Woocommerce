@@ -721,7 +721,7 @@ class WC_Order_Packages_Manager {
             if ( $is_c2c_interaction_mode ) {
 
                 // Pb occurred... invalid mode
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
             }
 
             // Prepare request (generic part)
@@ -737,7 +737,7 @@ class WC_Order_Packages_Manager {
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
             }
 
             // Affect to order :
@@ -869,7 +869,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                             }
 
                             // Display response
@@ -893,7 +893,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
                             }
                         } // B2C - Relay
                         else {
@@ -910,7 +910,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                             }
 
                             // Display response
@@ -934,7 +934,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
                             }
                         }
                     }
@@ -953,7 +953,7 @@ class WC_Order_Packages_Manager {
 
                             // Not supported
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ] );
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED ] );
                         } // B2C - Home
                         else {
 
@@ -1113,7 +1113,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                             }
 
                             // Display response
@@ -1137,7 +1137,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
 
                                 // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
+                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
                             }
                         }
                     }
@@ -1197,7 +1197,7 @@ class WC_Order_Packages_Manager {
                     WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                     // Pb occured... HTML response not permitted
-                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                 }
 
                 // PDF downloaded successfully
@@ -1221,7 +1221,7 @@ class WC_Order_Packages_Manager {
                     WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                     // Pb occured... HTML response not permitted
-                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
                 }
 
                 // PDF downloaded successfully
@@ -1374,7 +1374,7 @@ class WC_Order_Packages_Manager {
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
             }
 
             /**
@@ -1471,7 +1471,7 @@ class WC_Order_Packages_Manager {
             if ( $is_c2c_interaction_mode ) {
 
                 // Pb occurred... invalid mode
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_C2C_MODE ] );
             }
 
             // Prepare request (generic part)
@@ -1490,7 +1490,7 @@ class WC_Order_Packages_Manager {
                 WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ], WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
             }
 
             // Affect to order :

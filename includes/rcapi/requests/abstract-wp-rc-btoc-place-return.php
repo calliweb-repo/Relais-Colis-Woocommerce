@@ -118,7 +118,7 @@ abstract class WP_RC_Place_Return extends WP_Relais_Colis_Request {
                 if ( !isset( $request_param[ $param ] ) || is_null( $request_param[ $param ] ) ) {
 
                     WP_Log::error( __METHOD__, [ '$param' => $param ], 'relais-colis-woocommerce' );
-                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::ERROR_MESSAGES[ WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER ].$param, WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER ] );
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER ).$param, WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER ] );
                 }
             }
         }

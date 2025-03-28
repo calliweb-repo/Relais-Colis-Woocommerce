@@ -61,7 +61,7 @@ class WP_Relais_Colis_API_Exception extends Exception {
         return $this->detail;
     }
 
-    public function get_i18n_message( $code ) {
+    public static function get_i18n_message( $code ) {
 
         $messages = array(
             self::RC_API_INVALID_ACTIVATIONKEY => __('RC API: Invalid activation key', 'relais-colis-woocommerce'),

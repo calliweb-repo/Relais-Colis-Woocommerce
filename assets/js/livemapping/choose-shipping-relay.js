@@ -64,27 +64,35 @@ jQuery(document).ready(function ($) {
 
 
     /**
-     * Prefilled search with WooCommerce address passed via wp_localize_script()
+     * Prefilled search with WooCommerce address passed via wp_localize_script(),
+     * fallback to DOM fields if incomplete.
      */
     function prefillShippingAddress() {
-        if (typeof rc_choose_relay.rc_shipping_address !== 'undefined') {
+        const fallback = rc_choose_relay.rc_shipping_address || {};
 
-            var address = rc_choose_relay.rc_shipping_address.address || "";
-            var postcode = rc_choose_relay.rc_shipping_address.postcode || "";
-            var city = rc_choose_relay.rc_shipping_address.city || "";
+        // On commence par récupérer les valeurs saisies dans le DOM
+        let address = document.querySelector('#shipping-address_1')?.value || '';
+        let postcode = document.querySelector('#shipping-postcode')?.value || '';
+        let city = document.querySelector('#shipping-city')?.value || '';
 
-            var fullAddress = `${address}, ${postcode} ${city}`.trim();
+        // Si l'utilisateur n'a rien saisi, on complète depuis le backend
+        if (!address) {
+            address = fallback.address || '';
+        }
+        if (!postcode) {
+            postcode = fallback.postcode || '';
+        }
+        if (!city) {
+            city = fallback.city || '';
+        }
 
-            if (fullAddress.length > 5) {
-                $("#tbCompleteAdress").val(fullAddress);
-                console.log("🚀 Adresse pré-remplie :", fullAddress);
-                searchForRelay();
-            }
-        } else {
-            console.warn("⚠️ Aucune adresse de livraison trouvée.");
+        const fullAddress = `${address}, ${postcode} ${city}`.trim();
+
+        if (postcode && city) {
+            $("#tbCompleteAdress").val(fullAddress);
+            searchForRelay();
         }
     }
-
 
     /**
      * boutonAfficher On click extracted from template
