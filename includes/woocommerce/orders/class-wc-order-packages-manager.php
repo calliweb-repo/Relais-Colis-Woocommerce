@@ -360,7 +360,7 @@ class WC_Order_Packages_Manager {
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
         // Fetch existing package distribution data (Legacy & HPOS support).
-        [ $colis, $items ] = $this->load_order_packages( $post->ID );
+        [ $colis, $items ] = $this->load_order_packages( $post->get_id() );
 
         foreach ( $colis as &$c_colis ) {
 
@@ -386,7 +386,7 @@ class WC_Order_Packages_Manager {
         $items_json = json_encode( $items );
 
         // Get WC order
-        $wc_order = wc_get_order( $post->ID );
+        $wc_order = wc_get_order( $post->get_id() );
 
         // Get return infos, if available
         // bordereau_smart_url
@@ -410,17 +410,19 @@ class WC_Order_Packages_Manager {
         $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
         WP_Log::debug( __METHOD__.' - Order loaded', [ '$order_state' => $order_state, '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
 
+       // var_dump( print_r($return_bordereau_smart_url, true));die();
+
         // Inject JSON data into JavaScript
         echo "<script>
             var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
             var rc_order_colis = $colis_json;
             var rc_order_items = $items_json;
-            var rc_order_id = ".esc_js( $post->ID ).";
-            var return_bordereau_smart_url = '".$return_bordereau_smart_url."';
+            var rc_order_id = ".esc_js( $post->get_id() ).";
+            var return_bordereau_smart_url = '".$return_image_url."';
             var return_number = '".$return_number."';
             var return_number_cab = '".$return_number_cab."';
             var return_limit_date = '".$return_limit_date."';
-            var return_image_url = '".$return_image_url."';
+            var return_image_url = '';
             var return_token = '".$return_token."';
             var return_created_at = '".$return_created_at."';
             var rc_way_bill = '".$rc_way_bill."';
