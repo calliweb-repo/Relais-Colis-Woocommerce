@@ -444,19 +444,23 @@ class WC_Order_Packages_Manager {
 
         WP_Log::debug( __METHOD__.' - Put items in package', [ '$items' => $items, '$current_colis' => $current_colis, '$items_to_distribute' => $items_to_distribute, '$max_weight' => $max_weight ], 'relais-colis-woocommerce' );
 
+        // Get weigth unit for conversions
+        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
         foreach ( $items as &$item ) {
 
             $item_id = isset( $item[ 'id' ] ) ? $item[ 'id' ] : null;
             $item_weight = isset( $item[ 'weight' ] ) ? (float)$item[ 'weight' ] : 0;
+            $item_weight_grams = WP_Helper::convert_to_grams( $item_weight, $woocommerce_weight_unit );
             $remaining_qty = isset( $item[ 'remaining_quantity' ] ) ? (int)$item[ 'remaining_quantity' ] : 0;
 
             // If no ID or weight invalid, skip
-            if ( !$item_id || $item_weight <= 0 ) {
+            if ( !$item_id || $item_weight_grams <= 0 ) {
                 continue;
             }
 
             // If item is heavier than the max allowed, skip
-            if ( $item_weight > $max_weight ) {
+            if ( $item_weight_grams > $max_weight ) {
                 continue;
             }
 
@@ -473,9 +477,10 @@ class WC_Order_Packages_Manager {
             while ( $remaining_qty > 0 ) {
 
                 $current_weight = (float)$current_colis[ 'weight' ];
+                $current_weight_grams = WP_Helper::convert_to_grams( $current_weight, $woocommerce_weight_unit );
 
                 // Will package become too heavy?
-                if ( ( $current_weight + $item_weight ) > $max_weight ) {
+                if ( ( $current_weight_grams + $item_weight_grams ) > $max_weight ) {
                     break; // Go to next item
                 }
 
@@ -528,19 +533,26 @@ class WC_Order_Packages_Manager {
 
         // Load packages
         [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
+        WP_Log::debug( __METHOD__.' - Colis: ', [ '$colis' => $colis ], 'relais-colis-woocommerce' );
 
         // Distribution strategy is : try and put as max as possible items in each package
-        $max_weight = 20000; // max per package
+        $max_weight = 20000; // max per package, in grams
+        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
         $items_to_distribute = 0;
 
         // First parse all items to calculate total number of products to distribute
         foreach ( $items as $item ) {
 
-            // If weigth is too important, then cannot distribute product
-            if ( $item[ 'weight' ] > $max_weight ) continue;
-
             // If weight is not defined, then cannot distribute product
             if ( !isset( $item[ 'weight' ] ) || empty( $item[ 'weight' ] ) ) continue;
+
+            // Get current package weight
+            $c_weigth = $item[ 'weight' ];
+            $c_weigth_grams = WP_Helper::convert_to_grams( $c_weigth, $woocommerce_weight_unit );
+            WP_Log::debug( __METHOD__.' - Colis: ', [ 'Current weigth' => $c_weigth, 'Current weigth in grams' => $c_weigth_grams ], 'relais-colis-woocommerce' );
+
+            // If weigth is too important, then cannot distribute product
+            if ( $c_weigth_grams > $max_weight ) continue;
 
             // Add remaining to total
             $items_to_distribute += $item[ 'remaining_quantity' ];

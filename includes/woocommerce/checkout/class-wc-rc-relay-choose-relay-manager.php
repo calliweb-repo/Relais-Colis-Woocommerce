@@ -117,34 +117,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
             'postcode' => WC()->customer->get_shipping_postcode(),
             'city' => WC()->customer->get_shipping_city(),
         );
-
-        // Accès au panier en cours
-        $cart = WC()->cart;
-        $cart_items = $cart->get_cart();
-
-        // Récupérer l'unité de poids configurée dans WooCommerce
-        $wc_weight_unit = get_option('woocommerce_weight_unit');
-
-        // Poids maximum en kg
-        $max_weight_kg = 20;
-
-        $relaisColisMax = '0';
-        foreach ($cart_items as $cart_item) {
-            $product = $cart_item['data'];
-            $weight = $product->get_weight();
-            
-            switch($wc_weight_unit) {
-                case 'g':
-                    $weight = $weight / 1000;
-                    break;
-            }
-
-            if ($product->get_meta('is_colis_max') === 'yes' || $weight > $max_weight_kg) {
-                $relaisColisMax = '1';
-                break;
-            }
-        }
-
         WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-woocommerce' );
 
         wp_localize_script( WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID.'_js', 'rc_choose_relay',
@@ -154,8 +126,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
                 'img_livemapping_path' => Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/img/livemapping/',
                 'rc_shipping_address' => $shipping_address,
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'nonce' => wp_create_nonce( 'relais_colis_checkout' ),
-                'relaisColisMax' => $relaisColisMax 
+                'nonce' => wp_create_nonce( 'relais_colis_checkout' )
             )
         );
     }
