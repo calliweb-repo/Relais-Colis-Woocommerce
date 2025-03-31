@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+#rc-choose-options-h,
+#rc-choose-options-hp {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 10px 10px 16px;
+    border: 1px solid #c0d248;
+    background-color: #c0d24833;
+    list-style-type: none;
+}
+#rc-choose-options-h li.service-info,
+#rc-choose-options-hp li.service-info,
+#rc-choose-options-h li.service-fee,
+#rc-choose-options-hp li.service-fee {
+    list-style-type: none;
+    padding: 0;
+    margin: 6px 0px;
+}
+#rc-choose-options-h li.service-info p,
+#rc-choose-options-hp li.service-info p,
+#rc-choose-options-h li.service-fee p,
+#rc-choose-options-hp li.service-fee p {
+    margin: 0px;
+    padding: 0;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+/* Style de la checkbox */
+/* Enlever l'apparence par défaut du checkbox */
+.super-checkbox {
+    -moz-appearance: none;
+    appearance: none;
+    margin-right: 8px;
+    background-color: #fff; /* Couleur de fond de la case */
+    border: 2px solid #ccc;
+    border-radius: 4px; /* Coins arrondis */
+    width: 20px;  /* Largeur de la case */
+    height: 20px; /* Hauteur de la case */
+    cursor: pointer; /* Curseur pour indiquer que c'est interactif */
+    position: relative; /* Nécessaire pour positionner la coche à l'intérieur */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Transition pour l'effet de changement */
+    vertical-align: middle; /* Alignement vertical de la case */
+}
+
+/* Lorsque la checkbox est cochée, on change son fond et la couleur de la bordure */
+.super-checkbox:checked {
+    background-color: #c0d248; /* Couleur de fond lorsqu'elle est cochée */
+    border-color: #c0d248; /* Couleur de bordure lorsqu'elle est cochée */
+}
+
+/* Créer la coche avec un pseudo-élément ::before */
+.super-checkbox:checked::before {
+    content: '\2713'; /* Unicode pour la coche ✔ */
+    font-size: 14px; /* Taille de la coche */
+    color: white; /* Couleur de la coche */
+    position: absolute;
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Centrer exactement la coche */
+}
+
+/* Alignement du label */
+label[for="livraison_etage"] {
+    display: inline-block; /* S'assurer que le label est un élément inline-block */
+    vertical-align: middle; /* Aligner verticalement le texte du label avec la case */
+    margin-left: 8px; /* Espacement entre la case et le texte du label */
+}
