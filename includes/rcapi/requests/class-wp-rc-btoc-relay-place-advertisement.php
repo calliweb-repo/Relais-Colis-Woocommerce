@@ -130,7 +130,6 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
         self::WEIGHT,
         // "xeett" mandatory returned in relay information
         self::XEETT,
-        self::DELIVERY_TYPE
     );
 
 
@@ -155,7 +154,7 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
             // "deliveryPaymentMethod" c'est une valeur constante "3"
             self::DELIVERY_PAYMENT_METHOD => '3',
             // "deliveryType" c'est une valeur constante "00"
-            //self::DELIVERY_TYPE => '00',
+            self::DELIVERY_TYPE => '00',
             self::LANGUAGE => 'FR',
             //"orderType" c'est une valeur constante "1"
             self::ORDER_TYPE => '1',
