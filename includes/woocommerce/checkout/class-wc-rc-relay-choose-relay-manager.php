@@ -20,6 +20,10 @@ class WC_RC_Relay_Choose_Relay_Manager {
     // Use Trait Singleton
     use Singleton;
 
+    // Poids maximum en kg pour les points relais standards
+    const MAX_WEIGHT_KG_START = 20;
+    const MAX_WEIGHT_KG_END = 40;
+
     /**
      * Default init method called when instance created
      * This method can be overridden if needed.
@@ -119,6 +123,45 @@ class WC_RC_Relay_Choose_Relay_Manager {
         );
         WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-woocommerce' );
 
+        $relaisColisMax = '0';
+        $weight_unit = get_option('woocommerce_weight_unit');
+        
+        // Vérifier chaque produit du panier
+        if ($cart = WC()->cart) {
+            foreach ($cart->get_cart() as $cart_item) {
+                $product = $cart_item['data'];
+                $weight = (float)$product->get_weight();
+                
+                // Convertir le poids en kg selon l'unité configurée
+                switch($weight_unit) {
+                    case 'g':
+                        $weight = $weight / 1000;
+                        break;
+                    case 'lbs':
+                        $weight = $weight * 0.45359237;
+                        break;
+                    case 'oz':
+                        $weight = $weight * 0.02834952;
+                        break;
+                    // 'kg' est déjà dans la bonne unité
+                }
+                
+                // Si un produit dépasse le poids maximum
+                if ($weight > self::MAX_WEIGHT_KG_START && $weight <= self::MAX_WEIGHT_KG_END) {
+                    $relaisColisMax = '1';
+                    //var_dump($relaisColisMax);die();
+                    WP_Log::debug( __METHOD__, [
+                        'message' => 'Produit dépassant le poids maximum détecté',
+                        'product_id' => $product->get_id(),
+                        'product_name' => $product->get_name(),
+                        'weight' => $weight,
+                        'weight_unit' => $weight_unit
+                    ], 'relais-colis-woocommerce' );
+                    break; // On sort de la boucle dès qu'un produit dépasse
+                }
+            }
+        }
+        
         wp_localize_script( WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID.'_js', 'rc_choose_relay',
             array(
                 'map_c2c_apikey' => 'JSBS20210825143149943937534800',
@@ -126,7 +169,8 @@ class WC_RC_Relay_Choose_Relay_Manager {
                 'img_livemapping_path' => Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/img/livemapping/',
                 'rc_shipping_address' => $shipping_address,
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'nonce' => wp_create_nonce( 'relais_colis_checkout' )
+                'nonce' => wp_create_nonce( 'relais_colis_checkout' ),
+                'relaisColisMax' => $relaisColisMax 
             )
         );
     }
