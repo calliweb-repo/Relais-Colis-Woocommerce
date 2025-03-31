@@ -196,7 +196,7 @@ class WC_RC_Shipping_Services_Settings {
             ];
 
             $settings[] = [
-                'type' => 'text',
+                'type' => 'hidden',
                 'title' => __( 'Price', 'relais-colis-woocommerce' ),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_price',
                 'default' => $service['price'],
