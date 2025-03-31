@@ -846,7 +846,15 @@ class WC_Order_Packages_Manager {
                         // Get package weight
                         $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::SHIPPMENT_WEIGHT ] = ''.$c_colis[ 'weight' ];
                         $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::HEIGHT ] = ''.$c_colis['dimensions'][ 'height' ];
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WIDTH ] = ''.$c_colis['dimensions'][ 'width' ];
+                        $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::LENGTH ] = ''.$c_colis['dimensions'][ 'length' ];
 
+                        if(isset($c_colis['dimensions']['height']) && isset($c_colis['dimensions']['width']) && isset($c_colis['dimensions']['length'])){
+                            if($c_colis['dimensions']['height'] > 0 && $c_colis['dimensions']['width'] > 0 && $c_colis['dimensions']['length'] > 0){
+                                $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::VOLUME ] = ''.$c_colis['dimensions'][ 'height' ] * $c_colis['dimensions'][ 'width' ] * $c_colis['dimensions'][ 'length' ];
+                            }
+                        }
                         // C2C - Relay
                         if ( $is_c2c_interaction_mode ) {
 
@@ -857,7 +865,7 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_FULLNAME ] = $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name();
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_EMAIL ] = $wc_order->get_billing_email();
                             $customer_phone = $wc_order->get_shipping_phone();
-                            if ( empty( $customer_phone ) ) $customer_phone = '061234567890'; // FIXME ... trouver une autre solution
+                            if ( empty( $customer_phone ) ) $customer_phone = '0'; // FIXME ... trouver une autre solution
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_PHONE ] = $customer_phone;
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::CUSTOMER_MOBILE ] = $wc_order->get_shipping_phone() ?? '';
                             $dynamic_params_place_shipping_label[ WP_RC_C2C_Relay_Place_Advertisement::ADDRESS1_EXPEDITEUR ] = get_option( 'woocommerce_store_address' );
@@ -919,7 +927,7 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_FULLNAME ] = $wc_order->get_shipping_first_name().' '.$wc_order->get_shipping_last_name();
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_EMAIL ] = $wc_order->get_billing_email() ?? '';
                             $customer_phone = $wc_order->get_shipping_phone();
-                            if ( empty( $customer_phone ) ) $customer_phone = '061234567890'; // FIXME ... trouver une autre solution
+                            if ( empty( $customer_phone ) ) $customer_phone = '0'; // FIXME ... trouver une autre solution
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_PHONE ] = $customer_phone;
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::CUSTOMER_MOBILE ] = $wc_order->get_shipping_phone() ?? '';
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::PSEUDO_RVC ] = $pseudo_rvc;
@@ -931,6 +939,23 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_COUNTRY_CODE ] = $store_country;
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
                             WP_Log::debug( __METHOD__.' - B2C - Relay Params', ['$dynamic_params_place_shipping_label'=>$dynamic_params_place_shipping_label], 'relais-colis-woocommerce' );
+
+                            $isMax = 0;
+                            $weight_unit = get_option('woocommerce_weight_unit');
+
+                            if( $weight_unit == 'kg' ){
+                                $isMax = ($c_colis[ 'weight' ] > 20 && $c_colis[ 'weight' ] <= 40) ? 1 : 0;
+                            }else{
+                                $isMax = ($c_colis[ 'weight' ] > 20000 && $c_colis[ 'weight' ] <= 40000) ? 1 : 0;
+                            }
+
+                           // var_dump($isMax);die();
+
+                            if( $rc_relay_data['Relaismax'] == 1 && $isMax){
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::DELIVERY_TYPE ] = '08';
+                            }else{
+                                $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::DELIVERY_TYPE ] = '00';
+                            }
 
                             // Call API
                             $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
