@@ -227,7 +227,7 @@ class WC_RC_Ajax_Packages {
             $isMax = 0;
             $woocommerce_weight_unit = get_option('woocommerce_weight_unit', 'g');
 
-            // Must not add more than remaining
+            // Vérifier tous les produits de la commande
             $order_items = $order->get_items();
             foreach ($order_items as $item_id => $item) {
                 // Récupérer le produit associé à l'item
@@ -257,18 +257,24 @@ class WC_RC_Ajax_Packages {
                 if (!empty($item_weight)) {
                     $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
                     
+                    // Si un seul produit est entre 20kg et 40kg, on met isMax à 1
                     if ($weight_in_grams > 20000 && $weight_in_grams <= 40000) {
                         $isMax = 1;
+                        break; // On peut sortir de la boucle dès qu'on trouve un produit qui correspond
+                    }
+                }
+                
+                // Vérification de la quantité restante seulement pour le produit qu'on veut ajouter
+                if ($item_product_id === $product_id) {
+                    $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis($item_product_id, $colis);
+                    if ($quantity > $remaining_quantity) {
+                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-woocommerce')]);
                     }
                 }
             }
 
             // Distribution strategy is : try and put as max as possible items in each package
-            $max_weight = 20000; // max per package, in grams
-
-            if ($isMax) {
-                $max_weight = 40000;
-            }
+            $max_weight = $isMax ? 40000 : 20000; // max per package, in grams
 
             // Get current package weight
             $c_weigth = $product->get_weight();
@@ -570,8 +576,41 @@ class WC_RC_Ajax_Packages {
                 'length' => $new_length,
             ];
 
+            $max_weight = 20000; // max per package, in grams
+
+            $isMax = 0;
+            $woocommerce_weight_unit = get_option('woocommerce_weight_unit', 'g');
+            
+            // Get order and check all products
+            $order = wc_get_order($order_id);
+            foreach ($order->get_items() as $item) {
+                $product = $item->get_product();
+                if ($product) {
+                    $item_weight = $product->get_weight();
+                    if (!empty($item_weight)) {
+                        $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
+                        if ($weight_in_grams > 20000 && $weight_in_grams <= 40000) {
+                            $isMax = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Set max_weight based on products weight
+            $max_weight = $isMax ? 40000 : 20000;
+
+            // Check if package weight exceeds max_weight
+            $package_weight_grams = WP_Helper::convert_to_grams($colis[$colis_index]['weight'], $woocommerce_weight_unit);
+            if ($package_weight_grams > $max_weight) {
+                wp_send_json_error([
+                    'message' => __('This package is too heavy.', 'relais-colis-woocommerce'),
+                    'error_details' => ''
+                ]); 
+            }
+
             // Save packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
+            [$colis, $items] = WC_Order_Packages_Manager::instance()->save_order_packages($colis, $order_id);
 
             WP_Log::debug( __METHOD__.' - After updating package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
 
@@ -580,7 +619,7 @@ class WC_RC_Ajax_Packages {
             $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
             // Send success response
-            wp_send_json_success( [
+            wp_send_json_success([
                 'colis' => $colis,
                 'items' => WC_Order_Packages_Manager::instance()->build_remaining_items( $order, $colis, false ),
                 'rc_order_state' => $order_state
