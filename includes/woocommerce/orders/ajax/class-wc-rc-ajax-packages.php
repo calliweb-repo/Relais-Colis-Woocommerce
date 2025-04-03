@@ -195,71 +195,73 @@ class WC_RC_Ajax_Packages {
      * AJAX Handler: Add a product to an existing package.
      */
     public function action_wp_ajax_rc_add_to_colis() {
-
         try {
             // Nonce security check
-            check_ajax_referer( 'rc_woocommerce_nonce', 'nonce' );
+            check_ajax_referer('rc_woocommerce_nonce', 'nonce');
 
-            WP_Log::debug( __METHOD__.' - Adding product to package', [
+            WP_Log::debug(__METHOD__.' - Adding product to package', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-woocommerce');
 
-            $order_id = intval( $_POST[ 'order_id' ] );
-            $product_id = intval( $_POST[ 'product_id' ] );
-            $quantity = intval( $_POST[ 'quantity' ] );
-            $colis_index = intval( $_POST[ 'colis_index' ] );
+            $order_id = intval($_POST['order_id']);
+            $product_id = intval($_POST['product_id']);
+            $quantity = intval($_POST['quantity']);
+            $colis_index = intval($_POST['colis_index']);
 
             // Load packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
+            [$colis, $items] = WC_Order_Packages_Manager::instance()->load_order_packages($order_id);
 
             // Ensure the package exists before adding products
-            if ( !isset( $colis[ $colis_index ] ) ) {
-
-                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-woocommerce' ) ] );
+            if (!isset($colis[$colis_index])) {
+                wp_send_json_error(['message' => __('Package not found', 'relais-colis-woocommerce')]);
             }
 
-            $product = wc_get_product( $product_id );
-            if ( !$product ) {
-
-                wp_send_json_error( [ 'message' => __( 'Invalid product', 'relais-colis-woocommerce' ) ] );
+            $product = wc_get_product($product_id);
+            if (!$product) {
+                wp_send_json_error(['message' => __('Invalid product', 'relais-colis-woocommerce')]);
             }
+
             // Get WC order
-            $order = wc_get_order( $order_id );
+            $order = wc_get_order($order_id);
 
             $isMax = 0;
             $woocommerce_weight_unit = get_option('woocommerce_weight_unit', 'g');
 
             // Must not add more than remaining
             $order_items = $order->get_items();
-            foreach ( $order_items as $item_id => $item ) {
-                $item_weight = $item->get_weight();
+            foreach ($order_items as $item_id => $item) {
+                // Récupérer le produit associé à l'item
                 $item_product = $item->get_product();
                 $item_product_id = $item_product->get_id();
-                if ( $item_product_id === $product_id ) {
-                    $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis( $item_product_id, $colis );
-                    if ( $quantity > $remaining_quantity ) {
-                        wp_send_json_error( [ 'message' => __( 'Not enough product remaining quantity', 'relais-colis-woocommerce' ) ] );
+                
+                // Plusieurs méthodes pour obtenir le poids
+                $item_weight = 0;
+                if (method_exists($item, 'get_weight')) {
+                    $item_weight = $item->get_weight();
+                } else if ($item_product && method_exists($item_product, 'get_weight')) {
+                    // Obtenir le poids via l'objet produit
+                    $item_weight = $item_product->get_weight();
+                } else {
+                    // Fallback sur les métadonnées du produit
+                    $item_weight = get_post_meta($item_product_id, '_weight', true);
+                }
+                
+                if ($item_product_id === $product_id) {
+                    $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis($item_product_id, $colis);
+                    if ($quantity > $remaining_quantity) {
+                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-woocommerce')]);
                     }
                 }
-                
+
                 // Convertir le poids en grammes selon l'unité configurée
-                $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
-                
-                if ($weight_in_grams > 20000 && $weight_in_grams < 40000) {
-                    $isMax = 1;
+                if (!empty($item_weight)) {
+                    $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
+                    
+                    if ($weight_in_grams > 20000 && $weight_in_grams <= 40000) {
+                        $isMax = 1;
+                    }
                 }
             }
-
-            WP_Log::debug(__METHOD__, [
-                'weight_unit' => $woocommerce_weight_unit,
-                'item_weights' => array_map(function($item) use ($woocommerce_weight_unit) {
-                    return [
-                        'original' => $item->get_weight(),
-                        'in_grams' => WP_Helper::convert_to_grams($item->get_weight(), $woocommerce_weight_unit)
-                    ];
-                }, $order_items),
-                'isMax' => $isMax
-            ], 'relais-colis-woocommerce');
 
             // Distribution strategy is : try and put as max as possible items in each package
             $max_weight = 20000; // max per package, in grams
@@ -270,28 +272,35 @@ class WC_RC_Ajax_Packages {
 
             // Get current package weight
             $c_weigth = $product->get_weight();
-            $c_weigth_grams = WP_Helper::convert_to_grams( $c_weigth, $woocommerce_weight_unit );
-            WP_Log::debug( __METHOD__.' - Colis: ', [ 'Current weigth' => $c_weigth, 'Current weigth in grams' => $c_weigth_grams ], 'relais-colis-woocommerce' );
+            $c_weigth_grams = WP_Helper::convert_to_grams($c_weigth, $woocommerce_weight_unit);
 
             // If weigth is too important, then cannot distribute product
-            if ( $c_weigth_grams > $max_weight ) {
-
-                wp_send_json_error( [
-                    'message' => __( 'This product is too heavy to be added to a package.', 'relais-colis-woocommerce' ),
+            if ($c_weigth_grams > $max_weight) {
+                wp_send_json_error([
+                    'message' => __('This product is too heavy to be added to a package.', 'relais-colis-woocommerce'),
                     'error_details' => ''
-                ] );
+                ]);
             }
 
             // Adjust package
-            $colis[ $colis_index ][ 'items' ][ $product_id ] = ( $colis[ $colis_index ][ 'items' ][ $product_id ] ?? 0 ) + $quantity;
-            $colis[ $colis_index ][ 'weight' ] += (float) $product->get_weight() * $quantity;
+            $colis[$colis_index]['items'][$product_id] = ($colis[$colis_index]['items'][$product_id] ?? 0) + $quantity;
+            $colis[$colis_index]['weight'] += (float)$product->get_weight() * $quantity;
+
+            $package_weigth_grams = WP_Helper::convert_to_grams($colis[$colis_index]['weight'], $woocommerce_weight_unit);
+            if($package_weigth_grams > $max_weight) {
+                wp_send_json_error([
+                    'message' => __('This package is too heavy to be added to a package.', 'relais-colis-woocommerce'),
+                    'error_details' => ''
+                ]);
+            }
 
             // Save packages
-            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->save_order_packages( $colis, $order_id );
+            [$colis, $items] = WC_Order_Packages_Manager::instance()->save_order_packages($colis, $order_id);
 
             // If no remaining items, then order change to state ORDER_STATE_ITEMS_DISTRIBUTED
             if ( !WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
 
+                $order = wc_get_order( $order_id );
                 $order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED );
 
                 // Save order
