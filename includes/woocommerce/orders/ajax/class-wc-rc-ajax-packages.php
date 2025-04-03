@@ -5,6 +5,7 @@ namespace RelaisColisWoocommerce\Shipping;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use Exception;
 
@@ -239,6 +240,26 @@ class WC_RC_Ajax_Packages {
                         wp_send_json_error( [ 'message' => __( 'Not enough product remaining quantity', 'relais-colis-woocommerce' ) ] );
                     }
                 }
+            }
+
+            // Verify weight of one of these items
+
+            // Distribution strategy is : try and put as max as possible items in each package
+            $max_weight = 20000; // max per package, in grams
+            $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
+            // Get current package weight
+            $c_weigth = $product->get_weight();
+            $c_weigth_grams = WP_Helper::convert_to_grams( $c_weigth, $woocommerce_weight_unit );
+            WP_Log::debug( __METHOD__.' - Colis: ', [ 'Current weigth' => $c_weigth, 'Current weigth in grams' => $c_weigth_grams ], 'relais-colis-woocommerce' );
+
+            // If weigth is too important, then cannot distribute product
+            if ( $c_weigth_grams > $max_weight ) {
+
+                wp_send_json_error( [
+                    'message' => __( 'This product is too heavy to be added to a package.', 'relais-colis-woocommerce' ),
+                    'error_details' => ''
+                ] );
             }
 
             // Adjust package

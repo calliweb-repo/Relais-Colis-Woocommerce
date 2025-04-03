@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
 "woocommerce\n"
-"POT-Creation-Date: 2025-04-03T09:02:54+00:00\n"
-"PO-Revision-Date: 2025-04-03 11:03+0200\n"
+"POT-Creation-Date: 2025-04-03T10:08:38+00:00\n"
+"PO-Revision-Date: 2025-04-03 12:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -511,8 +511,8 @@ msgstr "Relais Colis : concerne la collecte en point relais."
 msgid "Relais Colis"
 msgstr "Relais Colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:143
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:502
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:144
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:523
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:134
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:201
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:66
@@ -521,55 +521,60 @@ msgstr "Relais Colis"
 msgid "Invalid order ID"
 msgstr "Nonce invalide"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:187
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:354
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:188
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:375
 msgid "An error occurred while adding a package"
 msgstr "Une erreur s’est produite lors de l’ajout d’un colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:217
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:378
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:218
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:399
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:148
 msgid "Package not found"
 msgstr "Colis introuvable"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:223
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:311
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:224
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:332
 msgid "Invalid product"
 msgstr "Nonce invalide"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:239
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:240
 msgid "Not enough product remaining quantity"
 msgstr "Quantité de produit restante insuffisante"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:280
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:260
+msgid "This product is too heavy to be added to a package."
+msgstr ""
+"Ce produit possède un poids trop important pour être ajouté à un colis."
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:301
 msgid "An error occurred while adding product to a package"
 msgstr "Une erreur s’est produite lors de l’ajout d’un produit dans un colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:305
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:326
 msgid "Product not found in package"
 msgstr "Produit non trouvé dans le colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:420
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
 msgid "An error occurred while removing product from package"
 msgstr ""
 "Une erreur s’est produite lors de la suppression d’un produit d’un colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:462
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:530
 msgid "The products have already been distributed into packages"
 msgstr "Tous les produits ont déjà été affectés à des colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:462
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:483
 msgid "There are still products to be distributed into packages"
 msgstr "Il reste des produits à répartir dans le(s) colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:484
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:505
 msgid "An error occurred while auto distributing products into packages"
 msgstr ""
 "Une erreur s’est produite lors de la répartition automatique des produits "
 "dans les colis"
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:547
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:568
 msgid "An error occurred while updating the package"
 msgstr "Une erreur s’est produite lors de l’ajout d’un colis"
 

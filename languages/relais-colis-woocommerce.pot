@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-03T09:02:54+00:00\n"
+"POT-Creation-Date: 2025-04-03T10:08:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: relais-colis-woocommerce\n"
@@ -505,8 +505,8 @@ msgstr ""
 msgid "Relais Colis"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:143
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:502
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:144
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:523
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:134
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:201
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:66
@@ -515,52 +515,56 @@ msgstr ""
 msgid "Invalid order ID"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:187
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:354
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:188
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:375
 msgid "An error occurred while adding a package"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:217
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:378
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:218
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:399
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:148
 msgid "Package not found"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:223
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:311
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:224
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:332
 msgid "Invalid product"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:239
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:240
 msgid "Not enough product remaining quantity"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:280
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:260
+msgid "This product is too heavy to be added to a package."
+msgstr ""
+
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:301
 msgid "An error occurred while adding product to a package"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:305
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:326
 msgid "Product not found in package"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:420
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
 msgid "An error occurred while removing product from package"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:441
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:462
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:530
 msgid "The products have already been distributed into packages"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:462
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:483
 msgid "There are still products to be distributed into packages"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:484
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:505
 msgid "An error occurred while auto distributing products into packages"
 msgstr ""
 
-#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:547
+#: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:568
 msgid "An error occurred while updating the package"
 msgstr ""
 
