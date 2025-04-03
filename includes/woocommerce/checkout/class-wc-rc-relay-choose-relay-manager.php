@@ -439,6 +439,8 @@ class WC_RC_Relay_Choose_Relay_Manager {
             }
         }
 
+        //var_dump($has_super_heavy_items);die();
+
         // Désactiver les méthodes de livraison selon le poids
         foreach ($rates as $rate_id => $rate) {
             // Si on a des articles lourds, désactiver les points relais standards

@@ -506,7 +506,6 @@ class WC_RC_Ajax_Packages {
 
             }
             else {
-
                 wp_send_json_success( [
                     'colis' => $colis,
                     'items' => $items,

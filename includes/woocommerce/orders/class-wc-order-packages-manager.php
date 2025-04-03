@@ -157,6 +157,16 @@ class WC_Order_Packages_Manager {
         WC_RC_Ajax_Shipping_Price::instance();
         WC_RC_Ajax_Shipping_Return::instance();
         WC_RC_Ajax_Way_Bill::instance();
+
+        // Ajouter un filtre pour désactiver le verrouillage des commandes
+        add_filter('wc_order_is_editable', '__return_true');
+        
+        // OU supprimer le verrou existant
+        add_action('init', function() {
+            if (isset($_GET['post'])) {
+                delete_post_meta($_GET['post'], '_edit_lock');
+            }
+        });
     }
 
     /**
@@ -511,54 +521,45 @@ class WC_Order_Packages_Manager {
      * @return array list of packages, false if problem occurred
      */
     public function auto_distribute_packages( $order_id ) {
-
-        // Get WC order
-        $order = wc_get_order( $order_id );
-
-        // Get order state
-        $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
-        if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED ) {
-
-            WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
-
-            /**
-             * Notify 3rd party code on Relais Colis bulk action result
-             *
-             * @param int $order_id The order ID
-             * @param boolean $is_success true if success, otherwise false
-             * @param string $message A message associated with the hook
-             * @since 1.0.0
-             *
-             */
-            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, __( 'The products have already been distributed into packages', 'relais-colis-woocommerce' ) );
+        // Get order
+        $order = wc_get_order($order_id);
+        if (!$order) {
             return false;
         }
 
         // Load packages
-        [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $order_id );
-        WP_Log::debug( __METHOD__.' - Colis: ', [ '$colis' => $colis ], 'relais-colis-woocommerce' );
+        [$colis, $items] = $this->load_order_packages($order_id);
+
+        // If no remaining items to distribute, return
+        if (!$this->has_remaining_items($items)) {
+            /**
+             * Action triggered after bulk actions on RC shop order
+             */
+            do_action("after_bulk_actions_rc_shop_order", $order_id, false, __('The products have already been distributed into packages', 'relais-colis-woocommerce'));
+            return false;
+        }
 
         // Distribution strategy is : try and put as max as possible items in each package
-        $max_weight = 20000; // max per package, in grams
-        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+        $max_weight = 20000; // max par défaut, en grammes
+        $woocommerce_weight_unit = get_option(WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g');
         $items_to_distribute = 0;
 
+        // Vérifier si un produit pèse entre 20kg et 40kg
+        foreach ($items as $item) {
+            $item_weight = isset($item['weight']) ? (float)$item['weight'] : 0;
+            $item_weight_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
+            
+            if ($item_weight_grams > 20000 && $item_weight_grams <= 40000) {
+                $max_weight = 40000; // Si oui, on augmente la limite à 40kg
+                break;
+            }
+        }
+
         // First parse all items to calculate total number of products to distribute
-        foreach ( $items as $item ) {
-
-            // If weight is not defined, then cannot distribute product
-            if ( !isset( $item[ 'weight' ] ) || empty( $item[ 'weight' ] ) ) continue;
-
-            // Get current package weight
-            $c_weigth = $item[ 'weight' ];
-            $c_weigth_grams = WP_Helper::convert_to_grams( $c_weigth, $woocommerce_weight_unit );
-            WP_Log::debug( __METHOD__.' - Colis: ', [ 'Current weigth' => $c_weigth, 'Current weigth in grams' => $c_weigth_grams ], 'relais-colis-woocommerce' );
-
-            // If weigth is too important, then cannot distribute product
-            if ( $c_weigth_grams > $max_weight ) continue;
-
-            // Add remaining to total
-            $items_to_distribute += $item[ 'remaining_quantity' ];
+        foreach ($items as $item) {
+            if (isset($item['remaining_quantity'])) {
+                $items_to_distribute += $item['remaining_quantity'];
+            }
         }
 
         // Second parse all existing packages and try to distribute items in them...
