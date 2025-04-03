@@ -226,27 +226,47 @@ class WC_RC_Ajax_Packages {
             // Get WC order
             $order = wc_get_order( $order_id );
 
+            $isMax = 0;
+            $woocommerce_weight_unit = get_option('woocommerce_weight_unit', 'g');
+
             // Must not add more than remaining
             $order_items = $order->get_items();
             foreach ( $order_items as $item_id => $item ) {
-
+                $item_weight = $item->get_weight();
                 $item_product = $item->get_product();
                 $item_product_id = $item_product->get_id();
                 if ( $item_product_id === $product_id ) {
-
                     $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis( $item_product_id, $colis );
                     if ( $quantity > $remaining_quantity ) {
-
                         wp_send_json_error( [ 'message' => __( 'Not enough product remaining quantity', 'relais-colis-woocommerce' ) ] );
                     }
                 }
+                
+                // Convertir le poids en grammes selon l'unité configurée
+                $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
+                
+                if ($weight_in_grams > 20000 && $weight_in_grams < 40000) {
+                    $isMax = 1;
+                }
             }
 
-            // Verify weight of one of these items
+            WP_Log::debug(__METHOD__, [
+                'weight_unit' => $woocommerce_weight_unit,
+                'item_weights' => array_map(function($item) use ($woocommerce_weight_unit) {
+                    return [
+                        'original' => $item->get_weight(),
+                        'in_grams' => WP_Helper::convert_to_grams($item->get_weight(), $woocommerce_weight_unit)
+                    ];
+                }, $order_items),
+                'isMax' => $isMax
+            ], 'relais-colis-woocommerce');
 
             // Distribution strategy is : try and put as max as possible items in each package
             $max_weight = 20000; // max per package, in grams
-            $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
+            if ($isMax) {
+                $max_weight = 40000;
+            }
 
             // Get current package weight
             $c_weigth = $product->get_weight();

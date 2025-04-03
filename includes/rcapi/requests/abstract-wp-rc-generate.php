@@ -19,7 +19,7 @@ abstract class WP_RC_Generate extends WP_Relais_Colis_Request {
 
     const FORMAT_A4 = 'A4';
     const FORMAT_ZEBRA = 'ZEBRA';
-    const FORMAT_A5 = 'A5';
+    //const FORMAT_A5 = 'A5';
 
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,
@@ -58,7 +58,7 @@ abstract class WP_RC_Generate extends WP_Relais_Colis_Request {
 
         $this->data = array(
             self::ACTIVATION_KEY => $activationKey,
-            self::FORMAT => self::FORMAT_A5, // Default A5
+            self::FORMAT => self::FORMAT_A4, // Default A4
         );
 
         $this->data = array_merge( $this->data, $params );

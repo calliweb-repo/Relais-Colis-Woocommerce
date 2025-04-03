@@ -40,6 +40,10 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
     const SHIPPMENT_WEIGHT = 'shippmentWeight';
     const WEIGHT = 'weight';
     const PSEUDO_RVC = 'pseudoRvc';
+    const HEIGHT = 'height';
+    const WIDTH = 'width';
+    const LENGTH = 'length';
+    const VOLUME = 'volume';
 
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,

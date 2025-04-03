@@ -38,13 +38,20 @@ class WP_Services_DAO {
             $delivery_methods = $fixed_service[ 1 ];
             $delivery_method = implode( ', ', array_keys( $delivery_methods ) );
 
+            $client_choice = "no";
+            if($slug ==="delivery_to_floor" ||
+                $slug === "quick_assembly" ||
+                $slug === "removal_old_equipment"
+            ){
+                $client_choice = "yes";
+            }
             // Prepare data for insertion
             $data = [
                 'name' => sanitize_text_field( $name ),
                 'slug' => sanitize_text_field( $slug ),
-                'client_choice' => 'no', // Default to client_choice = false
+                'client_choice' => $client_choice,
                 'delivery_method' => sanitize_text_field( $delivery_method ),
-                'enabled' => 'no', // Default to disabled
+                'enabled' => 'yes',
                 'price' => 0.00, // Default price to 0.00
             ];
 
