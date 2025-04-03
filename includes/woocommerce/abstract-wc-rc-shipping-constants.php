@@ -54,7 +54,7 @@ abstract class WC_RC_Shipping_Constants {
     const ENS_ID_C2C_INTERACTION_MODE_VALUE = 'CC';
 
     // RC Status
-    // RC_Colis_Annoncé - Le statut s’applique une fois que les étiquettes de la commande ont été générées.
+    // RC_Colis_Annoncé - Le statut s'applique une fois que les étiquettes de la commande ont été générées.
     // RC_Expédié - Quand le produit est enregistré par le relais de départ.
     // RC_Livraison_en_cours - Produit récupéré par le transporteur.
     // RC_Déposé_en_Relais - Colis déposé au relais.
@@ -76,9 +76,10 @@ abstract class WC_RC_Shipping_Constants {
     const OPTION_RC_API_ACCESS_VALID = 'rc_api_valid_access';
 
     // Offers
-    const OFFER_RELAIS_COLIS = 'Relais Colis';
-    const OFFER_HOME = 'Relais Colis Home';
-    const OFFER_HOME_PLUS = 'Relais Colis Home+';
+    const OFFER_RELAIS_COLIS = 'rc_delivery';
+    const OFFER_HOME = 'home_delivery';
+    const OFFER_HOME_PLUS = 'home_delivery_plus';
+    const OFFER_RELAIS_COLIS_MAX = 'rc_max';
 
     const METHOD_NAME_RELAIS_COLIS = 'rc';
     const METHOD_NAME_HOME = 'h';
@@ -135,6 +136,8 @@ abstract class WC_RC_Shipping_Constants {
     const CONFIGURATION_OPTION_NAME = 'name';
     const CONFIGURATION_OPTION_VALUE = 'value';
     const CONFIGURATION_OPTION_ACTIVE = 'active';
+    const CONFIGURATION_OPTION_MAX = 'rc_max';
+    const CONFIGURATION_OPTION_MAX_NAME = 'Relais Max';
 
     // Informations
     const INFORMATION_RESULT_ID = 'id';
@@ -231,9 +234,9 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_dimension_units() {
 
         return array(
-            'mm' => __( 'Millimeters (mm)', 'relais-colis-woocommerce' ),
+            //'mm' => __( 'Millimeters (mm)', 'relais-colis-woocommerce' ),
             'cm' => __( 'Centimeters (cm)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
-            'dm' => __( 'Decimeters (dm)', 'relais-colis-woocommerce' ),
+            //'dm' => __( 'Decimeters (dm)', 'relais-colis-woocommerce' ),
             'm' => __( 'Meters (m)', 'relais-colis-woocommerce' ),
         );
     }
@@ -245,9 +248,9 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_weight_units() {
 
         return array(
-            'mg' => __( 'Milligrams (mg)', 'relais-colis-woocommerce' ),
-            'cg' => __( 'Centigrams (mg)', 'relais-colis-woocommerce' ),
-            'dg' => __( 'Decigrams (dg)', 'relais-colis-woocommerce' ),
+            //'mg' => __( 'Milligrams (mg)', 'relais-colis-woocommerce' ),
+            //'cg' => __( 'Centigrams (mg)', 'relais-colis-woocommerce' ),
+            //'dg' => __( 'Decigrams (dg)', 'relais-colis-woocommerce' ),
             'g' => __( 'Grams (g)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
             'kg' => __( 'Kilograms (kg)', 'relais-colis-woocommerce' ),
         );

@@ -8,6 +8,9 @@ use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API_Exception;
 use Exception;
 
 /**
@@ -23,7 +26,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
     // Poids maximum en kg pour les points relais standards
     const MAX_WEIGHT_KG_START = 20;
     const MAX_WEIGHT_KG_END = 40;
-
+    const MAX_WEIGHT_KG_SUPER_HEAVY = 130;
     /**
      * Default init method called when instance created
      * This method can be overridden if needed.
@@ -51,6 +54,9 @@ class WC_RC_Relay_Choose_Relay_Manager {
          */
         //add_action( 'woocommerce_check_cart_items', array( $this, 'action_woocommerce_check_cart_items' ) );
         add_action( 'woocommerce_after_checkout_validation', array( $this, 'action_woocommerce_after_checkout_validation' ), 10, 2 );
+
+        // Ajouter le filtre pour les méthodes de livraison
+        add_filter('woocommerce_package_rates', array($this, 'filter_shipping_methods'), 10, 2);
     }
 
     /**
@@ -123,6 +129,39 @@ class WC_RC_Relay_Choose_Relay_Manager {
         );
         WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-woocommerce' );
 
+        // Récupérer la configuration
+        $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration(false);
+
+        // Vérifier si l'option rc_max est active
+        $hasMax = false;
+        if ($wp_rc_configuration && $wp_rc_configuration->validate()) {
+            $options = $wp_rc_configuration->get_options();
+            WP_Log::debug(__METHOD__, [
+                'options' => $options
+            ], 'relais-colis-woocommerce');
+            
+            foreach ($options as $option) {
+                // Ajout de logs pour debug
+                WP_Log::debug(__METHOD__, [
+                    'checking_option' => $option,
+                    'comparing_with' => WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX,
+                    'option_value_matches' => ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX),
+                    'option_active_matches' => ($option['active'] === true)
+                ], 'relais-colis-woocommerce');
+
+                if ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX 
+                    && ($option['active'] === true || $option['active'] === 'true')) { // Accepter à la fois le booléen et la chaîne
+                    $hasMax = true;
+                    break;
+                }
+            }
+        }
+
+        WP_Log::debug(__METHOD__, [
+            'hasMax' => $hasMax,
+            'configuration' => $wp_rc_configuration
+        ], 'relais-colis-woocommerce');
+
         $relaisColisMax = '0';
         $weight_unit = get_option('woocommerce_weight_unit');
         
@@ -164,8 +203,8 @@ class WC_RC_Relay_Choose_Relay_Manager {
         
         wp_localize_script( WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID.'_js', 'rc_choose_relay',
             array(
-                'map_c2c_apikey' => 'JSBS20210825143149943937534800',
-                'map_c2c_enscode' => 'CC',
+                'map_c2c_apikey' => 'JSBS20210825143149943937534800', //TODO: Récupérer la clé API dynamiquement
+                'map_c2c_enscode' => 'CC', //TODO: Récupérer le code ENS dynamiquement
                 'img_livemapping_path' => Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/img/livemapping/',
                 'rc_shipping_address' => $shipping_address,
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -325,5 +364,103 @@ class WC_RC_Relay_Choose_Relay_Manager {
             'message' => 'Relay information saved successfully',
             WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA => $sanitized_rc_relay_data
         ] );
+    }
+
+    /**
+     * Filtre les méthodes de livraison en fonction du contenu du panier
+     */
+    public function filter_shipping_methods($rates, $package) {
+        if (!$rates || !is_array($rates)) {
+            return $rates;
+        }
+
+        $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration(false);
+
+        // Vérifier si l'option rc_max est active
+        $hasMax = false;
+        if ($wp_rc_configuration && $wp_rc_configuration->validate()) {
+            $options = $wp_rc_configuration->get_options();
+            WP_Log::debug(__METHOD__, [
+                'options' => $options
+            ], 'relais-colis-woocommerce');
+            
+            foreach ($options as $option) {
+                // Ajout de logs pour debug
+                WP_Log::debug(__METHOD__, [
+                    'checking_option' => $option,
+                    'comparing_with' => WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX,
+                    'option_value_matches' => ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX),
+                    'option_active_matches' => ($option['active'] === true)
+                ], 'relais-colis-woocommerce');
+
+                if ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX 
+                    && ($option['active'] === true || $option['active'] === 'true')) { // Accepter à la fois le booléen et la chaîne
+                    $hasMax = true;
+                    break;
+                }
+            }
+        }
+
+        // Vérifier le contenu du panier
+        $weight_unit = get_option('woocommerce_weight_unit');
+        $has_heavy_items = false;
+        $has_super_heavy_items = false;
+        //$has_max = WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS_MAX_VALUE
+
+        foreach (WC()->cart->get_cart() as $cart_item) {
+            $product = $cart_item['data'];
+            $weight = (float)$product->get_weight();
+
+            // Convertir le poids en kg
+            switch($weight_unit) {
+                case 'g':
+                    $weight = $weight / 1000;
+                    break;
+                case 'lbs':
+                    $weight = $weight * 0.45359237;
+                    break;
+                case 'oz':
+                    $weight = $weight * 0.02834952;
+                    break;
+            }
+
+            if ($weight > self::MAX_WEIGHT_KG_START && $weight <= self::MAX_WEIGHT_KG_END) {
+                $has_heavy_items = true;
+            } 
+            if ($weight > self::MAX_WEIGHT_KG_END) {
+                $has_super_heavy_items = true;
+            }
+        }
+
+        // Désactiver les méthodes de livraison selon le poids
+        foreach ($rates as $rate_id => $rate) {
+            // Si on a des articles lourds, désactiver les points relais standards
+            if ($has_super_heavy_items && $rate->method_id === 'wc_rc_shipping_method_relay') {
+                unset($rates[$rate_id]);
+            }
+            if ($has_heavy_items && $rate->method_id === 'wc_rc_shipping_method_relay' && !$hasMax) {
+                unset($rates[$rate_id]);
+            }
+
+            if (!$has_super_heavy_items && $rate->method_id === 'wc_rc_shipping_method_homeplus') {
+                unset($rates[$rate_id]);
+            }
+            if (!$has_super_heavy_items && $rate->method_id === 'wc_rc_shipping_method_home') {
+                unset($rates[$rate_id]);
+            }
+            if ($weight > self::MAX_WEIGHT_KG_SUPER_HEAVY) {
+                unset($rates[$rate_id]);
+            }
+
+            // Vous pouvez ajouter d'autres conditions selon vos besoins
+        }
+
+        WP_Log::debug(__METHOD__, [
+            'has_heavy_items' => $has_heavy_items,
+            'has_super_heavy_items' => $has_super_heavy_items,
+            'filtered_rates' => $rates
+        ], 'relais-colis-woocommerce');
+
+        return $rates;
     }
 }
