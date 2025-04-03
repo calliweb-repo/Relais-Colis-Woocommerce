@@ -4,6 +4,7 @@ namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
 
+use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;
 use RelaisColisWoocommerce\WC_RC_Services_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
@@ -88,7 +89,7 @@ class WC_Order_Shipping_Infos_Manager {
                         foreach ( $horaires as $jour => $horaire ) {
                             $rc_shipping_infos_html .= '<li>'.esc_html( $jour ).': '.esc_html( $horaire ).'</li>';
                         }
-                        $rc_shipping_infos_html .= '</ul></div>';
+                        $rc_shipping_infos_html .= '</ul>';
 
                     }
                     break;
@@ -197,6 +198,30 @@ class WC_Order_Shipping_Infos_Manager {
                 default:
                     // Does nothing
                     break;
+            }
+
+            // Follow links
+            // Syntax: https://service.relaiscolis.com/wssuivicoliscritere/PageSuivi.aspx?Ref=4H091500000201
+            // Load packages
+            [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $wc_order->get_id() );
+            $follow_links_html = '';
+
+            foreach ( $colis as $c_colis ) {
+
+                if ( array_key_exists( 'shipping_label', $c_colis ) ) {
+
+                    $shipping_label = $c_colis[ 'shipping_label' ];
+                    $link = 'https://service.relaiscolis.com/wssuivicoliscritere/PageSuivi.aspx?Ref='.$shipping_label;
+
+                    // Build follow link
+                    $follow_links_html .= '<li><a href="'.$link.'" target="_blank">'.__( 'Package', 'relais-colis-woocommerce' ).' '.$shipping_label.'</a></li>';
+
+                }
+            }
+            if ( !empty( $follow_links_html ) ) {
+
+                $rc_shipping_infos_html .= '<p><strong>'.__( 'Tracking links', 'relais-colis-woocommerce' ).'</strong></p>';
+                $rc_shipping_infos_html .= '<ul>'.$follow_links_html.'</ul>';
             }
 
             // Get logo

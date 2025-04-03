@@ -168,25 +168,17 @@ class WC_RC_Shipping_Services_Settings {
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
                 'default' => $service['client_choice'],
-                'readonly' => true,
-                'disabled' => true
             ];
 
-            if( $slug === "two_person_delivery" || 
-            $slug === "setup_large_appliances" ||
-            $slug === "oversized_items" ||
-            $slug === "removal_old_equipment"
-            ) {
-                $settings[] = [
-                    'type'          => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
-                    'title'         => __( 'Assigned Products', 'relais-colis-woocommerce' ),
-                    'id'            => self::SECTION_SERVICES.'_'.$slug.'_products',
-                    'default'       => WP_Services_DAO::instance()->get_selected_products( $service['id'] ),
-                    'desc'          => __( 'Select products for this service', 'relais-colis-woocommerce' ),
-                    'service_id'    => $service['id'],
-                    'class'         => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
-                    ];
-            }
+            $settings[] = [
+                'type'          => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
+                'title'         => __( 'Assigned Products', 'relais-colis-woocommerce' ),
+                'id'            => self::SECTION_SERVICES.'_'.$slug.'_products',
+                'default'       => WP_Services_DAO::instance()->get_selected_products( $service['id'] ),
+                'desc'          => __( 'Select products for this service', 'relais-colis-woocommerce' ),
+                'service_id'    => $service['id'],
+                'class'         => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
+            ];
 
             $settings[] = [
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
