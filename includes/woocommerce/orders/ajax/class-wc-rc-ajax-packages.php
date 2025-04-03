@@ -455,11 +455,24 @@ class WC_RC_Ajax_Packages {
             $order = wc_get_order( $order_id );
             $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
-            wp_send_json_success( [
-                'colis' => $colis,
-                'items' => $items,
-                'rc_order_state' => $order_state
-            ] );
+            // Respond as error if there are more remaining items to distribute
+            if ( WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
+
+                wp_send_json_error( [
+                    'message' => __( 'There are still products to be distributed into packages', 'relais-colis-woocommerce' ),
+                    'error_details' => ''
+                ] );
+
+            }
+            else {
+
+                wp_send_json_success( [
+                    'colis' => $colis,
+                    'items' => $items,
+                    'rc_order_state' => $order_state
+                ] );
+
+            }
         } catch ( Exception $e ) {
 
             WP_Log::error( __METHOD__.' - Error adding package', [
