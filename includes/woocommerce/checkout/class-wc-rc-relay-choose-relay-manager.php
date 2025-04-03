@@ -129,6 +129,12 @@ class WC_RC_Relay_Choose_Relay_Manager {
         );
         WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-woocommerce' );
 
+        // Initialiser le statut de la commande
+        $order_status = '';
+        if ($order = wc_get_order()) {
+            $order_status = 'wc-' . $order->get_status();
+        }
+
         // Récupérer la configuration
         $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration(false);
 
@@ -209,7 +215,8 @@ class WC_RC_Relay_Choose_Relay_Manager {
                 'rc_shipping_address' => $shipping_address,
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
                 'nonce' => wp_create_nonce( 'relais_colis_checkout' ),
-                'relaisColisMax' => $relaisColisMax 
+                'relaisColisMax' => $relaisColisMax,
+                'rc_order_status' => $order_status
             )
         );
     }

@@ -294,8 +294,13 @@ jQuery(document).ready(function ($) {
             container.append(`<button class="rc-add-colis">${rc_order_packages.label_add_a_package}</button>`);
         }
 
-        // Vérifier si au moins un colis est "status_rc_livre" pour afficher le bouton de retour
-        let hasDeliveredPackage = rc_order_colis.some(colis => colis.shipping_status === "status_rc_livre");
+        // Vérifier si au moins un colis est "status_rc_livre" ou si la commande est "completed"
+        let hasDeliveredPackage = rc_order_colis.some(colis => 
+            colis.shipping_status === "status_rc_livre"
+        ) || rc_order_status === "completed";  // Vérifier directement le statut de la commande
+
+        console.log('order status:', rc_order_status);
+        console.log('hasDeliveredPackage?', hasDeliveredPackage);
 
         // Ajouter le total au récapitulatif
         let recapTotal = $(`

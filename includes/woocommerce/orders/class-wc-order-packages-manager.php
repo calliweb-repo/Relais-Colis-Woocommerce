@@ -417,7 +417,8 @@ class WC_Order_Packages_Manager {
             var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
             var rc_order_colis = $colis_json;
             var rc_order_items = $items_json;
-            var rc_order_id = ".esc_js( $post->get_id() ).";
+            var rc_order_id = ".esc_js($post->get_id()).";
+            var rc_order_status = '".esc_js($wc_order->get_status())."';  // Ajouter le statut de la commande
             var return_bordereau_smart_url = '".$return_image_url."';
             var return_number = '".$return_number."';
             var return_number_cab = '".$return_number_cab."';
@@ -1540,5 +1541,21 @@ class WC_Order_Packages_Manager {
             do_action( "after_bulk_actions_rc_shop_order", $order_id, false, $wp_relais_colis_api_exception->getMessage() );
 
         }
+    }
+
+    public function enqueue_scripts($hook) {
+        if ('post.php' !== $hook || 'shop_order' !== get_post_type()) {
+            return;
+        }
+
+        // Get the order
+        $order_id = get_the_ID();
+        $order = wc_get_order($order_id);
+        
+        wp_localize_script('rc-order-packages', 'rc_order_packages', array(
+            'label_add_a_package' => __('Add a package', 'relais-colis-woocommerce'),
+            // ... autres labels ...
+            'rc_order_status' => 'wc-' . $order->get_status()  // Ajouter le statut de la commande
+        ));
     }
 }
