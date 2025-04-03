@@ -76,9 +76,9 @@ abstract class WC_RC_Shipping_Constants {
     const OPTION_RC_API_ACCESS_VALID = 'rc_api_valid_access';
 
     // Offers
-    const OFFER_RELAIS_COLIS = 'rc_delivery';
-    const OFFER_HOME = 'home_delivery';
-    const OFFER_HOME_PLUS = 'home_delivery_plus';
+    const OFFER_RELAIS_COLIS = 'Livraison en Relais';
+    const OFFER_HOME = 'Livraison à domicile';
+    const OFFER_HOME_PLUS = 'Livraison à domicile +';
     const OFFER_RELAIS_COLIS_MAX = 'rc_max';
 
     const METHOD_NAME_RELAIS_COLIS = 'rc';

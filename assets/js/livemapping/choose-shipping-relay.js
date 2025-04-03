@@ -67,7 +67,7 @@ jQuery(document).ready(function ($) {
      */
     function prefillShippingAddress() {
         const fallback = rc_choose_relay.rc_shipping_address || {};
-
+        console.log('fallback', fallback);
         // On commence par récupérer les valeurs saisies dans le DOM
         let address = document.querySelector('#shipping-address_1')?.value || '';
         let postcode = document.querySelector('#shipping-postcode')?.value || '';
@@ -791,6 +791,32 @@ jQuery(document).ready(function ($) {
             + "&agenceCity=" + relais.Agenceville
             + "&agenceCodePostal=" + relais.Agencecodepostal;
         return urlSuite;
+    }
+
+    function GenerateJsonSuite(relais){
+        var jsonSuite = {
+            relaisAdresse: relais.Geocoadresse,
+            relaisCodePostal: relais.Postalcode,
+            relaisCity: relais.Commune,
+            ouvLun: `${relais.Horairelundimatin}@${relais.Horairelundiapm}`,
+            ouvMar: `${relais.Horairemardimatin}@${relais.Horairemardiapm}`,
+            ouvMer: `${relais.Horairemercredimatin}@${relais.Horairemercrediapm}`,
+            ouvJeu: `${relais.Horairejeudimatin}@${relais.Horairejeudiapm}`,
+            ouvVen: `${relais.Horairevendredimatin}@${relais.Horairevendrediapm}`,
+            ouvSam: `${relais.Horairesamedimatin}@${relais.Horairesamediapm}`,
+            ouvDim: `${relais.Horairedimanchematin}@${relais.Horairedimancheapm}`,
+            pseudoRvc: relais.Pseudorvc,
+            adresseClient: $("#tbCompleteAdress").val(),
+            relaisColisMax: relais.Relaismax,
+            relaisCodeCountry: relais.countryISO,
+            adresseCodeCountry: relais.AgenceCountryISO,
+            agenceCode: relais.Agencecode,
+            agenceNom: relais.Agencenom,
+            agenceAdresse: `${relais.Agenceadresse1} ${relais.Agenceadresse2}`,
+            agenceCity: relais.Agenceville,
+            agenceCodePostal: relais.Agencecodepostal
+        }
+        return jsonSuite
     }
 
     function HideEmplacement(hide) {

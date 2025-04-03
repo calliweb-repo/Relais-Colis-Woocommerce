@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="rc-row" id="divEmplacement" style="display: none;">
+        <!-- <div class="rc-row" id="divEmplacement" style="display: none;">
             <div class="rc-col-md-2 rc-col-sm-3 lblPrecision">
                 <label for="selectListAddress"><b>Précisez l'emplacement :</b></label>
             </div>
@@ -35,7 +35,7 @@
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </button>
             </div>
-        </div>
+        </div> -->
         <div class="rc-row">
             <div class="rc-col-sm-4 divListRelais">
                 <div id="lstRelais"></div>
