@@ -155,12 +155,22 @@ class WC_RC_Shipping_Services_Settings {
             WP_Log::debug( __METHOD__.' - For multiselect', ['$delivery_methods'=>$delivery_methods, 'DB delivery_method'=>$service['delivery_method']], 'relais-colis-woocommerce' );
 
             $settings[] = [
-                'type' => 'multiselect',
-                'title' => __( 'Delivery Method', 'relais-colis-woocommerce' ),
+                'type' => 'text',
+                'title' => __('Delivery Method', 'relais-colis-woocommerce'),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_delivery_method_display',
+                'custom_attributes' => [
+                    'readonly' => 'readonly'
+                ],
+                'value' => implode(', ', $delivery_methods),
+                'desc' => __('Available delivery methods for this service', 'relais-colis-woocommerce'),
+                //'desc_tip' => true,
+                'class' => 'regular-input'
+            ];
+
+            $settings[] = [
+                'type' => 'hidden',
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_delivery_method',
-                'options' => $delivery_methods,
-                'default' => $service['delivery_method'],
-                'class' => 'multiselect'
+                'value' => $service['delivery_method']
             ];
 
             $settings[] = [
@@ -168,6 +178,27 @@ class WC_RC_Shipping_Services_Settings {
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
                 'default' => $service['client_choice'],
+                'desc' => __('This option will be visible to the customer in the checkout', 'relais-colis-woocommerce'),
+                'readonly' => true,
+                'disabled' => true
+            ];
+
+            if( $slug === "two_person_delivery" || 
+            $slug === "setup_large_appliances" ||
+            $slug === "oversized_items" ||
+            $slug === "removal_old_equipment"){
+                $productChoice = 'yes';
+            }else{
+                $productChoice = 'no';
+            }
+
+
+            $settings[] = [
+                'title' => __( 'Client Choice', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
+                'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
+                'default' => $productChoice,
+                'desc' => __('Activate: You can choose the products associated with this service / Deactivate: The service will be available for all products.', 'relais-colis-woocommerce'),
                 'readonly' => true,
                 'disabled' => true
             ];
