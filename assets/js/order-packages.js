@@ -750,9 +750,16 @@ jQuery(document).ready(function ($) {
                             // Reload UI to reflect the new state
                             renderColisUI();
 
-                            // Open modal with new PDF URL
-                            $("#rc-pdf-frame").attr("src", response.data.pdf_url);
-                            $("#rc-pdf-modal").fadeIn();
+                            // Créer un lien temporaire pour le téléchargement
+                            const link = document.createElement('a');
+                            link.href = response.data.pdf_url;
+                            link.download = 'shipping-label.pdf'; // Nom du fichier à télécharger
+                            link.target = '_blank';
+                            
+                            // Ajouter le lien au document, cliquer dessus, puis le supprimer
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
                         } else {
                             showError(response.data.message || rc_order_packages.label_error_no_pdf_available);
                         }
