@@ -66,7 +66,7 @@ jQuery(document).ready(function ($) {
      * fallback to DOM fields if incomplete.
      */
     function prefillShippingAddress() {
-        const fallback = rc_choose_relay.rc_shipping_address || {};
+        let fallback = rc_choose_relay.rc_shipping_address || {};
         console.log('fallback', fallback);
         // On commence par récupérer les valeurs saisies dans le DOM
         let address = document.querySelector('#shipping-address_1')?.value || '';
@@ -84,12 +84,15 @@ jQuery(document).ready(function ($) {
             city = fallback.city || '';
         }
 
-        const fullAddress = `${address}, ${postcode} ${city}`.trim();
+        let fullAddress = `${address}, ${postcode} ${city}`.trim();
 
         if (postcode && city) {
+            console.log('prefill ok '+ fullAddress);
             $("#tbCompleteAdress").val(fullAddress);
             searchForRelay();
         }
+
+        console.log('prefill ko');
     }
 
     /**
@@ -201,14 +204,17 @@ jQuery(document).ready(function ($) {
      */
     function searchForRelay() {
         var adresseSaisie = $("#tbCompleteAdress").val();
-
-        var lon = $("#hdLon").val();
+        console.log('searchForRelay '+ adresseSaisie);
+        //var lon = $("#hdLon").val();
+        var lon = '';
         var lat = $("#hdLat").val();
 
         if (lon == "") {
+            console.log('lon is empty');
             if (adresseSaisie == "") {
                 return;
             } else {
+                console.log('adresseSaisie is not empty');
                 GetPoisListGeocodingByOSM(adresseSaisie);
             }
         }
