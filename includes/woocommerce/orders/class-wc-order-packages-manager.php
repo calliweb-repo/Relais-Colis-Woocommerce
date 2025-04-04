@@ -474,6 +474,7 @@ class WC_Order_Packages_Manager {
 
             // If item is heavier than the max allowed, skip
             if ( $item_weight_grams > $max_weight ) {
+                var_dump( $item_weight_grams );
                 continue;
             }
 
@@ -551,6 +552,10 @@ class WC_Order_Packages_Manager {
             
             if ($item_weight_grams > 20000 && $item_weight_grams <= 40000) {
                 $max_weight = 40000; // Si oui, on augmente la limite à 40kg
+                break;
+            }
+            if ($item_weight_grams > 40000 && $item_weight_grams <= 1300000) {
+                $max_weight = 1300000; // Si oui, on augmente la limite à 40kg
                 break;
             }
         }

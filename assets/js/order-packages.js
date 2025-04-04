@@ -662,18 +662,21 @@ jQuery(document).ready(function ($) {
                 },
                 success: function (response) {
                     if (response.success) {
-                        // Mettre à jour les variables globales
-                        return_bordereau_smart_url = response.data.return_bordereau_smart_url;
-                        return_number = response.data.return_number;
-                        return_number_cab = response.data.return_number_cab;
-                        return_limit_date = response.data.return_limit_date;
-                        return_image_url = response.data.return_image_url;
-                        return_token = response.data.return_token;
-                        return_created_at = response.data.return_created_at;
+                        // // Mettre à jour les variables globales
+                        // return_bordereau_smart_url = response.data.return_bordereau_smart_url;
+                        // return_number = response.data.return_number;
+                        // return_number_cab = response.data.return_number_cab;
+                        // return_limit_date = response.data.return_limit_date;
+                        // return_image_url = response.data.return_image_url;
+                        // return_token = response.data.return_token;
+                        // return_created_at = response.data.return_created_at;
 
-                        // Rafraîchir l'interface
-                        renderColisUI();
-                        showSuccess('Effectué avec succès');
+                        // // Rafraîchir l'interface
+                        // renderColisUI();
+                        // showSuccess('Effectué avec succès');
+                        if (response.data.refresh) {
+                            window.location.reload();
+                        }
                     } else {
                         showError(response.data.message || "An unknown error occurred.");
                     }
