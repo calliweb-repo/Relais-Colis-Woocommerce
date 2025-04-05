@@ -205,19 +205,26 @@ jQuery(document).ready(function ($) {
     function searchForRelay() {
         var adresseSaisie = $("#tbCompleteAdress").val();
         console.log('searchForRelay '+ adresseSaisie);
-        //var lon = $("#hdLon").val();
-        var lon = '';
+        var lon = $("#hdLon").val();
+        //var lon = '';
         var lat = $("#hdLat").val();
 
-        if (lon == "") {
-            console.log('lon is empty');
-            if (adresseSaisie == "") {
-                return;
-            } else {
-                console.log('adresseSaisie is not empty');
-                GetPoisListGeocodingByOSM(adresseSaisie);
-            }
+        if (adresseSaisie == "") {
+            return;
+        } else {
+            console.log('adresseSaisie is not empty');
+            GetPoisListGeocodingByOSM(adresseSaisie);
         }
+
+        // if (lon == "") {
+        //     console.log('lon is empty');
+        //     if (adresseSaisie == "") {
+        //         return;
+        //     } else {
+        //         console.log('adresseSaisie is not empty');
+        //         GetPoisListGeocodingByOSM(adresseSaisie);
+        //     }
+        // }
     }
 
     $(document).on('click', "#btnSearch", searchForRelay);
