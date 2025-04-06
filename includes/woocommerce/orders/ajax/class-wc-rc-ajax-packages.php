@@ -225,6 +225,8 @@ class WC_RC_Ajax_Packages {
             $order = wc_get_order($order_id);
 
             $isMax = 0;
+            $isHome = 0;
+
             $woocommerce_weight_unit = get_option('woocommerce_weight_unit', 'g');
 
             // Vérifier tous les produits de la commande
@@ -253,14 +255,17 @@ class WC_RC_Ajax_Packages {
                     }
                 }
 
-                // Convertir le poids en grammes selon l'unité configurée
                 if (!empty($item_weight)) {
                     $weight_in_grams = WP_Helper::convert_to_grams($item_weight, $woocommerce_weight_unit);
                     
-                    // Si un seul produit est entre 20kg et 40kg, on met isMax à 1
+
                     if ($weight_in_grams > 20000 && $weight_in_grams <= 40000) {
                         $isMax = 1;
-                        break; // On peut sortir de la boucle dès qu'on trouve un produit qui correspond
+                    }
+
+                    if ($weight_in_grams > 40000 && $weight_in_grams <= 130000) {
+                        $isHome = 1;
+                        break;
                     }
                 }
                 
@@ -275,7 +280,7 @@ class WC_RC_Ajax_Packages {
 
             // Distribution strategy is : try and put as max as possible items in each package
             $max_weight = $isMax ? 40000 : 20000; // max per package, in grams
-
+            $max_weight = $isHome ? 130000 : $max_weight;
             // Get current package weight
             $c_weigth = $product->get_weight();
             $c_weigth_grams = WP_Helper::convert_to_grams($c_weigth, $woocommerce_weight_unit);
