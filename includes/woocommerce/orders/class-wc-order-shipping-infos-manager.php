@@ -231,7 +231,7 @@ class WC_Order_Shipping_Infos_Manager {
             $html_content = '
                 <div class="rc-shipping-info"><img src="'.esc_url( $logo_url ).'" alt="Relais Colis" class="rc-logo">
                     <h3>'.__( 'Relais Colis - Informations', 'relais-colis-woocommerce' ).'</h3>
-                    <p><strong>'.__( 'RC Shipping method', 'relais-colis-woocommerce' ).'</strong> '.WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ).'</p>
+                    <p><strong>'.__( 'RC Shipping method', 'relais-colis-woocommerce' ).' : </strong> '.WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ).'</p>
                     '.( !is_null( $rc_shipping_infos_html ) ? $rc_shipping_infos_html : '' ).'
                 </div>';
 
