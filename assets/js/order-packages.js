@@ -674,9 +674,9 @@ jQuery(document).ready(function ($) {
                         // // Rafraîchir l'interface
                         // renderColisUI();
                         // showSuccess('Effectué avec succès');
-                        if (response.data.refresh) {
+                       // if (response.data.refresh) {
                             window.location.reload();
-                        }
+                        //}
                     } else {
                         showError(response.data.message || "An unknown error occurred.");
                     }
