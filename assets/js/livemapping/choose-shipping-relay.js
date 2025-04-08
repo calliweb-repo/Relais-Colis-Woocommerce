@@ -431,7 +431,7 @@ jQuery(document).ready(function ($) {
                     GetPoisListNearTo(adress.lon, adress.lat, ensCode);
                     break;
                 default:
-                    HideEmplacement(0);
+                    HideEmplacement(1);
                     var listeFinale = new Array();
                     var selectListAddress = $("#selectListAddress");
                     $('#selectListAddress')[0].options.length = 0;

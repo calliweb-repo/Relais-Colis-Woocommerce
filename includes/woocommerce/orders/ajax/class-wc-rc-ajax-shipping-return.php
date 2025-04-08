@@ -75,18 +75,18 @@ class WC_RC_Ajax_Shipping_Return {
 
             // Get interaction mode
             $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
-
+            
             // Only for B2C mode
-            if ( $is_c2c_interaction_mode ) {
-
+            if ( $is_c2c_interaction_mode  === true) {
+                
                 wp_send_json_error( [
-                    'message' => __( 'Invalid mode: only B2C is authorized', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid mode: only B2C is authorized!', 'relais-colis-woocommerce' )
                 ] );
             }
 
             // Check if the shipping method is "Relais Colis"
             $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
-
+            //var_dump($rc_shipping_method);die();
             // Only for Relay
             if ( ( $rc_shipping_method == WC_RC_Shipping_Method_Home::WC_RC_SHIPPING_METHOD_HOME_ID )
                 || ( $rc_shipping_method == WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ) ) {

@@ -571,7 +571,7 @@ msgstr "Mode invalide, seul le mode C2C est autorisé"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:95
 msgid "Invalid offer: only Relay is authorized"
-msgstr "Mode invalide : seul le mode B2C est autorisé"
+msgstr "Offre invalide : seul les commandes en relais sont éligibles au retour actuellement"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:144
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:557

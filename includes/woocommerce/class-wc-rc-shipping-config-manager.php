@@ -105,7 +105,7 @@ class WC_RC_Shipping_Config_Manager {
      * @return void
      */
     public function get_rc_interaction_mode() {
-
+       // var_dump(get_option( WC_RC_Shipping_Constants::OPTION_RC_INTERACTION_MODE, WC_RC_Shipping_Constants::B2C_INTERACTION_MODE ));
         $mode = get_option( WC_RC_Shipping_Constants::OPTION_RC_INTERACTION_MODE, WC_RC_Shipping_Constants::B2C_INTERACTION_MODE );
         if ( ( $mode !== WC_RC_Shipping_Constants::B2C_INTERACTION_MODE ) && ( $mode !== WC_RC_Shipping_Constants::C2C_INTERACTION_MODE ) ) {
 

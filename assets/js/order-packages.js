@@ -405,6 +405,7 @@ jQuery(document).ready(function ($) {
                     nonce: rc_order_packages.nonce
                 },
                 success: function (response) {
+                    console.log('response:', response);
                     if (response.success) {
                         rc_order_colis = response.data.colis;
                         rc_order_items = response.data.items;
@@ -651,7 +652,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-generate-return-label").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
-
+            console.log('generate return label');
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',
