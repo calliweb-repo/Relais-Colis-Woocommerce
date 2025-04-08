@@ -657,10 +657,10 @@ class WC_Order_Packages_Manager {
 
         // Check if the shipping method is "Relais Colis"
         $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $order );
-        if ( $rc_shipping_method === false ) {
+        // if ( $rc_shipping_method === false ) {
 
-            throw new Exception( __( 'Invalid Relais Colis method', 'relais-colis-woocommerce' ) );
-        }
+        //     throw new Exception( __( 'Invalid Relais Colis method', 'relais-colis-woocommerce' ) );
+        // }
 
         // Fetch existing package distribution data (Legacy & HPOS support).
         $colis = method_exists( $order, 'get_meta' ) ?
