@@ -9,6 +9,7 @@ use RelaisColisWoocommerce\DAO\WP_Information_DAO;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Configuration_Response;
 use RelaisColisWoocommerce\RCAPI\WP_RC_Get_Infos_Response;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 
 /**
  * WooCommerce Shipping Method Manager.
@@ -211,5 +212,28 @@ class WC_RC_Shipping_Config_Manager {
         // Then valid RC API access validity
         // There is no concrete info about that in C2C response, other than receiving a complete and valid response
         update_option( WC_RC_Shipping_Constants::OPTION_RC_API_ACCESS_VALID, 1 );
+    }
+
+    public function update_configuration_data() {
+        $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration( false );
+        if ( !is_null( $wp_rc_configuration ) && $wp_rc_configuration->validate() ) {
+
+            // Get returned activation key
+            $activation_key = $wp_rc_configuration->get_activation_key();
+
+            // Activation key must be the same
+            $current_activation_key = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
+            if ( $activation_key !== $current_activation_key ) {
+
+                // Reset B2C configuration
+                WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
+            } else {
+
+                // All is right!
+
+                // Update config
+                WP_Configuration_DAO::instance()->replace_rc_get_configuration_data( $wp_rc_configuration );
+            }
+        }
     }
 }

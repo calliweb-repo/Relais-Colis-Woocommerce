@@ -22,7 +22,8 @@ class WP_Relais_Colis_API_Exception extends Exception {
     const RC_API_INVALID_B2C_MODE = 'rc_api_invalid_b2c_mode';
     const RC_API_INCOHERENCY_STATE = 'rc_api_incoherency_state';
     const RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED = 'rc_api_place_advertisement_c2c_home_not_supported';
-
+    const RC_API_NOT_ENOUGH_MONEY_IN_BALANCE = 'rc_api_not_enough_money_in_balance';
+    
     // Error codes
     const ERROR_CODES = array(
         self::RC_API_INVALID_ACTIVATIONKEY => 100,
@@ -36,6 +37,7 @@ class WP_Relais_Colis_API_Exception extends Exception {
         self::RC_API_INVALID_B2C_MODE => 108,
         self::RC_API_INCOHERENCY_STATE => 109,
         self::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED => 110,
+        self::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE => 111,
     );
 
     const ERROR_MESSAGES = array(
@@ -50,6 +52,7 @@ class WP_Relais_Colis_API_Exception extends Exception {
         self::RC_API_INVALID_B2C_MODE => 'Invalid mode: only C2C is authorized',
         self::RC_API_INCOHERENCY_STATE => 'Order invalid state',
         self::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED => 'Shipping label generation is not supported for C2C home/home+ delivery mode',
+        self::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE => 'Not enough money in balance',
     );
 
     /**
@@ -75,6 +78,7 @@ class WP_Relais_Colis_API_Exception extends Exception {
             self::RC_API_INVALID_B2C_MODE => __('Invalid mode: only C2C is authorized', 'relais-colis-woocommerce'),
             self::RC_API_INCOHERENCY_STATE => __('Order invalid state', 'relais-colis-woocommerce'),
             self::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED => __('Shipping label generation is not supported for C2C home/home+ delivery mode', 'relais-colis-woocommerce'),
+            self::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE => __('Not enough money in balance', 'relais-colis-woocommerce'),
         );
         return $messages[$code];
     }

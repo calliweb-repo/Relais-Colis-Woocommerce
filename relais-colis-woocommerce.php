@@ -36,6 +36,11 @@ use RelaisColisWoocommerce\DAO\WP_Services_DAO;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use RelaisColisWoocommerce\WPFw\WP_PLoad;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
+
 
 /**
  * The loader class.
@@ -306,8 +311,13 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         dbDelta( $sql_tariff_grids );
         dbDelta( $sql_orders_rel_shipping_labels );
 
+
+
         // Init services
         WP_Services_DAO::instance()->initialize_rc_services();
+
+        WC_RC_Shipping_Config_Manager::instance()->update_configuration_data();
+
     }
 
 

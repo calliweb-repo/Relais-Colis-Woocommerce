@@ -279,7 +279,7 @@ jQuery(document).ready(function ($) {
 
                 // Add print button
                 let printButton = $(`
-                    <button class="rc-print-label" data-colis-index="${index}" data-pdf-url="${colis.shipping_label_pdf || ''}">
+                    <button class="rc-print-label" data-colis-index="${index}" data-pdf-url="">
                         ${rc_order_packages.label_print_shipping_label}
                     </button>
                 `);
