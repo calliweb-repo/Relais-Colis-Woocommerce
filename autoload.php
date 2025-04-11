@@ -110,6 +110,10 @@
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Place_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-place-labels-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Print_Shipping_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-print-shipping-labels-manager.php',
         'RelaisColisWoocommerce\\Shipping\\WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-generate-way-bills-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Bulk_Actions_Manager' => 'includes/woocommerce/orders/bulk/abstract-wc-orders-c2c-bulk-actions-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Bulk_Place_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-c2c-bulk-place-labels-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-c2c-bulk-print-shipping-labels-manager.php',
+        'RelaisColisWoocommerce\\Shipping\\WC_Orders_C2c_Bulk_Auto_Distribute_Manager' => 'includes/woocommerce/orders/bulk/class-wc-orders-c2c-bulk-auto-distribute-manager.php',
         // DAOs
         'RelaisColisWoocommerce\\DAO\\WP_Configuration_DAO' => 'includes/dao/class-wp-configuration-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Information_DAO' => 'includes/dao/class-wp-information-dao.php',
