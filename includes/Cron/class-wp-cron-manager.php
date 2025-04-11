@@ -16,7 +16,7 @@ class WP_Cron_Manager {
     use Singleton;
 
     public function __construct() {
-        add_filter('cron_schedules', 'add_cron_interval');
+        add_filter('cron_schedules', array($this, 'add_cron_interval'));
         add_action('schedule_update_order', array($this, 'execute'));
     }
 
