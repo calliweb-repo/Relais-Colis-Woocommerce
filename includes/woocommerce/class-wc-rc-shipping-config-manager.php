@@ -214,6 +214,10 @@ class WC_RC_Shipping_Config_Manager {
         update_option( WC_RC_Shipping_Constants::OPTION_RC_API_ACCESS_VALID, 1 );
     }
 
+    /**
+     * Used to update configuration data
+     * @return void
+     */
     public function update_configuration_data() {
         $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration( false );
         if ( !is_null( $wp_rc_configuration ) && $wp_rc_configuration->validate() ) {

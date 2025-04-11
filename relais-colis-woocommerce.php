@@ -316,7 +316,13 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         // Init services
         WP_Services_DAO::instance()->initialize_rc_services();
 
-        WC_RC_Shipping_Config_Manager::instance()->update_configuration_data();
+        // Get activation key
+        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
+        if ( !is_null($activationKey) && !empty($activationKey) && $activationKey !== '' ) {
+            // Update configuration data
+            WC_RC_Shipping_Config_Manager::instance()->update_configuration_data();
+
+        }
 
     }
 
