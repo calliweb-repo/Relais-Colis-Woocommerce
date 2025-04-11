@@ -9,6 +9,10 @@ use RelaisColisWoocommerce\Shipping\WC_Orders_B2c_Bulk_Auto_Distribute_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_B2c_Bulk_Place_Labels_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_B2c_Bulk_Print_Shipping_Labels_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Bulk_Actions_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Bulk_Place_Labels_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Bulk_Auto_Distribute_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_C2c_Csv_Export_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_List_Table_Manager;
 use RelaisColisWoocommerce\Shipping\WC_Orders_Manager;
@@ -66,6 +70,9 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
         WC_Orders_B2c_Bulk_Print_Shipping_Labels_Manager::instance();
         WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager::instance();
         WP_Cron_Manager::instance();
+        WC_Orders_C2c_Bulk_Auto_Distribute_Manager::instance();
+        WC_Orders_C2c_Bulk_Place_Labels_Manager::instance();
+        WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();
