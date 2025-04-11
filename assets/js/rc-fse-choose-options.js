@@ -70,8 +70,16 @@ function getRelayColisHtml() {
  * Affiche/Masque les options de livraison en fonction du choix de l'utilisateur
  */
 function checkRCFseShippingMethod(force = false) {
-    const selectedMethod = getSelectedShippingMethod();
 
+    const selectedMethod = getSelectedShippingMethod();
+    if (selectedMethod === null) {
+        setTimeout(function() {
+            checkRCFseShippingMethod();
+            resetRCFseSelectedServices();
+        }, 500);
+    }
+    console.log('checkRCFseShippingMethod');
+    console.log('selectedMethod', selectedMethod);
     if (selectedMethod === 'home') {
         if (!jQuery('#' + rc_choose_options_h.div_id).length || force) {
             jQuery('.wc-block-components-shipping-rates-control').after(rc_choose_options_h.html);
@@ -89,6 +97,7 @@ function checkRCFseShippingMethod(force = false) {
         jQuery('#relais-colis-block').remove();
 
     } else if (selectedMethod === 'relay') {
+        console.log('relay');
         jQuery('#' + rc_choose_options_hp.div_id).hide();
         jQuery('#' + rc_choose_options_h.div_id).hide();
 
@@ -96,7 +105,6 @@ function checkRCFseShippingMethod(force = false) {
             jQuery('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
         }
         jQuery('#relais-colis-block').show();
-
     } else {
         // Cas d'un mode de livraison autre (Colissimo, retrait magasin, etc.)
         jQuery('#' + rc_choose_options_h.div_id).hide();
@@ -215,8 +223,8 @@ function forceRCFseWooCommerceRefresh() {
 
 jQuery(window).on("load", function () {
     console.log("✅ window.load triggered");
-    checkRCFseShippingMethod();
-    resetRCFseSelectedServices();
+   // checkRCFseShippingMethod();
+   // resetRCFseSelectedServices();
 
     let lastUpdateShippingRequest = null; // Stocke la dernière méthode de livraison sélectionnée
 
@@ -293,9 +301,13 @@ jQuery(document).ready(function ($) {
         return;
     }
 
+    // Exécution initiale après le chargement du DOM
+    checkRCFseShippingMethod();
+    resetRCFseSelectedServices();
+
     $(document.body).on('wc-blocks-checkout-update wc-blocks-order-review-update', function () {
         console.log("🔄 WooCommerce Blocks mise à jour détectée.");
-        //checkRCFseShippingMethod();
+        checkRCFseShippingMethod();
     });
 
     // Écouteurs d'événements
