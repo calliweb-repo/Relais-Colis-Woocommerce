@@ -120,8 +120,11 @@ class WP_Relais_Colis_Response_Factory {
                             WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-woocommerce');
 
                             if ( strpos( $entry, 'error:' ) !== false ) {
-
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                                if ( strpos( $entry, 'Not enough money in balance' ) !== false ) {
+                                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                } else {
+                                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                                }
                             }
                         }
 

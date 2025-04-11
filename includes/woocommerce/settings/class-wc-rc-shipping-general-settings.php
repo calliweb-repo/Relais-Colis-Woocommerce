@@ -308,6 +308,26 @@ class WC_RC_Shipping_General_Settings {
 
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
+            // Mettre à jour les informations via l'API avant d'afficher
+    if (WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()) {
+        try {
+            // Appel à l'API pour récupérer les dernières informations
+            $wp_c2c_infos = WP_Relais_Colis_API::instance()->c2c_get_infos( false );
+
+            
+            if ($wp_c2c_infos && $wp_c2c_infos->validate()) {
+                // Mettre à jour les informations dans la base de données
+                WC_RC_Shipping_Config_Manager::instance()->update_c2c_config_data( $wp_c2c_infos );
+            }
+        } catch (WP_Relais_Colis_API_Exception $e) {
+            WP_Log::warning(__METHOD__.' - Error updating C2C infos', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], 'relais-colis-woocommerce');
+        }
+    }
+
+
         woocommerce_admin_fields( $this->get_settings() );
     }
 

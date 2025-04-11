@@ -496,19 +496,19 @@ class WC_Orders_Manager {
         WP_Log::debug( __METHOD__.' - Auto distribution of packages if C2C mode?', [ 'is_c2c_interaction_mode?' => WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()?'true':'false' ], 'relais-colis-woocommerce' );
         if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) {
             // Distribution strategy is : try and put as max as possible items in each package
-            WC_Order_Packages_Manager::instance()->auto_distribute_packages( $wc_order->get_id() );
+            // WC_Order_Packages_Manager::instance()->auto_distribute_packages( $wc_order->get_id() );
             
-            // Mettre à jour l'état de la commande après la distribution automatique
-            $wc_order->update_meta_data( 
-                WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, 
-                WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED 
-            );
-            $wc_order->save();
+            // // Mettre à jour l'état de la commande après la distribution automatique
+            // $wc_order->update_meta_data( 
+            //     WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE, 
+            //     WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED 
+            // );
+            // $wc_order->save();
             
-            WP_Log::debug( __METHOD__.' - Order state updated after auto distribution', [
-                'order_id' => $wc_order->get_id(),
-                'new_state' => WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED
-            ], 'relais-colis-woocommerce' );
+            // WP_Log::debug( __METHOD__.' - Order state updated after auto distribution', [
+            //     'order_id' => $wc_order->get_id(),
+            //     'new_state' => WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED
+            // ], 'relais-colis-woocommerce' );
         }
 
     }

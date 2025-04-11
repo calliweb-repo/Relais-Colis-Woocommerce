@@ -216,6 +216,8 @@ class WC_RC_Ajax_Shipping_Label {
             // Get order state
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
+            
+
             // Success response
             wp_send_json_success( [
                 'colis' => $colis,
@@ -230,7 +232,7 @@ class WC_RC_Ajax_Shipping_Label {
             ], 'relais-colis-woocommerce' );
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while placing shipping label', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while placing shipping label', 'relais-colis-woocommerce' ). ' : '.$e->getMessage(),
                 'error_details' => $e->getMessage()
             ] );
         }

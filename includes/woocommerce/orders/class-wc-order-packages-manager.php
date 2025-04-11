@@ -187,6 +187,30 @@ class WC_Order_Packages_Manager {
         if ( 'add' == $screen->action )
             return;
 
+
+                // Get the order
+        $order = wc_get_order($post->get_id());
+        WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-woocommerce' );
+        if (!$order) {
+            return;
+        }
+
+        // Check if it's a Relais Colis order
+        $shipping_methods = $order->get_shipping_methods();
+        $is_relais_colis = false;
+        
+        foreach ($shipping_methods as $shipping_method) {
+            if (WC_RC_Shipping_Method_Manager::instance()->is_a_rc_shipping_method($shipping_method->get_method_id())) {
+                $is_relais_colis = true;
+                break;
+            }
+        }
+
+        // Only add the metabox if it's a Relais Colis order
+        if (!$is_relais_colis) {
+            return;
+        }
+
         // HPOS-based orders
         if ( WC_WooCommerce_Manager::instance()->is_hpos_enabled() ) {
 
@@ -365,6 +389,25 @@ class WC_Order_Packages_Manager {
      * @param WP_Post $post The order post object.
      */
     public function rc_woocommerce_colis_callback( $post ) {
+
+            // Get WC order
+        $wc_order = wc_get_order( $post->get_id() );
+        
+        // Vérifier si c'est une commande Relais Colis
+        $shipping_methods = $wc_order->get_shipping_methods();
+        $is_relais_colis = false;
+        foreach ($shipping_methods as $shipping_method) {
+            if (strpos($shipping_method->get_method_title(), 'Relais Colis') !== false) {
+                $is_relais_colis = true;
+                break;
+            }
+        }
+
+            // Si ce n'est pas une commande Relais Colis, on sort
+    if (!$is_relais_colis) {
+        return;
+    }
+        
 
         // Log the method execution for debugging.
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );

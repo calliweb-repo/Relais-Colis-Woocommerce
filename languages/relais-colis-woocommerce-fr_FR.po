@@ -1,56 +1,38 @@
-# Copyright (C) 2025 Calliweb
-# This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-"
-"woocommerce\n"
-"POT-Creation-Date: 2025-04-03T10:08:38+00:00\n"
-"PO-Revision-Date: 2025-04-04 07:16+0000\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/relais-colis-woocommerce\n"
 "Last-Translator: \n"
 "Language-Team: Français\n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-03T10:08:38+00:00\n"
+"PO-Revision-Date: 2025-04-10 15:04+0200\n"
+"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: Poedit 3.6\n"
 "X-Domain: relais-colis-woocommerce\n"
 
 #: includes/wpfw/traits/trait-plugin-activation-control.php:127
 #, php-format
-msgid ""
-"%s is not active, as it requires PHP version %s or higher. Please update PHP"
-msgstr ""
-"%s n'est pas actif, car il nécessite PHP en version %s ou supérieure. "
-"Veuillez mettre à jour PHP"
+msgid "%s is not active, as it requires PHP version %s or higher. Please update PHP"
+msgstr "%s n'est pas actif, car il nécessite PHP en version %s ou supérieure. Veuillez mettre à jour PHP"
 
 #: includes/wpfw/traits/trait-plugin-activation-control.php:105
 #, php-format
-msgid ""
-"%s is not active, as it requires WooCommerce to be installed. Please install "
-"WooCommerce with version %s or higher."
-msgstr ""
-"%s n'est pas actif, car il nécessite l'installation de WooCommerce. Veuillez "
-"installer WooCommerce en version %s ou supérieure."
+msgid "%s is not active, as it requires WooCommerce to be installed. Please install WooCommerce with version %s or higher."
+msgstr "%s n'est pas actif, car il nécessite l'installation de WooCommerce. Veuillez installer WooCommerce en version %s ou supérieure."
 
 #: includes/wpfw/traits/trait-plugin-activation-control.php:115
 #, php-format
-msgid ""
-"%s is not active, as it requires WooCommerce version %s or higher. Please "
-"%supdate WooCommerce &raquo;%s"
-msgstr ""
-"%s n'est pas actif, car il nécessite WooCommerce en version %s ou supérieure."
-" Veuillez %smise à jour WooCommerce &raquo;%s"
+msgid "%s is not active, as it requires WooCommerce version %s or higher. Please %supdate WooCommerce &raquo;%s"
+msgstr "%s n'est pas actif, car il nécessite WooCommerce en version %s ou supérieure. Veuillez %smise à jour WooCommerce &raquo;%s"
 
 #: includes/wpfw/traits/trait-plugin-activation-control.php:137
 #, php-format
-msgid ""
-"%s is not active, as it requires WordPress version %s or higher. Please "
-"%supdate WordPress &raquo;%s"
-msgstr ""
-"%s n'est pas actif, car il nécessite WordPress en version %s ou supérieure. "
-"Veuillez %smise à jour WordPress &raquo;%s"
+msgid "%s is not active, as it requires WordPress version %s or higher. Please %supdate WordPress &raquo;%s"
+msgstr "%s n'est pas actif, car il nécessite WordPress en version %s ou supérieure. Veuillez %smise à jour WordPress &raquo;%s"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:224
 msgid "10 X 15 : 4 PER PAGE"
@@ -86,7 +68,7 @@ msgstr "Un minimum doit être saisi."
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:286
 msgid "A network error occurred: "
-msgstr "Une erreur de réseau s’est produite : "
+msgstr "Une erreur de réseau s'est produite : "
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:110
 msgid "A price value must be entered."
@@ -105,12 +87,8 @@ msgid "Account Type"
 msgstr "Type de compte"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:201
-msgid ""
-"Activate: You can choose the products associated with this service / "
-"Deactivate: The service will be available for all products."
-msgstr ""
-"Activer : Vous pouvez choisir les produits associés à ce service / "
-"Désactiver : Le service sera disponible pour tous les produits."
+msgid "Activate: You can choose the products associated with this service / Deactivate: The service will be available for all products."
+msgstr "Activer : Vous pouvez choisir les produits associés à ce service / Désactiver : Le service sera disponible pour tous les produits."
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:176
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:345
@@ -142,7 +120,7 @@ msgstr "Ajouter dans un colis"
 #: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:188
 #, php-format
 msgid "Add prices with a free threshold. The unit of weight is %s"
-msgstr "Ajoutez des prix avec un seuil gratuit. L’unité de poids est le %s"
+msgstr "Ajoutez des prix avec un seuil gratuit. L'unité de poids est le %s"
 
 #: includes/woocommerce/class-wc-rc-services-manager.php:201
 msgid "Additional delivery instructions"
@@ -178,7 +156,7 @@ msgstr "Tous les états Relais Colis"
 
 #: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:300
 msgid "All Relais Colis shipping methods"
-msgstr "Tous les modes d’expédition Relais Colis"
+msgstr "Tous les modes d'expédition Relais Colis"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:622
 msgid "All the packages have been distributed"
@@ -191,49 +169,43 @@ msgstr "Toutes les étiquettes ont été générées"
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:188
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:410
 msgid "An error occurred while adding a package"
-msgstr "Une erreur s’est produite lors de l’ajout d’un colis"
+msgstr "Une erreur s'est produite lors de l'ajout d'un colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:336
 msgid "An error occurred while adding product to a package"
-msgstr "Une erreur s’est produite lors de l’ajout d’un produit dans un colis"
+msgstr "Une erreur s'est produite lors de l'ajout d'un produit dans un colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:539
 msgid "An error occurred while auto distributing products into packages"
-msgstr ""
-"Une erreur s’est produite lors de la répartition automatique des produits "
-"dans les colis"
+msgstr "Une erreur s'est produite lors de la répartition automatique des produits dans les colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:178
 msgid "An error occurred while downloading shipping label"
-msgstr ""
-"Une erreur s’est produite lors du téléchargement de l’étiquette de livraison"
+msgstr "Une erreur s'est produite lors du téléchargement de l'étiquette de livraison"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:210
 msgid "An error occurred while generating return label"
-msgstr "Une erreur s’est produite lors la génération de l’étiquette de retour"
+msgstr "Une erreur s'est produite lors la génération de l'étiquette de retour"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-way-bill.php:84
 msgid "An error occurred while generating way bill"
-msgstr ""
-"Une erreur s’est produite lors de la génération de la lettre de voiture"
+msgstr "Une erreur s'est produite lors de la génération de la lettre de voiture"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-price.php:136
 msgid "An error occurred while getting price"
-msgstr "Une erreur s’est produite lors de la récupération du prix du colis"
+msgstr "Une erreur s'est produite lors de la récupération du prix du colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-label.php:233
 msgid "An error occurred while placing shipping label"
-msgstr ""
-"Une erreur s’est produite lors la génération de l’étiquette de livraison"
+msgstr "Une erreur s'est produite lors la génération de l'étiquette de livraison"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:476
 msgid "An error occurred while removing product from package"
-msgstr ""
-"Une erreur s’est produite lors de la suppression d’un produit d’un colis"
+msgstr "Une erreur s'est produite lors de la suppression d'un produit d'un colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:635
 msgid "An error occurred while updating the package"
-msgstr "Une erreur s’est produite lors de l’ajout d’un colis"
+msgstr "Une erreur s'est produite lors de l'ajout d'un colis"
 
 #: includes/woocommerce/class-wc-rc-services-manager.php:190
 msgid "Apartment"
@@ -252,10 +224,8 @@ msgid "Auto distribute"
 msgstr "Répartition automatique des produits dans des colis"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:165
-#, fuzzy
-#| msgid "Available delivery methods for this service"
 msgid "Available delivery methods for this service "
-msgstr "Méthodes de livraison disponibles pour ce service"
+msgstr "Méthodes de livraison disponibles pour ce service "
 
 #: includes/woocommerce/checkout/abstract-wc-rc-choose-services-manager.php:381
 msgid "Available services:"
@@ -275,7 +245,7 @@ msgstr "Génération de lettres de voiture en masse"
 
 #: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-place-labels-manager.php:56
 msgid "Bulk place labels"
-msgstr "Génération d’étiquettes en masse"
+msgstr "Génération d'étiquettes en masse"
 
 #: includes/woocommerce/orders/bulk/class-wc-orders-b2c-bulk-print-shipping-labels-manager.php:55
 msgid "Bulk print shipping labels"
@@ -311,17 +281,13 @@ msgstr "Ville"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:1390
 #, php-format
-msgid ""
-"Click <a href='%s' target='_blank'>here</a> to download the shipping labels."
-msgstr ""
-"Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les étiquettes."
+msgid "Click <a href='%s' target='_blank'>here</a> to download the shipping labels."
+msgstr "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les étiquettes."
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:1524
 #, php-format
 msgid "Click <a href='%s' target='_blank'>here</a> to download the way bills."
-msgstr ""
-"Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les lettres de "
-"voiture."
+msgstr "Cliquez <a href='%s' target='_blank'>ici</a> pour télécharger les lettres de voiture."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:177
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:197
@@ -470,7 +436,7 @@ msgstr "Nom de l'enseigne"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:92
 msgid "Enter my license"
-msgstr "Entrer ma clef d’activation"
+msgstr "Entrer ma clef d'activation"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:330
 msgid "Enter your activation key to synchronize your information."
@@ -496,12 +462,8 @@ msgstr "Exporter en CSV (C2C)"
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:180
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:221
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:278
-msgid ""
-"Failed to communicate with the RC API. Please check your connection and try "
-"again."
-msgstr ""
-"Échec de la communication avec l'API RC. Veuillez vérifier votre connexion "
-"et réessayer."
+msgid "Failed to communicate with the RC API. Please check your connection and try again."
+msgstr "Échec de la communication avec l'API RC. Veuillez vérifier votre connexion et réessayer."
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:307
 msgid "First Name"
@@ -525,7 +487,7 @@ msgstr "Configuration générale"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:278
 msgid "Generate return label"
-msgstr "Générer l’étiquette de retour"
+msgstr "Générer l'étiquette de retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:284
 msgid "Generate way bill"
@@ -624,7 +586,7 @@ msgstr "Unités de longueur"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:86
 msgid "License Issue"
-msgstr "Problème de clef d’activation"
+msgstr "Problème de clef d'activation"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:183
 msgid "Live Mapping API"
@@ -649,8 +611,7 @@ msgstr "Mètre (m)"
 #: includes/woocommerce/settings/class-wc-rc-shipping-tariff-grids-settings.php:122
 #, php-format
 msgid "Min value (%s) must be less than Max value (%s)."
-msgstr ""
-"La valeur minimale (%s) doit être inférieure à la valeur maximale (%s)."
+msgstr "La valeur minimale (%s) doit être inférieure à la valeur maximale (%s)."
 
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:68
 msgid "Missing or empty required parameter: "
@@ -676,7 +637,7 @@ msgstr "Aucune adresse valable"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-shipping-return.php:161
 msgid "No response from Relais Colis API"
-msgstr "Aucune réponse de l’API Relais Colis"
+msgstr "Aucune réponse de l'API Relais Colis"
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:252
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:271
@@ -685,7 +646,7 @@ msgstr "Quantité de produit restante insuffisante"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:86
 msgid "Opening Hours"
-msgstr "Horaires d’ouverture"
+msgstr "Horaires d'ouverture"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:211
 msgid "Option Active"
@@ -757,9 +718,7 @@ msgstr "Veuillez ajouter un colis."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:88
 msgid "Please enter a valid activation key to access all features."
-msgstr ""
-"Veuillez entrer une clé d’activation valide pour accéder à toutes les "
-"fonctionnalités."
+msgstr "Veuillez entrer une clé d'activation valide pour accéder à toutes les fonctionnalités."
 
 #: includes/woocommerce/class-wc-rc-services-manager.php:174
 msgid "Please select a floor"
@@ -787,7 +746,7 @@ msgstr "Grilles de tarifs"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:274
 msgid "Print shipping label"
-msgstr "Imprimer l’étiquette"
+msgstr "Imprimer l'étiquette"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:285
 msgid "Print way bill"
@@ -824,7 +783,7 @@ msgstr "Assemblage rapide"
 
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:67
 msgid "RC API: Invalid activation key"
-msgstr "API RC : clé d’activation non valide"
+msgstr "API RC : clé d'activation non valide"
 
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:72
 msgid "RC API: Invalid response "
@@ -837,6 +796,10 @@ msgstr "API RC : type de contenu de réponse non valide : "
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:73
 msgid "RC API: No response "
 msgstr "API RC : aucune réponse "
+
+#: includes/rcapi/class-wp-relais-colis-api-exception.php:81
+msgid "Not enough money in balance"
+msgstr "Plus suffisamment d'argent sur votre compte"
 
 #: includes/woocommerce/orders/class-wc-orders-list-table-manager.php:79
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:234
@@ -992,11 +955,8 @@ msgid "Setup of Large Appliances"
 msgstr "M.E.S gros électroménager"
 
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:77
-msgid ""
-"Shipping label generation is not supported for C2C home/home+ delivery mode"
-msgstr ""
-"La génération d’étiquettes d’expédition n’est pas prise en charge pour le "
-"mode de livraison C2C Home/Home+"
+msgid "Shipping label generation is not supported for C2C home/home+ delivery mode"
+msgstr "La génération d'étiquettes d'expédition n'est pas prise en charge pour le mode de livraison C2C Home/Home+"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:275
 msgid "Shipping label:"
@@ -1044,9 +1004,7 @@ msgstr "Plages tarifaires"
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:140
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:172
 msgid "The activation key you entered is invalid. Please check and try again."
-msgstr ""
-"La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et "
-"réessayer."
+msgstr "La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et réessayer."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-Infos-settings.php:167
 msgid "The configuration associated with your account."
@@ -1055,9 +1013,7 @@ msgstr "La configuration associée avec votre compte."
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:238
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:270
 msgid "The hash token you entered is invalid. Please check and try again."
-msgstr ""
-"La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et "
-"réessayer."
+msgstr "La clé d'activation que vous avez saisie est invalide. Veuillez vérifier et réessayer."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-Infos-settings.php:223
 msgid "The informations associated with your C2C account."
@@ -1084,12 +1040,12 @@ msgstr "Colis déposé au relais"
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:272
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:291
 msgid "The package has been returned to the sender"
-msgstr "Le colis a été retourné à l’expéditeur"
+msgstr "Le colis a été retourné à l'expéditeur"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:273
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:292
 msgid "The package is currently being returned to the sender"
-msgstr "Le colis est actuellement en cours de retour vers l’expéditeur"
+msgstr "Le colis est actuellement en cours de retour vers l'expéditeur"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:271
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:290
@@ -1098,7 +1054,7 @@ msgstr "Colis non récupéré"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:796
 msgid "The packages in the order must first be divided into packages"
-msgstr "Les colis dans la commande doivent tout d’abord être divisés"
+msgstr "Les colis dans la commande doivent tout d'abord être divisés"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:268
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:287
@@ -1151,8 +1107,7 @@ msgstr "Ce produit est trop lourd."
 
 #: includes/woocommerce/orders/ajax/class-wc-rc-ajax-packages.php:286
 msgid "This product is too heavy to be added to a package."
-msgstr ""
-"Ce produit possède un poids trop important pour être ajouté à un colis."
+msgstr "Ce produit possède un poids trop important pour être ajouté à un colis."
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:75
 msgid "Thursday"
@@ -1208,9 +1163,7 @@ msgstr "Inconnu"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:288
 msgid "Unknown error while generating the way bill"
-msgstr ""
-"Une erreur inconnue s’est produite lors de la génération de la lettre de "
-"voiture"
+msgstr "Une erreur inconnue s'est produite lors de la génération de la lettre de voiture"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:287
 msgid "Unknown error."
@@ -1254,7 +1207,7 @@ msgstr "Mis à jour par"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:283
 msgid "URL for related return label"
-msgstr "URL pour l’étiquette de retour"
+msgstr "URL pour l'étiquette de retour"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:178
 msgid "Use Enseigne ID"
@@ -1292,18 +1245,12 @@ msgid "Yes"
 msgstr "Oui"
 
 #: includes/woocommerce/orders/bulk/abstract-wc-orders-b2c-bulk-actions-manager.php:149
-msgid ""
-"You do not have sufficient permissions to bulk auto distribute items in "
-"packages."
-msgstr ""
-"Vous ne disposez pas des autorisations suffisantes pour utiliser la "
-"répartition automatique des produits dans les colis."
+msgid "You do not have sufficient permissions to bulk auto distribute items in packages."
+msgstr "Vous ne disposez pas des autorisations suffisantes pour utiliser la répartition automatique des produits dans les colis."
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:93
 msgid "You do not have sufficient permissions to export orders."
-msgstr ""
-"Vous ne disposez pas des autorisations suffisantes pour exporter des "
-"commandes."
+msgstr "Vous ne disposez pas des autorisations suffisantes pour exporter des commandes."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:328
 msgid "Your API Information"
