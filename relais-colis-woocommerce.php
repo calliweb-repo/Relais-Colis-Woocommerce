@@ -3,7 +3,7 @@
  * Plugin Name: Relais Colis Woocommerce
  * Plugin URI: https://www.relaiscolis.com/
  * Description: Adds Relais Colis shipping method to WooCommerce.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 6.6.2
  * Requires PHP: 8.1
  * Author: Calliweb
@@ -13,7 +13,7 @@
  * Text Domain: relais-colis-woocommerce
  * Domain Path: /languages
  *
- * Copyright: (c) 2021-2022 Sukellos, SARL (youremail@yourcompany.com)
+ * Copyright: (c) 2025, Calliweb
  *
  * @package   Relais-Colis-Woocommerce
  * @author    Calliweb
@@ -41,6 +41,7 @@ use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
 
+use RelaisColisWoocommerce\Cron\WP_Cron_Manager;
 
 /**
  * The loader class.
@@ -318,6 +319,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
 
         WC_RC_Shipping_Config_Manager::instance()->update_configuration_data();
 
+
+        // Init cron
+        WP_Cron_Manager::instance()->activate();
     }
 
 
@@ -335,6 +339,9 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
 
         // Supprimer les tables
         $wpdb->query( "DROP TABLE IF EXISTS $table_activation_options" );
+
+        // Deactivate cron
+        WP_Cron_Manager::instance()->deactivate();
     }
 }
 

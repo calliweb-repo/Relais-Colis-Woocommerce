@@ -117,6 +117,8 @@
         'RelaisColisWoocommerce\\DAO\\WP_Products_DAO' => 'includes/dao/class-wp-products-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Tariff_Grids_DAO' => 'includes/dao/class-wp-tariff-grids-dao.php',
         'RelaisColisWoocommerce\\DAO\\WP_Orders_Rel_Shipping_Labels_DAO' => 'includes/dao/class-wp-orders-rel-shipping-labels-dao.php',
+        // CRONS
+        'RelaisColisWoocommerce\\Cron\\WP_Cron_Manager' => 'includes/cron/class-wp-cron-manager.php',
     );
 
     if ( isset( $map[ $class ] ) ) {

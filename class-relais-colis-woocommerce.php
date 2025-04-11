@@ -19,6 +19,7 @@ use RelaisColisWoocommerce\Shipping\WC_RC_Relay_Choose_Relay_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Manager;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Settings_Manager;
+use RelaisColisWoocommerce\Cron\WP_Cron_Manager;
 use RelaisColisWoocommerce\Tests\Relais_Colis_Woocommerce_Tests;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\WP_Plugin;
@@ -64,6 +65,7 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
         WC_Orders_B2c_Bulk_Place_Labels_Manager::instance();
         WC_Orders_B2c_Bulk_Print_Shipping_Labels_Manager::instance();
         WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager::instance();
+        WP_Cron_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();
