@@ -111,7 +111,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         $data = [
             'order_id' => $order_id,
             'shipping_label' => $shipping_label,
-            'shipping_status' => WC_RC_Shipping_Constants::STATUS_RC_PENDING, // Default status
+            'shipping_status' => WC_RC_Shipping_Constants::STATUS_RC_COLIS_ANNONCE, // Default status
             'last_updated' => current_time( 'mysql' ), // Set timestamp
         ];
 
