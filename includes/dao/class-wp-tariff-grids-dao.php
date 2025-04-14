@@ -26,7 +26,7 @@ class WP_Tariff_Grids_DAO {
      * @param $price price
      * @return void
      */
-    public function insert_tariff_grid( $method_name, $criteria, $min_value, $max_value, $price ) {
+    public function insert_tariff_grid( $method_name, $criteria, $min_value, $max_value, $price, $shipping_threshold ) {
 
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
@@ -41,6 +41,12 @@ class WP_Tariff_Grids_DAO {
             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT ] );
         }
 
+        if ( is_null( $shipping_threshold ) || $shipping_threshold =="" ) {
+            $shipping_threshold = null;
+        } else {
+            $shipping_threshold = floatval( $shipping_threshold );
+        }
+
         $wpdb->insert(
             $table_name,
             [
@@ -49,8 +55,9 @@ class WP_Tariff_Grids_DAO {
                 'min_value' => floatval( $min_value ),
                 'max_value' => $max_value,
                 'price' => floatval( $price ),
+                'shipping_threshold' => $shipping_threshold,
             ],
-            [ '%s', '%s', '%f', ( $max_value === null ? 'NULL' : '%f' ), '%f' ]
+            [ '%s', '%s', '%f', ( $max_value === null ? 'NULL' : '%f' ), '%f', '%f' ]
         );
     }
 
@@ -212,6 +219,7 @@ class WP_Tariff_Grids_DAO {
                 $grouped_tariffs[ $key ] = [
                     'method_name' => $row[ 'method_name' ],
                     'criteria' => $row[ 'criteria' ],
+                    'shipping_threshold' => $row[ 'shipping_threshold' ],
                     'lines' => []
                 ];
             }
@@ -223,6 +231,27 @@ class WP_Tariff_Grids_DAO {
             ];
         }
 
+
         return $grouped_tariffs;
+    }
+
+    /**
+     * Get the shipping threshold for a given method and criteria
+     * @param $method_name method name can be Home, Home+ or Relais Colis
+     * @param $criteria one of TARIFF_CRITERIA_PRICE or TARIFF_CRITERIA_WEIGHT
+     * @return float|null
+     */
+    public function get_shipping_threshold( $method_name, $criteria_type ) {
+
+        global $wpdb;
+        $table_name = $wpdb->prefix.'rc_tariff_grids';
+
+        $query = $wpdb->prepare( "
+            SELECT shipping_threshold FROM $table_name
+            WHERE method_name = %s
+            AND criteria = %s
+        ", $method_name, $criteria_type );
+
+        return $wpdb->get_var( $query );
     }
 }

@@ -135,7 +135,8 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
                         sanitize_text_field( $tariff[ 'criteria' ] ),
                         $min_value,
                         $max_value,
-                        $price
+                        $price,
+                        $tariff[ 'shipping_threshold' ]
                     );
                 } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 

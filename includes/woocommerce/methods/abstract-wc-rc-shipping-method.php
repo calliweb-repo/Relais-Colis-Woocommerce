@@ -246,6 +246,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
 
         // Weight must be present
         $package_weight = $this->get_package_weight( $package );
+
         WP_Log::debug( __METHOD__, [ 'package weight' => $package_weight ], 'relais-colis-woocommerce' );
         if ( is_null( $package_weight ) ) {
 
@@ -258,6 +259,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
 
         // Check if price-based pricing is available in the tariff grid
         $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $cart_total_price, 'price' );
+
         WP_Log::debug( __METHOD__.' - price-based pricing?', [ '$cart_total_price' => $cart_total_price, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
 
         if ( is_null( $shipping_price ) ) {
@@ -266,7 +268,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
             $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $package_weight, 'weight' );
             WP_Log::debug( __METHOD__.' - weight-based pricing?', [ '$package_weight' => $package_weight, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
         }
-
+        
         // If no matching tariff is found, do not display this shipping method
         if ( is_null( $shipping_price ) ) {
 
@@ -274,13 +276,36 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
             return;
         }
 
-        // Set rate
-        $rate = [
-            'id' => $this->id, // Unique identifier for this shipping rate
-            'label' => $this->title, // Label displayed in the checkout
-            'cost' => floatval( $shipping_price ), // Shipping cost retrieved from the tariff grid
-            'calc_tax' => 'per_order', // Tax calculation mode
-        ];
+        // Check if price-based threshold is available in the tariff grid
+        $threshold = WP_Tariff_Grids_DAO::instance()->get_shipping_threshold( $this->get_database_method_name(), 'price' );
+
+        if ( is_null( $threshold ) ) {
+
+            // Switch to weight-based threshold
+            $threshold = WP_Tariff_Grids_DAO::instance()->get_shipping_threshold( $this->get_database_method_name(), 'weight' );
+        }
+
+        // Check if cart total price is greater than the threshold
+        if ( !is_null( $threshold ) && $cart_total_price > $threshold ) {
+
+            // Set rate
+            $rate = [
+                'id' => $this->id, // Unique identifier for this shipping rate
+                'label' => $this->title, // Label displayed in the checkout
+                'cost' => 0, // Shipping cost retrieved from the tariff grid
+                'calc_tax' => 'per_order', // Tax calculation mode
+            ];
+        }
+        else {
+
+            // Set rate
+            $rate = [
+                'id' => $this->id, // Unique identifier for this shipping rate
+                'label' => $this->title, // Label displayed in the checkout
+                'cost' => floatval( $shipping_price ), // Shipping cost retrieved from the tariff grid
+                'calc_tax' => 'per_order', // Tax calculation mode
+            ];
+        }
         WP_Log::debug( __METHOD__.' - Rate calculated', [ 'rate' => $rate ], 'relais-colis-woocommerce' );
 
         $this->add_rate( $rate );

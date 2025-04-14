@@ -31,6 +31,9 @@ jQuery(document).ready(function ($) {
                         <option value="weight" ${tariff.criteria === 'weight' ? 'selected' : ''}>${rc_ajax.weight_label}</option>
                     </select>
 
+                    <label>${rc_ajax.shipping_threshold_label}</label>
+                    <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" value="${tariff.shipping_threshold}" placeholder="Prix" step="0.01">
+
                     <div class="lines-container">
                         <h4>${rc_ajax.tariff_ranges_label} - ${tariff.criteria === 'price' ? rc_ajax.total_price_label : rc_ajax.weight_label+' - '+rc_ajax.weight_unit_label}</h4>
                         <button type="button" class="add-line"><i class="fas fa-plus"></i> ${rc_ajax.add_line_label}</button>
@@ -66,6 +69,9 @@ jQuery(document).ready(function ($) {
                     <option value="price">${rc_ajax.total_price_label}</option>
                     <option value="weight">${rc_ajax.weight_label}</option>
                 </select>
+
+                <label>${rc_ajax.shipping_threshold_label}</label>
+                <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" placeholder="${rc_ajax.shipping_threshold_label}" step="0.01">
 
                 <div class="lines-container">
                     <h4>${rc_ajax.tariff_ranges_label}</h4>

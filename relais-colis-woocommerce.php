@@ -40,7 +40,7 @@ use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
-
+use Exception;
 
 /**
  * The loader class.
@@ -278,11 +278,13 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
             ) $charset_collate;
             ";
 
+
         $sql_tariff_grids = "
             CREATE TABLE IF NOT EXISTS $table_tariff_grids (
                 id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 method_name VARCHAR(255) NOT NULL,
                 criteria ENUM('price', 'weight') NOT NULL,
+                shipping_threshold DECIMAL(10,2) NULL,
                 min_value DECIMAL(10,2) NOT NULL,
                 max_value DECIMAL(10,2)  DEFAULT NULL,
                 price DECIMAL(10,2) NOT NULL

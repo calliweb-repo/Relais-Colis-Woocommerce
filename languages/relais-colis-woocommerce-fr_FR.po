@@ -1267,3 +1267,7 @@ msgstr "Votre clef d'activation B2C ou C2C."
 #: includes/woocommerce/settings/class-wc-rc-shipping-Infos-settings.php:92
 msgid "Your Information"
 msgstr "Vos informations"
+
+#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php
+msgid "Shipping threshold"
+msgstr "Seuil de livraison gratuite" 
