@@ -96,7 +96,6 @@ class WC_Orders_RC_Status_Manager {
      * @return void
      */
     public function action_wp_loaded() {
-
         // Get pending shipping status
         $orders_pending_update = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_orders_pending_update();
         WP_Log::debug( __METHOD__, [ '$orders_pending_update' => $orders_pending_update ], 'relais-colis-woocommerce' );

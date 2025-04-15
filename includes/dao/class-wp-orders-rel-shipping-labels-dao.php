@@ -155,7 +155,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
 
         global $wpdb;
 
-        $one_day_ago = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+        $five_hours_ago = date( 'Y-m-d H:i:s', strtotime( '-5 hours' ) );
 
         $sql = "
             SELECT * 
@@ -166,7 +166,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
 
         $query = $wpdb->prepare(
             $sql,
-            $one_day_ago,
+            $five_hours_ago,
             WC_RC_Shipping_Constants::STATUS_RC_LIVRE,
             WC_RC_Shipping_Constants::STATUS_RC_ECHEC_LIVRAISON
         );
