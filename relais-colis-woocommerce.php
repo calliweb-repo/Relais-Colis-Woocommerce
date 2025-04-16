@@ -40,7 +40,6 @@ use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
-use Exception;
 
 /**
  * The loader class.
