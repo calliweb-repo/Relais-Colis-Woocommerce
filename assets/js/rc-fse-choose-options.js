@@ -54,7 +54,7 @@ function getRelayColisHtml() {
     return `
         <div id="relais-colis-block">
             <button id="btnChooseRelay" class="rc-btn rc-btn-primary">
-                Choisir un point relais
+                Choisir un point relais colis de destination
             </button>
             <div id="selected-relay-info">
                 <strong>Relais sélectionné :</strong>

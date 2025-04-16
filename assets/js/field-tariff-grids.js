@@ -102,11 +102,15 @@ jQuery(document).ready(function ($) {
 
     // Supprimer une ligne tarifaire
     $(document).on("click", ".remove-line", function () {
-        $(this).closest(".line-row").remove();
+        if (confirm('Êtes-vous sûr de vouloir supprimer cette ligne de tarif ?')) {
+            $(this).closest(".line-row").remove();
+        }
     });
 
     // Supprimer une grille tarifaire
     $(document).on("click", ".remove-tariff", function () {
-        $(this).closest(".tariff-box").remove();
+        if (confirm('Êtes-vous sûr de vouloir supprimer cette grille de tarif ?')) {
+            $(this).closest(".tariff-box").remove();
+        }
     });
 });

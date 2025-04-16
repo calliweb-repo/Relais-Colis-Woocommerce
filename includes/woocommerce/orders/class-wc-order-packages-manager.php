@@ -280,7 +280,7 @@ class WC_Order_Packages_Manager {
             'label_add_a_package' => __( 'Add a package', 'relais-colis-woocommerce' ),
             'label_existing_packages' => __( 'Existing Packages', 'relais-colis-woocommerce' ),
             'label_unknown' => __( 'Unknown', 'relais-colis-woocommerce' ),
-            'label_total_weight' => __( 'Total weight', 'relais-colis-woocommerce' ),
+            'label_total_weight' => __( 'Total weight (kg)', 'relais-colis-woocommerce' ),
             'label_dimensions' => __( 'Dimensions', 'relais-colis-woocommerce' ),
             'label_height' => __( 'height', 'relais-colis-woocommerce' ),
             'label_width' => __( 'width', 'relais-colis-woocommerce' ),
@@ -310,6 +310,8 @@ class WC_Order_Packages_Manager {
             'label_error_network' => __( 'A network error occurred: ', 'relais-colis-woocommerce' ),
             'label_error_unknown' => __( 'Unknown error.', 'relais-colis-woocommerce' ),
             'label_error_unknown_generate_way_bill' => __( 'Unknown error while generating the way bill', 'relais-colis-woocommerce' ),
+            'label_product' => __( 'Product', 'relais-colis-woocommerce' ),
+            'label_actions' => __( 'Actions', 'relais-colis-woocommerce' ),
         ) );
     }
 

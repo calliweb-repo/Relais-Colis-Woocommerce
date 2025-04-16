@@ -223,3 +223,28 @@ h2 {
 .wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info .rc-logo {
     width: 236px;
 }
+
+.table-striped {
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-collapse: collapse;
+}
+
+.table-striped th {
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 15px;
+    background: #cac9c9;
+    border-bottom: 2px solid #eee;
+}
+
+.table-striped td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

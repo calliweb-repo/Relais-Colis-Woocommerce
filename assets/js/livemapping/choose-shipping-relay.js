@@ -666,6 +666,7 @@ jQuery(document).ready(function ($) {
         $("#selected-relay-address").text(relayAddress);
         $("#selected-relay-zip-city").text(relayPostalcode+' '+relayCommune);
         $("#selected-relay-info").fadeIn();
+        $("#relais-colis-block").find('button').text('Choisir un nouveau Point Relais Colis');
 
         // Récupération de l'objet complet stocké dans le bouton pour envoi AJAX
         let relayData = $(this).attr("data-relay-info"); // Récupérer la chaîne Base64
