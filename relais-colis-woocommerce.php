@@ -41,6 +41,7 @@ use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
 use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
 use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
 
+
 /**
  * The loader class.
  *
