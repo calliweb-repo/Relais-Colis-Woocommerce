@@ -122,10 +122,7 @@ trait Plugin_Action_Links {
 
             $actions[] = '<a href="'. esc_url( $this->get_support_url() ) .'" target="_blank">'.__( 'Support', 'relais-colis-woocommerce' ).'</a>';
         }
-        if ( !is_null( $this->get_sales_page_url() ) && ( $this->get_sales_page_url() !== '' )  ) {
 
-            $actions[] = '<a href="'. esc_url( $this->get_sales_page_url() ) .'" target="_blank">'.__( 'More plugins', 'relais-colis-woocommerce' ).'</a>';
-        }
 
         return $actions;
     }
