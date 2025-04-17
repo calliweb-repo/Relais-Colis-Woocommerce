@@ -111,3 +111,12 @@
 .remove-line:hover {
     background-color: #c0392b;
 }
+
+.tariff-box input[type="number"] {
+    width: 100%;
+    margin-bottom: 10px;
+    max-width: 25rem;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color: #fff;
+}

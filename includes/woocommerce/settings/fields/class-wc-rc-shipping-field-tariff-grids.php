@@ -90,6 +90,7 @@ class WC_RC_Shipping_Field_Tariff_Grids {
             'weight_label' => __( 'Order weight', 'relais-colis-woocommerce' ), // Poids de la commande
             'tariff_ranges_label' => __( 'Tariff ranges', 'relais-colis-woocommerce' ), // Plages tarifaires
             'add_line_label' => __( 'Add a line', 'relais-colis-woocommerce' ), // Ajouter une ligne
+            'shipping_threshold_label' => __( 'Shipping threshold', 'relais-colis-woocommerce' ), // Seuil de livraison
             'weight_unit_label' => $option_rc_weight_unit,
             'available_offers' => $available_offers,
         ) );

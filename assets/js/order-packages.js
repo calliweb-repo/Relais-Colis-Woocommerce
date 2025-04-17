@@ -147,33 +147,71 @@ jQuery(document).ready(function ($) {
             let productsSection = $('<div class="rc-products-section"></div>');
             productsSection.append('<h3>' + rc_order_packages.label_products_to_distribute + '</h3>');
 
+            let table = $('<table class="rc-products-table table-striped"></table>');
+
+            table.append(`
+                <tr>
+                    <th>${rc_order_packages.label_product}</th>
+                    <th>${rc_order_packages.label_unit_weight}</th>
+                    <th>${rc_order_packages.label_remaining_quantity_to_be_distributed}</th>
+                    <th>${rc_order_packages.label_total_weight}</th>
+                    <th>${rc_order_packages.label_actions}</th>
+                </tr>
+            `);
+
             rc_order_items.forEach(item => {
 
                 if (item.remaining_quantity > 0) {
 
-                    let totalProductsWeight = item.weight * item.remaining_quantity;
-                    let productDiv = $(`
-                        <div class="rc-colis-item">
-                            <span class="rc-colis-item-name">${item.name}</span>
-                            <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_unit_weight}</strong> ${item.weight} ${rc_order_packages.label_weight_units}</span>
-                            <span class="rc-colis-item-qty"><strong>${rc_order_packages.label_remaining_quantity_to_be_distributed}</strong> ${item.remaining_quantity}</span>
-                            <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_total_weight}</strong> ${totalProductsWeight} ${rc_order_packages.label_weight_units}</span>
-                                                        
-                            <div class="rc-product-actions">
-                                ${rc_order_colis.length > 0 ? `
+                table.append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.weight}</td>
+                        <td>${item.remaining_quantity}</td>
+                        <td>${item.weight * item.remaining_quantity}</td>
+                        <td>${rc_order_colis.length > 0 ? `
                                     <input type="number" class="rc-product-qty" id="qty_${item.id}" min="1" max="${item.remaining_quantity}" value="1">
                                     <select class="rc-product-select" id="colis_select_${item.id}">
                                         ${rc_order_colis.map((colis, index) => `<option value="${index}">${rc_order_packages.label_package} ${index + 1}</option>`).join('')}
                                     </select>
                                     <button class="rc-add-to-colis" data-product-id="${item.id}">${rc_order_packages.label_add_in_package}</button>
                                 ` : '<span class="rc-no-package">' + rc_order_packages.label_please_add_a_package + '</span>'}
-                            </div>
-                        </div>
-                    `);
-
-                    productsSection.append(productDiv);
+                        </td>
+                    </tr>
+                `);
                 }
             });
+
+            // rc_order_items.forEach(item => {
+
+            //     if (item.remaining_quantity > 0) {
+
+            //         let totalProductsWeight = item.weight * item.remaining_quantity;
+            //         let productDiv = $(`
+            //             <div class="rc-colis-item">
+            //                 <span class="rc-colis-item-name">${item.name}</span>
+            //                 <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_unit_weight}</strong> ${item.weight} ${rc_order_packages.label_weight_units}</span>
+            //                 <span class="rc-colis-item-qty"><strong>${rc_order_packages.label_remaining_quantity_to_be_distributed}</strong> ${item.remaining_quantity}</span>
+            //                 <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_total_weight}</strong> ${totalProductsWeight} ${rc_order_packages.label_weight_units}</span>
+                                                        
+            //                 <div class="rc-product-actions">
+            //                     ${rc_order_colis.length > 0 ? `
+            //                         <input type="number" class="rc-product-qty" id="qty_${item.id}" min="1" max="${item.remaining_quantity}" value="1">
+            //                         <select class="rc-product-select" id="colis_select_${item.id}">
+            //                             ${rc_order_colis.map((colis, index) => `<option value="${index}">${rc_order_packages.label_package} ${index + 1}</option>`).join('')}
+            //                         </select>
+            //                         <button class="rc-add-to-colis" data-product-id="${item.id}">${rc_order_packages.label_add_in_package}</button>
+            //                     ` : '<span class="rc-no-package">' + rc_order_packages.label_please_add_a_package + '</span>'}
+            //                 </div>
+            //             </div>
+            //         `);
+
+            //         productsSection.append(productDiv);
+            //     }
+            // });
+
+
+            productsSection.append(table);
 
             // Display remaining items
             container.append(productsSection);
@@ -206,6 +244,40 @@ jQuery(document).ready(function ($) {
 
             totalWeight += colis.weight;
 
+            let table = $(`
+                <table class="table-striped"></table>
+            `);
+
+            table.append(`
+                <tr>
+                    <th>${rc_order_packages.label_product}</th>
+                    <th>${rc_order_packages.label_unit_weight}</th>
+                    <th>${rc_order_packages.label_quantity}</th>
+                    <th>${rc_order_packages.label_total_weight}</th>
+                    <th>${rc_order_packages.label_actions}</th>
+                </tr>
+            `);
+
+
+            Object.entries(colis.items).map(([productId, quantity]) => {
+                let product = rc_order_items.find(p => p.id == productId);
+                let totalProductsWeight = product ? product.weight * quantity : 0;
+                table.append(`
+                    <tr>
+                        <td>${product ? product.name : rc_order_packages.label_unknown}</td>
+                        <td>${product ? product.weight + ' ' + rc_order_packages.label_weight_units : '-'}</td>
+                        <td>${quantity}</td>
+                        <td>${totalProductsWeight} ${rc_order_packages.label_weight_units}</td>
+                        <td>
+                            ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-remove-from-colis" data-product-id="${productId}" data-colis-index="${index}">${rc_order_packages.label_remove_from_package}</button>`}
+                        </td>
+                    </tr>
+                `);
+            });
+
+
+
+
             let colisDiv = $(`
                 <div class="rc-colis">
                     <div class="rc-colis-header">
@@ -213,19 +285,6 @@ jQuery(document).ready(function ($) {
                         ${(orderState === 'order_state_shipping_labels_placed') ? `<span class="rc-shipping-label">${rc_order_packages.label_shipping_label} ${colis.shipping_label}</span>` : `<button class="rc-delete-colis" data-colis-index="${index}" ${isLocked}>${rc_order_packages.label_delete_package}</button>`}
                     </div>
                     <div class="rc-colis-items">
-                        ${Object.entries(colis.items).map(([productId, quantity]) => {
-                            let product = rc_order_items.find(p => p.id == productId);
-                            let totalProductsWeight = product ? product.weight * quantity : 0;
-                            return `
-                                <div class="rc-colis-item">
-                                    <span class="rc-colis-item-name">${product ? product.name : rc_order_packages.label_unknown}</span>
-                                    <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_unit_weight}</strong> ${product ? product.weight + ' ' + rc_order_packages.label_weight_units : '-'}</span>
-                                    <span class="rc-colis-item-qty"><strong>${rc_order_packages.label_quantity}</strong> ${quantity}</span>
-                                    <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_total_weight}</strong> ${totalProductsWeight} ${rc_order_packages.label_weight_units}</span>
-                                    ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-remove-from-colis" data-product-id="${productId}" data-colis-index="${index}">${rc_order_packages.label_remove_from_package}</button>`}
-                                </div>
-                            `;
-                        }).join('')}
                     </div>
     
                     <!-- Récapitulatif modifiable (désactivé si un shipping_label existe) -->
@@ -241,6 +300,7 @@ jQuery(document).ready(function ($) {
                     </div>
                 </div>
             `);
+            colisDiv.find('.rc-colis-items').append(table);
             container.append(colisDiv);
 
             // Create the package summary item
@@ -368,7 +428,11 @@ jQuery(document).ready(function ($) {
         let errorContainer = $('#rc-success-message');
         errorContainer.find('.rc-success-message').text(message); // Ajoute le message
         errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
+        // setTimeout(function() {
+        //     errorContainer.addClass('hidden').fadeOut();
+        // }, 5000);
     }
+
 
     /**
      * Affiche un message d'erreur et permet de le fermer
@@ -378,6 +442,16 @@ jQuery(document).ready(function ($) {
         let errorContainer = $('#rc-error-message');
         errorContainer.find('.rc-error-message').text(message); // Ajoute le message
         errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
+        // setTimeout(function() {
+        //     errorContainer.addClass('hidden').fadeOut();
+        // }, 5000);
+    }
+
+    function hideMessages() {
+        $('#rc-success-message').addClass('hidden').fadeOut();
+        $('#rc-success-message').find('.rc-success-message').empty();
+        $('#rc-error-message').addClass('hidden').fadeOut();
+        $('#rc-error-message').find('.rc-error-message').empty();
     }
 
     // Permet de cacher l'erreur en cliquant sur la croix
@@ -395,7 +469,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-add-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
-
+            hideMessages();
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',
@@ -428,7 +502,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-auto-distribute").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
-
+            hideMessages();
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',
@@ -461,6 +535,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-add-to-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
+            hideMessages();
 
             let product_id = $(this).data("product-id");
             let quantity = $("#qty_" + product_id).val();
@@ -504,6 +579,8 @@ jQuery(document).ready(function ($) {
 
         $(".rc-remove-from-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
+            hideMessages();
+
 
             let product_id = $(this).data("product-id");
             let colis_index = $(this).data("colis-index");
@@ -541,7 +618,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-delete-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
-
+            hideMessages();
             let colis_index = $(this).data("colis-index");
 
             $.ajax({
@@ -576,6 +653,8 @@ jQuery(document).ready(function ($) {
 
         $(".rc-update-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
+            hideMessages();
+
 
             let colis_index = $(this).data("colis-index");
             let new_weight = $(`.rc-colis-weight[data-colis-index="${colis_index}"]`).val();
@@ -619,6 +698,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-place-shipping-label").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
+            hideMessages();
 
             $.ajax({
                 url: rc_order_packages.ajax_url,
@@ -652,6 +732,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-generate-return-label").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
+            hideMessages();
             console.log('generate return label');
             $.ajax({
                 url: rc_order_packages.ajax_url,
@@ -691,7 +772,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-get-packages-price").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
-
+            hideMessages();
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',
@@ -725,7 +806,7 @@ jQuery(document).ready(function ($) {
         // Ouvrir la modale
         $(".rc-print-label").off().on("click", function (event) {
             event.preventDefault();
-
+            hideMessages();
             let colisIndex = $(this).data("colis-index");
             let shippingLabel = rc_order_colis[colisIndex].shipping_label;
             let pdfUrl = $(this).data("pdf-url");
@@ -777,7 +858,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-generate-way-bill").off().on("click", function (event) {
             event.preventDefault();
-
+            hideMessages();
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',
@@ -812,7 +893,7 @@ jQuery(document).ready(function ($) {
 
         $(".rc-print-way-bill").off().on("click", function (event) {
             event.preventDefault();
-
+            
             let pdf_url = $(this).data("pdf-url");
 
             if (pdf_url) {

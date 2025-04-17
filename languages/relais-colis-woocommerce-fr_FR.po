@@ -221,7 +221,7 @@ msgstr "Produits assignés"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:248
 msgid "Auto distribute"
-msgstr "Répartition automatique des produits dans des colis"
+msgstr "Répartition automatique"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:165
 msgid "Available delivery methods for this service "
@@ -436,7 +436,7 @@ msgstr "Nom de l'enseigne"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:92
 msgid "Enter my license"
-msgstr "Entrer ma clef d'activation"
+msgstr "Entrer ma clé d'activation"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:330
 msgid "Enter your activation key to synchronize your information."
@@ -586,7 +586,7 @@ msgstr "Unités de longueur"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-settings-manager.php:86
 msgid "License Issue"
-msgstr "Problème de clef d'activation"
+msgstr "Problème de clé d'activation"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:183
 msgid "Live Mapping API"
@@ -766,7 +766,7 @@ msgstr "Déballage produit"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:252
 msgid "Products to distribute"
-msgstr "Produits à répartir dans des colis"
+msgstr "Produits sans colis"
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:116
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:266
@@ -776,6 +776,18 @@ msgstr "Quantité"
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:265
 msgid "Quantity to be distributed"
 msgstr "Quantité à répartir"
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:313
+msgid "Product"
+msgstr "Produit"
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:314
+msgid "Actions"
+msgstr "Actions"
+
+
+
+
 
 #: includes/woocommerce/class-wc-rc-services-manager.php:106
 msgid "Quick Assembly"
@@ -1126,8 +1138,8 @@ msgid "Total order price"
 msgstr "Prix total de la commande - Euro (€)"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:259
-msgid "Total weight"
-msgstr "Poids total"
+msgid "Total weight (kg)"
+msgstr "Poids total (kg)"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:223
 msgid "Tracking links"
@@ -1262,8 +1274,12 @@ msgstr "Votre hashtag token C2C."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-general-settings.php:349
 msgid "Your C2C or B2C activation key."
-msgstr "Votre clef d'activation B2C ou C2C."
+msgstr "Votre clé d'activation B2C ou C2C."
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-Infos-settings.php:92
 msgid "Your Information"
 msgstr "Vos informations"
+
+#: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php
+msgid "Shipping threshold"
+msgstr "Seuil de livraison gratuite" 
