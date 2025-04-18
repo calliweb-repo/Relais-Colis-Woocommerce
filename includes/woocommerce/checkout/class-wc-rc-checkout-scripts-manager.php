@@ -39,7 +39,7 @@ class WC_RC_Checkout_Scripts_Manager {
     public function load_fse_checkout_scripts() {
 
         // Enqueued only in concerned checkout page
-        if ( !is_checkout() ) return;
+        if ( !is_checkout()  ) return;
 
         // Check that loaded once
         if ( in_array( self::PREFIX_RC, self::$loaded_scripts ) ) return;
@@ -60,7 +60,9 @@ class WC_RC_Checkout_Scripts_Manager {
         // CSS - Relais Colis
         wp_enqueue_style( self::PREFIX_RC.'_home_css', $plugin_url.'assets/css/rc-home-choose-options.css', array(), '1.0', 'all' );
         wp_enqueue_style( self::PREFIX_RC.'_homeplus_css', $plugin_url.'assets/css/rc-homeplus-choose-options.css', array(), '1.0', 'all' );
+        wp_enqueue_style( self::PREFIX_RC.'_icon_css', $plugin_url.'assets/css/rc-choose-options-logo.css', array(), '1.0', 'all' );
 
+        // Localize script
         wp_localize_script( self::PREFIX_RC.'_js', 'rc_choose_options',
             array(
                 'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-woocommerce' )
@@ -98,5 +100,26 @@ class WC_RC_Checkout_Scripts_Manager {
         // CSS - Relais Colis
         wp_enqueue_style( self::PREFIX_RC.'_home_css', $plugin_url.'assets/css/rc-home-choose-options.css', array(), '1.0', 'all' );
         wp_enqueue_style( self::PREFIX_RC.'_homeplus_css', $plugin_url.'assets/css/rc-homeplus-choose-options.css', array(), '1.0', 'all' );
+        wp_enqueue_style( self::PREFIX_RC.'_icon_css', $plugin_url.'assets/css/rc-choose-options-logo.css', array(), '1.0', 'all' );
+    }
+
+    /**
+     * Load scripts and styles for cart mode,
+     * Ensure that files are loaded once
+     * @return void
+     */
+    public function load_cart_scripts() {
+
+        // Enqueued only in concerned checkout page
+        if ( !is_cart() ) return;
+
+        // Check that loaded once
+        if ( in_array( self::PREFIX_RC, self::$loaded_scripts ) ) return;
+        self::$loaded_scripts[] = self::PREFIX_RC;
+
+        // Relais colis plugin URL
+        $plugin_url = Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url();
+
+        wp_enqueue_style( self::PREFIX_RC.'_icon_css', $plugin_url.'assets/css/rc-choose-options-logo.css', array(), '1.0', 'all' );
     }
 }

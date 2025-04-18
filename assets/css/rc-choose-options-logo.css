@@ -1,0 +1,16 @@
+
+/* Ajout du logo avant le texte */
+#radio-control-0-wc_rc_shipping_method_home__label::before,
+#radio-control-0-wc_rc_shipping_method_homeplus__label::before,
+#radio-control-0-wc_rc_shipping_method_relay__label::before {
+    content: "";
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 10px;
+    vertical-align: middle;
+}   
