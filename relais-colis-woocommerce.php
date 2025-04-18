@@ -165,7 +165,8 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
     public function get_settings_url() {
 
         // FIXME link to WooC
-        return $this->get_plugin_uri();
+        // return $this->get_plugin_uri();
+        return \admin_url( 'admin.php?page=wc-settings&tab=wc_rc_shipping_settings' );
     }
 
     /**
@@ -178,7 +179,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function get_documentation_url() {
 
-        return $this->get_plugin_uri().'/documentation';
+        return $this->get_plugin_uri().'mon-compte-professionnel/';
     }
 
     /**
@@ -191,7 +192,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function get_support_url() {
 
-        return $this->get_plugin_uri().'/support';
+        return $this->get_plugin_uri().'support-technique/';
     }
 
     /**
@@ -204,7 +205,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function get_sales_page_url() {
 
-        return $this->get_plugin_uri().'/';
+        return $this->get_plugin_uri();
     }
 
     /**

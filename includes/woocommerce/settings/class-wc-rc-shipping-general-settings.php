@@ -196,6 +196,20 @@ class WC_RC_Shipping_General_Settings {
      */
     public function filter_woocommerce_admin_settings_sanitize_option_c2c_hash_token( $value, $option, $raw_value ) {
 
+        try {
+            $wp_rc_configuration = WP_Relais_Colis_API::instance()->get_b2c_configuration( false );
+            $activation_key = $wp_rc_configuration->get_activation_key();
+            if (empty($activation_key)) {
+                return '';
+            }
+        } catch (WP_Relais_Colis_API_Exception $e) {
+            WP_Log::warning(__METHOD__.' - Error updating C2C infos', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], 'relais-colis-woocommerce');
+            return '';
+        }
+            
         WP_Log::debug( __METHOD__, [ 'value' => $value, 'option' => $option, 'raw_value' => $raw_value ], 'relais-colis-woocommerce' );
 
         // Call API

@@ -66,13 +66,14 @@ abstract class WC_RC_Choose_Services_Manager {
     public function action_wp_enqueue_scripts() {
 
         // Enqueued only in concerned checkout page
-        if ( !is_checkout() ) return;
+        if ( !is_checkout() && !is_cart() ) return;
 
         // FSE checkout
         if ( WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) {
 
             // Load scripts
             WC_RC_Checkout_Scripts_Manager::instance()->load_fse_checkout_scripts();
+            
         }
         // Old checkout
         else {
@@ -80,6 +81,9 @@ abstract class WC_RC_Choose_Services_Manager {
             // Load scripts
             WC_RC_Checkout_Scripts_Manager::instance()->load_old_checkout_scripts();
         }
+
+        // Load scripts
+        WC_RC_Checkout_Scripts_Manager::instance()->load_cart_scripts();
     }
 
     /**
