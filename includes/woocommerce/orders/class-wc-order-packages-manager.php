@@ -1237,9 +1237,10 @@ class WC_Order_Packages_Manager {
                 // Dynamic params
                 $option_rc_label_format = get_option( WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT );
                 $dynamic_params_generate = array(
-                    WP_RC_B2C_Generate::FORMAT => $option_rc_label_format,
+                    WP_RC_B2C_Generate::FORMAT => $option_rc_label_format = 'ZEBRA' ? 'A6' : $option_rc_label_format,
                     WP_RC_B2C_Generate::ETIQUETTE1 => $shipping_label,
                 );
+
                 $c2c_generate = WP_Relais_Colis_API::instance()->c2c_generate( $dynamic_params_generate, false );
 
                 if ( is_null( $c2c_generate ) ) {
