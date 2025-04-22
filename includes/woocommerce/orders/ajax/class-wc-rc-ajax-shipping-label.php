@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+use RelaisColisWoocommerce\DAO\WP_Orders_Rel_Shipping_Labels_DAO;
 use Exception;
 
 /**
@@ -215,8 +216,6 @@ class WC_RC_Ajax_Shipping_Label {
 
             // Get order state
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
-
-            
 
             // Success response
             wp_send_json_success( [
