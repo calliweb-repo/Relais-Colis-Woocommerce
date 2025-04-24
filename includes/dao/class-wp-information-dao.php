@@ -84,7 +84,7 @@ class WP_Information_DAO {
                 WC_RC_Shipping_Constants::INFORMATION_EMAIL => get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_EMAIL, '' ),
                 WC_RC_Shipping_Constants::INFORMATION_BALANCE => (float)get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_BALANCE, 0 ),
                 WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_STATUS => get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_STATUS, '' ),
-                WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_TYPE => get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_TYPE, '' ),
+                // WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_TYPE => get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_ACCOUNT_TYPE, '' ),
                 WC_RC_Shipping_Constants::INFORMATION_CODE_ENSEIGNE => get_option( $prefix.WC_RC_Shipping_Constants::INFORMATION_CODE_ENSEIGNE, '' ),
             ];
         //}

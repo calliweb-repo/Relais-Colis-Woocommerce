@@ -70,6 +70,7 @@ class WP_Tariff_Grids_DAO {
      */
     public function get_shipping_price( $method_name, $criteria_value, $criteria_type ) {
 
+
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
@@ -134,22 +135,18 @@ class WP_Tariff_Grids_DAO {
                 WHERE method_name = %s
                 AND criteria = %s
                 AND (
-                    (min_value <= %f AND max_value >= %f) OR
-                    (min_value <= %f AND max_value >= %f) OR
-                    (min_value >= %f AND max_value <= %f)
-                )
-            ", $method_name, $criteria, $min_value, $min_value, $max_value, $max_value, $min_value, $max_value );
-        }
-        // Query with null max
-        else {
-
+                    ( max_value IS NULL ) OR 
+                    ( max_value IS NOT NULL AND max_value > %f) 
+                    )
+            ", $method_name, $criteria, $min_value );
+        } else {
             $query = $wpdb->prepare( "
                 SELECT COUNT(*) FROM $table_name
                 WHERE method_name = %s
                 AND criteria = %s
                 AND (
                     ( max_value IS NULL ) OR 
-                    ( max_value IS NOT NULL AND max_value >= %f) 
+                    ( max_value IS NOT NULL AND max_value > %f) 
                     )
             ", $method_name, $criteria, $min_value );
         }

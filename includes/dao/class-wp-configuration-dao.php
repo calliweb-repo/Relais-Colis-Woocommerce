@@ -158,17 +158,24 @@ class WP_Configuration_DAO {
      */
     public function get_rc_configuration( $view = false ) {
 
+        // Vérifier si nous sommes en mode C2C
+        $is_c2c = 'c2c' === get_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX . 'interaction_mode', 'b2c' );
+
         $prefix = WC_RC_Shipping_Constants::RC_OPTION_PREFIX;
         $cached_config = [
             WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID, '' ),
             WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_NOM, '' ),
             WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVATION_KEY, '' ),
             WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE => (bool)get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ACTIVE, false ),
-            WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1 => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1, '' ),
-            WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE2 => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE2, '' ),
-            WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE, '' ),
-            WC_RC_Shipping_Constants::CONFIGURATION_CITY => get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CITY, '' ),
+            
         ];
+        if ( !$is_c2c ) {
+            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE1, '' );
+            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE2] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ADDRESS_LINE2, '' );
+            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_POSTAL_CODE, '' );
+            $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_CITY] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_CITY, '' );
+
+        }
         if ( !$view ) {
 
             $cached_config[WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT] = get_option( $prefix.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID_LIGHT, '' );
