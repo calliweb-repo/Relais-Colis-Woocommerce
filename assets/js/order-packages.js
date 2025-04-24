@@ -334,8 +334,8 @@ jQuery(document).ready(function ($) {
                     <span class="rc-recap-status">${colis.shipping_status_label}</span>
                 `);
             }
-            // Otherwise, show the print label button if a shipping label exists
-            else if (orderState === 'order_state_shipping_labels_placed') {
+            // And, show the print label button if a shipping label exists
+            if (orderState === 'order_state_shipping_labels_placed') {
 
                 // Add print button
                 let printButton = $(`
@@ -521,7 +521,7 @@ jQuery(document).ready(function ($) {
                         // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
-                        showSuccess('Effectué avec succès');
+                        showSuccess('Effectuée avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -684,7 +684,7 @@ jQuery(document).ready(function ($) {
                         // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
-                        showSuccess('Effectué avec succès');
+                        showSuccess('Effectuée avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -718,7 +718,7 @@ jQuery(document).ready(function ($) {
                         // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
-                        showSuccess('Effectué avec succès');
+                        showSuccess('Effectuée avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -791,7 +791,7 @@ jQuery(document).ready(function ($) {
                         // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
                         forceOrderMeta(null, rc_order_colis, null)
 
-                        showSuccess('Effectué avec succès');
+                        showSuccess('Effectuée avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown);
                     }
@@ -879,7 +879,7 @@ jQuery(document).ready(function ($) {
                         // Save context in WooCOmmerce UX to avoid self replacement when updating order using UI
                         forceOrderMeta(rc_order_state, null, rc_way_bill)
 
-                        showSuccess('Effectué avec succès');
+                        showSuccess('Effectuée avec succès');
                     } else {
                         showError(response.data.message || rc_order_packages.label_error_unknown_generate_way_bill);
                     }
