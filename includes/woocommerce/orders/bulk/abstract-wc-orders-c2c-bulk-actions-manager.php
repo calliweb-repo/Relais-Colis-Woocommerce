@@ -82,10 +82,11 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
     public function action_after_bulk_actions_rc_shop_order( $order_id, $is_success, $message ) {
 
         WP_Log::debug( __METHOD__, [ '$order_id' => $order_id, '$is_success' => $is_success ? 'true' : 'false', '$message' => $message ], 'relais-colis-woocommerce' );
-
+        
         // Store result in a transient to get it after redirection
         $results = get_transient( 'rc_bulk_action_results' ) ?: [];
         $results[ $order_id ] = [ 'is_success' => $is_success, 'message' => $message ];
+
         set_transient( 'rc_bulk_action_results', $results, 60 );
     }
 
@@ -104,10 +105,10 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
 
                 $notice_class = $result[ 'is_success' ] ? 'updated' : 'error';
                 printf(
-                    '<div class="%s notice is-dismissible"><p>%s %d - %s</p></div>',
+                    '<div class="%s notice is-dismissible"><p>%s %s - %s</p></div>',
                     esc_attr( $notice_class ),
                     esc_html__( 'Order', 'relais-colis-woocommerce' ),
-                    intval( $order_id ),
+                    $order_id,
                     wp_kses_post( $result['message'] )
                 );
             }

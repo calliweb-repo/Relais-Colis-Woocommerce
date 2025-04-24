@@ -287,8 +287,8 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                 method_name VARCHAR(255) NOT NULL,
                 criteria ENUM('price', 'weight') NOT NULL,
                 shipping_threshold DECIMAL(10,2) NULL,
-                min_value DECIMAL(10,2) NOT NULL,
-                max_value DECIMAL(10,2)  DEFAULT NULL,
+                min_value DECIMAL(10,3) NOT NULL,
+                max_value DECIMAL(10,3)  DEFAULT NULL,
                 price DECIMAL(10,2) NOT NULL
             ) $charset_collate;";
 

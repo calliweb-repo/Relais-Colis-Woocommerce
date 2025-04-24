@@ -104,10 +104,10 @@ abstract class WC_Orders_B2c_Bulk_Actions_Manager {
 
                 $notice_class = $result[ 'is_success' ] ? 'updated' : 'error';
                 printf(
-                    '<div class="%s notice is-dismissible"><p>%s %d - %s</p></div>',
+                    '<div class="%s notice is-dismissible"><p>%s %s - %s</p></div>',
                     esc_attr( $notice_class ),
                     esc_html__( 'Order', 'relais-colis-woocommerce' ),
-                    intval( $order_id ),
+                    $order_id,
                     wp_kses_post( $result['message'] )
                 );
             }

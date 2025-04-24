@@ -112,7 +112,7 @@ class WC_RC_Shipping_Units_Settings {
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
 
-        $sections[ self::SECTION_UNITS ] = __( 'Units', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_UNITS ] = __( 'Options', 'relais-colis-woocommerce' );
         return $sections;
     }
 
@@ -165,7 +165,7 @@ class WC_RC_Shipping_Units_Settings {
 
             // Section : Relais Colis Settings
             [
-                'title' => __( 'Units of measurement', 'relais-colis-woocommerce' ),
+                'title' => __( 'Label Format', 'relais-colis-woocommerce' ),
                 'type' => 'title',
                 'id' => 'rc_settings_title',
             ],
@@ -191,7 +191,7 @@ class WC_RC_Shipping_Units_Settings {
             // ],
             // Label Format
             [
-                'title' => __( 'Label Format', 'relais-colis-woocommerce' ),
+                'title' => __( 'Format Choice', 'relais-colis-woocommerce' ),
                 'desc' => __( 'Choose the label format to print.', 'relais-colis-woocommerce' ),
                 'id' => WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT,
                 'type' => 'select',

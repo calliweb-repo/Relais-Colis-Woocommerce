@@ -1347,6 +1347,7 @@ class WC_Order_Packages_Manager {
         // Final result : if a few errors occurred, notices will be displayed, but not PDF returned
         $final_result = true;
         $shipping_labels_to_printed = array();
+        $idsToPrint = array();
 
         // Parse all orders
         foreach ( $order_ids as $order_id ) {
@@ -1373,6 +1374,7 @@ class WC_Order_Packages_Manager {
                     foreach ( $shipping_labels_by_order_id as $shipping_label_by_order_id ) {
 
                         $shipping_labels_to_printed[] = $shipping_label_by_order_id[ 'shipping_label' ];
+                        $idsToPrint[] = $order_id;
                     }
                 }
 
@@ -1436,12 +1438,13 @@ class WC_Order_Packages_Manager {
              * @since 1.0.0
              *
              */
+            
             $message = sprintf(
                 __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
                 esc_url( $bulk_generate->get_pdf_delivery_label() )
             );
             WP_Log::debug( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-woocommerce' );
-            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, $message );
+            do_action( "after_bulk_actions_rc_shop_order", implode(',', $idsToPrint), true, $message );
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
