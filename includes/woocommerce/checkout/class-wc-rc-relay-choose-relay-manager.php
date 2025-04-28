@@ -412,11 +412,13 @@ class WC_RC_Relay_Choose_Relay_Manager {
         $weight_unit = get_option('woocommerce_weight_unit');
         $has_heavy_items = false;
         $has_super_heavy_items = false;
+        $total_weight = 0;
         //$has_max = WC_RC_Shipping_Constants::OFFER_RELAIS_COLIS_MAX_VALUE
 
         foreach (WC()->cart->get_cart() as $cart_item) {
             $product = $cart_item['data'];
             $weight = (float)$product->get_weight();
+            $total_weight += $weight * $cart_item['quantity'];
 
             // Convertir le poids en kg
             switch($weight_unit) {
@@ -438,8 +440,12 @@ class WC_RC_Relay_Choose_Relay_Manager {
                 $has_super_heavy_items = true;
             }
         }
+        
 
-        //var_dump($has_super_heavy_items);die();
+        if ($total_weight > self::MAX_WEIGHT_KG_END) {
+            $has_super_heavy_items = true;
+        }
+
 
         // Désactiver les méthodes de livraison selon le poids
         foreach ($rates as $rate_id => $rate) {
