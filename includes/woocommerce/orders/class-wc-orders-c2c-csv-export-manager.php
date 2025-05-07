@@ -163,30 +163,46 @@ class WC_Orders_C2c_Csv_Export_Manager {
             }
 
             $shipping_address = $order->get_address( 'shipping' );
-//            $destination_id = $order->get_meta( 'rc_relay_id' );
-//            $destination_name = $order->get_meta( 'rc_relay_name' );
-            $destination_id = '';
-            $destination_name = '';
+            // $destination_id = '';
+            // $destination_name = '';
+            $relay_data = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
+            $destination_id = $relay_data['Xeett'] ?? '';
+            $destination_name = $relay_data['Nomrelais'] ?? '';
+            $phone = $order->get_billing_phone();
+            if (empty($phone) || $phone == '') {
+                $phone = '0000000000';
+            }
+
+            $email = $order->get_billing_email() ?? '';
 
             // Weight and dimensions unit
             $option_rc_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
+
+            $street_number = preg_split('/\d+\K/', $shipping_address['address_1'])[0];
+
+            if (is_numeric($street_number)) {
+                $street_name = str_replace($street_number, '', $shipping_address['address_1']);
+            } else {
+                $street_name = $street_number;
+                $street_number = '';
+            }
 
             // Build CSV row
             $csv_row = array(
                 $total_quantity,
                 $total_weight.$option_rc_weight_unit,
-                '',
-                '',
+                'OUI',
+                'OUI',
                 $shipping_address['title'] ?? '',
                 $shipping_address['last_name'] ?? '',
                 $shipping_address['first_name'] ?? '',
-                $shipping_address['address_1'] ?? '',
-                $shipping_address['address_2'] ?? '',
+                $street_number ?? '',
+                $street_name ?? '',
                 $shipping_address['postcode'] ?? '',
                 $shipping_address['city'] ?? '',
                 $shipping_address['country'] ?? '',
-                $shipping_address['email'] ?? '',
-                $shipping_address['phone'] ?? '',
+                $email,
+                $phone,
                 $destination_id,
                 $destination_name
             );

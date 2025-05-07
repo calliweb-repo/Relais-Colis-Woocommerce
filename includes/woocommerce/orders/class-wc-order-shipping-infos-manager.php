@@ -33,6 +33,10 @@ class WC_Order_Shipping_Infos_Manager {
      * @access protected
      */
     public function init() {
+        
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_shipping_label_scripts' ) );
+        add_action( 'wp_ajax_update_shipping_label', array( $this, 'ajax_update_shipping_label' ) );
+        
 
     }
 
@@ -214,14 +218,14 @@ class WC_Order_Shipping_Infos_Manager {
                     $link = 'https://service.relaiscolis.com/wssuivicoliscritere/PageSuivi.aspx?Ref='.$shipping_label;
 
                     // Build follow link
-                    $follow_links_html .= '<li><a href="'.$link.'" target="_blank">'.__( 'Package', 'relais-colis-woocommerce' ).' '.$shipping_label.'</a></li>';
+                    $follow_links_html .= '<li><a href="'.$link.'" target="_blank">'.__( 'Package', 'relais-colis-woocommerce' ).' <span>'.$shipping_label.'</span></a></li>';
 
                 }
             }
             if ( !empty( $follow_links_html ) ) {
 
-                $rc_shipping_infos_html .= '<p><strong>'.__( 'Tracking links', 'relais-colis-woocommerce' ).'</strong></p>';
-                $rc_shipping_infos_html .= '<ul>'.$follow_links_html.'</ul>';
+                $rc_shipping_infos_html .= '<div class="rc-tracking-links-info" data-order-id="'.$wc_order->get_id().'"><p><strong>'.__( 'Tracking links', 'relais-colis-woocommerce' ).'</strong> <a href="#" class="edit-shipping-labels" style="text-decoration:none; float:right; font-size:0.8em; color:#999;" title="'.__('Edit shipping labels', 'relais-colis-woocommerce').'"><span class="dashicons dashicons-edit"></span></a></p>';
+                $rc_shipping_infos_html .= '<ul>'.$follow_links_html.'</ul></div>';
             }
 
             // Get logo
@@ -236,6 +240,152 @@ class WC_Order_Shipping_Infos_Manager {
                 </div>';
 
             echo $html_content;
+        }
+    }
+
+    /**
+     * Enqueue scripts for shipping label editing
+     */
+    public function enqueue_shipping_label_scripts() {
+
+        WP_Log::error( __METHOD__.' ENQUEUE SCRIPTS', [], 'relais-colis-woocommerce' );
+        
+        $screen = get_current_screen();
+        
+        if($screen && $screen->id !== 'shop_order' && $screen->id !== 'woocommerce_page_wc-orders'){
+            return;
+        }
+
+        // Enqueue dashicons if not already loaded
+        wp_enqueue_style('dashicons');
+
+        // Get plugin URL
+        $plugin_url = Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url();
+        
+        // Enqueue notre CSS personnalisé
+        wp_enqueue_style('rc-shipping-labels-editor', $plugin_url . 'assets/css/admin/shipping-labels-editor.css', array(), '1.0.0');
+        
+        // Enqueue notre script JavaScript
+        wp_enqueue_script('rc-shipping-labels-editor', $plugin_url . 'assets/js/admin/shipping-labels-editor.js', array('jquery'), '1.0.0', true);
+
+        // Get nonce
+        wp_localize_script('rc-shipping-labels-editor', 'rc_shipping_labels_editor', array(
+            'nonce' => wp_create_nonce('woocommerce-order')
+        ));
+    }
+
+    /**
+     * Handle AJAX request to update shipping label
+     */
+    public function ajax_update_shipping_label() {
+
+
+        // Vérifier le nonce de sécurité
+        WP_Log::error( __METHOD__, [ '$_POST' => $_POST ], 'relais-colis-woocommerce' );
+        check_ajax_referer('woocommerce-order', 'security');
+        
+        // Vérifier les permissions de l'utilisateur
+        if (!current_user_can('edit_shop_orders')) {
+            wp_send_json_error(array('message' => 'Vous n\'avez pas les permissions nécessaires.'));
+            return;
+        }
+        
+        
+        // Récupérer les données de la requête
+        $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+        $old_label = isset($_POST['old_label']) ? sanitize_text_field($_POST['old_label']) : '';
+        $new_label = isset($_POST['new_label']) ? sanitize_text_field($_POST['new_label']) : '';
+
+        
+        // Vérifier qu'on a toutes les données nécessaires
+        if (!$order_id || !$old_label || !$new_label) {
+            wp_send_json_error(array('message' => 'Données manquantes pour la mise à jour.'));
+            return;
+        }
+        
+        // Récupérer l'objet commande
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            wp_send_json_error(array('message' => 'Commande introuvable.'));
+            return;
+        }
+
+
+        global $wpdb;
+        $colis = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}rc_orders_rel_shipping_labels WHERE order_id = {$order_id}", ARRAY_A);
+
+        
+        // Chercher l'étiquette à modifier
+        $found = false;
+        foreach ($colis as $key => $c_colis) {
+            if (isset($c_colis['shipping_label']) && $c_colis['shipping_label'] === $old_label) {
+                // Mettre à jour l'étiquette dans le tableau
+                $colis[$key]['shipping_label'] = $new_label;
+                $found = true;
+                
+                // Mettre à jour dans la base de données
+                $colis_id = $c_colis['id'] ?? 0;
+
+                if ($colis_id) {
+                    global $wpdb;
+                    $table_name = $wpdb->prefix . 'rc_orders_rel_shipping_labels';
+                    $wpdb->update(
+                        $table_name,
+                        array('shipping_label' => $new_label),
+                        array('id' => $colis_id),
+                        array('%s'),
+                        array('%d')
+                    );
+
+                    // Mettre à jour le shipping label dans les métadonnées de la commande
+                    $rc_colis = $order->get_meta('_rc_colis', true);
+                    if (is_array($rc_colis)) {
+                        foreach ($rc_colis as $key => $colis_meta) {
+                            if (isset($colis_meta['shipping_label']) && $colis_meta['shipping_label'] === $old_label) {
+                                $rc_colis[$key]['shipping_label'] = $new_label;
+                                break;
+                            }
+                        }
+                        $order->update_meta_data('_rc_colis', $rc_colis);
+                        $order->save();
+                        
+                        WP_Log::debug( __METHOD__.' - Mise à jour réussie dans les métadonnées', [
+                            'order_id' => $order_id,
+                            'old_label' => $old_label,
+                            'new_label' => $new_label
+                        ], 'relais-colis-woocommerce' );
+                    }
+                    
+                    WP_Log::debug( __METHOD__.' - Mise à jour réussie dans la BDD', [
+                        'colis_id' => $colis_id,
+                        'old_label' => $old_label,
+                        'new_label' => $new_label
+                    ], 'relais-colis-woocommerce' );
+                }
+                
+                break;
+            }
+        }
+        
+        if ($found) {
+            // Sauvegarder les packages mis à jour si nécessaire
+            // WC_Order_Packages_Manager::instance()->save_order_packages($order_id, $colis, $items);
+            
+            WP_Log::debug( __METHOD__.' - Étiquette mise à jour avec succès', [
+                'order_id' => $order_id,
+                'old_label' => $old_label,
+                'new_label' => $new_label
+            ], 'relais-colis-woocommerce' );
+            
+            wp_send_json_success(array('message' => 'Étiquette mise à jour avec succès.'));
+        } else {
+            WP_Log::error( __METHOD__.' - Étiquette non trouvée', [
+                'order_id' => $order_id,
+                'old_label' => $old_label,
+                'colis' => $colis
+            ], 'relais-colis-woocommerce' );
+            
+            wp_send_json_error(array('message' => 'Étiquette non trouvée dans la commande.'));
         }
     }
 }

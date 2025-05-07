@@ -285,7 +285,7 @@ class WC_Order_Packages_Manager {
             'label_height' => __( 'height', 'relais-colis-woocommerce' ),
             'label_width' => __( 'width', 'relais-colis-woocommerce' ),
             'label_length' => __( 'length', 'relais-colis-woocommerce' ),
-            'label_unit_weight' => __( 'Unit weight', 'relais-colis-woocommerce' ),
+            'label_unit_weight' => __( 'Unit weight (kg)', 'relais-colis-woocommerce' ),
             'label_remaining_quantity_to_be_distributed' => __( 'Quantity to be distributed', 'relais-colis-woocommerce' ),
             'label_quantity' => __( 'Quantity', 'relais-colis-woocommerce' ),
             'label_update_package' => __( 'Update package', 'relais-colis-woocommerce' ),
@@ -300,6 +300,7 @@ class WC_Order_Packages_Manager {
             'label_get_packages_price' => __( 'Estimate your shipment', 'relais-colis-woocommerce' ),
             'label_estimated_shipping_price' => __( 'Estimated shipping price:', 'relais-colis-woocommerce' ),
             'label_generate_return_label' => __( 'Generate return label', 'relais-colis-woocommerce' ),
+            'label_generate_home_return_label' => __( 'Generate home return label', 'relais-colis-woocommerce' ),
             'label_return_information' => __( 'Return information', 'relais-colis-woocommerce' ),
             'label_return_number' => __( 'Return number', 'relais-colis-woocommerce' ),
             'label_return_number_cab' => __( 'Cab number', 'relais-colis-woocommerce' ),
@@ -463,6 +464,8 @@ class WC_Order_Packages_Manager {
         $rc_way_bill = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_WAY_BILL );
         // Get order state
         $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
+
+        $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
         WP_Log::debug( __METHOD__.' - Order loaded', [ '$order_state' => $order_state, '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
 
        // var_dump( print_r($return_bordereau_smart_url, true));die();
@@ -483,6 +486,7 @@ class WC_Order_Packages_Manager {
             var return_created_at = '".$return_created_at."';
             var rc_way_bill = '".$rc_way_bill."';
             var rc_order_state = '".$order_state."';
+            var rc_shipping_method = '".$rc_shipping_method."';
           </script>";
 
         // Empty container where JavaScript will generate the UI dynamically
@@ -1010,6 +1014,8 @@ class WC_Order_Packages_Manager {
 
                             if( $rc_relay_data['Relaismax'] == 1 && $isMax){
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::DELIVERY_TYPE ] = '08';
+                                $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_IS_MAX, true );
+                                $wc_order->save();
                             }else{
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::DELIVERY_TYPE ] = '00';
                             }

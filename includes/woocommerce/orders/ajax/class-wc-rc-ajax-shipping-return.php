@@ -141,6 +141,22 @@ class WC_RC_Ajax_Shipping_Return {
 
             // Build services RC params array from relay_data
             $rc_prestations_param = WC_Orders_Manager::instance()->build_rc_prestations_param( $wc_order );
+
+            $is_max = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_IS_MAX );
+
+            if( $is_max == 1){
+                if( $rc_prestations_param == ''){
+                    $rc_prestations_param = ['15'];
+                }else{
+                    $rc_prestations_param[] = '15';
+                }
+            }
+
+            if (!empty($rc_prestations_param)) {
+                $rc_prestations_param = implode('-', $rc_prestations_param);
+            }
+
+            
             WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-woocommerce' );
             if ( !empty( $rc_prestations_param ) ) {
 

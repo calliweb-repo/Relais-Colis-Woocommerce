@@ -174,12 +174,15 @@ msgstr "Méthode de livraison"
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:165
 #, fuzzy
 msgid "Available delivery methods for this service"
-msgstr "Méthodes de livraison disponibles pour ce service "
+msgstr "La prestation est uniquement disponible pour ce / ces méthodes de livraison"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:177
-#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:197
 msgid "Client Choice"
 msgstr "Choix du client"
+
+#: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:197
+msgid "Product Choice"
+msgstr "Choix du produit"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:181
 msgid "This option will be visible to the customer in the checkout"
@@ -339,7 +342,7 @@ msgstr "Prix total de la commande - Euro (€)"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:90
 msgid "Order weight"
-msgstr "Poids de la commande - Kg"
+msgstr "Poids de la commande - Kilogramme (kg)"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:91
 msgid "Tariff ranges"
@@ -487,8 +490,8 @@ msgstr "Kilogramme (kg)"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:266
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:285
-msgid "The shipping labels for the order have been generated"
-msgstr "Les étiquettes de la commande ont été générées"
+msgid "The shipping labels for the order {index} have been generated"
+msgstr "L'étiquette du Colis {index} a été générée"
 
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:267
 #: includes/woocommerce/abstract-wc-rc-shipping-constants.php:286
@@ -688,7 +691,7 @@ msgstr "Colis"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:223
 msgid "Tracking links"
-msgstr "Liens de suivi"
+msgstr "Lien(s) de suivi"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:233
 msgid "Relais Colis - Informations"
@@ -804,8 +807,8 @@ msgid "length"
 msgstr "longueur"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:288
-msgid "Unit weight"
-msgstr "Poids unitaire"
+msgid "Unit weight (kg)"
+msgstr "Poids unitaire (kg)"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:289
 msgid "Quantity to be distributed"
@@ -855,6 +858,10 @@ msgstr "Prix estimé de livraison :"
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:302
 msgid "Generate return label"
 msgstr "Générer l'étiquette de retour"
+
+#: includes/woocommerce/orders/class-wc-order-packages-manager.php:302
+msgid "Generate home return label"
+msgstr "Générer l'étiquette de retour à domicile"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:303
 msgid "Return information"
@@ -1101,11 +1108,11 @@ msgstr "Prénom du destinataire"
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:123
 msgid "Destination address line 1"
-msgstr "Adresse de la destination"
+msgstr "Numéro de rue du destinataire"
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:124
 msgid "Destination address line 2"
-msgstr "Adresse de la destination ligne 2"
+msgstr "Rue du destinataire"
 
 #: includes/woocommerce/orders/class-wc-orders-c2c-csv-export-manager.php:125
 msgid "Destination postal code"
