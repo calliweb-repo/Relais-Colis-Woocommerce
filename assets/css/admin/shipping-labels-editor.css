@@ -1,0 +1,65 @@
+/**
+ * Styles pour l'éditeur d'étiquettes d'expédition Relais Colis
+ */
+
+
+.rc-shipping-info .rc-logo {
+    max-width: 140px;
+    margin-bottom: 10px;
+}
+
+.rc-tracking-links-info {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.rc-tracking-links-info ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rc-tracking-links-info ul li {
+    margin-bottom: 8px;
+}
+
+.rc-tracking-links-info ul li a {
+    text-decoration: none;
+    color: #0073aa;
+}
+
+.rc-tracking-links-info ul li a:hover {
+    text-decoration: underline;
+}
+
+.edit-shipping-labels {
+    display: inline-block;
+    cursor: pointer;
+    color: #777;
+    transition: color 0.2s ease;
+}
+
+.edit-shipping-labels:hover {
+    color: #23282d;
+}
+
+.edit-field {
+    background-color: #fff;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-top: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.edit-field input[type="text"] {
+    padding: 5px 8px;
+    font-size: 13px;
+}
+
+.global-actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
