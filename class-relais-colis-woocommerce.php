@@ -27,6 +27,7 @@ use RelaisColisWoocommerce\Cron\WP_Cron_Manager;
 use RelaisColisWoocommerce\Tests\Relais_Colis_Woocommerce_Tests;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\WP_Plugin;
+use RelaisColisWoocommerce\Shipping\WC_Order_Shipping_Infos_Manager;
 
 defined( 'ABSPATH' ) or exit;
 
@@ -73,6 +74,10 @@ class Relais_Colis_Woocommerce extends WP_Plugin {
         WC_Orders_C2c_Bulk_Auto_Distribute_Manager::instance();
         WC_Orders_C2c_Bulk_Place_Labels_Manager::instance();
         WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager::instance();
+
+                
+        // Ajout de l'instanciation de WC_Order_Shipping_Infos_Manager
+        WC_Order_Shipping_Infos_Manager::instance();
 
         // TESTS
         Relais_Colis_Woocommerce_Tests::instance();

@@ -30,6 +30,7 @@ abstract class WC_RC_Shipping_Constants {
     const ORDER_META_DATA_RC_RELAY_DATA = 'rc_relay_data';
     const ORDER_META_DATA_RC_SHIPPING_METHOD = 'rc_shipping_method';
     const ORDER_META_DATA_RC_STATE = 'rc_state';
+    const ORDER_META_DATA_RC_IS_MAX = 'rc_is_max';
     // -> For return
     const ORDER_META_DATA_RC_RETURN_BORDEREAU_SMART_URL = 'rc_return_bordereau_smart_url';
     const ORDER_META_DATA_RC_RETURN_RETURN_NUMBER = 'rc_return_return_number';
@@ -264,7 +265,7 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_rc_statuses() {
 
         return array(
-            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order have been generated', 'relais-colis-woocommerce' ),
+            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-woocommerce' ),
             self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-woocommerce' ),
             self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-woocommerce' ),
             self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-woocommerce' ),
@@ -283,7 +284,7 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_rc_status_title( string $rc_status ) {
 
         $titles = array(
-            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order have been generated', 'relais-colis-woocommerce' ),
+            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-woocommerce' ),
             self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-woocommerce' ),
             self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-woocommerce' ),
             self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-woocommerce' ),

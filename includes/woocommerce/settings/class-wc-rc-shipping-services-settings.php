@@ -194,8 +194,8 @@ class WC_RC_Shipping_Services_Settings {
 
 
             $settings[] = [
-                'title' => __( 'Client Choice', 'relais-colis-woocommerce' ),
-                'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
+                'title' => __( 'Product Choice', 'relais-colis-woocommerce' ),
+                'id' => self::SECTION_SERVICES.'_'.$slug.'_product_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
                 'default' => $productChoice,
                 'desc' => __('Activate: You can choose the products associated with this service / Deactivate: The service will be available for all products.', 'relais-colis-woocommerce'),

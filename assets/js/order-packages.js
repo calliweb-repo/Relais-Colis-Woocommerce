@@ -243,6 +243,7 @@ jQuery(document).ready(function ($) {
             let isLocked = (orderState === 'order_state_shipping_labels_placed') ? 'disabled' : '';
 
             totalWeight += colis.weight;
+            totalWeight = Math.round(totalWeight * 1000) / 1000;
 
             let table = $(`
                 <table class="table-striped"></table>
@@ -331,7 +332,7 @@ jQuery(document).ready(function ($) {
             if (colis.shipping_status_label) {
 
                 recapItem.append(`
-                    <span class="rc-recap-status">${colis.shipping_status_label}</span>
+                    <span class="rc-recap-status">${colis.shipping_status_label.replace('{index}', index + 1)}</span>
                 `);
             }
             // And, show the print label button if a shipping label exists
