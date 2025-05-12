@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
             $("#relayModal").css("display", "none");
         },
         modal: true, // Bloque l'interaction avec la page derrière
-        width: 1200,
+        width: window.innerWidth <= 768 ? "90%" : "1200px",
         minHeight: 500,
         resizable: true,
         classes: {
