@@ -278,6 +278,21 @@ class WC_RC_Ajax_Packages {
                 }
             }
 
+            // Récupérer la méthode d'expédition de la commande
+            $shipping_methods = $order->get_shipping_methods();
+            $shipping_method = '';
+            
+            foreach ($shipping_methods as $shipping_method_obj) {
+                $shipping_method = $shipping_method_obj->get_method_id();
+                break; // On prend la première méthode d'expédition trouvée
+            }
+
+            if ($shipping_method === 'wc_rc_shipping_method_homeplus' || $shipping_method === 'wc_rc_shipping_method_homeplus_colis' ) {
+                $max_weight = 1300000;
+                $isHome = 1;
+            }
+
+
             // Distribution strategy is : try and put as max as possible items in each package
             $max_weight = $isMax ? 40000 : 20000; // max per package, in grams
             $max_weight = $isHome ? 130000 : $max_weight;
