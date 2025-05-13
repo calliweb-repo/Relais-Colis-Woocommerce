@@ -1350,3 +1350,6 @@ msgstr "Plus de plugins"
 
 #~ msgid "Weight Units"
 #~ msgstr "Unités de poids"
+
+#~ msgid "The colis must be less than 170cm in any dimension."
+#~ msgstr "Le colis doit faire moins de 170cm dans chaque dimension"

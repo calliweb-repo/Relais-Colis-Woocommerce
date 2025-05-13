@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
             $("#relayModal").css("display", "none");
         },
         modal: true, // Bloque l'interaction avec la page derrière
-        width: 1200,
+        width: window.innerWidth <= 768 ? "90%" : "1200px",
         minHeight: 500,
         resizable: true,
         classes: {
@@ -427,7 +427,22 @@ jQuery(document).ready(function ($) {
                                     newListAdress.push(adress);
                                 }
                             });
-                            adressListSorted = _.orderBy(newListAdress, "importance", "desc");
+                            var adressListSorted;
+                            if (typeof _.orderBy === 'function') {
+                                // Utiliser Lodash orderBy si disponible
+                                console.log('lodash orderBy');
+                                adressListSorted = _.orderBy(newListAdress, "importance", "desc");
+                            } else if (typeof _.sortBy === 'function') {
+                                console.log('underscore sortBy');
+                                // Alternative avec Underscore.js sortBy
+                                adressListSorted = _.sortBy(newListAdress, "importance").reverse();
+                            } else {
+                                // Fallback en JavaScript natif
+                                console.log('fallback');
+                                adressListSorted = newListAdress.slice().sort(function(a, b) {
+                                    return b.importance - a.importance;
+                                });
+                            }
                             nbResults = adressListSorted.length;
                             if(nbResults == 0)
                                 alert('Whoops : adresse non trouvée');

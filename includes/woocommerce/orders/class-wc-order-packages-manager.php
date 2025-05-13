@@ -188,8 +188,16 @@ class WC_Order_Packages_Manager {
             return;
 
 
-                // Get the order
-        $order = wc_get_order($post->get_id());
+        // Get the order
+        if ($post instanceof WC_Order) {
+            $order = $post;
+        } elseif ($post instanceof WP_Post) {
+            $order = wc_get_order($post->ID);
+        } else {
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            return;
+        }
+        
         WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-woocommerce' );
         if (!$order) {
             return;
@@ -313,6 +321,7 @@ class WC_Order_Packages_Manager {
             'label_error_unknown_generate_way_bill' => __( 'Unknown error while generating the way bill', 'relais-colis-woocommerce' ),
             'label_product' => __( 'Product', 'relais-colis-woocommerce' ),
             'label_actions' => __( 'Actions', 'relais-colis-woocommerce' ),
+            'label_error_colis_too_big' => __( 'The colis must be less than 170cm in any dimension.', 'relais-colis-woocommerce' ),
         ) );
     }
 
@@ -594,6 +603,16 @@ class WC_Order_Packages_Manager {
         $woocommerce_weight_unit = get_option(WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g');
         $items_to_distribute = 0;
 
+        // Récupérer la méthode d'expédition de la commande
+        $shipping_methods = $order->get_shipping_methods();
+        $shipping_method = '';
+        
+        foreach ($shipping_methods as $shipping_method_obj) {
+            $shipping_method = $shipping_method_obj->get_method_id();
+            break; // On prend la première méthode d'expédition trouvée
+        }
+
+
         // Vérifier si un produit pèse entre 20kg et 40kg
         foreach ($items as $item) {
             $item_weight = isset($item['weight']) ? (float)$item['weight'] : 0;
@@ -607,6 +626,10 @@ class WC_Order_Packages_Manager {
                 $max_weight = 1300000; // Si oui, on augmente la limite à 40kg
                 break;
             }
+        }
+
+        if ($shipping_method === 'wc_rc_shipping_method_homeplus' || $shipping_method === 'wc_rc_shipping_method_home' ) {
+            $max_weight = 1300000;
         }
 
         // First parse all items to calculate total number of products to distribute

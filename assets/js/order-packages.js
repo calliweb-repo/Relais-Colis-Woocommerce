@@ -663,6 +663,16 @@ jQuery(document).ready(function ($) {
             let new_width = $(`.rc-colis-dim[data-dim="width"][data-colis-index="${colis_index}"]`).val();
             let new_length = $(`.rc-colis-dim[data-dim="length"][data-colis-index="${colis_index}"]`).val();
 
+            console.log('new_weight:', new_weight);
+            console.log('new_height:', new_height);
+            console.log('new_width:', new_width);
+            console.log('new_length:', new_length);
+
+            if (new_height >= 170 || new_width >= 170 || new_length >= 170) {
+                showError(rc_order_packages.label_error_colis_too_big);
+                return;
+            }
+
             $.ajax({
                 url: rc_order_packages.ajax_url,
                 type: 'POST',

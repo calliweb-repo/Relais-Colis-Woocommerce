@@ -222,11 +222,21 @@
     width: 100%;
     font-size: 12px !important;
     margin-bottom: 10px;
+    border: 0;
 }
 
 #relayModal table.horaireList td.classic {
     color: #383932 !important;
     width: 33.33% !important;
+
+}
+
+#relayModal table.horaireList td {
+    margin: 0;
+    padding: 5px;
+    border: 0;
+    white-space: nowrap;
+
 }
 
 #relayModal td.jour {

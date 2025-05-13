@@ -87,7 +87,9 @@ jQuery(document).ready(function ($) {
             $('#'+rc_choose_options_h.div_id).hide();
             $('#'+rc_choose_options_hp.div_id).hide();
 
-            $('#shipping_method').after(getRelayColisHtml());
+            if (!$('#relais-colis-block').length) {
+                $('#shipping_method').after(getRelayColisHtml());
+            }
             $('#relais-colis-block').show();
         }
     }
