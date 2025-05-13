@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) or exit;
 class WP_RC_Place_Advertisement_Response extends WP_Relais_Colis_Response {
 
     private $mandatory_properties = array(
-        'entry' => 'string',
+        'entry' => 'string/array',
     );
 
     /**

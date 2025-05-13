@@ -84,6 +84,66 @@ class WP_Relais_Colis_Response_Factory {
                         break;
                     case WP_Relais_Colis_API::REQUEST_B2C_RELAY_PLACE_ADVERTISEMENT:
                     case WP_Relais_Colis_API::REQUEST_B2C_HOME_PLACE_ADVERTISEMENT:
+                        if ( strpos( $response_content_type, 'text/xml') === false ) {
+
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                        }
+                        // New case, entry is received but containing error: prefix
+                        //    [response] => Array
+                        //        (
+                        //            [headers] => Array
+                        //                (
+                        //                    [WpOrg\Requests\Utility\CaseInsensitiveDictionary] => Array
+                        //                        (
+                        //                        )
+                        //
+                        //                )
+                        //
+                        //            [body] => <xml version="1.0" encoding="UTF-8">
+                        //<result>
+                        //  <entry><![CDATA[error:MISSING_FIELD_VALUE]]></entry>
+                        //</result>
+                        //
+                        //            [response] => Array
+                        //                (
+                        //                    [code] => 200
+                        //                    [message] => OK
+                        //                )
+
+                        $response = new WP_RC_Place_Advertisement_Response( $response_data );
+
+
+                        
+                        if ( $response->validate() ) {
+
+                            $entry = $response->entry;
+
+
+                            
+                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-woocommerce');
+
+                            if ( is_array($entry) ) {
+                                foreach ($entry as $item) {
+                                    if ( strpos( $item, 'error:' ) !== false ) {
+                                        if ( strpos( $item, 'Not enough money in balance' ) !== false ) {
+                                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                        }
+                                    }
+                                }
+                            }else{
+                                if ( strpos( $entry, 'error:' ) !== false ) {
+                                    if ( strpos( $entry, 'Not enough money in balance' ) !== false ) {
+                                        throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                    } else {
+                                        throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                                    }
+                                }
+                            }
+                        }
+
+
+                        break;
                     case WP_Relais_Colis_API::REQUEST_C2C_RELAY_PLACE_ADVERTISEMENT:
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
@@ -314,6 +374,7 @@ XML;
                     default:
                         return null;
                 }
+
 
                 // Error
                 //[stdClass] => Array

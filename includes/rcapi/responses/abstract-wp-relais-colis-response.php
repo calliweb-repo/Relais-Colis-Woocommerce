@@ -22,10 +22,12 @@ abstract class WP_Relais_Colis_Response extends WP_API_XML_Response {
 
         $validate = true;
         $mandatory_properties = $this->get_mandatory_properties();
+
         foreach ( $mandatory_properties as $property => $type ) {
 
             $validate = $validate && $this->check_property( $property, $type );
         }
+
         return $validate;
     }
 

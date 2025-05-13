@@ -2,6 +2,11 @@
 
 namespace RelaisColisWoocommerce\RCAPI;
 
+use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
+use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
+
+
 defined( 'ABSPATH' ) or exit;
 
 /**
@@ -195,6 +200,69 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
      */
     public function prepare_request( array $params=null ) {
 
-        parent::prepare_request( $params );
+        $this->method = 'POST';
+        $this->path = 'api/package/placeAdvertisement'; // No / at beginning
+
+        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
+
+        // These params are always the sames
+        //"activityCode" correspond au type d'envoi "05" relais "08" pour le home et "07" pour le drive (à venir dnas quelque mois)
+        //"customerId" c'est bien l'id du customer dans le cms
+        //"orderReference" c'est le numéro de commande dans woocommerce
+        $dedicated_data = array(
+            self::ACTIVATION_KEY => $activationKey,
+        );
+        $datas = [];
+
+        foreach ($params as $param) {
+            $data = array_merge($dedicated_data, $this->get_specific_dedicated_params(), $param);
+            $datas[] = $data;
+        }
+
+        $this->data = $datas;
+
+        
+        $this->validate();
+        
+        // May convert weight to grams
+        $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
+
+        foreach ($this->data as $key => &$data) {
+
+            $shippment_weight_grams = WP_Helper::convert_to_grams( $data[ self::SHIPPMENT_WEIGHT ], $woocommerce_weight_unit );
+            if ( !is_null( $shippment_weight_grams ) ) $data[ self::SHIPPMENT_WEIGHT ] = $shippment_weight_grams;
+    
+            $weight_grams = WP_Helper::convert_to_grams( $data[ self::WEIGHT ], $woocommerce_weight_unit );
+            if ( !is_null( $weight_grams ) ) $data[ self::WEIGHT ] = $weight_grams;
+
+        }
+
+        unset($data);
+
+        
+ 
+
+        $post_data = array_values($this->data);
+
+
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        $this->data = json_encode( $post_data );
+    }
+
+    public function validate() {
+        $mandatory_params = $this->get_mandatory_params();
+        
+
+        foreach ($this->data as $key => $data) {
+
+            foreach ( $mandatory_params as $param ) {
+                if ( !isset( $data[ $param ] ) || is_null( $data[ $param ] ) ) {
+    
+                    WP_Log::error( __METHOD__, ['$param'=>$param], 'relais-colis-woocommerce' );
+                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER).$param, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER] );
+                }
+            }
+        }
+
     }
 }

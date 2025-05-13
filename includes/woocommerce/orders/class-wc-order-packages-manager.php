@@ -188,7 +188,7 @@ class WC_Order_Packages_Manager {
             return;
 
 
-                // Get the order
+            // Get the order
         $order = wc_get_order($post->get_id());
         WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-woocommerce' );
         if (!$order) {
@@ -911,6 +911,9 @@ class WC_Order_Packages_Manager {
 
                     $dynamic_params_place_shipping_label = array();
 
+                    $b2c_datas = [];
+                    $total_weight = 0;
+
                     // Request RC API place_advertisement
                     foreach ( $colis as &$c_colis ) {
 
@@ -1035,40 +1038,56 @@ class WC_Order_Packages_Manager {
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::DELIVERY_TYPE ] = '00';
                             }
 
-                            // Call API
-                            $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
+                            $b2c_datas[] = $dynamic_params_place_shipping_label;    
 
-                            if ( is_null( $b2c_relay_place_advertisement ) ) {
+                            $total_weight += $c_colis['weight'];
+                        }
+                    }
 
-                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                    if (!$is_c2c_interaction_mode && !empty($b2c_datas)){
+                        foreach ($b2c_datas as &$b2c_data) {
+                            $b2c_data['shippmentWeight'] = $total_weight;
+                        }
+                        unset($b2c_data);
 
-                                // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                        // Call API
+                        $b2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->b2c_relay_place_advertisement( $b2c_datas, false );
+
+                        if ( is_null( $b2c_relay_place_advertisement ) ) {
+
+                            WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                            
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
+                        }
+                        
+                        // Display response
+                        if ( $b2c_relay_place_advertisement->validate() ) {
+
+                            $entry = $b2c_relay_place_advertisement->entry;
+
+                            if(is_array($entry)){
+                                foreach ($entry as $key => $item) {
+                                    $colis[$key]['shipping_label'] = $item;
+                                }
+                            }else{
+                                $colis[0]['shipping_label'] = $entry;
                             }
 
-                            // Display response
-                            if ( $b2c_relay_place_advertisement->validate() ) {
+                            WP_Log::debug( __METHOD__.' - Valid response', [
+                                'Entry' => $entry,
+                                'Shipping method' => $rc_shipping_method,
+                            ], 'relais-colis-woocommerce' );
 
-                                $entry = $b2c_relay_place_advertisement->entry;
+                            // Init RC status
+                            WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
 
-                                WP_Log::debug( __METHOD__.' - Valid response', [
-                                    'Entry' => $entry,
-                                    'Shipping method' => $rc_shipping_method,
-                                ], 'relais-colis-woocommerce' );
+                        } else {
 
-                                // Set shipping label in colis
-                                $c_colis[ 'shipping_label' ] = $entry;
+                            WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
 
-                                // Init RC status
-                                WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
-
-                            } else {
-
-                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
-
-                                // Pb occured... HTML response not permitted
-                                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
-                            }
+                            // Pb occured... HTML response not permitted
+                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
                         }
                     }
                     break;

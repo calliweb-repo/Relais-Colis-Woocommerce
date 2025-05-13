@@ -307,6 +307,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
         // Init
         $this->init();
 
+
         try {
             // Build request
             $request = WP_Relais_Colis_Request_Factory::instance()->get_rc_api_reuest( $request_type );
@@ -324,6 +325,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
             $response_raw = $this->perform_request( $request );
             WP_Log::debug( __METHOD__, ['response_raw'=>$response_raw], 'relais-colis-woocommerce' );
 
+
             // Check response code
             $response_code = $this->get_response_code();
             if ( $response_code !== 200 ) {
@@ -331,6 +333,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
                 // Pb occurred... HTML response code in error
                 throw new WP_Relais_Colis_API_Exception( $this->get_response_message(), $this->get_response_code() );
             }
+
 
             // Use a Relais Colis specific XML response factory
             return WP_Relais_Colis_Response_Factory::instance()->get_rc_api_response( $request_type, $response_raw, $this->get_response_headers(), $raw );
