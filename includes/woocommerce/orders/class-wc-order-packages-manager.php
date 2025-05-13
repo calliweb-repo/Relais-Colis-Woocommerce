@@ -188,8 +188,16 @@ class WC_Order_Packages_Manager {
             return;
 
 
-                // Get the order
-        $order = wc_get_order($post->get_id());
+        // Get the order
+        if ($post instanceof WC_Order) {
+            $order = $post;
+        } elseif ($post instanceof WP_Post) {
+            $order = wc_get_order($post->ID);
+        } else {
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            return;
+        }
+        
         WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-woocommerce' );
         if (!$order) {
             return;
