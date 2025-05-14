@@ -146,10 +146,16 @@ class WC_Orders_RC_Status_Manager {
      * @param $wc_order
      * @return void
      */
-    public function init_order_rc_status( WC_Order $wc_order, $shipping_label ) {
+    public function init_order_rc_status( WC_Order $wc_order, $entry ) {
 
         WP_Log::debug( __METHOD__.' - Init order RC status.', [ 'wc_order' => $wc_order ], 'relais-colis-woocommerce' );
 
-        WP_Orders_Rel_Shipping_Labels_DAO::instance()->insert_shipping_label( $wc_order->get_id(), $shipping_label );
+        if(is_array($entry)){
+            foreach ($entry as $key => $item) {
+                WP_Orders_Rel_Shipping_Labels_DAO::instance()->insert_shipping_label( $wc_order->get_id(), $item );
+            }
+        }else{
+            WP_Orders_Rel_Shipping_Labels_DAO::instance()->insert_shipping_label( $wc_order->get_id(), $entry );
+        }
     }
 }
