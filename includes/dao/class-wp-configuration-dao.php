@@ -49,6 +49,8 @@ class WP_Configuration_DAO {
         $updated_by = absint( $response->get_updated_by() );
         $created_at = date( 'Y-m-d H:i:s', strtotime( $response->get_created_at() ) );
         $updated_at = date( 'Y-m-d H:i:s', strtotime( $response->get_updated_at() ) );
+        $osm_live_mapping_key = sanitize_text_field( $response->get_osm_live_mapping_key() );
+        $osm_live_mapping_ens = sanitize_text_field( $response->get_osm_live_mapping_ens() );
 
         // RC Configuration stored as options
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_ENSEIGNE_ID, $enseigne_id );
@@ -73,6 +75,8 @@ class WP_Configuration_DAO {
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY, $updated_by );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT, $created_at );
         update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT, $updated_at );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_KEY, $osm_live_mapping_key );
+        update_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_ENS, $osm_live_mapping_ens );
 
         // Insert related options
         global $wpdb;
@@ -141,6 +145,8 @@ class WP_Configuration_DAO {
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_BY );
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_CREATED_AT );
         delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_UPDATED_AT );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_KEY );
+        delete_option( WC_RC_Shipping_Constants::RC_OPTION_PREFIX.WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_ENS );
 
         // Delete related options
         global $wpdb;

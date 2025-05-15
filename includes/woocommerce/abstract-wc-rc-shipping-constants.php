@@ -131,6 +131,8 @@ abstract class WC_RC_Shipping_Constants {
     const CONFIGURATION_UPDATED_BY = 'updated_by';
     const CONFIGURATION_CREATED_AT = 'created_at';
     const CONFIGURATION_UPDATED_AT = 'updated_at';
+    const CONFIGURATION_OSM_LIVEMAPPING_KEY = 'osm_live_mapping_key';
+    const CONFIGURATION_OSM_LIVEMAPPING_ENS = 'osm_live_mapping_ens';
 
     // Configuration options
     const CONFIGURATION_OPTION_ID = 'id';
@@ -193,6 +195,8 @@ abstract class WC_RC_Shipping_Constants {
             self::CONFIGURATION_UPDATED_BY => __( 'Updated By', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_CREATED_AT => __( 'Created At', 'relais-colis-woocommerce' ),
             self::CONFIGURATION_UPDATED_AT => __( 'Updated At', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_OSM_LIVEMAPPING_KEY => __( 'OSM Live Mapping Key', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_OSM_LIVEMAPPING_ENS => __( 'OSM Live Mapping Enseigne ID', 'relais-colis-woocommerce' ),
         ];
 
         return $titles[ $rc_configuration_slug ] ?? __( 'Unknown Field', 'relais-colis-woocommerce' );

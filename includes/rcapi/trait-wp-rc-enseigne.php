@@ -268,4 +268,12 @@ trait WP_RC_Enseigne {
             ? json_decode( json_encode( $this->rc_configuration->modules->entry ), true )
             : [];
     }
+
+    public function get_osm_live_mapping_key() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_KEY );
+    }
+
+    public function get_osm_live_mapping_ens() {
+        return $this->get_rc_value( WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_ENS );
+    }
 }
