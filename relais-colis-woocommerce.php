@@ -3,7 +3,7 @@
  * Plugin Name: Relais Colis Woocommerce
  * Plugin URI: https://www.relaiscolis.com/
  * Description: Adds Relais Colis shipping method to WooCommerce.
- * Version: 1.0.1
+ * Version: 1.0.0
  * Requires at least: 6.6.2
  * Requires PHP: 8.1
  * Author: Calliweb
