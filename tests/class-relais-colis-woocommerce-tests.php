@@ -399,7 +399,7 @@ class Relais_Colis_Woocommerce_Tests {
         // Prepare options
         $options_suffix_param = Relais_Colis_Woocommerce_Loader::instance()->get_options_suffix_param();
 //        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
-        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::TEST_MODE );
+        update_option( $options_suffix_param.'_api_mode', WC_RC_Shipping_Constants::LIVE_MODE );
 //        update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E' ); // preprod - B2C - rtimlC15XYz5w9TSLf0bI8dmoPEsKp7E
         update_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY, 'fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v' ); // prod - B2C - fCwdKsMGEAkRK0jrNSVXzAzjJt5qqx6v
 

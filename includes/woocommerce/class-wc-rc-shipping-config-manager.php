@@ -35,7 +35,7 @@ class WC_RC_Shipping_Config_Manager {
         // Define the options and their default values
         $default_options = [
             WC_RC_Shipping_Constants::OPTION_RC_INTERACTION_MODE => WC_RC_Shipping_Constants::B2C_INTERACTION_MODE,
-            WC_RC_Shipping_Constants::OPTION_LIVE_TEST_MODE_NAME => WC_RC_Shipping_Constants::TEST_MODE,
+            WC_RC_Shipping_Constants::OPTION_LIVE_TEST_MODE_NAME => WC_RC_Shipping_Constants::LIVE_MODE,
             WC_RC_Shipping_Constants::OPTION_RC_API_ACCESS_VALID => 0,
         ];
 
@@ -96,7 +96,7 @@ class WC_RC_Shipping_Config_Manager {
         $mode = get_option( WC_RC_Shipping_Constants::OPTION_LIVE_TEST_MODE_NAME, WC_RC_Shipping_Constants::TEST_MODE );
         if ( ( $mode !== WC_RC_Shipping_Constants::TEST_MODE ) && ( $mode !== WC_RC_Shipping_Constants::LIVE_MODE ) ) {
 
-            $mode = WC_RC_Shipping_Constants::TEST_MODE;
+            $mode = WC_RC_Shipping_Constants::LIVE_MODE;
         }
         return $mode;
     }

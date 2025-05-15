@@ -78,12 +78,11 @@ abstract class WP_API_Response {
      * Vérifie la présence et le type d'un champ dans l'objet raw_response.
      */
     protected function check_property( $property, $type=null, $response_data=null ) {
- 
         
         if ( is_null( $response_data ) ) $response_data = $this->response_data;
-        
+
         if ( !property_exists( $response_data, $property ) ) return false;
-        
+
         if ( is_null( $type ) ) return true;
 
         switch ( $type ) {

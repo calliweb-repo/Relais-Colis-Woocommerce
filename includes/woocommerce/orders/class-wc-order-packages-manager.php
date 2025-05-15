@@ -532,7 +532,7 @@ class WC_Order_Packages_Manager {
 
             // If item is heavier than the max allowed, skip
             if ( $item_weight_grams > $max_weight ) {
-                var_dump( $item_weight_grams );
+                // var_dump( $item_weight_grams );
                 continue;
             }
 
