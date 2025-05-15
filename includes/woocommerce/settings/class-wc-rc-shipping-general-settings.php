@@ -369,7 +369,7 @@ class WC_RC_Shipping_General_Settings {
                 'title' => __( 'Live/Test Mode', 'relais-colis-woocommerce' ),
                 'desc' => __( 'Switch between Live mode and Test mode.', 'relais-colis-woocommerce' ),
                 'id' => WC_RC_Shipping_Constants::OPTION_LIVE_TEST_MODE_NAME,
-                'default' => 'no',
+                'default' => 'yes',
                 'yes_label' => 'Live',
                 'no_label' => 'Test',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,

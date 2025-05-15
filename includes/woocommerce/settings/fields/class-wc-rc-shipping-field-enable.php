@@ -74,7 +74,7 @@ class WC_RC_Shipping_Field_Enable {
             'desc'      => '',
             'yes_label' => __('Yes', 'relais-colis-woocommerce'),
             'no_label'  => __('No', 'relais-colis-woocommerce'),
-            'default'   => 'no',
+            'default'   => 'yes',
             'disabled'   => false,
         );
         $field  = wp_parse_args( $field, $defaults );
