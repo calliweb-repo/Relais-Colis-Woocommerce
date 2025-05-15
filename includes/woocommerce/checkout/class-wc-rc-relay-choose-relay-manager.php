@@ -206,11 +206,15 @@ class WC_RC_Relay_Choose_Relay_Manager {
                 }
             }
         }
+
+        // Get OSM live mapping configuration
+        $osm_live_mapping_key = get_option(WC_RC_Shipping_Constants::RC_OPTION_PREFIX . WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_KEY);
+        $osm_live_mapping_ens = get_option(WC_RC_Shipping_Constants::RC_OPTION_PREFIX . WC_RC_Shipping_Constants::CONFIGURATION_OSM_LIVEMAPPING_ENS);
         
         wp_localize_script( WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID.'_js', 'rc_choose_relay',
             array(
-                'map_c2c_apikey' => 'JSBS20210825143149943937534800', //TODO: Récupérer la clé API dynamiquement
-                'map_c2c_enscode' => 'CC', //TODO: Récupérer le code ENS dynamiquement
+                'map_c2c_apikey' => $osm_live_mapping_key,
+                'map_c2c_enscode' => $osm_live_mapping_ens,
                 'img_livemapping_path' => Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/img/livemapping/',
                 'rc_shipping_address' => $shipping_address,
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
