@@ -402,8 +402,16 @@ class WC_Order_Packages_Manager {
      */
     public function rc_woocommerce_colis_callback( $post ) {
 
-            // Get WC order
-        $wc_order = wc_get_order( $post->get_id() );
+        // Get WC order
+        if ($post instanceof WC_Order) {
+            $wc_order = $post;
+        } elseif ($post instanceof WP_Post) {
+            $wc_order = wc_get_order($post->ID);
+        } else {
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            return;
+        }
+        
         
         // Vérifier si c'est une commande Relais Colis
         $shipping_methods = $wc_order->get_shipping_methods();
@@ -424,8 +432,19 @@ class WC_Order_Packages_Manager {
         // Log the method execution for debugging.
         WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
 
+                // Get the order
+        if ($post instanceof WC_Order) {
+            $order = $post;
+        } elseif ($post instanceof WP_Post) {
+            $order = wc_get_order($post->ID);
+        } else {
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            return;
+        }
+        
+
         // Fetch existing package distribution data (Legacy & HPOS support).
-        [ $colis, $items ] = $this->load_order_packages( $post->get_id() );
+        [ $colis, $items ] = $this->load_order_packages( $order->get_id() );
 
         foreach ( $colis as &$c_colis ) {
 
@@ -451,7 +470,15 @@ class WC_Order_Packages_Manager {
         $items_json = json_encode( $items );
 
         // Get WC order
-        $wc_order = wc_get_order( $post->get_id() );
+        if ($post instanceof WC_Order) {
+            $wc_order = $post;
+        } elseif ($post instanceof WP_Post) {
+            $wc_order = wc_get_order($post->ID);
+        } else {
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            return;
+        }
+        
 
         // Get return infos, if available
         // bordereau_smart_url
@@ -484,7 +511,7 @@ class WC_Order_Packages_Manager {
             var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
             var rc_order_colis = $colis_json;
             var rc_order_items = $items_json;
-            var rc_order_id = ".esc_js($post->get_id()).";
+            var rc_order_id = ".esc_js($wc_order->get_id()).";
             var rc_order_status = '".esc_js($wc_order->get_status())."';  // Ajouter le statut de la commande
             var return_bordereau_smart_url = '".$return_image_url."';
             var return_number = '".$return_number."';
