@@ -215,7 +215,7 @@ class WC_RC_Services_Manager {
     public function filter_woocommerce_form_field( $field, $key, $args, $value ) {
 
         // Enqueued only in concerned checkout page
-        if ( !is_checkout() ) return;
+        // if ( !is_checkout() ) return;
 
         // Check if it is a service field
         foreach ( $this->get_fixed_services() as $service_key => $services ) {
