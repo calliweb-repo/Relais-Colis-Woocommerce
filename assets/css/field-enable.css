@@ -1,0 +1,80 @@
+/**
+ * Enable field
+ */
+.rc_enable_checkbox {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 80px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.rc_enable_checkbox input {
+    display: none;
+}
+
+.rc_enable_checkbox .toggle-switch {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rc_enable_checkbox.active {
+    background: #007cba;
+}
+
+.rc_enable_checkbox.active .toggle-switch {
+    left: 52px;
+}
+
+.rc_enable_checkbox span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.rc_enable_checkbox .label-off {
+    right: 12px;
+    color: #555;
+}
+
+.rc_enable_checkbox:has(input:disabled) {
+    cursor: default;
+}
+
+.rc_enable_checkbox:has(input:disabled) .toggle-switch {
+    background: #ccc;
+    box-shadow: none;
+}
+
+.rc_enable_checkbox:has(input:disabled) .label-off {
+    color: #bbb;
+}
+
+.rc_enable_checkbox .label-on {
+    left: 12px;
+    opacity: 0;
+}
+
+.rc_enable_checkbox.active .label-off {
+    opacity: 0;
+}
+
+.rc_enable_checkbox.active .label-on {
+    opacity: 1;
+}

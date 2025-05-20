@@ -1,0 +1,299 @@
+#rc-colis-container {
+    background: #fff;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#rc-colis-container .rc-products-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 0px solid #ddd;
+    background: #fff;
+    padding: 0px;
+    border-radius: 0px
+}
+
+#rc-colis-container h4,
+#rc-colis-container .rc-products-section h4 {
+    margin: 10px 0px 10px 0px;
+    font-size: 15px;
+}
+#rc-colis-container h3,
+#rc-colis-container .rc-products-section h3 {
+    margin: 10px 0px 10px 0px;
+    border-bottom: 2px solid #000;
+    color: #000;
+}
+
+#rc-colis-container .rc-product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px solid #ccc;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#rc-colis-container .rc-product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+#rc-colis-container .rc-product-name {
+    font-weight: bold;
+}
+
+#rc-colis-container .rc-product-weight {
+    font-size: 12px;
+    color: #666;
+}
+
+#rc-colis-container .rc-product-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#rc-colis-container .rc-colis {
+    border: 1px solid #c0d248;
+    background: #c0d24833;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+    margin-top: 0px;
+}
+
+#rc-colis-container .rc-colis-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#rc-colis-container .rc-colis-title {
+    font-weight: bold;
+}
+
+#rc-colis-container .rc-colis-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#rc-colis-container .rc-colis-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+#rc-colis-container .rc-colis-item-name {
+    font-weight: bold;
+}
+
+#rc-colis-container .rc-colis-item-qty,
+#rc-colis-container .rc-colis-item-weight {
+    font-size: 12px;
+    color: #666;
+}
+
+#rc-colis-container .rc-add-colis,
+#rc-colis-container .rc-delete-colis,
+#rc-colis-container .rc-add-to-colis,
+#rc-colis-container .rc-auto-distribute,
+#rc-colis-container .rc-update-colis,
+#rc-colis-container .rc-print-label,
+#rc-colis-container .rc-place-shipping-label,
+#rc-colis-container .rc-get-packages-price,
+#rc-colis-container .rc-generate-return-label,
+#rc-colis-container .rc-print-way-bill,
+#rc-colis-container .rc-generate-way-bill,
+#rc-colis-container .rc-remove-from-colis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    gap: 5px;
+}
+
+#rc-colis-container .rc-update-colis,
+#rc-colis-container .rc-auto-distribute,
+#rc-colis-container .rc-place-shipping-label,
+#rc-colis-container .rc-get-packages-price,
+#rc-colis-container .rc-print-label,
+#rc-colis-container .rc-generate-return-label,
+#rc-colis-container .rc-print-way-bill,
+#rc-colis-container .rc-generate-way-bill,
+#rc-colis-container .rc-add-colis {
+    background-color: #D0DD72;
+    color: white;
+    width: fit-content;
+}
+
+#rc-colis-container .rc-add-colis:hover {
+    background-color: #D0DD72;
+}
+
+#rc-colis-container .rc-add-to-colis {
+    background-color: #D0DD72;
+    color: white;
+}
+
+#rc-colis-container .rc-add-to-colis:hover {
+    background-color: #D0DD72;
+}
+
+#rc-colis-container .rc-delete-colis {
+    background-color: #EE304A;
+    color: white;
+}
+
+#rc-colis-container .rc-delete-colis:hover {
+    background-color: #EE304A;
+}
+
+#rc-colis-container .rc-remove-from-colis {
+    background: #EE304A;
+    color: white;
+}
+
+#rc-colis-container .rc-remove-from-colis:hover {
+    background-color: #EE304A;
+}
+#rc-colis-container .rc-colis-summary {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 10px 0;
+}
+#rc-colis-container .rc-colis-summary label {
+    white-space: nowrap;
+    font-weight: bold;
+}
+#rc-colis-container .rc-colis-summary input {
+    min-width: 80px;
+}
+#rc-colis-container .rc-update-colis {
+    min-width: 160px;
+}
+#rc-colis-container .rc-recap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 5px;
+}
+#rc-colis-container .rc-recap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+#rc-colis-container .rc-recap-total {
+    font-weight: bold;
+    background: #e0e0e0;
+}
+#rc-colis-container .rc-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#rc-colis-container .rc-modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 40px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 800px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+#rc-colis-container .rc-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+}
+/** Zone erreur dans la gestion des colis **/
+#rc-colis-container .rc-error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ff6f6a; /* Rouge */
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas */
+}
+#rc-colis-container .rc-success {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4fbb4f; /* Vert */
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas */
+}
+
+#rc-colis-container .rc-success .rc-success-message,
+#rc-colis-container .rc-error .rc-error-message {
+    flex-grow: 1; /* Permet au message d'occuper l'espace disponible */
+}
+
+#rc-colis-container .rc-success .rc-success-close,
+#rc-colis-container .rc-error .rc-error-close {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: none;
+    border: none;
+}
+#rc-colis-container .rc-error .rc-error-close:hover {
+    color: #ffcccc;
+}
+#rc-colis-container .rc-success .rc-success-close:hover {
+    color: rgba(112, 208, 112, 0.42);
+}
+#rc-colis-container .hidden {
+    display: none;
+}

@@ -1,0 +1,513 @@
+﻿#relayModal body {
+    font-size: 12px;
+    color: #383932 !important;
+    padding: 5px;
+}
+
+#relayModal html, #relayModal body {
+    height: 100%;
+    margin: 0;
+}
+
+#relayModal {
+    font-family: 'Roboto';
+}
+
+#relayModal .divLink {
+     font-size:11px;
+     margin-top:10px;
+     margin-bottom:5px;
+     margin: 0px;
+     border: #C0D248 1px solid;
+     width: 120px;
+}
+
+#relayModal .divLink2 {
+     border: #C0D248 1px solid;
+     width:90%;
+}
+
+#relayModal .pins {
+    font-size:14px;
+}
+
+#relayModal .select-button {
+    width: 100px;
+    font-size: 14px;
+    background-color: transparent;
+    color: #EE304A;
+    border:0px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 0px;
+    background: #fff url('../../img/livemapping/favicon.png') no-repeat right;    
+}
+
+#relayModal .divPrinc {
+    border: 1px black solid;
+    text-align: center;
+}
+
+#relayModal #tbCompleteAdress {
+    width: 100%;
+    border: 1px #C0D248 solid;
+}
+
+#relayModal .divCompleteAdress {
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#relayModal .boutonOK {
+    margin: 5px 0px 0px 0px;
+    border: 0px;
+    background-color: #c0d248;
+    color: #fff;
+    width: 100%;
+}
+
+#relayModal #boutonAfficher {
+    margin: 0px;
+    border: 0px;
+    background-color: #c0d248;
+    color: #fff;
+    width: 100%;
+    text-decoration: none;
+    color: white;    
+    border: 1px #D0DD72 solid;
+    padding: 0px;
+}
+
+#relayModal #boutonAfficher:hover {
+   text-decoration: none;
+   color: #D0DD72;
+   font-weight: bold;
+   background-color: transparent;
+   border: 1px #D0DD72 solid;
+}
+
+#relayModal .divBoutonOK, #relayModal .divBtnAfficher {
+    margin-left: -5px;
+    padding-left: 0px;
+    padding-right: 5px;
+    margin-right: 5px;
+}
+
+#relayModal .error {
+    font-weight: bold;
+    color: red;
+    padding: 3px;
+}
+
+#relayModal .divPrecisAdress {
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 0px;
+}
+
+#relayModal #imgRelaisColis {
+    width: 200px;
+    padding-top: 5px;
+}
+
+#relayModal .iconMap {
+    z-index: 0 !important;
+}
+
+#relayModal .labelMap {
+    font-size: 10pt;
+    font-weight: bold;
+    background-color: transparent;
+    z-index: 400;
+    height: 28px;
+    color: black;
+    padding-top: 3px !important;
+}
+
+#relayModal .labelMapFerme {
+    font-size: 10pt;
+    font-weight: bold;
+    background-color: transparent;
+    z-index: 400;
+    height: 28px;
+    color: white;
+    padding-top: 3px !important;
+}
+
+#relayModal #lstRelais {
+    width: 100%;
+    text-align: left;
+    height: 500px;
+    max-width: 100%;
+    vertical-align: top;
+    overflow: auto;
+    font-size: 30px;
+    border: 1px solid #e2dede;
+    background-color: transparent;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius:5px;    
+}
+
+#relayModal .divListRelais {
+    /*padding-top: 5px;
+    padding-right: 0px !important;*/
+}
+
+#relayModal .divMap {
+    /*padding-top: 5px;
+    padding-left: 0px !important;
+    height:500px;
+    width:100%;*/
+}
+
+#relayModal .nomrelais {
+    vertical-align: sub;
+    color: #383932 !important;
+    font-weight: 700 !important;
+    font-size: 12px;
+    text-align:left!important;
+}
+
+#relayModal .adressrelais {
+    vertical-align: sub;
+    color: #383932 !important;
+    font-weight: 100;
+    font-size: 12px !important;
+    width: 100%;
+}
+
+#relayModal .relais_img {
+    border-color: Black;
+    border-width: 1px;
+    width: 100px;
+}
+
+#relayModal #map { /* la carte DOIT avoir une hauteur sinon elle n'apparaît pas */
+    min-height: 500px;
+    width: 100%;
+    padding: 0px;
+}
+
+#relayModal .item-picto {
+    text-align: left;
+    margin-left: 25px;
+}
+
+
+#relayModal .index_picto {
+    vertical-align: -webkit-baseline-middle;
+}
+
+
+#relayModal [class*="rc-col-"], #relayModal footer {
+    text-align: center;
+}
+
+
+#relayModal .tableH {
+    font-size: 11px;
+    width: 250px;
+    /*margin: 2px;*/
+    padding: 2px;
+    text-align: left;
+}
+
+#relayModal table.adressrelais td {
+    text-align: left;
+}
+
+#relayModal table.horaireList {
+    margin: 0;
+    width: 100%;
+    font-size: 12px !important;
+    margin-bottom: 10px;
+    border: 0;
+}
+
+#relayModal table.horaireList td.classic {
+    color: #383932 !important;
+    width: 33.33% !important;
+
+}
+
+#relayModal table.horaireList td {
+    margin: 0;
+    padding: 5px;
+    border: 0;
+    white-space: nowrap;
+
+}
+
+#relayModal td.jour {
+    text-align: left !important;
+    width: 65px;
+    font-size:11px;
+}
+
+#relayModal .tdhoraire {
+    height: 16px;
+    width: 100px;
+    text-align: center;
+    font-size: 11px;
+}
+
+#relayModal .leaflet-popup-content {
+    width: 230px;
+    margin: 5px 10px 10px 10px !important;
+    color: #383932;
+    /*height: 270px;*/
+}
+
+#relayModal .link--active {
+    color: #a7b92e !important;
+}
+
+#relayModal .small {
+    font-size: .8571428571em;
+}
+
+#relayModal .locator-list-item-picto {
+    align-items: center;
+    background-color: #c0d248;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    height: 23px;
+    justify-content: center;
+    left: -3px;
+    position: absolute;
+    width: 23px;
+}
+
+#relayModal .locator-list-item-detail {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 16px;
+}
+
+#relayModal .btn--primary {
+    background-color: #c0d248;
+    color: #fff;
+    font-weight: 500;
+}
+
+#relayModal .btn--primary:after {
+     background: #cedc71;
+}
+
+#relayModal em {
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+#relayModal .btn-text, #relayModal .btn em {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 15;
+}
+
+
+#relayModal [class*=" icon-"]:before,
+#relayModal [class*=" icon-"][class$=-after]:after,
+#relayModal [class*=" icon-"][class*="-after "]:after,
+#relayModal [class^=icon-]:before,
+#relayModal [class^=icon-][class$=-after]:after,
+#relayModal [class^=icon-][class*="-after "]:after {
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: leader !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    text-transform: none;
+}
+
+#relayModal .michelin-arrow {
+    color: #fff !important;
+}
+
+#relayModal .red-link {
+    color: #e6223d !important;
+    top: 70px;
+    left: 80px;
+    font-size: 25px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+
+#relayModal .cfs {
+    color: #383932 !important;
+    font-size: 11px;
+}
+
+#relayModal .buttonRC {
+    background-image: url('../../img/livemapping/rc_petit_logo.png');
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 25px;
+    margin-top: 5px;
+    border: 0;
+}
+
+#relayModal .icon-arrow-right-after:after, #relayModal .icon-arrow-right:before {
+    content: "\e908" !important;
+}
+
+
+#relayModal #ui-id-1.ui-autocomplete {
+    background-color: #F7F7F7;
+    z-index: 9999;
+}
+
+
+#relayModal #header {
+    background-color: #F7F7F7;
+}
+
+#relayModal .rc_petit_logo {
+    width: 70px;
+    height: 20px;
+}
+
+
+#relayModal #btnSearch {
+    margin: 5px;
+    border: 0px;
+}
+
+#relayModal #selectListAddress {
+    width: 100%;
+    border: 1px #D0DD72 solid;
+    border-radius: 3px;
+}
+
+#relayModal .lblPrecision {
+    text-align:right;
+    padding-right:0px;
+}
+
+#relayModal .divBtnAfficher {
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    /*font-size: 15pt;*/
+}
+
+#relayModal .divImg {
+    font-size: 10px;
+}
+#relayModal .divNomRelais {
+    width: 100%;
+    font-size: 10px;
+}
+
+#relayModal #btnSearch:hover {
+    text-decoration: none;
+    color: #D0DD72;
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px #D0DD72 solid;
+}
+
+#relayModal #txt_Address, #tbCompleteAdress {
+    width: 100%;
+    min-height: 30px;
+    text-align: left;
+}
+
+#relayModal .ui-picto-poi div {
+    left: 0px !important;
+    top: 22px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    background-color: transparent !important;
+    text-align: center !important;
+    color: white !important;
+}
+
+#relayModal .picto {
+    position: relative;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border: 0;
+    color: white;
+    text-align: center;
+    border-radius: 100%;
+    margin-top: 5px;
+    vertical-align: central;
+    background-color: #C0D349;
+}
+
+#relayModal .divDetails {
+    font-size: 12px;
+    width: auto;
+    padding-left: 5px;
+    color: #383932;
+    border-bottom: 1px solid #e2dede;
+}
+
+#relayModal #img_RelaisColis {
+    width: 180px;
+    height: auto;
+    max-width: 100%;
+}
+
+#relayModal .relaisEnConges {
+    font-size: 12px;
+    color: red;
+    width: auto;
+    font-weight: bold;
+}
+
+@media all and (max-width: 768px) {
+    #relayModal .divMap {
+        margin-left: 15px;
+        width: 98%;
+    }
+    #relayModal .divListRelais {
+        margin-right: 15px;
+    }
+    #relayModal #lstRelais{
+        height:300px;
+    }
+    #relayModal .lblPrecision {
+        text-align:center;
+    }
+}
+
+@media all and (max-width: 992px) {
+}
+
+@media (max-width: 1200px) {
+}
+
+#relayModal .td_horaire {
+    text-align: left;
+}
+
+
+#relayModal .td_horairebulle {
+    text-align: left;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#relayModal .cardText {
+    font-size: 10px;
+    text-align: left;
+    margin:0px!important;
+}
