@@ -38,7 +38,7 @@ class WP_Tariff_Grids_DAO {
         if ( $this->check_tariff_conflict( $method_name, $criteria, $min_value, $max_value ) ) {
 
             // Pb occured... criteria conflict
-            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT ] );
+            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT)), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT ]) );
         }
 
         if ( is_null( $shipping_threshold ) || $shipping_threshold =="" ) {

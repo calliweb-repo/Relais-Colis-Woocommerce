@@ -223,7 +223,7 @@ class WC_RC_Services_Manager {
             if ( $key === self::HTML_SERVICES_ID_PREFIX.$service_key ) {
 
                 WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-woocommerce' );
-                $optional = '<span class="optional">('.esc_html__( 'optional', 'woocommerce' ).')</span>';
+                $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-woocommerce' ).')</span>';
                 $field = str_replace( $optional, '', $field );
                 return $field;
             }
@@ -240,7 +240,7 @@ class WC_RC_Services_Manager {
         if ( in_array( $key, $addon_homeplus_service ) ) {
 
             WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-woocommerce' );
-            $optional = '<span class="optional">('.esc_html__( 'optional', 'woocommerce' ).')</span>';
+            $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-woocommerce' ).')</span>';
             $field = str_replace( $optional, '', $field );
             return $field;
         }

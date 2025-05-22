@@ -751,7 +751,7 @@ class WC_Order_Packages_Manager {
 
         if ( !$order ) {
 
-            throw new Exception( __( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
         }
 
         // Check if the shipping method is "Relais Colis"
@@ -797,7 +797,7 @@ class WC_Order_Packages_Manager {
 
         if ( !$wc_order ) {
 
-            throw new Exception( __( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
         }
 
         // Reindex to avoid holes
@@ -1535,6 +1535,7 @@ class WC_Order_Packages_Manager {
              */
             
             $message = sprintf(
+                /* translators: 1: shipping labels url */
                 __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
                 esc_url( $bulk_generate->get_pdf_delivery_label() )
             );
@@ -1669,6 +1670,7 @@ class WC_Order_Packages_Manager {
              *
              */
             $message = sprintf(
+                /* translators: 1: way bills url */
                 __( "Click <a href='%s' target='_blank'>here</a> to download the way bills.", 'relais-colis-woocommerce' ),
                 esc_url( $rc_way_bill )
             );

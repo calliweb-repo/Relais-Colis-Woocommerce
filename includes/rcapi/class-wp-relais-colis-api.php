@@ -342,7 +342,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
             WP_Log::debug( __METHOD__.' : Exception ', [ 'code' => $e->getCode(), 'message' => $e->getMessage() ], 'relais-colis-woocommerce' );
             // Pb occurred... HTML response code in error
-            throw new WP_Relais_Colis_API_Exception( $e->getMessage(), $e->getCode() );
+            throw new WP_Relais_Colis_API_Exception( esc_html($e->getMessage()), esc_html($e->getCode()) );
         }
     }
 

@@ -85,7 +85,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             || empty( WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) ) {
 
             WP_Log::debug( __METHOD__.' - Please select a relay point', [], 'relais-colis-woocommerce' );
-            $errors->add( 'shipping', __( 'Please select a relay point', 'woocommerce' ) );
+            $errors->add( 'shipping', __( 'Please select a relay point', 'relais-colis-woocommerce' ) );
         }
     }
 
