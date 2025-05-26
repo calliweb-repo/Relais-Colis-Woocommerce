@@ -50,7 +50,7 @@ class WC_RC_Shipping_Field_Tariff_Grids {
         }
 
         // CSS
-        wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' );
+        wp_enqueue_style( 'font-awesome', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/font-awesome.css' );
         wp_enqueue_style( self::FIELD_RC_TARIFF_GRIDS.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/field-tariff-grids.css', array(), '1.0', 'all' );
 
         // JS
