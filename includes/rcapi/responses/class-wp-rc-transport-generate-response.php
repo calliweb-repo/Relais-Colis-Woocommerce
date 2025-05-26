@@ -32,7 +32,7 @@ class WP_RC_Transport_Generate_Response {
     public function get_pdf_transport_label() {
 
         // Current date prefix
-        $date_prefixed_filename = date('Y-m-d-H-i-s') .'-'. $this->filename;
+        $date_prefixed_filename = gmdate('Y-m-d-H-i-s') .'-'. $this->filename;
 
         $upload_dir = wp_upload_dir();
         $file_path = $upload_dir['path'] . '/' . $date_prefixed_filename;
