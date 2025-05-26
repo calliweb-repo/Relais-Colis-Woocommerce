@@ -74,6 +74,6 @@ class WC_RC_Shipping_Field_Refresh_Button {
             <button type="button" class="<?php echo esc_attr(self::FIELD_RC_REFRESH_BUTTON); ?> button button-primary"><?php echo esc_html__('Refresh your information', 'relais-colis-woocommerce') ?></button>
         </div>
         <?php
-        echo ob_get_clean();
+        echo esc_js(ob_get_clean());
     }
 }
