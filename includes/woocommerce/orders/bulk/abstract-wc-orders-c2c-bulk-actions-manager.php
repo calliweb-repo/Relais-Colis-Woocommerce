@@ -108,7 +108,7 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
                     '<div class="%s notice is-dismissible"><p>%s %s - %s</p></div>',
                     esc_attr( $notice_class ),
                     esc_html__( 'Order', 'relais-colis-woocommerce' ),
-                    $order_id,
+                    esc_html( $order_id ),
                     wp_kses_post( $result['message'] )
                 );
             }
@@ -147,7 +147,7 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
         // Check user permissions
         if ( !current_user_can( 'manage_woocommerce' ) ) {
 
-            wp_die( __( 'You do not have sufficient permissions to bulk auto distribute items in packages.', 'relais-colis-woocommerce' ) );
+            wp_die( esc_html__( 'You do not have sufficient permissions to bulk auto distribute items in packages.', 'relais-colis-woocommerce' ) );
         }
 
         // Bulk action

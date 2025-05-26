@@ -114,7 +114,7 @@ class WC_RC_Shipping_Field_Tariff_Grids {
         ?>
         <div id="rc-tariff-container">
             <button type="button" id="add-tariff"
-                    class="button button-primary"><?php _e( 'Add a grid', 'relais-colis-woocommerce' ); ?></button>
+                    class="button button-primary"><?php esc_html_e( 'Add a new tariff grid', 'relais-colis-woocommerce' ); ?></button>
             <div id="tariffs-list">
                 <!-- Prices grid are injected here using jQuery -->
             </div>
