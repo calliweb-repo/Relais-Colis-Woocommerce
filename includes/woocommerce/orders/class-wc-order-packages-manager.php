@@ -509,8 +509,8 @@ class WC_Order_Packages_Manager {
         // Inject JSON data into JavaScript
         echo "<script>
             var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
-            var rc_order_colis = $colis_json;
-            var rc_order_items = $items_json;
+            var rc_order_colis = ".esc_js($colis_json).";
+            var rc_order_items = ".esc_js($items_json).";
             var rc_order_id = ".esc_js($wc_order->get_id()).";
             var rc_order_status = '".esc_js($wc_order->get_status())."';  // Ajouter le statut de la commande
             var return_bordereau_smart_url = '".esc_js($return_image_url)."';

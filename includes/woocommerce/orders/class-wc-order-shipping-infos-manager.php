@@ -239,7 +239,7 @@ class WC_Order_Shipping_Infos_Manager {
                     '.( !is_null( $rc_shipping_infos_html ) ? $rc_shipping_infos_html : '' ).'
                 </div>';
 
-            echo $html_content;
+            echo esc_js($html_content);
         }
     }
 
