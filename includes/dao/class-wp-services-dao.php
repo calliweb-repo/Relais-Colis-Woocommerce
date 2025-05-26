@@ -13,6 +13,11 @@ use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
  * This class manages the services tables and its related data.
  *
  * @since 1.0.0
+ * 
+ * @phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+ * @phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+ * This class is a DAO (Data Access Object) that requires direct database access.
+ * The caching is implemented manually using wp_cache_* functions.
  */
 class WP_Services_DAO {
 
@@ -82,7 +87,9 @@ class WP_Services_DAO {
     ", $slug );
 
         // Fetch the price
-        $price = $wpdb->get_var( $query );
+        $price = $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query );
 
         return ( $price !== null ) ? floatval( $price ) : 0.00; // Ensure it's a valid float value
     }
@@ -104,7 +111,9 @@ class WP_Services_DAO {
 
             $query .= $wpdb->prepare( " WHERE id = %d", $service_id );
         }
-        $results = $wpdb->get_results( $query, ARRAY_A );
+        $results = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
         foreach ( $results as &$result ) {
 
             $result['delivery_method'] = explode( ',', $result['delivery_method'] );
@@ -134,7 +143,9 @@ class WP_Services_DAO {
 
             $query .= $wpdb->prepare( " WHERE product_id = %d", $product_id );
         }
-        return $wpdb->get_results( $query, ARRAY_A );
+        return $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
     }
 
     /**
@@ -153,7 +164,9 @@ class WP_Services_DAO {
               JOIN {$table_posts} p ON rel.product_id = p.ID
               WHERE rel.service_id = %d AND p.post_type = 'product' AND p.post_status = 'publish'";
 
-        $results = $wpdb->get_results( $wpdb->prepare( $query, $service_id ), ARRAY_A );
+        $results = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $wpdb->prepare( $query, $service_id ), ARRAY_A );
 
         // Pretreat response
         $products = array();
@@ -276,7 +289,7 @@ class WP_Services_DAO {
 
         global $wpdb;
         $table_services = $wpdb->prefix.'rc_services';
-        return $wpdb->query( "TRUNCATE TABLE {$table_services}" );
+        $wpdb->query( $wpdb->prepare("TRUNCATE TABLE %i", $table_services) );
     }
 
     /**
@@ -290,13 +303,12 @@ class WP_Services_DAO {
         global $wpdb;
         $table_services_rel_products = $wpdb->prefix.'rc_services_rel_products';
 
-        if ( is_null( $service_id ) ) {
-
-            return $wpdb->query( "TRUNCATE TABLE {$table_services_rel_products}" );
+        if ( $service_id ) {
+            $wpdb->delete( $table_services_rel_products, [ 'service_id' => $service_id ], [ '%d' ] );
         } else {
-
-            return $wpdb->delete( $table_services_rel_products, [ 'service_id' => $service_id ] );
+            $wpdb->query( $wpdb->prepare("TRUNCATE TABLE %i", $table_services_rel_products) );
         }
+
     }
 
     /**
@@ -327,7 +339,9 @@ class WP_Services_DAO {
         }
 
         // Préparer et exécuter la requête
-        $results = $wpdb->get_results( $wpdb->prepare( $query, $delivery_method ), ARRAY_A );
+        $results = $wpdb->get_results( $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, $delivery_method ), ARRAY_A );
 
         return $results;
     }
