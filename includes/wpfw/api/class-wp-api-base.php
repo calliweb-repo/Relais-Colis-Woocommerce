@@ -310,7 +310,7 @@ abstract class WP_API_Base {
         // append any query params to the URL when necessary
         if ( $query = $this->get_request_query() ) {
 
-            $url_parts = parse_url( $uri );
+            $url_parts = wp_parse_url( $uri );
 
             // if the URL already has some query params, add to them
             if ( ! empty( $url_parts['query'] ) ) {
