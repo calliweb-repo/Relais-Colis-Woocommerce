@@ -96,7 +96,9 @@ class WC_Customer_Orders_Manager {
 
 
         // Set original customer info
-        $rc_customer_shipping_address = get_transient( 'rc_customer_shipping_address' ) ?: [];
+        $rc_customer_shipping_address = $wc_order->get_meta( 'rc_customer_shipping_address' );
+
+
         
         if ( !empty( $rc_customer_shipping_address ) ) {
 
@@ -134,7 +136,9 @@ class WC_Customer_Orders_Manager {
             }
 
             // Delete transient after usage
-            delete_transient( 'rc_customer_shipping_address' );
+            //delete_transient( 'rc_customer_shipping_address' );
+            $wc_order->delete_meta_data( 'rc_customer_shipping_address' );
+            $wc_order->save();
         }
 
 
