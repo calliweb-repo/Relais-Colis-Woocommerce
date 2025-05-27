@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-16 11:13+0200\n"
-"PO-Revision-Date: 2025-05-26 18:03+0200\n"
+"PO-Revision-Date: 2025-05-27 11:26+0200\n"
 "Last-Translator: Quentin <quentin.jeannet@calliweb.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "Language: fr\n"
@@ -870,15 +870,15 @@ msgstr "Informations de retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:304
 msgid "Return number"
-msgstr "Numéro de retour"
+msgstr "Numéro du retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:305
 msgid "Cab number"
-msgstr "Numéro Cab"
+msgstr "Numéro de l'étiquette"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:306
 msgid "Deadline associated with the return"
-msgstr "Date limite associée au retour"
+msgstr "Date limite du retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:307
 msgid "URL for related return label"
