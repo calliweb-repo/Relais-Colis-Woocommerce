@@ -276,6 +276,7 @@ abstract class WC_RC_Choose_Services_Manager {
         }
 
         // FSE checkout
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if (!empty($_GET['rc_reset_infos'])) {
             //WC()->session->set('rc_selected_services', []); // Vide la session des services
             //WC()->session->set('rc_selected_service_infos', []); // Vide les détails des services

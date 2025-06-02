@@ -38,6 +38,7 @@ class WC_RC_Ajax_Get_Wc_Products {
      */
     public function get_wc_products() {
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         WP_Log::debug( __METHOD__, [ 'GET'=>$_GET ], 'relais-colis-woocommerce' );
 
         $nonce_check = check_ajax_referer( 'rc_multiselect_products_nonce', 'nonce', false );

@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 

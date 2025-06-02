@@ -160,6 +160,7 @@ trait Plugin_Activation_Control {
 
         deactivate_plugins( $this->plugin_info[ WP_PLoad::PLUGIN_BASENAME ] );
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( isset( $_GET['activate'] ) ) {
             unset( $_GET['activate'] );
         }

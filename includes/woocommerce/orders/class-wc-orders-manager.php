@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 
@@ -167,6 +168,7 @@ class WC_Orders_Manager {
         if (
             !is_admin() || (
                 // HPOS Mode: Verifies "wc-orders" page with ID and edit action
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 ( isset( $_GET['page'] ) && $_GET['page'] === 'wc-orders' && isset( $_GET['id'] ) && isset( $_GET['action'] ) && $_GET['action'] === 'edit' )
 
                 // Legacy Mode: Verifies classic WooCommerce order edit page
