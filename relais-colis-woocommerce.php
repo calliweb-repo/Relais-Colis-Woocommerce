@@ -26,7 +26,7 @@ namespace RelaisColisWoocommerce;
 defined( 'ABSPATH' ) or exit;
 
 // Require vendor autoloads to be able to Use all frameworks namespaces
-require_once __DIR__.'/vendor/autoload.php';
+// require_once __DIR__.'/vendor/autoload.php';
 
 // Require autoload for this current plugin
 require_once __DIR__.'/autoload.php';
