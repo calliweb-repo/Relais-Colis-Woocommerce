@@ -2,11 +2,6 @@
 
 namespace RelaisColisWoocommerce\WPFw\Utils;
 
-// Monolog
-use Monolog\Logger;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Processor\IntrospectionProcessor;
-use Monolog\Formatter\LineFormatter;
 use Psr\Log\LogLevel;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 
@@ -30,7 +25,7 @@ class WP_Log {
     public static $loggers = array();
     private static $default_text_domain = null;
 
-    public static $error_level = Logger::EMERGENCY;
+    public static $error_level = 'error';
 
     /**
      * Default init method called when instance created
@@ -46,7 +41,6 @@ class WP_Log {
      * @return array the loggers: <text_domain> => Loggers
      */
     public function get_loggers() {
-
         return self::$loggers;
     }
 
@@ -54,109 +48,57 @@ class WP_Log {
      * Init logging for a text domain
      */
     public function register_text_domain( $text_domain, $default=false ) {
-
-        // First get logging level for error_log
-        $this->init_error_log( $text_domain, $default );
-    }
-
-    /**
-     * Init error logging
-     */
-    private function init_error_log( $text_domain, $default=false ) {
-
         // Setting default logger text domain... may simplify calls
         if ( $default ) {
-
             self::$default_text_domain = $text_domain;
         }
 
-        // First get logging level for error_log
+        // Get logging level
         $error_log_level = $this->get_error_log_level( $text_domain );
-
-//        self::$error_log = new Logger( $text_domain.'-error-log' );
-        $logger = new Logger( $text_domain );
-
-        // Introspection processor (add info about class, line, method...)
-        // Only for DEBUG mode
-        if ($this->activate_introspection()) {
-
-            $introspection_processor = new IntrospectionProcessor( $error_log_level );
-            $logger->pushProcessor( $introspection_processor );
-        }
-
-        // Line formatter
-        //
-        // Output format example: "%datetime% > %level_name% > %message% %context% %extra%\n";
-        // Depending on level mode
-        $date_format = "Y n j, g:i a";
-        $output = "%level_name% %message% %context%";
-        if ( Logger::DEBUG == $error_log_level ) {
-
-            $output = "%extra% %level_name% %message% %context%";
-        }
-        $line_formatter = new LineFormatter( $output, $date_format, false, true );
-
-        // Error log handler
-        $error_log_handler = new ErrorLogHandler( ErrorLogHandler::OPERATING_SYSTEM, $error_log_level, true, false );
-        $error_log_handler->setFormatter( $line_formatter );
-        $logger->pushHandler( $error_log_handler );
-
-        self::$loggers[$text_domain] = $logger;
+        self::$loggers[$text_domain] = $error_log_level;
     }
 
     /**
-     * Set logging level for error_log
-     * Must return one of levels defined in Monolog Logger; eg. Logger::DEBUG
-     * DEBUG - Detailed debug information
-     * INFO - Interesting events. Examples: User logs in, SQL logs.
-     * NOTICE - Uncommon events
-     * WARNING - Exceptional occurrences that are not errors. Examples: Use of deprecated APIs, poor use of an API,
-     * ERROR - Runtime errors
-     * CRITICAL - Critical conditions - Example: Application component unavailable, unexpected exception.
-     * ALERT - Action must be taken immediately. Example: Entire website down, database unavailable, etc.
-     * EMERGENCY - Urgent alert
+     * Get logging level
+     * Must return one of levels defined in WordPress error_log
+     * error - Runtime errors
+     * warning - Exceptional occurrences that are not errors
+     * notice - Uncommon events
+     * info - Interesting events
+     * debug - Detailed debug information
      */
     public function get_error_log_level( $text_domain ) {
-
-        // Get logger level from Titan settings, directly using get_options (no need for Titan admin visual composer)
-        $logger_level = get_option( self::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.$text_domain, Logger::EMERGENCY );
+        // Get logger level from options
+        $logger_level = \get_option( self::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.$text_domain, 'error' );
 
         switch ( $logger_level ) {
-
             case 'logger_level_emergency':
-                WP_Log::$error_level = Logger::EMERGENCY;
-                break;
             case 'logger_level_alert':
-                WP_Log::$error_level = Logger::ALERT;
-                break;
             case 'logger_level_critical':
-                WP_Log::$error_level = Logger::CRITICAL;
-                break;
             case 'logger_level_error':
-                WP_Log::$error_level = Logger::ERROR;
+                WP_Log::$error_level = 'error';
                 break;
             case 'logger_level_warning':
-                WP_Log::$error_level = Logger::WARNING;
+                WP_Log::$error_level = 'warning';
                 break;
             case 'logger_level_notice':
-                WP_Log::$error_level = Logger::NOTICE;
+                WP_Log::$error_level = 'notice';
                 break;
             case 'logger_level_info':
-                WP_Log::$error_level = Logger::INFO;
+                WP_Log::$error_level = 'info';
                 break;
             case 'logger_level_debug':
-                WP_Log::$error_level = Logger::DEBUG;
+                WP_Log::$error_level = 'debug';
                 break;
             default:
-                WP_Log::$error_level = Logger::EMERGENCY;
+                WP_Log::$error_level = 'error';
                 break;
-
         }
         return WP_Log::$error_level;
     }
 
     /**
-     * Adds a log record at an arbitrary level for a logger atached to a text domain
+     * Adds a log record at an arbitrary level for a logger attached to a text domain
      *
      * @param $text_domain   The log text domain
      * @param $level   The log level
@@ -164,61 +106,85 @@ class WP_Log {
      * @param $context The log context
      */
     public static function log( $level, $message, array $context = [], $text_domain=null ) {
-
         if ( is_null( $text_domain ) && !is_null( self::$default_text_domain ) ) {
-
             $text_domain = self::$default_text_domain;
         }
-        if ( !is_null( $text_domain ) && array_key_exists( $text_domain, self::$loggers ) ) {
 
+        if ( !is_null( $text_domain ) && array_key_exists( $text_domain, self::$loggers ) ) {
             // Message is prefixed with text domain
             $message = '> '.$text_domain.' > '.$message;
 
-            $clogger = self::$loggers[''.$text_domain];
-            $clogger->log( $level, $message, $context );
+            // Convert Monolog levels to WordPress levels
+            $wp_level = 'error';
+            switch ($level) {
+                case 'emergency':
+                case 'alert':
+                case 'critical':
+                case 'error':
+                    $wp_level = 'error';
+                    break;
+                case 'warning':
+                    $wp_level = 'warning';
+                    break;
+                case 'notice':
+                    $wp_level = 'notice';
+                    break;
+                case 'info':
+                    $wp_level = 'info';
+                    break;
+                case 'debug':
+                    $wp_level = 'debug';
+                    break;
+            }
+
+            // Add context to message if present
+            if (!empty($context)) {
+                $message .= ' ' . json_encode($context);
+            }
+
+            // Use WordPress error_log function
+            \error_log($message, 0);
         }
     }
+
     public static function debug( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::DEBUG, $message, $context, $text_domain );
-    }
-    public static function info( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::INFO, $message, $context, $text_domain );
-    }
-    public static function notice( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::NOTICE, $message, $context, $text_domain );
-    }
-    public static function warning( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::WARNING, $message, $context, $text_domain );
-    }
-    public static function error( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::ERROR, $message, $context, $text_domain );
-    }
-    public static function critical( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::CRITICAL, $message, $context, $text_domain );
-    }
-    public static function alert( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::ALERT, $message, $context, $text_domain );
-    }
-    public static function emergency( $message, array $context = [], $text_domain=null ) {
-        self::log( Logger::EMERGENCY, $message, $context, $text_domain );
+        self::log( 'debug', $message, $context, $text_domain );
     }
 
-    /**
-     * Activate verbose info in log
-     * See Monolog Introspection
-     */
-    public function activate_introspection() {
-        return false;
+    public static function info( $message, array $context = [], $text_domain=null ) {
+        self::log( 'info', $message, $context, $text_domain );
+    }
+
+    public static function notice( $message, array $context = [], $text_domain=null ) {
+        self::log( 'notice', $message, $context, $text_domain );
+    }
+
+    public static function warning( $message, array $context = [], $text_domain=null ) {
+        self::log( 'warning', $message, $context, $text_domain );
+    }
+
+    public static function error( $message, array $context = [], $text_domain=null ) {
+        self::log( 'error', $message, $context, $text_domain );
+    }
+
+    public static function critical( $message, array $context = [], $text_domain=null ) {
+        self::log( 'critical', $message, $context, $text_domain );
+    }
+
+    public static function alert( $message, array $context = [], $text_domain=null ) {
+        self::log( 'alert', $message, $context, $text_domain );
+    }
+
+    public static function emergency( $message, array $context = [], $text_domain=null ) {
+        self::log( 'emergency', $message, $context, $text_domain );
     }
 
     /**
      * Called on plugin deactivation to clean options
      */
     public function deactivate() {
-
         foreach ( self::$loggers as $text_domain => $logger ) {
-
-            delete_option( self::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.$text_domain );
+            \delete_option( self::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.$text_domain );
         }
     }
 }

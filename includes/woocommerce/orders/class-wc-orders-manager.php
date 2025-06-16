@@ -403,7 +403,10 @@ class WC_Orders_Manager {
                 'shipping_company' => WC()->customer->get_shipping_company(),
                 'shipping_country' => WC()->customer->get_shipping_country(),
             );
-            set_transient( 'rc_customer_shipping_address', $customer_shipping_address, 60 );
+
+            
+            // Sauvegarder également dans les métadonnées de la commande
+            $wc_order->update_meta_data( 'rc_customer_shipping_address', $customer_shipping_address );
             WP_Log::debug( __METHOD__.' - Customer info set in transient.', [ 'set_transient' => $customer_shipping_address ], 'relais-colis-woocommerce' );
 
 
