@@ -668,6 +668,10 @@ msgstr "Dimanche"
 msgid "Relay Name:"
 msgstr "Nom du relais :"
 
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:88
+msgid "Relay ID:"
+msgstr "Identifiant du relais :"
+
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:84
 msgid "Address:"
 msgstr "Adresse :"
