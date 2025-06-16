@@ -354,7 +354,7 @@ msgstr "Ajouter une ligne"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:93
 msgid "Shipping threshold"
-msgstr "Seuil de livraison gratuite"
+msgstr "Seuil de livraison gratuite en euro"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:117
 msgid "Add a grid"
