@@ -101,7 +101,7 @@ class WC_Orders_List_Table_Manager {
                 $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
                 if ( $rc_shipping_method !== false ) {
 
-                    echo WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method );
+                    echo esc_html( WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ) );
                 } else echo '';
                 break;
             case WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE:
@@ -116,7 +116,7 @@ class WC_Orders_List_Table_Manager {
                     // Get order state
                     $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
-                    echo WC_RC_Shipping_Constants::get_order_state_title( $order_state );
+                    echo esc_html( WC_RC_Shipping_Constants::get_order_state_title( $order_state ) );
                 } else echo '';
 
                 break;

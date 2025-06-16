@@ -259,7 +259,7 @@ class WP_RC_B2C_Relay_Place_Advertisement extends WP_RC_Place_Advertisement_Requ
                 if ( !isset( $data[ $param ] ) || is_null( $data[ $param ] ) ) {
     
                     WP_Log::error( __METHOD__, ['$param'=>$param], 'relais-colis-woocommerce' );
-                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER).$param, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER] );
+                    throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER)).' '.esc_html($param), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER]) );
                 }
             }
         }

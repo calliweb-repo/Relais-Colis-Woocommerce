@@ -342,7 +342,7 @@ msgstr "Prix total de la commande - Euro (€)"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:90
 msgid "Order weight"
-msgstr "Poids de la commande - Kilogramme (kg)"
+msgstr "Poids de la commande - "
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:91
 msgid "Tariff ranges"
@@ -668,6 +668,10 @@ msgstr "Dimanche"
 msgid "Relay Name:"
 msgstr "Nom du relais :"
 
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:88
+msgid "Relay ID:"
+msgstr "Identifiant du relais :"
+
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:84
 msgid "Address:"
 msgstr "Adresse :"
@@ -869,15 +873,15 @@ msgstr "Informations de retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:304
 msgid "Return number"
-msgstr "Numéro de retour"
+msgstr "Numéro du retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:305
 msgid "Cab number"
-msgstr "Numéro Cab"
+msgstr "Numéro de l'étiquette"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:306
 msgid "Deadline associated with the return"
-msgstr "Date limite associée au retour"
+msgstr "Date limite du retour"
 
 #: includes/woocommerce/orders/class-wc-order-packages-manager.php:307
 msgid "URL for related return label"

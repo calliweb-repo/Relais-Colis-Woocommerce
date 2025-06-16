@@ -74,7 +74,7 @@ class WC_RC_Shipping_Infos_Settings {
 
             ?>
             <style>
-                    body.wc-settings-sub-tab-<?php echo self::SECTION_INFORMATIONS; ?> .woocommerce-save-button.components-button.is-primary:disabled {
+                    body.wc-settings-sub-tab-<?php echo esc_attr(self::SECTION_INFORMATIONS); ?> .woocommerce-save-button.components-button.is-primary:disabled {
                         display: none !important;
                     }
             </style>

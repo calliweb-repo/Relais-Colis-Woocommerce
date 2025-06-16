@@ -47,8 +47,8 @@ class WP_Configuration_DAO {
         $agency_code = sanitize_text_field( $response->get_agency_code() );
         $return_site = sanitize_text_field( $response->get_return_site() );
         $updated_by = absint( $response->get_updated_by() );
-        $created_at = date( 'Y-m-d H:i:s', strtotime( $response->get_created_at() ) );
-        $updated_at = date( 'Y-m-d H:i:s', strtotime( $response->get_updated_at() ) );
+        $created_at = gmdate('Y-m-d H:i:s', strtotime($response->get_created_at()));
+        $updated_at = gmdate('Y-m-d H:i:s', strtotime($response->get_updated_at()));
         $osm_live_mapping_key = sanitize_text_field( $response->get_osm_live_mapping_key() );
         $osm_live_mapping_ens = sanitize_text_field( $response->get_osm_live_mapping_ens() );
 
@@ -230,10 +230,14 @@ class WP_Configuration_DAO {
         }
 
         // Prepare statement
-        $prepared_statement = $wpdb->prepare( $sql, $params );
+        $prepared_statement = $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $sql, $params );
 
         // Execute query
-        $options = $wpdb->get_results( $prepared_statement, ARRAY_A );
+        $options = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $prepared_statement, ARRAY_A );
         return $options;
     }
 }
