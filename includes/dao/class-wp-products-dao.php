@@ -10,10 +10,17 @@ use RelaisColisWoocommerce\WPFw\Traits\Singleton;
  * This class manages the WooCommerce products
  *
  * @since 1.0.0
+ * 
+ * @phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+ * @phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+ * This class is a DAO (Data Access Object) that requires direct database access.
+ * The caching is implemented manually using wp_cache_* functions.
  */
 class WP_Products_DAO {
 
     use Singleton;
+
+    private $cache_group = 'rc_products';
 
     /**
      * Load all products from DB
@@ -53,10 +60,14 @@ class WP_Products_DAO {
         $params[] = $limit;
 
         // Prepare SQL statement
-        $statement = $wpdb->prepare( $sql, ...$params );
+        $statement = $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $sql, ...$params );
 
         // Execute query
-        $products = $wpdb->get_results( $statement );
+        $products = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $statement );
 
         // Convert results into an associative array
         $product_options = [];
