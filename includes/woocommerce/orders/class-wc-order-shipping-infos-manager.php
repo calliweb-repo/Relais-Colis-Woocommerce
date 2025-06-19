@@ -85,6 +85,7 @@ class WC_Order_Shipping_Infos_Manager {
 
                         $rc_shipping_infos_html = '
                             <p><strong>'.__( 'Relay Name:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $nom_relais ).'</p>
+                            <p><strong>'.__( 'Relay ID:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $rc_relay_data['Xeett'] ).'</p>
                             <p><strong>'.__( 'Address:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $adresse_relais ).', '.esc_html( $code_postal ).' '.esc_html( $ville ).', '.esc_html( $pays ).'</p>
                             <p><a href="'.esc_url( $google_maps_url ).'" target="_blank">'.__( 'View on Google Maps', 'relais-colis-woocommerce' ).'</a></p>
                             <p><strong>'.__( 'Opening Hours', 'relais-colis-woocommerce' ).'</strong></p>
@@ -239,7 +240,7 @@ class WC_Order_Shipping_Infos_Manager {
                     '.( !is_null( $rc_shipping_infos_html ) ? $rc_shipping_infos_html : '' ).'
                 </div>';
 
-            echo $html_content;
+            echo esc_js($html_content);
         }
     }
 

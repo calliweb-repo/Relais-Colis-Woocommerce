@@ -28,7 +28,7 @@ abstract class WP_Relais_Colis_Request extends WP_API_JSON_Request {
             if ( !isset( $this->data[ $param ] ) || is_null( $this->data[ $param ] ) ) {
 
                 WP_Log::error( __METHOD__, ['$param'=>$param], 'relais-colis-woocommerce' );
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER).$param, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER] );
+                throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER)).' '.esc_html($param), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER]) );
             }
         }
     }

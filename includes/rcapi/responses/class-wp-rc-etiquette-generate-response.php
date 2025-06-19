@@ -34,7 +34,7 @@ class WP_RC_Etiquette_Generate_Response {
         WP_Log::debug( __METHOD__, [ '$this->filename' => '##'.$this->filename.'##' ], 'relais-colis-woocommerce' );
 
         // Current date prefix
-        $date_prefixed_filename = date('Y-m-d-H-i-s') .'-'. trim($this->filename, "\xC2\xA0\x20");
+        $date_prefixed_filename = gmdate('Y-m-d-H-i-s') .'-'. trim($this->filename, "\xC2\xA0\x20");
 
         $upload_dir = wp_upload_dir();
         $file_path = $upload_dir['path'] . '/' . $date_prefixed_filename;

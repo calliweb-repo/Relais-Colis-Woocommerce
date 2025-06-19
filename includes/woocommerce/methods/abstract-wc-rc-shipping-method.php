@@ -255,7 +255,9 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
         }
 
         // Get cart total price
-        $cart_total_price = $package[ 'contents_cost' ];
+        // $cart_total_price = $package[ 'contents_cost' ];
+        $cart_total_price = $package[ 'cart_subtotal' ];
+
 
         // Check if price-based pricing is available in the tariff grid
         $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $cart_total_price, 'price' );

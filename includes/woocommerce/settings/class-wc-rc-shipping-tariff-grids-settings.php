@@ -118,8 +118,8 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
 
                 // Check if min is greater than max
                 if ( !is_null( $max_value ) && ( $min_value >= $max_value ) ) {
-
-                    $message =  sprintf( __( "Min value (%s) must be less than Max value (%s).", 'relais-colis-woocommerce' ), $min_value, $max_value );
+                    /* translators: 1: min value, 2: max value */
+                    $message =  sprintf( __( 'Min value (%1$s) must be less than Max value (%2$s).', 'relais-colis-woocommerce' ), $min_value, $max_value );
                     WC_Admin_Settings::add_error( $message );
                     WP_Log::warning( __METHOD__.' - Min value must be less than max value', [
                         'min_value' => $min_value,
@@ -186,6 +186,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
             [
                 'title' => __( 'Tariff Grids', 'relais-colis-woocommerce' ),
                 'type' => 'title',
+                /* translators: 1: weight unit */
                 'desc' => sprintf( __( 'Add prices with a free threshold. The unit of weight is %s', 'relais-colis-woocommerce' ), $option_rc_weight_unit ),
                 'id' => 'rc_prices_title',
             ],

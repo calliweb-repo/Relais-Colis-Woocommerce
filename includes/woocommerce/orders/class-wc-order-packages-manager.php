@@ -260,7 +260,7 @@ class WC_Order_Packages_Manager {
         }
 
         // CSS
-        wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' );
+        wp_enqueue_style( 'font-awesome', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/font-awesome.css' );
         wp_enqueue_style( self::RC_ORDER_PACKAGES.'_css', Relais_Colis_Woocommerce_Loader::instance()->get_plugin_dir_url().'assets/css/order-packages.css', array(), '1.0', 'all' );
 
         // JS
@@ -492,7 +492,16 @@ class WC_Order_Packages_Manager {
         $return_bordereau_smart_url = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_BORDEREAU_SMART_URL );
         $return_number = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_RETURN_NUMBER );
         $return_number_cab = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_NUMBER_CAB );
-        $return_limit_date = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_LIMIT_DATE );
+        $return_limit_date_raw = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_LIMIT_DATE );
+        $return_limit_date = '';
+        if ( !empty( $return_limit_date_raw ) ) {
+            try {
+                $date = new \DateTime( $return_limit_date_raw );
+                $return_limit_date = $date->format( 'd/m/Y H:i:s' );
+            } catch ( Exception $e ) {
+                $return_limit_date = $return_limit_date_raw; // Fallback vers la valeur originale si la conversion échoue
+            }
+        }
         $return_image_url = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_IMAGE_URL );
         $return_token = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_TOKEN );
         $return_created_at = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_CREATED_AT );
@@ -509,20 +518,20 @@ class WC_Order_Packages_Manager {
         // Inject JSON data into JavaScript
         echo "<script>
             var c2c_mode = ".( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? "1" : "0" ).";
-            var rc_order_colis = $colis_json;
-            var rc_order_items = $items_json;
+            var rc_order_colis = ".esc_js($colis_json).";
+            var rc_order_items = ".esc_js($items_json).";
             var rc_order_id = ".esc_js($wc_order->get_id()).";
             var rc_order_status = '".esc_js($wc_order->get_status())."';  // Ajouter le statut de la commande
-            var return_bordereau_smart_url = '".$return_image_url."';
-            var return_number = '".$return_number."';
-            var return_number_cab = '".$return_number_cab."';
-            var return_limit_date = '".$return_limit_date."';
+            var return_bordereau_smart_url = '".esc_js($return_image_url)."';
+            var return_number = '".esc_js($return_number)."';
+            var return_number_cab = '".esc_js($return_number_cab)."';
+            var return_limit_date = '".esc_js($return_limit_date)."';
             var return_image_url = '';
-            var return_token = '".$return_token."';
-            var return_created_at = '".$return_created_at."';
-            var rc_way_bill = '".$rc_way_bill."';
-            var rc_order_state = '".$order_state."';
-            var rc_shipping_method = '".$rc_shipping_method."';
+            var return_token = '".esc_js($return_token)."';
+            var return_created_at = '".esc_js($return_created_at)."';
+            var rc_way_bill = '".esc_js($rc_way_bill)."';
+            var rc_order_state = '".esc_js($order_state)."';
+            var rc_shipping_method = '".esc_js($rc_shipping_method)."';
           </script>";
 
         // Empty container where JavaScript will generate the UI dynamically
@@ -751,7 +760,7 @@ class WC_Order_Packages_Manager {
 
         if ( !$order ) {
 
-            throw new Exception( __( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
         }
 
         // Check if the shipping method is "Relais Colis"
@@ -797,7 +806,7 @@ class WC_Order_Packages_Manager {
 
         if ( !$wc_order ) {
 
-            throw new Exception( __( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
         }
 
         // Reindex to avoid holes
@@ -1535,6 +1544,7 @@ class WC_Order_Packages_Manager {
              */
             
             $message = sprintf(
+                /* translators: 1: shipping labels url */
                 __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
                 esc_url( $bulk_generate->get_pdf_delivery_label() )
             );
@@ -1669,6 +1679,7 @@ class WC_Order_Packages_Manager {
              *
              */
             $message = sprintf(
+                /* translators: 1: way bills url */
                 __( "Click <a href='%s' target='_blank'>here</a> to download the way bills.", 'relais-colis-woocommerce' ),
                 esc_url( $rc_way_bill )
             );
