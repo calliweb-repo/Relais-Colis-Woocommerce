@@ -341,16 +341,39 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function deactivate() {
 
-        global $wpdb;
-
-        // Récupérer les noms des tables avec le préfixe WordPress
-        $table_activation_options = $wpdb->prefix.'rc_configuration_options';
-
-        // Supprimer les tables
-        $wpdb->query( "DROP TABLE IF EXISTS $table_activation_options" );
+        // Delete composer.json and vendor directory
+        if (file_exists(__DIR__ . '/composer.json')) {
+            @unlink(__DIR__ . '/composer.json');
+        }
+        
+        if (is_dir(__DIR__ . '/vendor')) {
+            $this->rrmdir(__DIR__ . '/vendor');
+        }
 
         // Deactivate cron
         WP_Cron_Manager::instance()->deactivate();
+    }
+
+    /**
+     * Recursively remove a directory and its contents
+     * 
+     * @param string $dir Directory path to remove
+     * @return void
+     */
+    private function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
+                        $this->rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        @unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+            @rmdir($dir);
+        }
     }
 }
 
