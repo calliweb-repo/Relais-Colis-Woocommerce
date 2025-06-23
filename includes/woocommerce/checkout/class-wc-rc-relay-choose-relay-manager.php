@@ -103,7 +103,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
         $prefix_rc = WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID;
 
         // CSS - JQuery, UI, Dialog, Leaflet
-        wp_enqueue_style( $prefix_rc.'_font_awesome_css', $plugin_url.'assets/css/font-awesome-6.0.0.css', array(), '6.0.0' );
+        wp_enqueue_style( $prefix_rc.'_font_awesome_css', $plugin_url.'assets/css/font-awesome-6.5.1.min.css', array(), '6.0.0' );
         wp_enqueue_style( $prefix_rc.'_jquery_ui_css', $plugin_url.'assets/css/jquery-ui.css' );
         wp_enqueue_style( $prefix_rc.'_leaflet_css', $plugin_url.'assets/css/livemapping/leaflet.css', array(), '1.0', 'all' );
 
