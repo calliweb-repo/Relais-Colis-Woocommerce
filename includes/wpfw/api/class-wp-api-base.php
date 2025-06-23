@@ -775,7 +775,7 @@ abstract class WP_API_Base {
             return;
         }
 
-        curl_setopt( $handle, CURLOPT_SSLVERSION, 6 );
+        curl_setopt( $handle, CURLOPT_SSLVERSION, 6 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt
     }
 
 

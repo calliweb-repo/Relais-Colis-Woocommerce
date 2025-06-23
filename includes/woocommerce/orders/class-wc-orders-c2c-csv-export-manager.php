@@ -211,7 +211,7 @@ class WC_Orders_C2c_Csv_Export_Manager {
             fputcsv( $output, $csv_row, ';' );
         }
 
-        fclose( $output );
+        fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
         exit;
     }
 }
