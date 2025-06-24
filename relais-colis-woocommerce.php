@@ -343,7 +343,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
 
         // Delete composer.json and vendor directory
         if (file_exists(__DIR__ . '/composer.json')) {
-            @unlink(__DIR__ . '/composer.json');
+            wp_delete_file(__DIR__ . '/composer.json');
         }
         
         if (is_dir(__DIR__ . '/vendor')) {
@@ -368,11 +368,17 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
                         $this->rrmdir($dir . DIRECTORY_SEPARATOR . $object);
                     } else {
-                        @unlink($dir . DIRECTORY_SEPARATOR . $object);
+                        wp_delete_file($dir . DIRECTORY_SEPARATOR . $object);
                     }
                 }
             }
-            @rmdir($dir);
+            // Utilisation de WP_Filesystem pour supprimer le dossier
+            if ( ! function_exists( 'WP_Filesystem' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+            }
+            WP_Filesystem();
+            global $wp_filesystem;
+            $wp_filesystem->rmdir( $dir );
         }
     }
 }
