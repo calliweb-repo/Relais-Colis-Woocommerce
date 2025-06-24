@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 
@@ -101,7 +102,7 @@ class WC_Orders_List_Table_Manager {
                 $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
                 if ( $rc_shipping_method !== false ) {
 
-                    echo WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method );
+                    echo esc_html( WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ) );
                 } else echo '';
                 break;
             case WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE:
@@ -116,7 +117,7 @@ class WC_Orders_List_Table_Manager {
                     // Get order state
                     $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
-                    echo WC_RC_Shipping_Constants::get_order_state_title( $order_state );
+                    echo esc_html( WC_RC_Shipping_Constants::get_order_state_title( $order_state ) );
                 } else echo '';
 
                 break;
@@ -151,6 +152,7 @@ class WC_Orders_List_Table_Manager {
 
         global $pagenow, $typenow;
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_shipping_method' ) ) {
 
             WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-woocommerce' );
@@ -159,7 +161,7 @@ class WC_Orders_List_Table_Manager {
             // Legacy – for CPT-based orders
             $query->set( 'meta_key', WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD );
             $query->set( 'orderby', 'meta_value' );
-
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         } else if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_state' ) ) {
 
             WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-woocommerce' );
@@ -170,9 +172,11 @@ class WC_Orders_List_Table_Manager {
             $query->set( 'orderby', 'meta_value' );
 
         }
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( $pagenow === 'edit.php' && $typenow === 'shop_order' && isset( $_GET[ 'filter_rc_shipping_method' ] ) && !empty( $_GET[ 'filter_rc_shipping_method' ] ) ) {
 
             // Get chosen shipping method from GET
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $rc_shipping_method = sanitize_text_field( $_GET[ 'filter_rc_shipping_method' ] );
 
             $query->set( 'meta_query', array_merge(
@@ -188,6 +192,7 @@ class WC_Orders_List_Table_Manager {
 
             WP_Log::debug( __METHOD__, [ '$rc_shipping_method' => $rc_shipping_method, '$query' => $query ], 'relais-colis-woocommerce' );
         }
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( $pagenow === 'edit.php' && $typenow === 'shop_order' && isset( $_GET[ 'filter_rc_state' ] ) && !empty( $_GET[ 'filter_rc_state' ] ) ) {
 
             // Get chosen state method from GET

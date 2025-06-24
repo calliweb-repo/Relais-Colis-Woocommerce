@@ -1,7 +1,7 @@
 <?php
 
 namespace RelaisColisWoocommerce\Shipping;
-
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce_Loader;

@@ -1,5 +1,5 @@
 <?php
-
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 namespace RelaisColisWoocommerce\Shipping;
 
 defined( 'ABSPATH' ) or exit;
@@ -88,12 +88,12 @@ class WC_RC_Shipping_Field_Enable {
                 <label for="<?php echo esc_attr( $field[ 'id' ] ); ?>"><?php echo esc_html( $field[ 'title' ] ); ?></label>
             </th>
             <td class="forminp forminp-checkbox">
-                <div class="rc_enable_checkbox <?php echo $is_active; ?>">
+                <div class="rc_enable_checkbox <?php echo esc_attr( $is_active ); ?>">
                     <input
                             type="hidden"
                             name="<?php echo esc_attr( $field[ 'field_name' ] ); ?>"
                             id="<?php echo esc_attr( $field[ 'id' ] ); ?>_hidden"
-                            value="<?php echo $value; ?>"
+                            value="<?php echo esc_attr( $value ); ?>"
                     >
                     <input
                             name="<?php echo esc_attr( $field[ 'field_name' ] ); ?>"
@@ -108,7 +108,7 @@ class WC_RC_Shipping_Field_Enable {
                     <span class="label-on"><?php echo esc_html( $field[ 'yes_label' ] ); ?></span>
                 </div>
                 <?php if ( !empty( $field[ 'desc' ] ) ) { ?>
-                    <p class="description"><?php echo $field[ 'desc' ]; ?></p>
+                    <p class="description"><?php echo esc_html( $field['desc'] ); ?></p>
                 <?php } ?>
             </td>
         </tr>

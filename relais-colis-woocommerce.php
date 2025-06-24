@@ -3,7 +3,7 @@
  * Plugin Name: Relais Colis Woocommerce
  * Plugin URI: https://www.relaiscolis.com/
  * Description: Adds Relais Colis shipping method to WooCommerce.
- * Version: 1.0.1
+ * Version: 2.0.3
  * Requires at least: 6.6.2
  * Requires PHP: 8.1
  * Author: Calliweb
@@ -26,7 +26,7 @@ namespace RelaisColisWoocommerce;
 defined( 'ABSPATH' ) or exit;
 
 // Require vendor autoloads to be able to Use all frameworks namespaces
-require_once __DIR__.'/vendor/autoload.php';
+// require_once __DIR__.'/vendor/autoload.php';
 
 // Require autoload for this current plugin
 require_once __DIR__.'/autoload.php';
@@ -341,16 +341,39 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function deactivate() {
 
-        global $wpdb;
-
-        // Récupérer les noms des tables avec le préfixe WordPress
-        $table_activation_options = $wpdb->prefix.'rc_configuration_options';
-
-        // Supprimer les tables
-        $wpdb->query( "DROP TABLE IF EXISTS $table_activation_options" );
+        // Delete composer.json and vendor directory
+        if (file_exists(__DIR__ . '/composer.json')) {
+            @unlink(__DIR__ . '/composer.json');
+        }
+        
+        if (is_dir(__DIR__ . '/vendor')) {
+            $this->rrmdir(__DIR__ . '/vendor');
+        }
 
         // Deactivate cron
         WP_Cron_Manager::instance()->deactivate();
+    }
+
+    /**
+     * Recursively remove a directory and its contents
+     * 
+     * @param string $dir Directory path to remove
+     * @return void
+     */
+    private function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
+                        $this->rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        @unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+            @rmdir($dir);
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 
@@ -73,12 +74,11 @@ class WC_RC_Shipping_Field_Copy_Paste_Button {
         // Get formatted info
         $formatted_info = $field['text'];
 
-        ob_start(); ?>
+        ?>
         <div>
-            <textarea class="<?php echo $this->info_text_area_css_class; ?>" style="display:none;" readonly><?php echo $formatted_info; ?></textarea>
-            <button type="button" class="<?php echo $this->copy_paste_button_css_class; ?> button button-primary"><?php echo esc_html__('Copy the information to the clipboard', 'relais-colis-woocommerce') ?></button>
+            <textarea class="<?php echo esc_attr($this->info_text_area_css_class); ?>" style="display:none;" readonly><?php echo esc_textarea($formatted_info); ?></textarea>
+            <button type="button" class="<?php echo esc_attr($this->copy_paste_button_css_class); ?> button button-primary"><?php echo esc_html__('Copy the information to the clipboard', 'relais-colis-woocommerce') ?></button>
         </div>
         <?php
-        echo ob_get_clean();
     }
 }

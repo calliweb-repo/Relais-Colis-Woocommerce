@@ -102,7 +102,8 @@ trait Plugin_Activation_Control {
             if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
                 WP_Admin_Notices_Manager::instance()->add_admin_notice( '', WP_Admin_Notices_Manager::TYPE_ERROR, sprintf(
-                    __( '%s is not active, as it requires WooCommerce to be installed. Please install WooCommerce with version %s or higher.', 'relais-colis-woocommerce' ),
+                    /* translators: 1: plugin name, 2: WooCommerce version */
+                    __( '%1$s is not active, as it requires WooCommerce to be installed. Please install WooCommerce with version %2$s or higher.', 'relais-colis-woocommerce' ),
                     '<strong>' . $this->plugin_info[ WP_PLoad::NAME ] . '</strong>',
                     $this->get_min_wc_version()
                 ) );
@@ -112,7 +113,8 @@ trait Plugin_Activation_Control {
             if ( defined('WC_VERSION') && version_compare( WC_VERSION, $this->get_min_wc_version(), '<' ) ) {
 
                 WP_Admin_Notices_Manager::instance()->add_admin_notice( '', WP_Admin_Notices_Manager::TYPE_ERROR, sprintf(
-                    __( '%s is not active, as it requires WooCommerce version %s or higher. Please %supdate WooCommerce &raquo;%s', 'relais-colis-woocommerce' ),
+                    /* translators: 1: plugin name, 2: WooCommerce version, 3: update WooCommerce link, 4: close link */
+                    __( '%1$s is not active, as it requires WooCommerce version %2$s or higher. Please %3$supdate WooCommerce &raquo;%4$s', 'relais-colis-woocommerce' ),
                     '<strong>' . $this->plugin_info[ WP_PLoad::NAME ] . '</strong>',
                     $this->get_min_wc_version(),
                     '<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">', '</a>'
@@ -124,7 +126,8 @@ trait Plugin_Activation_Control {
         if ( version_compare( PHP_VERSION, $this->get_min_php_version(), '<' ) ) {
 
             WP_Admin_Notices_Manager::instance()->add_admin_notice( '', WP_Admin_Notices_Manager::TYPE_ERROR, sprintf(
-                __( '%s is not active, as it requires PHP version %s or higher. Please update PHP', 'relais-colis-woocommerce' ),
+                /* translators: 1: plugin name, 2: PHP version */
+                __( '%1$s is not active, as it requires PHP version %2$s or higher. Please update PHP', 'relais-colis-woocommerce' ),
                 '<strong>' . $this->plugin_info[ WP_PLoad::NAME ] . '</strong>',
                 $this->get_min_php_version()
             ) );
@@ -134,7 +137,8 @@ trait Plugin_Activation_Control {
         if ( version_compare( get_bloginfo( 'version' ), $this->get_min_wp_version(), '<' ) ) {
 
             WP_Admin_Notices_Manager::instance()->add_admin_notice( '', WP_Admin_Notices_Manager::TYPE_ERROR, sprintf(
-                __( '%s is not active, as it requires WordPress version %s or higher. Please %supdate WordPress &raquo;%s', 'relais-colis-woocommerce' ),
+                /* translators: 1: plugin name, 2: WordPress version, 3: update WordPress link, 4: close link */
+                __( '%1$s is not active, as it requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'relais-colis-woocommerce' ),
                 '<strong>' . $this->plugin_info[ WP_PLoad::NAME ] . '</strong>',
                 $this->get_min_wp_version(),
                 '<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">', '</a>'
@@ -156,6 +160,7 @@ trait Plugin_Activation_Control {
 
         deactivate_plugins( $this->plugin_info[ WP_PLoad::PLUGIN_BASENAME ] );
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( isset( $_GET['activate'] ) ) {
             unset( $_GET['activate'] );
         }

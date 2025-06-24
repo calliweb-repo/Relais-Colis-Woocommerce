@@ -136,7 +136,7 @@ abstract class WP_API_Base {
 
         // check for WP HTTP API specific errors (network timeout, etc)
         if ( is_wp_error( $response ) ) {
-            throw new Exception( $response->get_error_message(), (int) $response->get_error_code() );
+            throw new Exception( esc_html($response->get_error_message()), (int) $response->get_error_code() );
         }
 
         // set response data
@@ -310,7 +310,7 @@ abstract class WP_API_Base {
         // append any query params to the URL when necessary
         if ( $query = $this->get_request_query() ) {
 
-            $url_parts = parse_url( $uri );
+            $url_parts = wp_parse_url( $uri );
 
             // if the URL already has some query params, add to them
             if ( ! empty( $url_parts['query'] ) ) {
@@ -775,7 +775,7 @@ abstract class WP_API_Base {
             return;
         }
 
-        curl_setopt( $handle, CURLOPT_SSLVERSION, 6 );
+        curl_setopt( $handle, CURLOPT_SSLVERSION, 6 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt
     }
 
 

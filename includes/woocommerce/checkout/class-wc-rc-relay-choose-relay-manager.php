@@ -85,7 +85,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             || empty( WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) ) {
 
             WP_Log::debug( __METHOD__.' - Please select a relay point', [], 'relais-colis-woocommerce' );
-            $errors->add( 'shipping', __( 'Please select a relay point', 'woocommerce' ) );
+            $errors->add( 'shipping', __( 'Please select a relay point', 'relais-colis-woocommerce' ) );
         }
     }
 
@@ -103,8 +103,8 @@ class WC_RC_Relay_Choose_Relay_Manager {
         $prefix_rc = WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID;
 
         // CSS - JQuery, UI, Dialog, Leaflet
-        wp_enqueue_style( $prefix_rc.'_font_awesome_css', "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", array(), '6.0.0' );
-        wp_enqueue_style( $prefix_rc.'_jquery_ui_css', "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" );
+        wp_enqueue_style( $prefix_rc.'_font_awesome_css', $plugin_url.'assets/css/font-awesome-6.5.1.min.css', array(), '6.0.0' );
+        wp_enqueue_style( $prefix_rc.'_jquery_ui_css', $plugin_url.'assets/css/jquery-ui.css' );
         wp_enqueue_style( $prefix_rc.'_leaflet_css', $plugin_url.'assets/css/livemapping/leaflet.css', array(), '1.0', 'all' );
 
         // CSS - Relais Colis

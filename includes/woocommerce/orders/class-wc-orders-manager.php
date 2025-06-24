@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 
@@ -167,6 +168,7 @@ class WC_Orders_Manager {
         if (
             !is_admin() || (
                 // HPOS Mode: Verifies "wc-orders" page with ID and edit action
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 ( isset( $_GET['page'] ) && $_GET['page'] === 'wc-orders' && isset( $_GET['id'] ) && isset( $_GET['action'] ) && $_GET['action'] === 'edit' )
 
                 // Legacy Mode: Verifies classic WooCommerce order edit page
@@ -403,7 +405,10 @@ class WC_Orders_Manager {
                 'shipping_company' => WC()->customer->get_shipping_company(),
                 'shipping_country' => WC()->customer->get_shipping_country(),
             );
-            set_transient( 'rc_customer_shipping_address', $customer_shipping_address, 60 );
+
+            
+            // Sauvegarder également dans les métadonnées de la commande
+            $wc_order->update_meta_data( 'rc_customer_shipping_address', $customer_shipping_address );
             WP_Log::debug( __METHOD__.' - Customer info set in transient.', [ 'set_transient' => $customer_shipping_address ], 'relais-colis-woocommerce' );
 
 

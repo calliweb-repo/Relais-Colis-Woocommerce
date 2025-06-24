@@ -40,7 +40,9 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         global $wpdb;
 
         $sql = "SELECT shipping_status FROM {$this->table_name} WHERE shipping_label = %s LIMIT 1";
-        $shipping_status = $wpdb->get_var( $wpdb->prepare( $sql, $shipping_label ) );
+        $shipping_status = $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $wpdb->prepare( $sql, $shipping_label ) );
 
         return $shipping_status ? $shipping_status : null;
     }
@@ -56,7 +58,9 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         global $wpdb;
 
         $sql = "SELECT order_id FROM {$this->table_name} WHERE shipping_label = %s LIMIT 1";
-        $order_id = $wpdb->get_var( $wpdb->prepare( $sql, $shipping_label ) );
+        $order_id = $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $wpdb->prepare( $sql, $shipping_label ) );
 
         return $order_id ? intval( $order_id ) : null;
     }
@@ -155,7 +159,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
 
         global $wpdb;
 
-        $five_hours_ago = date( 'Y-m-d H:i:s', strtotime( '-5 hours' ) );
+        $five_hours_ago = gmdate( 'Y-m-d H:i:s', strtotime( '-5 hours' ) );
 
         $sql = "
             SELECT * 
@@ -165,13 +169,16 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         ";
 
         $query = $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $sql,
             $five_hours_ago,
             WC_RC_Shipping_Constants::STATUS_RC_LIVRE,
             WC_RC_Shipping_Constants::STATUS_RC_ECHEC_LIVRAISON
         );
 
-        $results = $wpdb->get_results( $query, ARRAY_A );
+        $results = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
 
         return $results;
     }
@@ -209,7 +216,7 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
 
         global $wpdb;
 
-        $one_day_ago = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+        $one_day_ago = gmdate( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 
         $sql = "
             SELECT EXISTS (
@@ -221,13 +228,16 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         ";
 
         $query = $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $sql,
             $one_day_ago,
             WC_RC_Shipping_Constants::STATUS_RC_LIVRE,
             WC_RC_Shipping_Constants::STATUS_RC_ECHEC_LIVRAISON
         );
 
-        return (bool)$wpdb->get_var( $query );
+        return (bool)$wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query );
     }
 
     /**
@@ -245,8 +255,12 @@ class WP_Orders_Rel_Shipping_Labels_DAO {
         WHERE order_id = %d
     ";
 
-        $query = $wpdb->prepare( $sql, $order_id );
-        $results = $wpdb->get_results( $query, ARRAY_A );
+        $query = $wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $sql, $order_id );
+        $results = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
 
         return !empty( $results ) ? $results : null;
     }
