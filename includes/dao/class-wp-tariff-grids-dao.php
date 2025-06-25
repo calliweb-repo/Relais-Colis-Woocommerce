@@ -38,7 +38,7 @@ class WP_Tariff_Grids_DAO {
         if ( $this->check_tariff_conflict( $method_name, $criteria, $min_value, $max_value ) ) {
 
             // Pb occured... criteria conflict
-            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT ] );
+            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT)), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::TARIFF_GRIDS_CRITERIA_CONFLICT ]) );
         }
 
         if ( is_null( $shipping_threshold ) || $shipping_threshold =="" ) {
@@ -70,7 +70,6 @@ class WP_Tariff_Grids_DAO {
      */
     public function get_shipping_price( $method_name, $criteria_value, $criteria_type ) {
 
-
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
@@ -86,7 +85,9 @@ class WP_Tariff_Grids_DAO {
             LIMIT 1
         ", $method_name, $criteria_type, $criteria_value, $criteria_value );
 
-        return $wpdb->get_var( $query );
+        return $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query );
     }
 
     /**
@@ -112,7 +113,7 @@ class WP_Tariff_Grids_DAO {
 
         // Check if another criteria already exists for the same method
         $existing_criteria = $wpdb->get_col( $wpdb->prepare(
-            "SELECT DISTINCT criteria FROM $table_name WHERE method_name = %s",
+            "SELECT DISTINCT criteria FROM {$table_name} WHERE method_name = %s",
             $method_name
         ));
 
@@ -151,7 +152,9 @@ class WP_Tariff_Grids_DAO {
             ", $method_name, $criteria, $min_value );
         }
 
-        $is_conflict = $wpdb->get_var( $query ) > 0;
+        $is_conflict = $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query ) > 0;
 
         WP_Log::debug( __METHOD__, [
             'query' => $query,
@@ -186,8 +189,10 @@ class WP_Tariff_Grids_DAO {
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
-        $query = "SELECT * FROM $table_name ORDER BY method_name, min_value ASC";
-        return $wpdb->get_results( $query, ARRAY_A );
+        $query = $wpdb->prepare("SELECT * FROM %i ORDER BY method_name, min_value ASC", $table_name);
+        return $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
     }
 
     /**
@@ -199,12 +204,10 @@ class WP_Tariff_Grids_DAO {
         global $wpdb;
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
-        $results = $wpdb->get_results( "
-            SELECT * FROM $table_name 
-            ORDER BY method_name, criteria, min_value ASC
-            ",
-            ARRAY_A
-        );
+        $query = $wpdb->prepare("SELECT * FROM %i ORDER BY method_name, min_value ASC", $table_name);
+        $results = $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query, ARRAY_A );
 
         $grouped_tariffs = [];
 
@@ -244,11 +247,15 @@ class WP_Tariff_Grids_DAO {
         $table_name = $wpdb->prefix.'rc_tariff_grids';
 
         $query = $wpdb->prepare( "
-            SELECT shipping_threshold FROM $table_name
+            SELECT shipping_threshold FROM %i
             WHERE method_name = %s
             AND criteria = %s
-        ", $method_name, $criteria_type );
+            ORDER BY min_value ASC
+            LIMIT 1
+        ", $table_name, $method_name, $criteria_type );
 
-        return $wpdb->get_var( $query );
+        return $wpdb->get_var(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $query );
     }
 }

@@ -137,8 +137,8 @@ class WC_RC_Ajax_Shipping_Label {
             }
 
             $wc_order_id = intval( $_POST[ 'order_id' ] );
-            $shipping_label = $_POST[ 'shipping_label' ];
-            $colis_index = intval( $_POST[ 'colis_index' ] );
+            $shipping_label = isset( $_POST['shipping_label'] ) ? sanitize_text_field( wp_unslash( $_POST['shipping_label'] ) ) : '';
+            $colis_index = isset( $_POST['colis_index'] ) ? intval( wp_unslash( $_POST['colis_index'] ) ) : 0;
 
             // Load packages
             [ $colis, $items ] = WC_Order_Packages_Manager::instance()->load_order_packages( $wc_order_id );

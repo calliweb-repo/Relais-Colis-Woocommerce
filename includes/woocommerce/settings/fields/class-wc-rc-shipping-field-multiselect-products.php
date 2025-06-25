@@ -64,7 +64,7 @@ class WC_RC_Shipping_Field_Multiselect_Products {
             self::FIELD_RC_MULTISELECT_PRODUCTS.'_js',
             'rc_multiselect_params',
             array(
-                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'ajax_url' => esc_url( admin_url( 'admin-ajax.php' ) ),
                 'nonce'    => wp_create_nonce( 'rc_multiselect_products_nonce' ),
             )
         );
@@ -139,7 +139,7 @@ class WC_RC_Shipping_Field_Multiselect_Products {
         ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $field[ 'title' ] ); ?><?php echo $this->get_tooltip_html( $field ); // WPCS: XSS ok. ?></label>
+                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $field[ 'title' ] ); ?><?php echo wp_kses_post( $this->get_tooltip_html( $field ) ); // WPCS: XSS ok. ?></label>
             </th>
             <td class="forminp <?php echo esc_attr( $field['class'] ?? '' ); ?>">
                 <fieldset>
@@ -161,12 +161,12 @@ class WC_RC_Shipping_Field_Multiselect_Products {
                         <?php endforeach; ?>
 
                     </select>
-                    <?php echo $this->get_description_html( $field ); // WPCS: XSS ok. ?>
+                    <?php echo wp_kses_post( $this->get_description_html( $field ) ); // WPCS: XSS ok. ?>
                 </fieldset>
             </td>
         </tr>
         <?php
 
-        echo ob_get_clean();
+        echo wp_kses_post( ob_get_clean() );
     }
 }

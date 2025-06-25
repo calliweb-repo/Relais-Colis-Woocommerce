@@ -342,7 +342,7 @@ msgstr "Prix total de la commande - Euro (€)"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:90
 msgid "Order weight"
-msgstr "Poids de la commande - Kilogramme (kg)"
+msgstr "Poids de la commande - "
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:91
 msgid "Tariff ranges"
@@ -354,7 +354,7 @@ msgstr "Ajouter une ligne"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:93
 msgid "Shipping threshold"
-msgstr "Seuil de livraison gratuite"
+msgstr "Seuil de livraison gratuite en euro"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:117
 msgid "Add a grid"
@@ -667,6 +667,10 @@ msgstr "Dimanche"
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:83
 msgid "Relay Name:"
 msgstr "Nom du relais :"
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:88
+msgid "Relay ID:"
+msgstr "Identifiant du relais :"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:84
 msgid "Address:"

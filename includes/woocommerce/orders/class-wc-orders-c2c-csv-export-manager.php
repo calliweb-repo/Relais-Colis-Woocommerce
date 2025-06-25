@@ -68,7 +68,7 @@ class WC_Orders_C2c_Csv_Export_Manager {
 
         WP_Log::debug( __METHOD__.' - HPOS & Legacy', ['$bulk_actions'=>$bulk_actions ], 'relais-colis-woocommerce' );
 
-        $bulk_actions[self::RC_EXPORT_CSV_ACTION] = __( 'Export in CSV (C2C)', 'relais-colis-woocommerce' );
+        $bulk_actions[self::RC_EXPORT_CSV_ACTION] = esc_html__( 'Export in CSV (C2C)', 'relais-colis-woocommerce' );
         return $bulk_actions;
     }
 
@@ -90,7 +90,7 @@ class WC_Orders_C2c_Csv_Export_Manager {
         // Check user permissions
         if ( !current_user_can( 'manage_woocommerce' ) ) {
 
-            wp_die( __( 'You do not have sufficient permissions to export orders.', 'relais-colis-woocommerce' ) );
+            wp_die( esc_html__( 'You do not have sufficient permissions to export orders.', 'relais-colis-woocommerce' ) );
         }
 
         // Generate CSV

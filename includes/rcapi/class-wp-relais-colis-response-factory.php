@@ -49,7 +49,7 @@ class WP_Relais_Colis_Response_Factory {
             if ( strpos( $response_content_type, 'text/html') !== false ) {
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
             }
 
             //if ( $this->is_json_response( $response_data ) ) {
@@ -60,7 +60,7 @@ class WP_Relais_Colis_Response_Factory {
                 // May be an error ...
                 $response = new WP_Relais_Colis_Error_Response( $response_data );
                 WP_Log::debug( __METHOD__.' - JSON response', [ 'title' => $response->title, 'status' => $response->status, 'detail' => $response->detail ], 'relais-colis-woocommerce' );
-                throw new WP_Relais_Colis_API_Exception( $response->title, $response->status, $response->detail );
+                throw new WP_Relais_Colis_API_Exception( esc_html($response->title), esc_html($response->status), esc_html($response->detail) );
 
             } else {
 
@@ -70,7 +70,7 @@ class WP_Relais_Colis_Response_Factory {
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                         }
                         $response = new WP_RC_Get_Configuration_Response( $response_data );
                         break;
@@ -78,7 +78,7 @@ class WP_Relais_Colis_Response_Factory {
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                         }
                         $response = new WP_RC_Get_Configuration_Response( $response_data );
                         break;
@@ -87,7 +87,7 @@ class WP_Relais_Colis_Response_Factory {
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                         }
                         // New case, entry is received but containing error: prefix
                         //    [response] => Array
@@ -127,16 +127,16 @@ class WP_Relais_Colis_Response_Factory {
                                 foreach ($entry as $item) {
                                     if ( strpos( $item, 'error:' ) !== false ) {
                                         if ( strpos( $item, 'Not enough money in balance' ) !== false ) {
-                                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE)), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE]) );
                                         }
                                     }
                                 }
                             }else{
                                 if ( strpos( $entry, 'error:' ) !== false ) {
                                     if ( strpos( $entry, 'Not enough money in balance' ) !== false ) {
-                                        throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                        throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE)), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE]) );
                                     } else {
-                                        throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                                        throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                                     }
                                 }
                             }
@@ -148,7 +148,7 @@ class WP_Relais_Colis_Response_Factory {
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                         }
                         // New case, entry is received but containing error: prefix
                         //    [response] => Array
@@ -181,9 +181,9 @@ class WP_Relais_Colis_Response_Factory {
 
                             if ( strpos( $entry, 'error:' ) !== false ) {
                                 if ( strpos( $entry, 'Not enough money in balance' ) !== false ) {
-                                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE), WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE] );
+                                    throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE)), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE]) );
                                 } else {
-                                    throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                                    throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                                 }
                             }
                         }
@@ -195,7 +195,7 @@ class WP_Relais_Colis_Response_Factory {
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE]) );
                         }
                         $response = new WP_RC_B2C_Place_Return_Response( $response_data );
 
@@ -206,7 +206,7 @@ class WP_Relais_Colis_Response_Factory {
                             $error_description = $response->get_error_description();
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( $error_type.' - '.$error_description, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_PLACE_RETURN_ERROR] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html($error_type).' - '.esc_html($error_description), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_PLACE_RETURN_ERROR]) );
 
 /*
                             // TEST
@@ -264,7 +264,7 @@ XML;
                         if ( ( strpos( $response_content_type, 'application/pdf') === false ) && ( strpos( $response_content_type, 'application/octet-stream') === false ) )  {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
 
                         $content_disposition = $response_headers['content-disposition'];
@@ -301,7 +301,7 @@ XML;
                         if ( ( strpos( $response_content_type, 'application/pdf') === false ) && ( strpos( $response_content_type, 'application/octet-stream') === false ) )  {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
 
                         $content_disposition = $response_headers['content-disposition'];
@@ -321,7 +321,7 @@ XML;
                         if ( ( strpos( $response_content_type, 'application/pdf') === false ) && ( strpos( $response_content_type, 'application/octet-stream') === false ) )  {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
 
                         // Extract filename from content-disposition
@@ -351,7 +351,7 @@ XML;
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
                         $response = new WP_RC_Get_Infos_Response( $response_data );
                         break;
@@ -359,7 +359,7 @@ XML;
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
                         $response = new WP_RC_C2C_Get_Packages_Price_Response( $response_data );
                         break;
@@ -367,7 +367,7 @@ XML;
                         if ( strpos( $response_content_type, 'text/xml') === false ) {
 
                             // Pb occured... HTML response not permitted
-                            throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE).$response_content_type, WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE] );
+                            throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE)).' '.esc_html($response_content_type), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE_CONTENT_TYPE])  );
                         }
                         $response = new WP_RC_Get_Packages_Status_Response( $response_data );
                         break;
@@ -384,7 +384,7 @@ XML;
                 //                )
                 if ( property_exists( $response, 'code' ) && property_exists( $response, 'message' ) && !is_null( $response->code ) && !is_null( $response->message ) ) {
 
-                    throw new WP_Relais_Colis_API_Exception( $response->message, $response->code );
+                    throw new WP_Relais_Colis_API_Exception( esc_html($response->message), esc_html($response->code) );
                 }
 
                 return $response;

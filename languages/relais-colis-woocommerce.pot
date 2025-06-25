@@ -343,7 +343,7 @@ msgstr "Prix total de la commande - Euro (€)"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:90
 msgid "Order weight"
-msgstr "Poids de la commande - Kilogramme (kg)"
+msgstr "Poids de la commande - "
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:91
 msgid "Tariff ranges"
