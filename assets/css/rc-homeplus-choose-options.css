@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+#rc-choose-options-hp input[type="text"],
+#rc-choose-options-hp select,
+#rc-choose-options-hp textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 2px solid #ccc;
+    color: #5c5c5c;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur */
+}
+#rc-choose-options-hp select {
+    appearance: none; /* Supprimer le style par défaut */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0,0 L5,5 L10,0 Z" fill="gray"/></svg>'); /* Flèche personnalisée */
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    padding-right: 30px; /* Assurer que la flèche ne se chevauche pas */
+    cursor: pointer;
+}
+
+#rc-choose-options-hp input[type="text"]:focus,
+#rc-choose-options-hp select:focus,
+#rc-choose-options-hp textarea:focus {
+    border-color: #c0d248;
+    outline: none;
+}
+
+
+/* Amélioration du style du texte et de l'alignement du select */
+#rc-choose-options-hp select option {
+    padding: 10px;
+}
+
+#rc-choose-options-hp textarea {
+    resize: vertical;
+    min-height: 100px;
+}

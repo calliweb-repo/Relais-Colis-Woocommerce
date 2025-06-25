@@ -1,0 +1,32 @@
+# Ignore files and directories within the plugin folder that should not be versioned
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+composer.lock
+package-lock.json
+yarn.lock
+.env
+.env.*
+
+# Ignore debug logs
+debug.log
+
+# Ignore backup files and temporary files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.backup
+
+# Ignore generated assets (if applicable)
+assets/css/*.min.css
+assets/js/*.min.js
+assets/js/*.map
+
+# Ignore IDE and system files
+Thumbs.db

@@ -1,0 +1,122 @@
+#rc-tariff-container {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.tariff-box {
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tariff-box label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.tariff-box select {
+    width: 100%;
+    padding: 4px 8px;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.tariff-box button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.remove-tariff {
+    background-color: #e74c3c;
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.remove-tariff:hover {
+    background-color: #c0392b;
+}
+
+.add-line {
+    background-color: #007cba;
+    color: white;
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+.add-line:hover {
+    background-color: #005a9e;
+}
+
+.lines-container {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.lines-container h4 {
+    margin-bottom: 10px;
+}
+
+.line-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.line-row input {
+    flex: 1;
+}
+
+.remove-line {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.remove-line:hover {
+    background-color: #c0392b;
+}
+
+.tariff-box input[type="number"] {
+    width: 100%;
+    margin-bottom: 10px;
+    max-width: 25rem;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color: #fff;
+}

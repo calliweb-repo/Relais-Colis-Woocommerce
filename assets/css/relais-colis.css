@@ -1,0 +1,250 @@
+@charset "UTF-8";
+h2 {
+    margin-top: 30px
+}
+/** Error notice **/
+.rc_invalid_license_notice {
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-left: 5px solid #d63638;
+    background: #fff4f4;
+    color: #a00;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.rc_invalid_license_notice h2 {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d63638;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+
+.rc_invalid_license_notice h2 span {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.rc_invalid_license_notice p {
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.rc_invalid_license_notice a.button-primary {
+    background: #d63638;
+    border-color: #b02a2a;
+    color: #fff;
+
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease-in-out;
+}
+
+.rc_invalid_license_notice a.button-primary:hover {
+    background: #b02a2a;
+    border-color: #8a2020;
+}
+
+.form-table {
+    margin: 10px 0 !important;
+    max-width: 1000px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.form-table tr {
+}
+.form-table th {
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 15px;
+    width: 30%;
+    background: #f9f9f9;
+    vertical-align: middle !important;
+}
+
+.form-table td {
+    padding: 12px 15px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 0px !important;
+}
+.form-table tr:last-child td {
+    border-bottom: 0px solid #f9f9f9;
+}
+
+.form-table .forminp-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-table .forminp-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #007cba;
+    cursor: pointer;
+}
+
+.form-table .forminp-select select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    line-height: 20px !important;
+}
+
+.form-table .forminp-select select:hover {
+    border-color: #007cba;
+}
+
+.form-table .forminp-text input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.form-table .forminp .wc-enhanced-select {
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    background: #fff;
+}
+
+.form-table .forminp {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-table .button-primary {
+    background-color: #007cba;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-table .button-primary:hover {
+    background-color: #005a9e;
+}
+
+.form-table .button-danger {
+    background-color: #e74c3c;
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+}
+
+.form-table .button-danger:hover {
+    background-color: #c0392b;
+}
+.wc-wp-version-gte-53 .woocommerce table.form-table th label .woocommerce-help-tip {
+    margin: -7px -14px 0 0 !important;
+}
+/** Shipping infos - Admin **/
+.rc-shipping-info {
+    border: 1px solid #c0d248;
+    background: #c0d24833;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+    margin: 0px 0px 20px 0px;
+}
+
+.rc-shipping-info .rc-logo {
+    max-width: 236px;
+    height: auto;
+    width: 118px;
+}
+.rc-shipping-info h3 {
+    margin: 12px 0px !important;
+}
+.rc-shipping-info h4 {
+    margin: 12px 0px;
+}
+.rc-shipping-info p {
+    margin: 6px 0px;
+}
+.rc-shipping-info ul {
+    margin: 6px 0px;
+}
+/** Shipping infos - Customer page **/
+.woocommerce-order-details .rc-shipping-info h4 {
+    margin: 18px 0px;
+}
+.woocommerce-order-details .rc-shipping-info p {
+    margin: 12px 0px;
+}
+.woocommerce-order-details .rc-shipping-info ul {
+    margin: 12px 0px;
+    list-style-type: none;
+}
+.woocommerce-order-details .rc-shipping-info .rc-logo {
+    width: 236px;
+}
+
+/** Shipping infos - Thank you page **/
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info h4 {
+    margin: 18px 0px;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info p {
+    margin: 12px 0px;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info ul {
+    margin: 12px 0px;
+    list-style-type: none;
+}
+.wp-block-woocommerce-order-confirmation-additional-information .rc-shipping-info .rc-logo {
+    width: 236px;
+}
+
+.table-striped {
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-collapse: collapse;
+}
+
+.table-striped th {
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 15px;
+    background: #cac9c9;
+    border-bottom: 2px solid #eee;
+}
+
+.table-striped td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
