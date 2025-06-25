@@ -422,7 +422,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
         foreach (WC()->cart->get_cart() as $cart_item) {
             $product = $cart_item['data'];
             $weight = (float)$product->get_weight();
-            $total_weight += $weight * $cart_item['quantity'];
 
             // Convertir le poids en kg
             switch($weight_unit) {
@@ -437,6 +436,9 @@ class WC_RC_Relay_Choose_Relay_Manager {
                     break;
             }
 
+            $total_weight += $weight * $cart_item['quantity'];
+
+
             if ($weight > self::MAX_WEIGHT_KG_START && $weight <= self::MAX_WEIGHT_KG_END) {
                 $has_heavy_items = true;
             } 
@@ -445,7 +447,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
             }
         }
         
-
         if ($total_weight > self::MAX_WEIGHT_KG_END) {
             $has_super_heavy_items = true;
         }
