@@ -492,7 +492,16 @@ class WC_Order_Packages_Manager {
         $return_bordereau_smart_url = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_BORDEREAU_SMART_URL );
         $return_number = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_RETURN_NUMBER );
         $return_number_cab = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_NUMBER_CAB );
-        $return_limit_date = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_LIMIT_DATE );
+        $return_limit_date_raw = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_LIMIT_DATE );
+        $return_limit_date = '';
+        if ( !empty( $return_limit_date_raw ) ) {
+            try {
+                $date = new \DateTime( $return_limit_date_raw );
+                $return_limit_date = $date->format( 'd/m/Y H:i:s' );
+            } catch ( Exception $e ) {
+                $return_limit_date = $return_limit_date_raw; // Fallback vers la valeur originale si la conversion échoue
+            }
+        }
         $return_image_url = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_IMAGE_URL );
         $return_token = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_TOKEN );
         $return_created_at = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_CREATED_AT );
