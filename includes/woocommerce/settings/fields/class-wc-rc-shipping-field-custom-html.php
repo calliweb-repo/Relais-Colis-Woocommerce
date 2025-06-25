@@ -43,7 +43,8 @@ class WC_RC_Shipping_Field_Custom_Html {
 
         if ( isset( $field['html'] ) ) {
 
-            echo esc_js($field['html']);
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $field['html'];
         }
     }
 }

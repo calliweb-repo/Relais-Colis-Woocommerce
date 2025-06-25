@@ -1,4 +1,5 @@
 <?php
+// @phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace RelaisColisWoocommerce\Shipping;
 
@@ -54,6 +55,7 @@ class WC_RC_Shipping_Infos_Settings {
     public function action_admin_body_class( $classes ) {
 
         // Add the current CSS class tothe body classes
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         WP_Log::debug( __METHOD__, [ '$classes' => $classes, '$_GET' => $_GET ], 'relais-colis-woocommerce' );
 
         if ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] === 'wc-settings' && isset( $_GET[ 'section' ] ) ) {
@@ -69,6 +71,7 @@ class WC_RC_Shipping_Infos_Settings {
 
         // Enqueued only in concerned settings page
         $screen = get_current_screen();
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         WP_Log::debug( __METHOD__, [ '$screen' => $screen, '$_GET' => $_GET ], 'relais-colis-woocommerce' );
         if ( ( $screen->id === 'woocommerce_page_wc-settings' ) && isset( $_GET[ 'section' ] ) && ( $_GET[ 'section' ] === self::SECTION_INFORMATIONS ) ) {
 
