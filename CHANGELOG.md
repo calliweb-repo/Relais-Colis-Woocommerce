@@ -1,3 +1,7 @@
+### 2.0.4 (2025-06-25)
+#### Fixed
+  * Total weight conversion
+
 ### 2.0.3 (2025-06-24)
 #### Fixed
   * Plugin Check error
