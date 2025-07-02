@@ -175,7 +175,7 @@ class WP_Services_DAO {
             $products[ $result[ 'product_id' ] ] = $result[ 'post_title' ];
         }
 
-        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$results' => $results, '$products' => $products ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$results' => $results, '$products' => $products ], 'relais-colis-officiel');
 
         return $products;
     }
@@ -234,7 +234,7 @@ class WP_Services_DAO {
 
         $delivery_method = implode( ',', $delivery_method_list );
 
-        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$name' => $name, '$slug' => $slug, '$client_choice' => $client_choice, '$delivery_method' => $delivery_method, '$enabled' => $enabled, '$price' => $price ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$service_id' => $service_id, '$name' => $name, '$slug' => $slug, '$client_choice' => $client_choice, '$delivery_method' => $delivery_method, '$enabled' => $enabled, '$price' => $price ], 'relais-colis-officiel');
 
         // Data to update in the table
         $data = [
@@ -248,7 +248,7 @@ class WP_Services_DAO {
 
         // Condition for the update
         $where = [ 'id' => intval( $service_id ) ];
-        WP_Log::debug( __METHOD__, [ '$data' => $data, '$where' => $where ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$data' => $data, '$where' => $where ], 'relais-colis-officiel');
 
         // Update the table
         return $wpdb->update( $table_services, $data, $where );

@@ -139,7 +139,7 @@ class WC_Orders_Manager {
      */
     public function action_deleted_post( $post_id ) {
 
-        WP_Log::debug( __METHOD__, [ '$post_id' => $post_id ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$post_id' => $post_id ], 'relais-colis-officiel');
 
         WP_Orders_Rel_Shipping_Labels_DAO::instance()->delete_shipping_labels_for_order_and_orphans( $post_id );
     }
@@ -188,13 +188,13 @@ class WC_Orders_Manager {
      */
     public function action_woocommerce_admin_order_data_after_order_details( WC_Order $wc_order ) {
 
-        WP_Log::debug( __METHOD__, [ '$wc_order' => $wc_order ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$wc_order' => $wc_order ], 'relais-colis-officiel');
 
         // Check if we are in the WordPress admin area
         if ( !$this->is_order_page() ) {
             return;
         }
-        WP_Log::debug( __METHOD__.' - Page validated', [ '$wc_order' => $wc_order ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Page validated', [ '$wc_order' => $wc_order ], 'relais-colis-officiel');
 
         // Check if the shipping method is "Relais Colis"
         if ( WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order ) !== false ) {
@@ -229,7 +229,7 @@ class WC_Orders_Manager {
     public function build_rc_prestations_param( WC_Order $wc_order ) {
 
         $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-        WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-officiel');
 
         if ( !empty( $rc_services ) && is_array( $rc_services ) ) {
 
@@ -322,7 +322,7 @@ class WC_Orders_Manager {
      */
     public function action_woocommerce_store_api_checkout_update_order_meta( WC_Order $wc_order ) {
 
-        WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ 'wc_order' => $wc_order ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ 'wc_order' => $wc_order ], 'relais-colis-officiel');
 
         // Check if the shipping method is "Relais Colis"
         $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
@@ -351,7 +351,7 @@ class WC_Orders_Manager {
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ) ) {
 
             $session_rc_service_fees = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_service_fees' => $session_rc_service_fees ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_service_fees' => $session_rc_service_fees ], 'relais-colis-officiel');
 
             // Fees are already taken into account, added to the cart during checkout
 
@@ -378,7 +378,7 @@ class WC_Orders_Manager {
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ) ) {
 
             $session_rc_service_infos = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
-            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_service_infos' => $session_rc_service_infos ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_service_infos' => $session_rc_service_infos ], 'relais-colis-officiel');
 
             // Update WooCommerce order meta data
             $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS, $session_rc_service_infos );
@@ -394,7 +394,7 @@ class WC_Orders_Manager {
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) {
 
             $session_rc_relay_data = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_relay_data' => $session_rc_relay_data ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Checkout Block/Store API updates an order meta data.', [ '$session_rc_relay_data' => $session_rc_relay_data ], 'relais-colis-officiel');
 
             // Save customer info
             $customer_shipping_address = array(
@@ -409,7 +409,7 @@ class WC_Orders_Manager {
             
             // Sauvegarder également dans les métadonnées de la commande
             $wc_order->update_meta_data( 'rc_customer_shipping_address', $customer_shipping_address );
-            WP_Log::debug( __METHOD__.' - Customer info set in transient.', [ 'set_transient' => $customer_shipping_address ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Customer info set in transient.', [ 'set_transient' => $customer_shipping_address ], 'relais-colis-officiel');
 
 
             // Change shipping address (displayed in customer order confirmation, and in order admin)
@@ -498,7 +498,7 @@ class WC_Orders_Manager {
         }
 
         // Auto distribution of packages if C2C mode
-        WP_Log::debug( __METHOD__.' - Auto distribution of packages if C2C mode?', [ 'is_c2c_interaction_mode?' => WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()?'true':'false' ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Auto distribution of packages if C2C mode?', [ 'is_c2c_interaction_mode?' => WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()?'true':'false' ], 'relais-colis-officiel');
         if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) {
             // Distribution strategy is : try and put as max as possible items in each package
             // WC_Order_Packages_Manager::instance()->auto_distribute_packages( $wc_order->get_id() );
@@ -513,7 +513,7 @@ class WC_Orders_Manager {
             // WP_Log::debug( __METHOD__.' - Order state updated after auto distribution', [
             //     'order_id' => $wc_order->get_id(),
             //     'new_state' => WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_DISTRIBUTED
-            // ], 'relais-colis-woocommerce' );
+            // ], 'relais-colis-officiel');
         }
 
     }

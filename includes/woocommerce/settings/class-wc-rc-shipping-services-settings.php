@@ -53,7 +53,7 @@ class WC_RC_Shipping_Services_Settings {
         // Only for B2C interaction mode
         if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return $sections;
 
-        $sections[ self::SECTION_SERVICES ] = __( 'Services', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_SERVICES ] = __( 'Services', 'relais-colis-officiel');
         return $sections;
     }
 
@@ -66,7 +66,7 @@ class WC_RC_Shipping_Services_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_SERVICES ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_admin_fields( $this->get_settings() );
     }
@@ -81,7 +81,7 @@ class WC_RC_Shipping_Services_Settings {
             return;
         }
 
-        WP_Log::debug( __METHOD__, ['$_POST'=>$_POST], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$_POST'=>$_POST], 'relais-colis-officiel');
 
         // Fetch services from the database
         $services = WC_RC_Services_Manager::instance()->get_configured_services();
@@ -131,16 +131,16 @@ class WC_RC_Shipping_Services_Settings {
 
         $settings = [
             [
-                'title' => __( 'Service Configuration', 'relais-colis-woocommerce' ),
+                'title' => __( 'Service Configuration', 'relais-colis-officiel'),
                 'type' => 'title',
                 'id' => 'relais_colis_service_settings',
-                'desc' => __( 'Configure all services.', 'relais-colis-woocommerce' ),
+                'desc' => __( 'Configure all services.', 'relais-colis-officiel'),
             ],
         ];
 
         // Loop through services to generate settings
         foreach ( $services as $service ) {
-            WP_Log::debug( __METHOD__, ['$service'=>$service], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, ['$service'=>$service], 'relais-colis-officiel');
 
             // Retrieve slug from fixed services ref
             $slug = $service['slug'];
@@ -152,17 +152,17 @@ class WC_RC_Shipping_Services_Settings {
                 'type' => 'title',
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_title',
             ];
-            WP_Log::debug( __METHOD__.' - For multiselect', ['$delivery_methods'=>$delivery_methods, 'DB delivery_method'=>$service['delivery_method']], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - For multiselect', ['$delivery_methods'=>$delivery_methods, 'DB delivery_method'=>$service['delivery_method']], 'relais-colis-officiel');
 
             $settings[] = [
                 'type' => 'text',
-                'title' => __('Delivery Method', 'relais-colis-woocommerce'),
+                'title' => __('Delivery Method', 'relais-colis-officiel'),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_delivery_method_display',
                 'custom_attributes' => [
                     'readonly' => 'readonly'
                 ],
                 'value' => implode(', ', $delivery_methods),
-                'desc' => __('Available delivery methods for this service', 'relais-colis-woocommerce'),
+                'desc' => __('Available delivery methods for this service', 'relais-colis-officiel'),
                 //'desc_tip' => true,
                 'class' => 'regular-input'
             ];
@@ -174,11 +174,11 @@ class WC_RC_Shipping_Services_Settings {
             ];
 
             $settings[] = [
-                'title' => __( 'Client Choice', 'relais-colis-woocommerce' ),
+                'title' => __( 'Client Choice', 'relais-colis-officiel'),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_client_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
                 'default' => $service['client_choice'],
-                'desc' => __('This option will be visible to the customer in the checkout', 'relais-colis-woocommerce'),
+                'desc' => __('This option will be visible to the customer in the checkout', 'relais-colis-officiel'),
                 'readonly' => true,
                 'disabled' => true
             ];
@@ -194,11 +194,11 @@ class WC_RC_Shipping_Services_Settings {
 
 
             $settings[] = [
-                'title' => __( 'Product Choice', 'relais-colis-woocommerce' ),
+                'title' => __( 'Product Choice', 'relais-colis-officiel'),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_product_choice',
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
                 'default' => $productChoice,
-                'desc' => __('Activate: You can choose the products associated with this service / Deactivate: The service will be available for all products.', 'relais-colis-woocommerce'),
+                'desc' => __('Activate: You can choose the products associated with this service / Deactivate: The service will be available for all products.', 'relais-colis-officiel'),
                 'readonly' => true,
                 'disabled' => true
             ];
@@ -210,10 +210,10 @@ class WC_RC_Shipping_Services_Settings {
             ) {
                 $settings[] = [
                     'type'          => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
-                    'title'         => __( 'Assigned Products', 'relais-colis-woocommerce' ),
+                    'title'         => __( 'Assigned Products', 'relais-colis-officiel'),
                     'id'            => self::SECTION_SERVICES.'_'.$slug.'_products',
                     'default'       => WP_Services_DAO::instance()->get_selected_products( $service['id'] ),
-                    'desc'          => __( 'Select products for this service', 'relais-colis-woocommerce' ),
+                    'desc'          => __( 'Select products for this service', 'relais-colis-officiel'),
                     'service_id'    => $service['id'],
                     'class'         => WC_RC_Shipping_Field_Multiselect_Products::FIELD_RC_MULTISELECT_PRODUCTS,
                     ];
@@ -221,14 +221,14 @@ class WC_RC_Shipping_Services_Settings {
 
             $settings[] = [
                 'type' => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
-                'title' => __( 'Active', 'relais-colis-woocommerce' ),
+                'title' => __( 'Active', 'relais-colis-officiel'),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_enabled',
                 'default' => $service['enabled'],
             ];
 
             $settings[] = [
                 'type' => 'hidden',
-                'title' => __( 'Price', 'relais-colis-woocommerce' ),
+                'title' => __( 'Price', 'relais-colis-officiel'),
                 'id' => self::SECTION_SERVICES.'_'.$slug.'_price',
                 'default' => $service['price'],
             ];

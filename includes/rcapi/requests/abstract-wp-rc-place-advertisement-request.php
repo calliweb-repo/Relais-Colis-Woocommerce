@@ -110,7 +110,7 @@ abstract class WP_RC_Place_Advertisement_Request extends WP_Relais_Colis_Request
         // Tips specific to RC API
         $post_data = array( $this->data );
 
-        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-officiel');
         $this->data = json_encode( $post_data );
     }
 }

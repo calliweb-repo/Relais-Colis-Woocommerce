@@ -123,7 +123,7 @@ class WP_Tariff_Grids_DAO {
                 '$method_name' => $method_name,
                 '$existing_criteria' => $existing_criteria,
                 '$new_criteria' => $criteria,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             return true;
         }
@@ -163,7 +163,7 @@ class WP_Tariff_Grids_DAO {
             '$min_value' => $min_value,
             '$max_value' => (is_null($max_value)?'NULL':$max_value),
             '$is_conflict' => ($is_conflict?'true':'false'),
-        ], 'relais-colis-woocommerce' );
+        ], 'relais-colis-officiel');
 
         return $is_conflict;
     }

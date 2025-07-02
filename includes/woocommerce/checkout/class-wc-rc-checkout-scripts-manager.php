@@ -65,7 +65,7 @@ class WC_RC_Checkout_Scripts_Manager {
         // Localize script
         wp_localize_script( self::PREFIX_RC.'_js', 'rc_choose_options',
             array(
-                'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-woocommerce' )
+                'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-officiel')
             )
         );
 

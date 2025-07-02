@@ -41,7 +41,7 @@ abstract class WC_RC_Choose_Services_Manager {
 
         /*add_action( 'woocommerce_checkout_update_order_review', function() {
 
-            WP_Log::debug( __METHOD__, ["POST"=> $_POST], 'relais-colis-woocommerce');
+            WP_Log::debug( __METHOD__, ["POST"=> $_POST], 'relais-colis-officiel');
 
         } );*/
 
@@ -100,11 +100,11 @@ abstract class WC_RC_Choose_Services_Manager {
             'doing_ajax' => defined( 'DOING_AJAX' ) ? DOING_AJAX : 'false',
             'is_checkout' => is_checkout() ? 'true' : 'false',
             'is_rest' => defined( 'REST_REQUEST' ) ? REST_REQUEST : 'false',
-        ], 'relais-colis-woocommerce' );
+        ], 'relais-colis-officiel');
 
         if ( is_admin() && !defined( 'DOING_AJAX' ) || ( !is_checkout() && ( !WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) ) ) {
 
-            WP_Log::debug( __METHOD__.' - Abort', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Abort', [ 'POST' => $_POST ], 'relais-colis-officiel');
             return;
         }
 
@@ -122,21 +122,21 @@ abstract class WC_RC_Choose_Services_Manager {
         // Ignore internal call
         if ( is_admin() || !defined( 'DOING_AJAX' ) || !DOING_AJAX ) {
 
-            WP_Log::debug( __METHOD__.' - Ignore internal call', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Ignore internal call', [], 'relais-colis-officiel');
             return;
         }
 
         // Ignore other than checkout page
         if ( !is_checkout() ) {
 
-            WP_Log::debug( __METHOD__.' - Ignore other than checkout page', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Ignore other than checkout page', [], 'relais-colis-officiel');
             return;
         }
 
         // Ignore FSE checkout mode
         if ( WC_WooCommerce_Manager::instance()->is_woocommerce_checkout_page_fse() ) {
 
-            WP_Log::debug( __METHOD__.' - Ignore FSE checkout mode', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Ignore FSE checkout mode', [], 'relais-colis-officiel');
             return;
         }
 
@@ -144,7 +144,7 @@ abstract class WC_RC_Choose_Services_Manager {
         // Ignore second hook call
         static $already_ran = false;
         if ($already_ran) {
-            WP_Log::debug( __METHOD__.' - Ignore second hook call', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Ignore second hook call', [], 'relais-colis-officiel');
             return;
         }
         $already_ran = true;
@@ -161,7 +161,7 @@ abstract class WC_RC_Choose_Services_Manager {
                 'POST'         => $_POST, // Attention, peut contenir des données sensibles
                 'BACKTRACE'    => array_column($backtrace, 'function') // Affiche seulement les fonctions de la stack
             ],
-            'relais-colis-woocommerce'
+            'relais-colis-officiel'
         );
 
         // Calculate fees
@@ -173,7 +173,7 @@ abstract class WC_RC_Choose_Services_Manager {
      */
     public function action_wp_ajax_update_rc_options() {
 
-        WP_Log::debug( __METHOD__.' - update_rc_options received', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - update_rc_options received', [ 'POST' => $_POST ], 'relais-colis-officiel');
 
         // Check the nonce
         $nonce_check = check_ajax_referer( 'rc_choose_options', 'nonce', false );
@@ -206,7 +206,7 @@ abstract class WC_RC_Choose_Services_Manager {
         // Save sent services in session
         WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES, $rc_services );
         WC()->session->set( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS, $rc_service_infos );
-        WP_Log::debug( __METHOD__.' - Session content', [ 'rc_services' => WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ), 'rc_service_infos' => WC()->session->get( 'rc_service_infos' ) ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Session content', [ 'rc_services' => WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ), 'rc_service_infos' => WC()->session->get( 'rc_service_infos' ) ], 'relais-colis-officiel');
 
         // JSON response
         wp_send_json_success( [ 'message' => 'Services updated successfully', 'selected service fees' => $rc_services, 'selected service infos' => $rc_service_infos ] );
@@ -217,7 +217,7 @@ abstract class WC_RC_Choose_Services_Manager {
      */
     public function action_wp_ajax_reset_rc_infos() {
 
-        WP_Log::debug( __METHOD__.' - reset_rc_infos received', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - reset_rc_infos received', [ 'POST' => $_POST ], 'relais-colis-officiel');
 
         // Check the nonce
         $nonce_check = check_ajax_referer( 'rc_choose_options', 'nonce', false );
@@ -272,7 +272,7 @@ abstract class WC_RC_Choose_Services_Manager {
             WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES);
             WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS);
 
-            WP_Log::debug(__METHOD__ . ' - Old checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-woocommerce');
+            WP_Log::debug(__METHOD__ . ' - Old checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-officiel');
         }
 
         // FSE checkout
@@ -284,7 +284,7 @@ abstract class WC_RC_Choose_Services_Manager {
             WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES);
             WC()->session->__unset(WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS);
 
-            WP_Log::debug(__METHOD__ . ' - FSE checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-woocommerce');
+            WP_Log::debug(__METHOD__ . ' - FSE checkout - Reset session due to rc_reset_infos parameter', [], 'relais-colis-officiel');
         }
 
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES ) ) {
@@ -308,7 +308,7 @@ abstract class WC_RC_Choose_Services_Manager {
             //
             //        )
 
-            WP_Log::debug( __METHOD__.' Before adding fees:', [ 'session' => WC()->session, 'rc_services' => $session_rc_services, 'total_fees' => $cart->get_fee_total(), 'fees' => $cart->get_fees() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' Before adding fees:', [ 'session' => WC()->session, 'rc_services' => $session_rc_services, 'total_fees' => $cart->get_fee_total(), 'fees' => $cart->get_fees() ], 'relais-colis-officiel');
 
             if ( !empty( $session_rc_services ) ) {
                 foreach ( $session_rc_services as $rc_service_key => $rc_service ) {
@@ -336,28 +336,28 @@ abstract class WC_RC_Choose_Services_Manager {
                         WP_Log::error( __METHOD__.' - Invalid amount detected in add_fee', [
                             'service_label' => $service_label,
                             'service_price' => $service_price
-                        ], 'relais-colis-woocommerce' );
+                        ], 'relais-colis-officiel');
 
                         return;
                     }
-                    WP_Log::debug( __METHOD__.' Adding fee', [ 'service_label' => $service_label, 'service_price' => $service_price ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' Adding fee', [ 'service_label' => $service_label, 'service_price' => $service_price ], 'relais-colis-officiel');
 
                     // Adding fee with taxable `false` and `''` for tax_class
                     $cart->add_fee( $service_label, floatval( $service_price ), false, 'standard' );
                 }
             } else {
 
-                WP_Log::debug( __METHOD__.' Session is detected with no fee:', [  ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' Session is detected with no fee:', [  ], 'relais-colis-officiel');
                 //$cart->fees_api()->remove_all_fees();
                 //$cart->calculate_totals();
                 //$cart->fees_api()->add_fee([]);
             }
 
-            WP_Log::debug( __METHOD__.' - Get fees from cart', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Get fees from cart', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-officiel');
         }
         else {
 
-            WP_Log::debug( __METHOD__.' - rc_services not isset in session', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - rc_services not isset in session', [ 'cart fees' => $cart->get_fees(), 'total_fees' => $cart->get_fee_total() ], 'relais-colis-officiel');
         }
     }
 
@@ -372,24 +372,24 @@ abstract class WC_RC_Choose_Services_Manager {
 
         // Get available services for products in cart
         $services = WC_RC_Services_Manager::instance()->get_available_services_from_cart( $offer );
-        WP_Log::debug( __METHOD__.' - Get available services for products in cart', [ '$services' => $services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Get available services for products in cart', [ '$services' => $services ], 'relais-colis-officiel');
 
         $html_content = '';
 
         if ( empty( $services ) ) {
 
-            //$html_content .= '<p>'.__( 'No service available for this delivery method', 'relais-colis-woocommerce' ).'</p>';
+            //$html_content .= '<p>'.__( 'No service available for this delivery method', 'relais-colis-officiel').'</p>';
             return $html_content;
         }
 
         // Rendering depends on offer
-        $html_content = '<ul id="rc-choose-options-'.$offer.'" style="display:none;">'.__( 'Available services:', 'relais-colis-woocommerce' );
+        $html_content = '<ul id="rc-choose-options-'.$offer.'" style="display:none;">'.__( 'Available services:', 'relais-colis-officiel');
 
         $session_rc_services = array();
         if ( WC()->session->__isset( 'rc_services' ) ) {
 
             $session_rc_services = WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-            WP_Log::debug( __METHOD__.' - Session content', [ '$session_rc_services' => $session_rc_services ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Session content', [ '$session_rc_services' => $session_rc_services ], 'relais-colis-officiel');
         }
         
         // Only for available home+ services

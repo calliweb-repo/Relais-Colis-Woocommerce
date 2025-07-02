@@ -52,7 +52,7 @@ class WC_Orders_B2c_Bulk_Auto_Distribute_Manager extends WC_Orders_B2c_Bulk_Acti
      */
     protected function get_specific_bulk_action_title() {
 
-        return __( 'Bulk auto distribute', 'relais-colis-woocommerce' );
+        return __( 'Bulk auto distribute', 'relais-colis-officiel');
     }
 
     /**
@@ -65,7 +65,7 @@ class WC_Orders_B2c_Bulk_Auto_Distribute_Manager extends WC_Orders_B2c_Bulk_Acti
 
         // Get all orders with state ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED
         //$order_state_items_to_be_distributed = WC_Order_Packages_Manager::instance()->get_orders_with_state( WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED );
-        //WP_Log::debug( __METHOD__, [ '$order_ids' => $order_ids, '$order_state_items_to_be_distributed' => $order_state_items_to_be_distributed ], 'relais-colis-woocommerce' );
+        //WP_Log::debug( __METHOD__, [ '$order_ids' => $order_ids, '$order_state_items_to_be_distributed' => $order_state_items_to_be_distributed ], 'relais-colis-officiel');
         foreach ( $order_ids as $order_id ) {
 
             //if ( in_array( $order_id, $order_state_items_to_be_distributed ) ) {

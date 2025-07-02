@@ -54,24 +54,24 @@ class WC_RC_Shipping_Units_Settings {
         add_filter( 'woocommerce_product_settings', array( $this, 'filter_woocommerce_product_settings' ) );
 
         add_filter('woocommerce_product_settings', function($settings) {
-            WP_Log::debug('BEFORE CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-woocommerce');
+            WP_Log::debug('BEFORE CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-officiel');
             return $settings;
         }, 5); // Exécution très tôt
 
         add_filter('woocommerce_product_settings', function($settings) {
-            WP_Log::debug('AFTER CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-woocommerce');
+            WP_Log::debug('AFTER CUSTOM UNITS ADDED', ['units' => $settings], 'relais-colis-officiel');
             return $settings;
         }, 20); // Exécution plus tard
 
         add_action('admin_init', function() {
             $stored_units = get_option('woocommerce_weight_unit');
-            WP_Log::debug('WooCommerce Stored Weight Units', ['units' => $stored_units], 'relais-colis-woocommerce');
+            WP_Log::debug('WooCommerce Stored Weight Units', ['units' => $stored_units], 'relais-colis-officiel');
         });
     }
 
     public function filter_woocommerce_products_general_settings( $settings ) {
 
-        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-officiel');
         return $settings;
     }
 
@@ -82,7 +82,7 @@ class WC_RC_Shipping_Units_Settings {
      */
     public function filter_woocommerce_product_settings( $settings ) {
 
-        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$settings' => $settings ], 'relais-colis-officiel');
 
         foreach ( $settings as &$setting ) {
 
@@ -100,7 +100,7 @@ class WC_RC_Shipping_Units_Settings {
                 $this->woocommerce_dimension_unit_options = $setting[ 'options' ];
             }
         }
-        WP_Log::debug( __METHOD__.' - After array_replace', [ '$settings' => $settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After array_replace', [ '$settings' => $settings ], 'relais-colis-officiel');
 
         return $settings;
     }
@@ -112,7 +112,7 @@ class WC_RC_Shipping_Units_Settings {
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
 
-        $sections[ self::SECTION_UNITS ] = __( 'Options', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_UNITS ] = __( 'Options', 'relais-colis-officiel');
         return $sections;
     }
 
@@ -125,7 +125,7 @@ class WC_RC_Shipping_Units_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_UNITS ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_admin_fields( $this->get_settings() );
     }
@@ -138,7 +138,7 @@ class WC_RC_Shipping_Units_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_UNITS ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_update_options( $this->get_settings() );
     }
@@ -155,7 +155,7 @@ class WC_RC_Shipping_Units_Settings {
             return WC_RC_Shipping_Settings_Manager::instance()->get_invalid_licence_settings();
         }
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         // Tips to force instant call of filter woocommerce_product_settings to add custom CR units
         $wc_settings_products = new WC_Settings_Products();
@@ -165,14 +165,14 @@ class WC_RC_Shipping_Units_Settings {
 
             // Section : Relais Colis Settings
             [
-                'title' => __( 'Label Format', 'relais-colis-woocommerce' ),
+                'title' => __( 'Label Format', 'relais-colis-officiel'),
                 'type' => 'title',
                 'id' => 'rc_settings_title',
             ],
             // // Weight Units
             // [
-            //     'title' => __( 'Weight Units', 'relais-colis-woocommerce' ),
-            //     'desc' => __( 'Select the weight unit to use.', 'relais-colis-woocommerce' ),
+            //     'title' => __( 'Weight Units', 'relais-colis-officiel'),
+            //     'desc' => __( 'Select the weight unit to use.', 'relais-colis-officiel'),
             //     'id' => WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT,
             //     'type' => 'select',
             //     'options' => ( !is_null( $this->woocommerce_weight_unit_options ) ? $this->woocommerce_weight_unit_options : WC_RC_Shipping_Constants::get_weight_units() ),
@@ -181,8 +181,8 @@ class WC_RC_Shipping_Units_Settings {
             // ],
             // // Length Units
             // [
-            //     'title' => __( 'Length Units', 'relais-colis-woocommerce' ),
-            //     'desc' => __( 'Select the length unit to use.', 'relais-colis-woocommerce' ),
+            //     'title' => __( 'Length Units', 'relais-colis-officiel'),
+            //     'desc' => __( 'Select the length unit to use.', 'relais-colis-officiel'),
             //     'id' => WC_RC_Shipping_Constants::OPTION_RC_LENGTH_UNIT,
             //     'type' => 'select',
             //     'options' => ( !is_null( $this->woocommerce_dimension_unit_options ) ? $this->woocommerce_dimension_unit_options : WC_RC_Shipping_Constants::get_dimension_units() ),
@@ -191,8 +191,8 @@ class WC_RC_Shipping_Units_Settings {
             // ],
             // Label Format
             [
-                'title' => __( 'Format Choice', 'relais-colis-woocommerce' ),
-                'desc' => __( 'Choose the label format to print.', 'relais-colis-woocommerce' ),
+                'title' => __( 'Format Choice', 'relais-colis-officiel'),
+                'desc' => __( 'Choose the label format to print.', 'relais-colis-officiel'),
                 'id' => WC_RC_Shipping_Constants::OPTION_RC_LABEL_FORMAT,
                 'type' => 'select',
                 'options' => WC_RC_Shipping_Constants::get_format_units(),

@@ -83,14 +83,14 @@ class WC_RC_Shipping_Field_Tariff_Grids {
 
         // Pass script params to JS
         wp_localize_script( self::FIELD_RC_TARIFF_GRIDS.'_js', 'rc_ajax', array(
-            'delete_label' => __( 'Delete', 'relais-colis-woocommerce' ), // Supprimer
-            'delivery_method_label' => __( 'Delivery method name', 'relais-colis-woocommerce' ), // Nom de la méthode de livraison
-            'criteria_label' => __( 'Criteria type', 'relais-colis-woocommerce' ), // Type de critère tarifaire
-            'total_price_label' => __( 'Total order price', 'relais-colis-woocommerce' ), // Prix total de la commande
-            'weight_label' => __( 'Order weight', 'relais-colis-woocommerce' ) . $option_rc_weight_unit, // Poids de la commande
-            'tariff_ranges_label' => __( 'Tariff ranges', 'relais-colis-woocommerce' ), // Plages tarifaires
-            'add_line_label' => __( 'Add a line', 'relais-colis-woocommerce' ), // Ajouter une ligne
-            'shipping_threshold_label' => __( 'Shipping threshold in euros', 'relais-colis-woocommerce' ), // Seuil de livraison
+            'delete_label' => __( 'Delete', 'relais-colis-officiel'), // Supprimer
+            'delivery_method_label' => __( 'Delivery method name', 'relais-colis-officiel'), // Nom de la méthode de livraison
+            'criteria_label' => __( 'Criteria type', 'relais-colis-officiel'), // Type de critère tarifaire
+            'total_price_label' => __( 'Total order price', 'relais-colis-officiel'), // Prix total de la commande
+            'weight_label' => __( 'Order weight', 'relais-colis-officiel') . $option_rc_weight_unit, // Poids de la commande
+            'tariff_ranges_label' => __( 'Tariff ranges', 'relais-colis-officiel'), // Plages tarifaires
+            'add_line_label' => __( 'Add a line', 'relais-colis-officiel'), // Ajouter une ligne
+            'shipping_threshold_label' => __( 'Shipping threshold in euros', 'relais-colis-officiel'), // Seuil de livraison
             'weight_unit_label' => $option_rc_weight_unit,
             'available_offers' => $available_offers,
         ) );
@@ -114,7 +114,7 @@ class WC_RC_Shipping_Field_Tariff_Grids {
         ?>
         <div id="rc-tariff-container">
             <button type="button" id="add-tariff"
-                    class="button button-primary"><?php esc_html_e( 'Add a new tariff grid', 'relais-colis-woocommerce' ); ?></button>
+                    class="button button-primary"><?php esc_html_e( 'Add a new tariff grid', 'relais-colis-officiel'); ?></button>
             <div id="tariffs-list">
                 <!-- Prices grid are injected here using jQuery -->
             </div>

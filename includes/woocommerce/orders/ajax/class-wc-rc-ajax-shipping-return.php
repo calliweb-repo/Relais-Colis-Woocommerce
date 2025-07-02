@@ -61,12 +61,12 @@ class WC_RC_Ajax_Shipping_Return {
 
             WP_Log::debug( __METHOD__.' - Generate shipping return', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
 
@@ -80,7 +80,7 @@ class WC_RC_Ajax_Shipping_Return {
             if ( $is_c2c_interaction_mode  === true) {
                 
                 wp_send_json_error( [
-                    'message' => __( 'Invalid mode: only B2C is authorized!', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid mode: only B2C is authorized!', 'relais-colis-officiel')
                 ] );
             }
 
@@ -92,7 +92,7 @@ class WC_RC_Ajax_Shipping_Return {
                 || ( $rc_shipping_method == WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ) ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'Invalid offer: only Relay is authorized', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid offer: only Relay is authorized', 'relais-colis-officiel')
                 ] );
             }
 
@@ -107,7 +107,7 @@ class WC_RC_Ajax_Shipping_Return {
 
             // Check if relay_data
             $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-            WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-officiel');
             if ( !empty( $rc_relay_data ) ) {
 
                 // Extract informations
@@ -157,7 +157,7 @@ class WC_RC_Ajax_Shipping_Return {
             }
 
             
-            WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-officiel');
             if ( !empty( $rc_prestations_param ) ) {
 
                 $request_params[ WP_RC_Place_Return_V3::PRESTATIONS ] = $rc_prestations_param;
@@ -172,9 +172,9 @@ class WC_RC_Ajax_Shipping_Return {
 
             if ( is_null( $b2c_place_return ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 wp_send_json_error( [
-                    'message' => __( 'No response from Relais Colis API', 'relais-colis-woocommerce' )
+                    'message' => __( 'No response from Relais Colis API', 'relais-colis-officiel')
                 ] );
             }
 
@@ -198,11 +198,11 @@ class WC_RC_Ajax_Shipping_Return {
                 $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_TOKEN, $b2c_place_return->get_token() );
                 $wc_order->update_meta_data( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RETURN_CREATED_AT, $b2c_place_return->get_created_at() );
                 $wc_order->save();
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Valid response', [ '$b2c_place_return' => $b2c_place_return ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Valid response', [ '$b2c_place_return' => $b2c_place_return ], 'relais-colis-officiel');
             }
 
             // Success response
@@ -220,10 +220,10 @@ class WC_RC_Ajax_Shipping_Return {
             WP_Log::debug( __METHOD__.' - Error placing return', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $wc_order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while generating return label', 'relais-colis-woocommerce' ).'. '.$e->getMessage()
+                'message' => __( 'An error occurred while generating return label', 'relais-colis-officiel').'. '.$e->getMessage()
             ] );
         }
     }

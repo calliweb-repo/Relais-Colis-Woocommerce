@@ -75,10 +75,10 @@ class WC_Orders_List_Table_Manager {
      */
     public function filter_manage_woocommerce_page_wc_orders_columns( $columns ) {
 
-        WP_Log::debug( __METHOD__, [ '$columns' => $columns ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$columns' => $columns ], 'relais-colis-officiel');
 
-        $columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD ] = __( 'RC Shipping method', 'relais-colis-woocommerce' );
-        $columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE ] = __( 'RC State', 'relais-colis-woocommerce' );
+        $columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD ] = __( 'RC Shipping method', 'relais-colis-officiel');
+        $columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE ] = __( 'RC State', 'relais-colis-officiel');
         return $columns;
     }
 
@@ -90,7 +90,7 @@ class WC_Orders_List_Table_Manager {
      */
     public function action_manage_woocommerce_page_wc_orders_custom_column( $column, $order_or_order_id ) {
 
-        WP_Log::debug( __METHOD__, [ '$column' => $column, '$order_or_order_id' => $order_or_order_id ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$column' => $column, '$order_or_order_id' => $order_or_order_id ], 'relais-colis-officiel');
 
         switch ( $column ) {
             case WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD:
@@ -133,7 +133,7 @@ class WC_Orders_List_Table_Manager {
      */
     public function filter_manage_woocommerce_page_wc_orders_sortable_columns( $sortable_columns ) {
 
-        WP_Log::debug( __METHOD__, [ '$sortable_columns' => $sortable_columns ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$sortable_columns' => $sortable_columns ], 'relais-colis-officiel');
 
         $sortable_columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SHIPPING_METHOD ] = 'by_rc_shipping_method';
         $sortable_columns[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE ] = 'by_rc_state';
@@ -155,7 +155,7 @@ class WC_Orders_List_Table_Manager {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_shipping_method' ) ) {
 
-            WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-officiel');
 
             // Order by custom meta data rc_shipping_method
             // Legacy – for CPT-based orders
@@ -164,7 +164,7 @@ class WC_Orders_List_Table_Manager {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         } else if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_state' ) ) {
 
-            WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$query' => $query ], 'relais-colis-officiel');
 
             // Order by custom meta data rc_shipping_method
             // Legacy – for CPT-based orders
@@ -190,7 +190,7 @@ class WC_Orders_List_Table_Manager {
                 )
             ) );
 
-            WP_Log::debug( __METHOD__, [ '$rc_shipping_method' => $rc_shipping_method, '$query' => $query ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_shipping_method' => $rc_shipping_method, '$query' => $query ], 'relais-colis-officiel');
         }
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( $pagenow === 'edit.php' && $typenow === 'shop_order' && isset( $_GET[ 'filter_rc_state' ] ) && !empty( $_GET[ 'filter_rc_state' ] ) ) {
@@ -209,7 +209,7 @@ class WC_Orders_List_Table_Manager {
                 )
             ) );
 
-            WP_Log::debug( __METHOD__, [ '$rc_state' => $rc_state, '$query' => $query ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_state' => $rc_state, '$query' => $query ], 'relais-colis-officiel');
         }
     }
 
@@ -227,7 +227,7 @@ class WC_Orders_List_Table_Manager {
 
         if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_shipping_method' ) ) {
 
-            WP_Log::debug( __METHOD__, [ '$query_vars' => $query_vars ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$query_vars' => $query_vars ], 'relais-colis-officiel');
 
             // Order by custom meta data rc_shipping_method
             $query_vars[ 'orderby' ] = 'meta_value';
@@ -237,7 +237,7 @@ class WC_Orders_List_Table_Manager {
 
         } else if ( is_admin() && !empty( $_GET[ 'orderby' ] ) && !empty( $_GET[ 'order' ] ) && ( $_GET[ 'orderby' ] == 'by_rc_state' ) ) {
 
-            WP_Log::debug( __METHOD__, [ '$query_vars' => $query_vars ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$query_vars' => $query_vars ], 'relais-colis-officiel');
 
             // Order by custom meta data rc_shipping_method
             $query_vars[ 'orderby' ] = 'meta_value';
@@ -257,7 +257,7 @@ class WC_Orders_List_Table_Manager {
                 'compare' => '='
             ];
 
-            WP_Log::debug( __METHOD__, [ '$rc_shipping_method' => $rc_shipping_method, '$query_vars' => $query_vars ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_shipping_method' => $rc_shipping_method, '$query_vars' => $query_vars ], 'relais-colis-officiel');
         }
         if ( is_admin() && isset( $_GET[ 'filter_rc_state' ] ) && !empty( $_GET[ 'filter_rc_state' ] ) ) {
 
@@ -270,7 +270,7 @@ class WC_Orders_List_Table_Manager {
                 'compare' => '='
             ];
 
-            WP_Log::debug( __METHOD__, [ '$rc_state' => $rc_state, '$query_vars' => $query_vars ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_state' => $rc_state, '$query_vars' => $query_vars ], 'relais-colis-officiel');
         }
         return $query_vars;
     }
@@ -294,7 +294,7 @@ class WC_Orders_List_Table_Manager {
      */
     public function action_restrict_manage_posts( $post_type ) {
 
-        WP_Log::debug( __METHOD__, [ '$post_type' => $post_type ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$post_type' => $post_type ], 'relais-colis-officiel');
 
         if ( $post_type !== 'shop_order' ) {
             return;
@@ -302,7 +302,7 @@ class WC_Orders_List_Table_Manager {
 
         // List of available shipping methods
         $shipping_methods = [
-            '' => __( 'All Relais Colis shipping methods', 'relais-colis-woocommerce' )
+            '' => __( 'All Relais Colis shipping methods', 'relais-colis-officiel')
         ];
         $shipping_methods = array_merge( $shipping_methods, WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_methods() );
 
@@ -318,7 +318,7 @@ class WC_Orders_List_Table_Manager {
 
         // List of available order states
         $rc_order_states = [
-            '' => __( 'All Relais Colis order states', 'relais-colis-woocommerce' )
+            '' => __( 'All Relais Colis order states', 'relais-colis-officiel')
         ];
         $rc_order_states = array_merge( $rc_order_states, WC_RC_Shipping_Constants::get_order_states() );
 

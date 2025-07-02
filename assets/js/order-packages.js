@@ -149,12 +149,13 @@ jQuery(document).ready(function ($) {
 
             let table = $('<table class="rc-products-table table-striped"></table>');
 
+
             table.append(`
                 <tr>
                     <th>${rc_order_packages.label_product}</th>
-                    <th>${rc_order_packages.label_unit_weight}</th>
+                    <th>${rc_order_packages.label_unit_weight} (${rc_order_packages.label_weight_units})</th>
                     <th>${rc_order_packages.label_remaining_quantity_to_be_distributed}</th>
-                    <th>${rc_order_packages.label_total_weight}</th>
+                    <th>${rc_order_packages.label_total_weight} (${rc_order_packages.label_weight_units})</th>
                     <th>${rc_order_packages.label_actions}</th>
                 </tr>
             `);
@@ -252,9 +253,9 @@ jQuery(document).ready(function ($) {
             table.append(`
                 <tr>
                     <th>${rc_order_packages.label_product}</th>
-                    <th>${rc_order_packages.label_unit_weight}</th>
+                    <th>${rc_order_packages.label_unit_weight} (${rc_order_packages.label_weight_units})</th>
                     <th>${rc_order_packages.label_quantity}</th>
-                    <th>${rc_order_packages.label_total_weight}</th>
+                    <th>${rc_order_packages.label_total_weight} (${rc_order_packages.label_weight_units})</th>
                     <th>${rc_order_packages.label_actions}</th>
                 </tr>
             `);

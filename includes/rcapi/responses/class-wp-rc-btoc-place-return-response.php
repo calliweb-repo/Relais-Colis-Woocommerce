@@ -125,7 +125,7 @@ class WP_RC_B2C_Place_Return_Response extends WP_Relais_Colis_Response {
         // Assign 'enseigne' data to the trait's configuration.
         if ( property_exists( $this->response_data, 'entry' ) && property_exists( $this->response_data->entry, 'enseigne' ) ) {
 
-            WP_Log::debug( __METHOD__.' - property_exists entry->enseigne', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - property_exists entry->enseigne', [], 'relais-colis-officiel');
 
             $this->rc_configuration = (object)$this->response_data->entry->enseigne;
         }
@@ -143,7 +143,7 @@ class WP_RC_B2C_Place_Return_Response extends WP_Relais_Colis_Response {
         foreach ( $mandatory_properties as $property => $type ) {
 
             $validate = $validate && $this->check_property( $property, $type, $this->response_data->entry );
-            WP_Log::debug( __METHOD__, ['property'=>$property, 'type'=>$type, 'validate'=>($validate?'true':'false')], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, ['property'=>$property, 'type'=>$type, 'validate'=>($validate?'true':'false')], 'relais-colis-officiel');
 
             if ( !$validate ) break;
         }

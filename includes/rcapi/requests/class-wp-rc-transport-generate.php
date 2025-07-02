@@ -98,7 +98,7 @@ class WP_RC_Transport_Generate extends WP_Relais_Colis_Request {
 
         $this->validate();
 
-        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-officiel');
         $this->data = json_encode( $this->data );
     }
 }

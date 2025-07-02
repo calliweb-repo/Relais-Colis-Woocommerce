@@ -48,12 +48,12 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         // Only for B2C interaction mode
         //if ( WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ) return $sections;
 
-        $sections[ self::SECTION_TARIFF_GRIDS ] = __( 'Prices Grid', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_TARIFF_GRIDS ] = __( 'Prices Grid', 'relais-colis-officiel');
         return $sections;
     }
 
@@ -66,7 +66,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_TARIFF_GRIDS ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_admin_fields( $this->get_settings() );
     }
@@ -76,7 +76,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      */
     public function action_woocommerce_update_options_rc_prices() {
 
-        WP_Log::debug( __METHOD__, [ '$_POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$_POST' => $_POST ], 'relais-colis-officiel');
 
         if ( !isset( $_POST[ 'tariffs' ] ) || !is_array( $_POST[ 'tariffs' ] ) ) {
 
@@ -102,12 +102,12 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
 
                 if ( !isset( $line[ 'min' ] ) || !is_numeric( $line[ 'min' ] ) ) {
 
-                    WC_Admin_Settings::add_error( __( "A min value must be entered.", 'relais-colis-woocommerce' ) );
+                    WC_Admin_Settings::add_error( __( "A min value must be entered.", 'relais-colis-officiel') );
                     continue;
                 }
                 if ( !isset( $line[ 'price' ] ) || !is_numeric( $line[ 'price' ] ) ) {
 
-                    WC_Admin_Settings::add_error( __( "A price value must be entered.", 'relais-colis-woocommerce' ) );
+                    WC_Admin_Settings::add_error( __( "A price value must be entered.", 'relais-colis-officiel') );
                     continue;
                 }
 
@@ -119,12 +119,12 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
                 // Check if min is greater than max
                 if ( !is_null( $max_value ) && ( $min_value >= $max_value ) ) {
                     /* translators: 1: min value, 2: max value */
-                    $message =  sprintf( __( 'Min value (%1$s) must be less than Max value (%2$s).', 'relais-colis-woocommerce' ), $min_value, $max_value );
+                    $message =  sprintf( __( 'Min value (%1$s) must be less than Max value (%2$s).', 'relais-colis-officiel'), $min_value, $max_value );
                     WC_Admin_Settings::add_error( $message );
                     WP_Log::warning( __METHOD__.' - Min value must be less than max value', [
                         'min_value' => $min_value,
                         'max_value' => $max_value
-                    ], 'relais-colis-woocommerce' );
+                    ], 'relais-colis-officiel');
                     $error_occurred = true;
                     continue; // Skip this entry
                 }
@@ -144,7 +144,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
                         'code' => $wp_relais_colis_api_exception->getCode(),
                         'message' => $wp_relais_colis_api_exception->getMessage(),
                         'detail' => $wp_relais_colis_api_exception->get_detail()
-                    ], 'relais-colis-woocommerce' );
+                    ], 'relais-colis-officiel');
 
                     WC_Admin_Settings::add_error( $wp_relais_colis_api_exception->getMessage() );
                     $error_occurred = true;
@@ -154,7 +154,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
 
         if ( !$error_occurred ) {
 
-            WC_Admin_Settings::add_message( __( 'Tariff grids updated successfully!', 'relais-colis-woocommerce' ) );
+            WC_Admin_Settings::add_message( __( 'Tariff grids updated successfully!', 'relais-colis-officiel') );
         }
     }
 
@@ -164,7 +164,7 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
      */
     private function get_settings() {
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         // Other tabs loaded only if RC API access is valid
         if ( !WC_RC_Shipping_Config_Manager::instance()->is_rc_api_valid_access() ) {
@@ -184,10 +184,10 @@ class WC_RC_Shipping_Tariff_Grids_Settings {
 
         return [
             [
-                'title' => __( 'Tariff Grids', 'relais-colis-woocommerce' ),
+                'title' => __( 'Tariff Grids', 'relais-colis-officiel'),
                 'type' => 'title',
                 /* translators: 1: weight unit */
-                'desc' => sprintf( __( 'Add prices with a free threshold. The unit of weight is %s', 'relais-colis-woocommerce' ), $option_rc_weight_unit ),
+                'desc' => sprintf( __( 'Add prices with a free threshold. The unit of weight is %s', 'relais-colis-officiel'), $option_rc_weight_unit ),
                 'id' => 'rc_prices_title',
             ],
             [

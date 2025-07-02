@@ -30,7 +30,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
 
         parent::__construct( $instance_id );
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         // Have to be defined in child
         // - Unique ID: $this->id
@@ -62,7 +62,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
      */
     public function process_admin_options() {
 
-        WP_Log::debug( __METHOD__.' - Override process_admin_options', [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Override process_admin_options', [ 'POST' => $_POST ], 'relais-colis-officiel');
         //[POST] => Array
         //        (
         //            [wc_shipping_zones_nonce] => db7d2e4298
@@ -148,7 +148,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
             // Get one unit weight
             $product = $item[ 'data' ];
             $weight = $product->get_weight();
-            WP_Log::debug( __METHOD__, [ '$quantity' => $quantity, '$product' => $product ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$quantity' => $quantity, '$product' => $product ], 'relais-colis-officiel');
 
             // At least one product with no weight, return null
             if ( is_null( $weight ) || ( $weight === '' ) ) continue;
@@ -168,15 +168,15 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
      *  Init defines the parameter strategy for loading/saving
      */
     public function init() {
-        WP_Log::debug( __METHOD__.' - Beginning', [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Beginning', [], 'relais-colis-officiel');
 
         // Load parameters
         $this->init_form_fields();
-        WP_Log::debug( __METHOD__.' - After init_form_fields ', [ '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After init_form_fields ', [ '$this->settings' => $this->settings ], 'relais-colis-officiel');
 
         $this->init_settings();
 
-        WP_Log::debug( __METHOD__.' - After init_form_fields and init_settings', [ '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After init_form_fields and init_settings', [ '$this->settings' => $this->settings ], 'relais-colis-officiel');
 
         //$this->title = $this->get_option('title');
         $this->title = isset( $this->settings[ 'title' ] ) ? sanitize_text_field( $this->settings[ 'title' ] ) : $this->get_wc_rc_shipping_method_default_title();
@@ -185,7 +185,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
         // Save parameters
         add_action( 'woocommerce_update_options_shipping_'.$this->id, array( $this, 'process_admin_options' ) );
 
-        WP_Log::debug( __METHOD__.' - Init at the end', [ '$this->settings' => $this->settings, ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init at the end', [ '$this->settings' => $this->settings, ], 'relais-colis-officiel');
     }
 
     /**
@@ -199,9 +199,9 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
      * @uses get_option(), add_option()
      */
     public function init_settings() {
-        WP_Log::debug( __METHOD__.' - Beginning', [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Beginning', [], 'relais-colis-officiel');
         $this->settings = get_option( $this->get_option_key(), null );
-        WP_Log::debug( __METHOD__.' - After get_option_key ', [ '$this->settings' => $this->settings, 'option_key' => $this->get_instance_option_key() ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After get_option_key ', [ '$this->settings' => $this->settings, 'option_key' => $this->get_instance_option_key() ], 'relais-colis-officiel');
 
         // If there are no settings defined, use defaults.
         if ( !is_array( $this->settings ) ) {
@@ -215,23 +215,23 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
      */
     public function init_form_fields() {
 
-        WP_Log::debug( __METHOD__.' - Init Form fields', [ '$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init Form fields', [ '$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-officiel');
 
         $this->form_fields = [
             'enabled' => [
-                'title' => __( 'Enable/Disable', 'relais-colis-woocommerce' ),
+                'title' => __( 'Enable/Disable', 'relais-colis-officiel'),
                 'type' => 'checkbox',
-                'description' => __( 'Enable this shipping method.', 'relais-colis-woocommerce' ),
+                'description' => __( 'Enable this shipping method.', 'relais-colis-officiel'),
                 'default' => 'yes',
             ],
             'title' => [
-                'title' => __( 'Title', 'relais-colis-woocommerce' ),
+                'title' => __( 'Title', 'relais-colis-officiel'),
                 'type' => 'text',
-                'description' => __( 'This controls the title which the user sees during checkout.', 'relais-colis-woocommerce' ),
+                'description' => __( 'This controls the title which the user sees during checkout.', 'relais-colis-officiel'),
                 'default' => $this->get_wc_rc_shipping_method_default_title(),
             ],
         ];
-        WP_Log::debug( __METHOD__.' - Init Form fields OK', [ '$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init Form fields OK', [ '$this->form_fields' => $this->form_fields, '$this->settings' => $this->settings ], 'relais-colis-officiel');
     }
 
     /**
@@ -242,15 +242,15 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = [] ) {
 
-        WP_Log::debug( __METHOD__, [ 'package' => $package ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'package' => $package ], 'relais-colis-officiel');
 
         // Weight must be present
         $package_weight = $this->get_package_weight( $package );
 
-        WP_Log::debug( __METHOD__, [ 'package weight' => $package_weight ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'package weight' => $package_weight ], 'relais-colis-officiel');
         if ( is_null( $package_weight ) ) {
 
-            WP_Log::debug( __METHOD__.' - No defined weight for at least one product', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - No defined weight for at least one product', [], 'relais-colis-officiel');
             return;
         }
 
@@ -262,19 +262,19 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
         // Check if price-based pricing is available in the tariff grid
         $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $cart_total_price, 'price' );
 
-        WP_Log::debug( __METHOD__.' - price-based pricing?', [ '$cart_total_price' => $cart_total_price, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - price-based pricing?', [ '$cart_total_price' => $cart_total_price, '$shipping_price' => $shipping_price ], 'relais-colis-officiel');
 
         if ( is_null( $shipping_price ) ) {
 
             // Switch to weight-based pricing
             $shipping_price = WP_Tariff_Grids_DAO::instance()->get_shipping_price( $this->get_database_method_name(), $package_weight, 'weight' );
-            WP_Log::debug( __METHOD__.' - weight-based pricing?', [ '$package_weight' => $package_weight, '$shipping_price' => $shipping_price ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - weight-based pricing?', [ '$package_weight' => $package_weight, '$shipping_price' => $shipping_price ], 'relais-colis-officiel');
         }
         
         // If no matching tariff is found, do not display this shipping method
         if ( is_null( $shipping_price ) ) {
 
-            WP_Log::debug( __METHOD__.' - No pricing found', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - No pricing found', [], 'relais-colis-officiel');
             return;
         }
 
@@ -308,7 +308,7 @@ abstract class WC_RC_Shipping_Method extends WC_Shipping_Method {
                 'calc_tax' => 'per_order', // Tax calculation mode
             ];
         }
-        WP_Log::debug( __METHOD__.' - Rate calculated', [ 'rate' => $rate ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Rate calculated', [ 'rate' => $rate ], 'relais-colis-officiel');
 
         $this->add_rate( $rate );
     }

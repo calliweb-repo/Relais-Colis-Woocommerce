@@ -59,8 +59,8 @@ class WC_RC_Shipping_Field_Copy_Paste_Button {
             'rc_params', array(
                 'copy_paste_button_css_class' => $this->copy_paste_button_css_class,
                 'info_text_area_css_class' => $this->info_text_area_css_class,
-                'copied_label' => __( 'Copied!', 'relais-colis-woocommerce' ),
-                'copy_failed_label' => __( 'Copy failed!', 'relais-colis-woocommerce' ),
+                'copied_label' => __( 'Copied!', 'relais-colis-officiel'),
+                'copy_failed_label' => __( 'Copy failed!', 'relais-colis-officiel'),
             )
         );
     }
@@ -77,7 +77,7 @@ class WC_RC_Shipping_Field_Copy_Paste_Button {
         ?>
         <div>
             <textarea class="<?php echo esc_attr($this->info_text_area_css_class); ?>" style="display:none;" readonly><?php echo esc_textarea($formatted_info); ?></textarea>
-            <button type="button" class="<?php echo esc_attr($this->copy_paste_button_css_class); ?> button button-primary"><?php echo esc_html__('Copy the information to the clipboard', 'relais-colis-woocommerce') ?></button>
+            <button type="button" class="<?php echo esc_attr($this->copy_paste_button_css_class); ?> button button-primary"><?php echo esc_html__('Copy the information to the clipboard', 'relais-colis-officiel') ?></button>
         </div>
         <?php
     }

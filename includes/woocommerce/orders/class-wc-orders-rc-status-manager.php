@@ -98,7 +98,7 @@ class WC_Orders_RC_Status_Manager {
     public function action_wp_loaded() {
         // // Get pending shipping status
         // $orders_pending_update = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_orders_pending_update();
-        // WP_Log::debug( __METHOD__, [ '$orders_pending_update' => $orders_pending_update ], 'relais-colis-woocommerce' );
+        // WP_Log::debug( __METHOD__, [ '$orders_pending_update' => $orders_pending_update ], 'relais-colis-officiel');
 
         // // If not empty, need to update a few shipping status
         // if ( empty( $orders_pending_update ) ) return;
@@ -119,13 +119,13 @@ class WC_Orders_RC_Status_Manager {
 
         //     if ( is_null( $packages_status ) ) {
 
-        //         WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+        //         WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
         //         return;
         //     }
 
         //     // Get RC statuses shipping_label=>shipping_status
         //     $rc_statuses = $packages_status->get_simplified_rc_statuses();
-        //     WP_Log::debug( __METHOD__, [ 'rc_statuses' => $rc_statuses ], 'relais-colis-woocommerce' );
+        //     WP_Log::debug( __METHOD__, [ 'rc_statuses' => $rc_statuses ], 'relais-colis-officiel');
 
         //     // Update RC status for these orders, requesting RC API /api/package/getDataEvts endpoint
         //     foreach ( $rc_statuses as $rc_shipping_label => $rc_status ) {
@@ -136,7 +136,7 @@ class WC_Orders_RC_Status_Manager {
 
         // } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-        //     WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+        //     WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         // }
     }
 
@@ -148,7 +148,7 @@ class WC_Orders_RC_Status_Manager {
      */
     public function init_order_rc_status( WC_Order $wc_order, $entry ) {
 
-        WP_Log::debug( __METHOD__.' - Init order RC status.', [ 'wc_order' => $wc_order ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Init order RC status.', [ 'wc_order' => $wc_order ], 'relais-colis-officiel');
 
         if(is_array($entry)){
             foreach ($entry as $key => $item) {

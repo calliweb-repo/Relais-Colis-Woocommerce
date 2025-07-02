@@ -52,7 +52,7 @@ class WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager extends WC_Orders_C2c_Bul
      */
     protected function get_specific_bulk_action_title() {
 
-        return __( 'Bulk print shipping labels', 'relais-colis-woocommerce' );
+        return __( 'Bulk print shipping labels', 'relais-colis-officiel');
     }
 
     /**
@@ -68,7 +68,7 @@ class WC_Orders_C2c_Bulk_Print_Shipping_Labels_Manager extends WC_Orders_C2c_Bul
 
         if ( $pdf_delivery_label === false ) {
 
-            WP_Log::debug( __METHOD__.' Errors occurred while shipping labels print', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' Errors occurred while shipping labels print', [], 'relais-colis-officiel');
         }
 
     }

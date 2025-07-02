@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: Relais Colis Woocommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-16 11:13+0200\n"
-"PO-Revision-Date: 2025-05-27 11:26+0200\n"
-"Last-Translator: Quentin <quentin.jeannet@calliweb.fr>\n"
-"Language-Team: French <traduc@traduc.org>\n"
-"Language: fr\n"
+"PO-Revision-Date: 2025-04-10 15:04+0200\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
-"X-Domain: relais-colis-woocommerce\n"
+"X-Domain: relais-colis-officiel\n"
 
 #: includes/rcapi/class-wp-relais-colis-api-exception.php:70
 msgid "RC API: Invalid activation key"
@@ -174,8 +174,7 @@ msgstr "Méthode de livraison"
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:165
 #, fuzzy
 msgid "Available delivery methods for this service"
-msgstr ""
-"La prestation est uniquement disponible pour ce / ces méthodes de livraison"
+msgstr "La prestation est uniquement disponible pour ce / ces méthodes de livraison"
 
 #: includes/woocommerce/settings/class-wc-rc-shipping-services-settings.php:177
 msgid "Client Choice"
@@ -355,7 +354,7 @@ msgstr "Ajouter une ligne"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:93
 msgid "Shipping threshold in euros"
-msgstr "Seuil de livraison gratuite"
+msgstr "Seuil de livraison gratuite en euro"
 
 #: includes/woocommerce/settings/fields/class-wc-rc-shipping-field-tariff-grids.php:117
 msgid "Add a grid"
@@ -668,6 +667,10 @@ msgstr "Dimanche"
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:83
 msgid "Relay Name:"
 msgstr "Nom du relais :"
+
+#: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:88
+msgid "Relay ID:"
+msgstr "Identifiant du relais :"
 
 #: includes/woocommerce/orders/class-wc-order-shipping-infos-manager.php:84
 msgid "Address:"

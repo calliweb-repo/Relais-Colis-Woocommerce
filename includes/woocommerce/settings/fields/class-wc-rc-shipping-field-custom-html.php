@@ -39,7 +39,7 @@ class WC_RC_Shipping_Field_Custom_Html {
      */
     public function action_woocommerce_admin_field_rc_custom_html( $field ) {
 
-        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-officiel');
 
         if ( isset( $field['html'] ) ) {
 

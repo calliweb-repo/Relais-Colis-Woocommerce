@@ -109,7 +109,7 @@ class WP_Configuration_DAO {
                 );
 
                 if ( $result === false ) {
-                    WP_Log::debug( __METHOD__.' - Failed to insert rc_configuration_option: '.$wpdb->last_error, [], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - Failed to insert rc_configuration_option: '.$wpdb->last_error, [], 'relais-colis-officiel');
                 }
             }
         }

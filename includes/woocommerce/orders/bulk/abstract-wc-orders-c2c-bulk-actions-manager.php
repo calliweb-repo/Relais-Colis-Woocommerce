@@ -81,7 +81,7 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
      */
     public function action_after_bulk_actions_rc_shop_order( $order_id, $is_success, $message ) {
 
-        WP_Log::debug( __METHOD__, [ '$order_id' => $order_id, '$is_success' => $is_success ? 'true' : 'false', '$message' => $message ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$order_id' => $order_id, '$is_success' => $is_success ? 'true' : 'false', '$message' => $message ], 'relais-colis-officiel');
         
         // Store result in a transient to get it after redirection
         $results = get_transient( 'rc_bulk_action_results' ) ?: [];
@@ -107,7 +107,7 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
                 printf(
                     '<div class="%s notice is-dismissible"><p>%s %s - %s</p></div>',
                     esc_attr( $notice_class ),
-                    esc_html__( 'Order', 'relais-colis-woocommerce' ),
+                    esc_html__( 'Order', 'relais-colis-officiel'),
                     esc_html( $order_id ),
                     wp_kses_post( $result['message'] )
                 );
@@ -147,11 +147,11 @@ abstract class WC_Orders_C2c_Bulk_Actions_Manager {
         // Check user permissions
         if ( !current_user_can( 'manage_woocommerce' ) ) {
 
-            wp_die( esc_html__( 'You do not have sufficient permissions to bulk auto distribute items in packages.', 'relais-colis-woocommerce' ) );
+            wp_die( esc_html__( 'You do not have sufficient permissions to bulk auto distribute items in packages.', 'relais-colis-officiel') );
         }
 
         // Bulk action
-        WP_Log::debug( __METHOD__, [ '$redirect_url' => $redirect_url, '$action' => $action, '$order_ids' => $order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$redirect_url' => $redirect_url, '$action' => $action, '$order_ids' => $order_ids ], 'relais-colis-officiel');
         $this->handle_specific_bulk_actions( $order_ids );
 
         return $redirect_url;

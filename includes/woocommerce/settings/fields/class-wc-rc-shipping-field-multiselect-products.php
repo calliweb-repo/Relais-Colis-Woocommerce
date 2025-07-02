@@ -107,7 +107,7 @@ class WC_RC_Shipping_Field_Multiselect_Products {
      */
     public function action_woocommerce_admin_field_rc_multiselect_products( $field ) {
 
-        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-officiel');
 
         // Ensure the field ID exists
         if ( empty( $field[ 'id' ] ) ) {
