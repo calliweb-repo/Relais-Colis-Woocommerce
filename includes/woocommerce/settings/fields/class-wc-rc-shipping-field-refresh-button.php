@@ -71,7 +71,7 @@ class WC_RC_Shipping_Field_Refresh_Button {
 
         ob_start(); ?>
         <div>
-            <button type="button" class="<?php echo esc_attr(self::FIELD_RC_REFRESH_BUTTON); ?> button button-primary"><?php echo esc_html__('Refresh your information', 'relais-colis-woocommerce') ?></button>
+            <button type="button" class="<?php echo esc_attr(self::FIELD_RC_REFRESH_BUTTON); ?> button button-primary"><?php echo esc_html__('Refresh your information', 'relais-colis-officiel') ?></button>
         </div>
         <?php
         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

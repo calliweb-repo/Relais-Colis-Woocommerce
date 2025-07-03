@@ -26,7 +26,7 @@ class WP_Relais_Colis_Request_Factory {
      */
     public function get_rc_api_reuest( string $request_type ) {
 
-        WP_Log::debug( __METHOD__, [ 'request_type' => $request_type ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'request_type' => $request_type ], 'relais-colis-officiel');
 
         if ( empty( $request_type ) ) return null;
 

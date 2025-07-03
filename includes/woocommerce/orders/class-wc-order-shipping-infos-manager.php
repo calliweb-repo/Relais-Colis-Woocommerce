@@ -47,7 +47,7 @@ class WC_Order_Shipping_Infos_Manager {
      */
     public function render_shipping_infos( $wc_order ) {
 
-        WP_Log::debug( __METHOD__, [ 'wc_order' => $wc_order ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'wc_order' => $wc_order ], 'relais-colis-officiel');
 
         // Check if the shipping method is "Relais Colis"
         $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
@@ -63,32 +63,32 @@ class WC_Order_Shipping_Infos_Manager {
 
                     // Check if relay_data
                     $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-officiel');
                     if ( !empty( $rc_relay_data ) ) {
 
                         // Extract informations
-                        $nom_relais = $rc_relay_data[ 'Nomrelais' ] ?? __( 'Unknown Relay', 'relais-colis-woocommerce' );
-                        $adresse_relais = $rc_relay_data[ 'Geocoadresse' ] ?? __( 'No address available', 'relais-colis-woocommerce' );
+                        $nom_relais = $rc_relay_data[ 'Nomrelais' ] ?? __( 'Unknown Relay', 'relais-colis-officiel');
+                        $adresse_relais = $rc_relay_data[ 'Geocoadresse' ] ?? __( 'No address available', 'relais-colis-officiel');
                         $code_postal = $rc_relay_data[ 'Postalcode' ] ?? '';
                         $ville = $rc_relay_data[ 'Commune' ] ?? '';
                         $pays = $rc_relay_data[ 'countryLabel' ] ?? '';
                         $horaires = [
-                            __( 'Monday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairelundimatin' ].' / '.$rc_relay_data[ 'Horairelundiapm' ],
-                            __( 'Tuesday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairemardimatin' ].' / '.$rc_relay_data[ 'Horairemardiapm' ],
-                            __( 'Wednesday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairemercredimatin' ].' / '.$rc_relay_data[ 'Horairemercrediapm' ],
-                            __( 'Thursday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairejeudimatin' ].' / '.$rc_relay_data[ 'Horairejeudiapm' ],
-                            __( 'Friday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairevendredimatin' ].' / '.$rc_relay_data[ 'Horairevendrediapm' ],
-                            __( 'Saturday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairesamedimatin' ].' / '.$rc_relay_data[ 'Horairesamediapm' ],
-                            __( 'Sunday', 'relais-colis-woocommerce' ) => $rc_relay_data[ 'Horairedimanchematin' ].' / '.$rc_relay_data[ 'Horairedimancheapm' ]
+                            __( 'Monday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairelundimatin' ].' / '.$rc_relay_data[ 'Horairelundiapm' ],
+                            __( 'Tuesday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairemardimatin' ].' / '.$rc_relay_data[ 'Horairemardiapm' ],
+                            __( 'Wednesday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairemercredimatin' ].' / '.$rc_relay_data[ 'Horairemercrediapm' ],
+                            __( 'Thursday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairejeudimatin' ].' / '.$rc_relay_data[ 'Horairejeudiapm' ],
+                            __( 'Friday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairevendredimatin' ].' / '.$rc_relay_data[ 'Horairevendrediapm' ],
+                            __( 'Saturday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairesamedimatin' ].' / '.$rc_relay_data[ 'Horairesamediapm' ],
+                            __( 'Sunday', 'relais-colis-officiel') => $rc_relay_data[ 'Horairedimanchematin' ].' / '.$rc_relay_data[ 'Horairedimancheapm' ]
                         ];
                         $google_maps_url = "https://www.google.com/maps/search/?api=1&query=".urlencode( $adresse_relais.', '.$code_postal.' '.$ville.', '.$pays );
 
                         $rc_shipping_infos_html = '
-                            <p><strong>'.__( 'Relay ID:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $rc_relay_data['Xeett'] ).'</p>
-                            <p><strong>'.__( 'Relay Name:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $nom_relais ).'</p>
-                            <p><strong>'.__( 'Address:', 'relais-colis-woocommerce' ).'</strong> '.esc_html( $adresse_relais ).', '.esc_html( $code_postal ).' '.esc_html( $ville ).', '.esc_html( $pays ).'</p>
-                            <p><a href="'.esc_url( $google_maps_url ).'" target="_blank">'.__( 'View on Google Maps', 'relais-colis-woocommerce' ).'</a></p>
-                            <p><strong>'.__( 'Opening Hours', 'relais-colis-woocommerce' ).'</strong></p>
+                            <p><strong>'.__( 'Relay ID:', 'relais-colis-officiel').'</strong> '.esc_html( $rc_relay_data['Xeett'] ).'</p>
+                            <p><strong>'.__( 'Relay Name:', 'relais-colis-officiel').'</strong> '.esc_html( $nom_relais ).'</p>
+                            <p><strong>'.__( 'Address:', 'relais-colis-officiel').'</strong> '.esc_html( $adresse_relais ).', '.esc_html( $code_postal ).' '.esc_html( $ville ).', '.esc_html( $pays ).'</p>
+                            <p><a href="'.esc_url( $google_maps_url ).'" target="_blank">'.__( 'View on Google Maps', 'relais-colis-officiel').'</a></p>
+                            <p><strong>'.__( 'Opening Hours', 'relais-colis-officiel').'</strong></p>
                             <ul>
                         ';
                         foreach ( $horaires as $jour => $horaire ) {
@@ -102,10 +102,10 @@ class WC_Order_Shipping_Infos_Manager {
 
                     // Check if rc_services
                     $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-officiel');
                     if ( !empty( $rc_services ) ) {
 
-                        $rc_shipping_infos_html = '<h4>'.__( 'Services', 'relais-colis-woocommerce' ).'</h4>';
+                        $rc_shipping_infos_html = '<h4>'.__( 'Services', 'relais-colis-officiel').'</h4>';
 
                         foreach ( $rc_services as $rc_service ) {
 
@@ -125,16 +125,16 @@ class WC_Order_Shipping_Infos_Manager {
 
                     // Check if rc_services
                     $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-officiel');
 
                     // Check if rc_service_infos
                     $rc_service_infos = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
-                    WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-officiel');
 
                     // Title
                     if ( !empty( $rc_services ) && !empty( $rc_service_infos ) ) {
 
-                        $rc_shipping_infos_html = '<h4>'.__( 'Services', 'relais-colis-woocommerce' ).'</h4>';
+                        $rc_shipping_infos_html = '<h4>'.__( 'Services', 'relais-colis-officiel').'</h4>';
                     }
 
                     // Services content
@@ -162,7 +162,7 @@ class WC_Order_Shipping_Infos_Manager {
                     // Service infos content
                     if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
 
-                        $rc_shipping_infos_html .= '<h4>'.__( 'Relais Colis - Additional infos', 'relais-colis-woocommerce' ).'</h4>';
+                        $rc_shipping_infos_html .= '<h4>'.__( 'Relais Colis - Additional infos', 'relais-colis-officiel').'</h4>';
 
                         //    [$session_rc_service_infos] => Array
                         //        (
@@ -190,7 +190,7 @@ class WC_Order_Shipping_Infos_Manager {
                                     $rc_shipping_infos_html .= '<p><strong>'.$homeplus_addon_infos_field[ 'label' ].':</strong> '.$homeplus_addon_infos_field[ 'options' ][ ''.$rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ] ].'</p>';
                                     break;
                                 case 'checkbox':
-                                    $rc_shipping_infos_html .= '<p><strong>'.$homeplus_addon_infos_field[ 'label' ].':</strong> '.( $rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ] === 1 ? __( 'Yes', 'relais-colis-woocommerce' ) : __( 'No', 'relais-colis-woocommerce' ) ).'</p>';
+                                    $rc_shipping_infos_html .= '<p><strong>'.$homeplus_addon_infos_field[ 'label' ].':</strong> '.( $rc_service_infos[ WC_RC_Services_Manager::HTML_SERVICES_ID_PREFIX.$homeplus_addon_infos_slug ] === 1 ? __( 'Yes', 'relais-colis-officiel') : __( 'No', 'relais-colis-officiel') ).'</p>';
                                     break;
                                 default:
                                     // Does nothing
@@ -219,13 +219,13 @@ class WC_Order_Shipping_Infos_Manager {
                     $link = 'https://service.relaiscolis.com/wssuivicoliscritere/PageSuivi.aspx?Ref='.$shipping_label;
 
                     // Build follow link
-                    $follow_links_html .= '<li><a href="'.$link.'" target="_blank">'.__( 'Package', 'relais-colis-woocommerce' ).' <span>'.$shipping_label.'</span></a></li>';
+                    $follow_links_html .= '<li><a href="'.$link.'" target="_blank">'.__( 'Package', 'relais-colis-officiel').' <span>'.$shipping_label.'</span></a></li>';
 
                 }
             }
             if ( !empty( $follow_links_html ) ) {
 
-                $rc_shipping_infos_html .= '<div class="rc-tracking-links-info" data-order-id="'.$wc_order->get_id().'"><p><strong>'.__( 'Tracking links', 'relais-colis-woocommerce' ).'</strong> <a href="#" class="edit-shipping-labels" style="text-decoration:none; float:right; font-size:0.8em; color:#999;" title="'.__('Edit shipping labels', 'relais-colis-woocommerce').'"><span class="dashicons dashicons-edit"></span></a></p>';
+                $rc_shipping_infos_html .= '<div class="rc-tracking-links-info" data-order-id="'.$wc_order->get_id().'"><p><strong>'.__( 'Tracking links', 'relais-colis-officiel').'</strong> <a href="#" class="edit-shipping-labels" style="text-decoration:none; float:right; font-size:0.8em; color:#999;" title="'.__('Edit shipping labels', 'relais-colis-officiel').'"><span class="dashicons dashicons-edit"></span></a></p>';
                 $rc_shipping_infos_html .= '<ul>'.$follow_links_html.'</ul></div>';
             }
 
@@ -235,8 +235,8 @@ class WC_Order_Shipping_Infos_Manager {
 
             $html_content = '
                 <div class="rc-shipping-info"><img src="'.esc_url( $logo_url ).'" alt="Relais Colis" class="rc-logo">
-                    <h3>'.__( 'Relais Colis - Informations', 'relais-colis-woocommerce' ).'</h3>
-                    <p><strong>'.__( 'RC Shipping method', 'relais-colis-woocommerce' ).' : </strong> '.WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ).'</p>
+                    <h3>'.__( 'Relais Colis - Informations', 'relais-colis-officiel').'</h3>
+                    <p><strong>'.__( 'RC Shipping method', 'relais-colis-officiel').' : </strong> '.WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method_name( $rc_shipping_method ).'</p>
                     '.( !is_null( $rc_shipping_infos_html ) ? $rc_shipping_infos_html : '' ).'
                 </div>';
 
@@ -250,7 +250,7 @@ class WC_Order_Shipping_Infos_Manager {
      */
     public function enqueue_shipping_label_scripts() {
 
-        WP_Log::error( __METHOD__.' ENQUEUE SCRIPTS', [], 'relais-colis-woocommerce' );
+        WP_Log::error( __METHOD__.' ENQUEUE SCRIPTS', [], 'relais-colis-officiel');
         
         $screen = get_current_screen();
         
@@ -280,7 +280,7 @@ class WC_Order_Shipping_Infos_Manager {
      * Handle AJAX request to update shipping label
      */
     public function ajax_update_shipping_label() {
-        WP_Log::error( __METHOD__, [ '$_POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::error( __METHOD__, [ '$_POST' => $_POST ], 'relais-colis-officiel');
         check_ajax_referer('woocommerce-order', 'security');
 
         if (!current_user_can('edit_shop_orders')) {

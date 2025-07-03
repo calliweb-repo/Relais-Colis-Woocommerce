@@ -112,15 +112,15 @@ trait Plugin_Action_Links {
         // Add some infos in action links
         if ( !is_null( $this->get_settings_url() ) && ( $this->get_settings_url() !== '' )  ) {
 
-            $actions[] = '<a href="'. esc_url( $this->get_settings_url() ) .'">'.__( 'Settings', 'relais-colis-woocommerce' ).'</a>';
+            $actions[] = '<a href="'. esc_url( $this->get_settings_url() ) .'">'.__( 'Settings', 'relais-colis-officiel').'</a>';
         }
         if ( !is_null( $this->get_documentation_url() ) && ( $this->get_documentation_url() !== '' )  ) {
 
-            $actions[] = '<a href="'. esc_url( $this->get_documentation_url() ) .'" target="_blank">'.__( 'Documentation', 'relais-colis-woocommerce' ).'</a>';
+            $actions[] = '<a href="'. esc_url( $this->get_documentation_url() ) .'" target="_blank">'.__( 'Documentation', 'relais-colis-officiel').'</a>';
         }
         if ( !is_null( $this->get_support_url() ) && ( $this->get_support_url() !== '' )  ) {
 
-            $actions[] = '<a href="'. esc_url( $this->get_support_url() ) .'" target="_blank">'.__( 'Support', 'relais-colis-woocommerce' ).'</a>';
+            $actions[] = '<a href="'. esc_url( $this->get_support_url() ) .'" target="_blank">'.__( 'Support', 'relais-colis-officiel').'</a>';
         }
 
 

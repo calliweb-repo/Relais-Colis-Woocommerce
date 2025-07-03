@@ -58,12 +58,12 @@ class WC_RC_Ajax_Shipping_Price {
 
             WP_Log::debug( __METHOD__.' - Get shipping price', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
 
@@ -79,7 +79,7 @@ class WC_RC_Ajax_Shipping_Price {
             if ( !$is_c2c_interaction_mode ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'Invalid mode: only C2C is authorized', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid mode: only C2C is authorized', 'relais-colis-officiel')
                 ] );
             }
 
@@ -92,13 +92,13 @@ class WC_RC_Ajax_Shipping_Price {
                 $dynamic_params = array(
                     WP_RC_C2C_Get_Packages_Price::PACKAGES_WEIGHT => array( $c_colis[ 'weight' ] ),
                 );
-                WP_Log::debug( __METHOD__.' - Dynamic params ready for c2c_get_packages_price', [ '$dynamic_params' => $dynamic_params ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Dynamic params ready for c2c_get_packages_price', [ '$dynamic_params' => $dynamic_params ], 'relais-colis-officiel');
 
                 $c2c_get_packages_price = WP_Relais_Colis_API::instance()->c2c_get_packages_price( $dynamic_params, false );
 
                 if ( is_null( $c2c_get_packages_price ) ) {
 
-                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                     continue;
                 }
 
@@ -118,7 +118,7 @@ class WC_RC_Ajax_Shipping_Price {
             WP_Log::debug( __METHOD__.' - After placing shipping label (advertisement)', [
                 'order_id' => $wc_order_id,
                 'existing_package' => $colis
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Success response
             wp_send_json_success( [
@@ -130,10 +130,10 @@ class WC_RC_Ajax_Shipping_Price {
             WP_Log::error( __METHOD__.' - Error getting price', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $wc_order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while getting price', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while getting price', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }

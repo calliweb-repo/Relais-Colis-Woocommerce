@@ -53,7 +53,7 @@ class WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager extends WC_Orders_B2c_Bulk_A
      */
     protected function get_specific_bulk_action_title() {
 
-        return __( 'Bulk generate way bills', 'relais-colis-woocommerce' );
+        return __( 'Bulk generate way bills', 'relais-colis-officiel');
     }
 
     /**
@@ -69,7 +69,7 @@ class WC_Orders_B2c_Bulk_Generate_Way_Bills_Manager extends WC_Orders_B2c_Bulk_A
 
         if ( $way_bills === false ) {
 
-            WP_Log::debug( __METHOD__.' Errors occurred while way bills generation', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' Errors occurred while way bills generation', [], 'relais-colis-officiel');
         }
 
     }

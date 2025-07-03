@@ -74,7 +74,7 @@ class WC_RC_Services_Manager {
     public function get_fixed_services() {
         return array(
             self::APPOINTMENT_SCHEDULING => array(
-                __( 'Appointment Scheduling', 'relais-colis-woocommerce' ),
+                __( 'Appointment Scheduling', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME => WC_RC_Shipping_Constants::OFFER_HOME,
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
@@ -82,56 +82,56 @@ class WC_RC_Services_Manager {
             ),
 
             self::DELIVERY_TO_FLOOR => array(
-                __( 'Delivery to the Floor', 'relais-colis-woocommerce' ),
+                __( 'Delivery to the Floor', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::TWO_PERSON_DELIVERY => array(
-                __( 'Two-Person Delivery', 'relais-colis-woocommerce' ),
+                __( 'Two-Person Delivery', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::SETUP_LARGE_APPLIANCES => array(
-                __( 'Setup of Large Appliances', 'relais-colis-woocommerce' ),
+                __( 'Setup of Large Appliances', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::QUICK_ASSEMBLY => array(
-                __( 'Quick Assembly', 'relais-colis-woocommerce' ),
+                __( 'Quick Assembly', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::OVERSIZED_ITEMS => array(
-                __( 'Oversized Items', 'relais-colis-woocommerce' ),
+                __( 'Oversized Items', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::PRODUCT_UNPACKING => array(
-                __( 'Product Unpacking', 'relais-colis-woocommerce' ),
+                __( 'Product Unpacking', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::PACKAGING_REMOVAL => array(
-                __( 'Packaging Removal', 'relais-colis-woocommerce' ),
+                __( 'Packaging Removal', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::REMOVAL_OLD_EQUIPMENT => array(
-                __( 'Removal of Old Equipment', 'relais-colis-woocommerce' ),
+                __( 'Removal of Old Equipment', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME => WC_RC_Shipping_Constants::OFFER_HOME,
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
@@ -139,14 +139,14 @@ class WC_RC_Services_Manager {
             ),
 
             self::DELIVERY_DESIRED_ROOM => array(
-                __( 'Delivery to Desired Room', 'relais-colis-woocommerce' ),
+                __( 'Delivery to Desired Room', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME_PLUS => WC_RC_Shipping_Constants::OFFER_HOME_PLUS
                 ],
             ),
 
             self::CURBSIDE_DELIVERY => array(
-                __( 'Curbside Delivery', 'relais-colis-woocommerce' ),
+                __( 'Curbside Delivery', 'relais-colis-officiel'),
                 [
                     WC_RC_Shipping_Constants::METHOD_NAME_HOME => WC_RC_Shipping_Constants::OFFER_HOME
                 ],
@@ -164,41 +164,41 @@ class WC_RC_Services_Manager {
             self::SERVICE_HOMEPLUS_DIGICODE => array(
                 'type' => 'text',
                 'class' => array( self::SERVICE_HOMEPLUS_DIGICODE ),
-                'label' => __( 'Digicode', 'relais-colis-woocommerce' ),
+                'label' => __( 'Digicode', 'relais-colis-officiel'),
             ),
             self::SERVICE_HOMEPLUS_FLOOR => array(
                 'type' => 'select',
                 'class' => array( self::SERVICE_HOMEPLUS_FLOOR ),
-                'label' => __( 'Floor', 'relais-colis-woocommerce' ),
+                'label' => __( 'Floor', 'relais-colis-officiel'),
                 'options' => array(
-                    "" => __( 'Please select a floor', 'relais-colis-woocommerce' ),
-                    "rdc" => __( 'Ground floor (RDC)', 'relais-colis-woocommerce' ),
-                    "1" => __( '1st floor', 'relais-colis-woocommerce' ),
-                    "2" => __( '2nd floor', 'relais-colis-woocommerce' ),
-                    "3" => __( '3rd floor', 'relais-colis-woocommerce' ),
-                    "4" => __( '4th floor', 'relais-colis-woocommerce' ),
-                    "5" => __( '5th floor and above', 'relais-colis-woocommerce' ),
+                    "" => __( 'Please select a floor', 'relais-colis-officiel'),
+                    "rdc" => __( 'Ground floor (RDC)', 'relais-colis-officiel'),
+                    "1" => __( '1st floor', 'relais-colis-officiel'),
+                    "2" => __( '2nd floor', 'relais-colis-officiel'),
+                    "3" => __( '3rd floor', 'relais-colis-officiel'),
+                    "4" => __( '4th floor', 'relais-colis-officiel'),
+                    "5" => __( '5th floor and above', 'relais-colis-officiel'),
                 ),
             ),
             self::SERVICE_HOMEPLUS_TYPE_OF_RESIDENCE => array(
                 'type' => 'select',
                 'class' => array( self::SERVICE_HOMEPLUS_TYPE_OF_RESIDENCE ),
-                'label' => __( 'Type of residence', 'relais-colis-woocommerce' ),
+                'label' => __( 'Type of residence', 'relais-colis-officiel'),
                 'options' => array(
-                    "" => __( 'Please select a type', 'relais-colis-woocommerce' ),
-                    "house" => __( 'House', 'relais-colis-woocommerce' ),
-                    "apartment" => __( 'Apartment', 'relais-colis-woocommerce' ),
+                    "" => __( 'Please select a type', 'relais-colis-officiel'),
+                    "house" => __( 'House', 'relais-colis-officiel'),
+                    "apartment" => __( 'Apartment', 'relais-colis-officiel'),
                 ),
             ),
             self::SERVICE_HOMEPLUS_ELEVATOR => array(
                 'type' => 'checkbox',
                 'class' => array( self::SERVICE_HOMEPLUS_ELEVATOR ),
-                'label' => __( 'Elevator', 'relais-colis-woocommerce' ),
+                'label' => __( 'Elevator', 'relais-colis-officiel'),
             ),
             self::SERVICE_HOMEPLUS_ADDITIONAL_INFOS => array(
                 'type' => 'textarea',
                 'class' => array( self::SERVICE_HOMEPLUS_ADDITIONAL_INFOS ),
-                'label' => __( 'Additional delivery instructions', 'relais-colis-woocommerce' ),
+                'label' => __( 'Additional delivery instructions', 'relais-colis-officiel'),
             ),
         );
     }
@@ -222,8 +222,8 @@ class WC_RC_Services_Manager {
 
             if ( $key === self::HTML_SERVICES_ID_PREFIX.$service_key ) {
 
-                WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-woocommerce' );
-                $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-woocommerce' ).')</span>';
+                WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-officiel');
+                $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-officiel').')</span>';
                 $field = str_replace( $optional, '', $field );
                 return $field;
             }
@@ -239,8 +239,8 @@ class WC_RC_Services_Manager {
         );
         if ( in_array( $key, $addon_homeplus_service ) ) {
 
-            WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-woocommerce' );
-            $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-woocommerce' ).')</span>';
+            WP_Log::debug( __METHOD__, [ '$field' => $field, '$key' => $key ], 'relais-colis-officiel');
+            $optional = '<span class="optional">('.esc_html__( 'optional', 'relais-colis-officiel').')</span>';
             $field = str_replace( $optional, '', $field );
             return $field;
         }
@@ -257,7 +257,7 @@ class WC_RC_Services_Manager {
         // Fetch services from the database
         $services = WP_Services_DAO::instance()->get_services();
         $fixed_services = $this->get_fixed_services();
-        WP_Log::debug( __METHOD__, [ '$services' => $services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$services' => $services ], 'relais-colis-officiel');
 
         $valid_services = array();
 
@@ -268,7 +268,7 @@ class WC_RC_Services_Manager {
             $slug = $service[ 'slug' ];
             if ( !isset( $fixed_services[ $slug ] ) ) {
 
-                WP_Log::error( __METHOD__." - Service not found in fixed services", [ 'slug' => $slug ], 'relais-colis-woocommerce' );
+                WP_Log::error( __METHOD__." - Service not found in fixed services", [ 'slug' => $slug ], 'relais-colis-officiel');
                 continue;
             }
             // Add name and delivery_methods
@@ -276,7 +276,7 @@ class WC_RC_Services_Manager {
             $service[ 'delivery_methods' ] = $fixed_services[ $slug ][ 1 ];
             $valid_services[ $slug ] = $service;
         }
-        WP_Log::debug( __METHOD__, [ '$valid_services' => $valid_services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$valid_services' => $valid_services ], 'relais-colis-officiel');
         return $valid_services;
     }
 
@@ -296,7 +296,7 @@ class WC_RC_Services_Manager {
         // Get product ids from cart
         if ( is_null( WC()->cart ) ) return;
         $cart_items = WC()->cart->get_cart();
-        WP_Log::debug( __METHOD__, [ '$cart_items' => $cart_items ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$cart_items' => $cart_items ], 'relais-colis-officiel');
         $product_ids_in_cart = [];
 
         foreach ( $cart_items as $cart_item ) {
@@ -307,7 +307,7 @@ class WC_RC_Services_Manager {
         $services = WP_Services_DAO::instance()->get_available_services( $offer, $product_ids_in_cart );
 
         $fixed_services = $this->get_fixed_services();
-        WP_Log::debug( __METHOD__, [ '$services' => $services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$services' => $services ], 'relais-colis-officiel');
 
         $valid_services = array();
 
@@ -318,7 +318,7 @@ class WC_RC_Services_Manager {
             $slug = $service[ 'slug' ];
             if ( !isset( $fixed_services[ $slug ] ) ) {
 
-                WP_Log::error( __METHOD__." - Service not found in fixed services", [ 'slug' => $slug ], 'relais-colis-woocommerce' );
+                WP_Log::error( __METHOD__." - Service not found in fixed services", [ 'slug' => $slug ], 'relais-colis-officiel');
                 continue;
             }
             // Add name and delivery_methods
@@ -326,7 +326,7 @@ class WC_RC_Services_Manager {
             $service[ 'delivery_methods' ] = $fixed_services[ $slug ][ 1 ];
             $valid_services[ $slug ] = $service;
         }
-        WP_Log::debug( __METHOD__, [ '$valid_services' => $valid_services ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$valid_services' => $valid_services ], 'relais-colis-officiel');
         return $valid_services;
     }
 }

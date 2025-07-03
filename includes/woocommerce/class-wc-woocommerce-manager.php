@@ -32,14 +32,14 @@ class WC_WooCommerce_Manager {
 
         // TEST
         add_action( 'woocommerce_init', function () {
-            if ( $this->is_woocommerce_checkout_page_fse() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_fse TRUE', [], 'relais-colis-woocommerce' );
-            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_fse FALSE', [], 'relais-colis-woocommerce' );
+            if ( $this->is_woocommerce_checkout_page_fse() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_fse TRUE', [], 'relais-colis-officiel');
+            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_fse FALSE', [], 'relais-colis-officiel');
 
-            if ( $this->is_woocommerce_checkout_page_old_shortcode() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_old_shortcode TRUE', [], 'relais-colis-woocommerce' );
-            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_old_shortcode FALSE', [], 'relais-colis-woocommerce' );
+            if ( $this->is_woocommerce_checkout_page_old_shortcode() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_old_shortcode TRUE', [], 'relais-colis-officiel');
+            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_checkout_page_old_shortcode FALSE', [], 'relais-colis-officiel');
 
-            if ( $this->is_woocommerce_fse_checkout_enabled() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_fse_checkout_enabled TRUE', [], 'relais-colis-woocommerce' );
-            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_fse_checkout_enabled FALSE', [], 'relais-colis-woocommerce' );
+            if ( $this->is_woocommerce_fse_checkout_enabled() ) WP_Log::debug( __METHOD__.' -  is_woocommerce_fse_checkout_enabled TRUE', [], 'relais-colis-officiel');
+            else  WP_Log::debug( __METHOD__.' -  is_woocommerce_fse_checkout_enabled FALSE', [], 'relais-colis-officiel');
 
         });
 
@@ -54,13 +54,13 @@ class WC_WooCommerce_Manager {
         if( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 
             // HPOS is enabled.
-            WP_Log::debug( __METHOD__.' - HPOS is enabled', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - HPOS is enabled', [], 'relais-colis-officiel');
             return true;
 
         } else {
 
             // CPT-based orders are in use.
-            WP_Log::debug( __METHOD__.' - Legacy CPT-based orders are in use', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Legacy CPT-based orders are in use', [], 'relais-colis-officiel');
             return false;
         }
     }
@@ -94,23 +94,23 @@ class WC_WooCommerce_Manager {
 
         // Get checkout post id
         $checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
-        WP_Log::debug( __METHOD__.' - Get Option woocommerce_checkout_page_id', [ 'woocommerce_checkout_page_id' => $checkout_page_id ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Get Option woocommerce_checkout_page_id', [ 'woocommerce_checkout_page_id' => $checkout_page_id ], 'relais-colis-officiel');
 
         // Only if checkout post id exists
         if ( $checkout_page_id === false ) return false;
 
         // Get checkout post content
         $post_content = get_post_field( 'post_content', $checkout_page_id );
-        WP_Log::debug( __METHOD__, [ '$post_content' => $post_content ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$post_content' => $post_content ], 'relais-colis-officiel');
 
         // Check if WooCommerce checkout page contains the checkout bloc
         if ( has_block( 'woocommerce/checkout', $post_content ) ) {
 
-            WP_Log::debug( __METHOD__.' - has_block woocommerce/checkout TRUE', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - has_block woocommerce/checkout TRUE', [], 'relais-colis-officiel');
             return true;
         } else {
 
-            WP_Log::debug( __METHOD__.' - has_block woocommerce/checkout FALSE', [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - has_block woocommerce/checkout FALSE', [], 'relais-colis-officiel');
         }
 
         return false;
@@ -124,14 +124,14 @@ class WC_WooCommerce_Manager {
 
         // Get checkout post id
         $checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
-        WP_Log::debug( __METHOD__.' - Get Option woocommerce_checkout_page_id', [ 'woocommerce_checkout_page_id' => $checkout_page_id ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Get Option woocommerce_checkout_page_id', [ 'woocommerce_checkout_page_id' => $checkout_page_id ], 'relais-colis-officiel');
 
         // Only if checkout post id exists
         if ( $checkout_page_id === false ) return false;
 
         // Get checkout post content
         $post_content = get_post_field( 'post_content', $checkout_page_id );
-        WP_Log::debug( __METHOD__, [ '$post_content' => $post_content ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$post_content' => $post_content ], 'relais-colis-officiel');
 
         // Search for classical [woocommerce_checkout] in post content
         if ( strpos( $post_content, '[woocommerce_checkout]' ) !== false ) {
@@ -148,15 +148,15 @@ class WC_WooCommerce_Manager {
     public function is_woocommerce_fse_checkout_enabled() {
 
         $wc_current_theme_is_fse_theme = function_exists( 'wc_current_theme_is_fse_theme' ) && wc_current_theme_is_fse_theme();
-        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_is_fse_theme', [ 'wc_current_theme_is_fse_theme' => ( $wc_current_theme_is_fse_theme ? 'true' : 'false' ) ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_is_fse_theme', [ 'wc_current_theme_is_fse_theme' => ( $wc_current_theme_is_fse_theme ? 'true' : 'false' ) ], 'relais-colis-officiel');
         if ( $wc_current_theme_is_fse_theme ) return true;
 
         $wc_current_theme_supports_woocommerce_or_fse = function_exists( 'wc_current_theme_supports_woocommerce_or_fse' ) && wc_current_theme_supports_woocommerce_or_fse();
-        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_supports_woocommerce_or_fse', [ 'wc_current_theme_supports_woocommerce_or_fse' => ( $wc_current_theme_supports_woocommerce_or_fse ? 'true' : 'false' ) ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_supports_woocommerce_or_fse', [ 'wc_current_theme_supports_woocommerce_or_fse' => ( $wc_current_theme_supports_woocommerce_or_fse ? 'true' : 'false' ) ], 'relais-colis-officiel');
         if ( $wc_current_theme_supports_woocommerce_or_fse ) return true;
 
         $wc_current_theme_supports = function_exists( 'wc_current_theme_supports' ) && wc_current_theme_supports( 'block-based-checkout' );
-        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_supports', [ 'wc_current_theme_supports block-based-checkout' => ( $wc_current_theme_supports ? 'true' : 'false' ) ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' -  function_exists wc_current_theme_supports', [ 'wc_current_theme_supports block-based-checkout' => ( $wc_current_theme_supports ? 'true' : 'false' ) ], 'relais-colis-officiel');
         if ( $wc_current_theme_supports ) return true;
 
         return false;

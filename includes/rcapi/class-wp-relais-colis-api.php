@@ -137,7 +137,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
          */
         add_action( 'wp_api_request_performed', array( $this, 'action_wp_api_request_performed' ), 10, 3 );
 
-        WP_Log::info( __METHOD__, [ 'request_uri' => $this->request_uri ], 'relais-colis-woocommerce' );
+        WP_Log::info( __METHOD__, [ 'request_uri' => $this->request_uri ], 'relais-colis-officiel');
     }
 
     /**
@@ -165,7 +165,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function action_wp_api_request_performed( $request_data, $response_data, $wp_api_base ) {
 
-        WP_Log::info( __METHOD__, [ 'request_data' => $request_data,  'response_data' => $response_data ], 'relais-colis-woocommerce' );
+        WP_Log::info( __METHOD__, [ 'request_data' => $request_data,  'response_data' => $response_data ], 'relais-colis-officiel');
     }
 
     /**
@@ -196,7 +196,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function action_http_api_debug( array|WP_Error $response, string $context, string $class, array $parsed_args, string $url ) {
 
-        WP_Log::debug( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['response'=>$response, 'context'=>$context, 'class'=>$class, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-officiel');
     }
 
     /**
@@ -210,7 +210,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function filter_http_response( array $response, array $parsed_args, string $url ) {
 
-        WP_Log::debug( __METHOD__, ['response'=>$response, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['response'=>$response, 'parsed_args'=>$parsed_args, 'url'=>$url ], 'relais-colis-officiel');
         return $response;
     }
 
@@ -227,7 +227,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function filter_wp_http_request_args( $args, $api ) {
 
-        WP_Log::debug( __METHOD__, ['$args'=>$args], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$args'=>$args], 'relais-colis-officiel');
         return $args;
     }
 
@@ -245,7 +245,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      */
     public function filter_wp_api_request_uri( $uri, $api ) {
 
-        WP_Log::debug( __METHOD__, ['$uri'=>$uri], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$uri'=>$uri], 'relais-colis-officiel');
         return $uri;
     }
 
@@ -323,7 +323,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
             // Send request
             $response_raw = $this->perform_request( $request );
-            WP_Log::debug( __METHOD__, ['response_raw'=>$response_raw], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, ['response_raw'=>$response_raw], 'relais-colis-officiel');
 
 
             // Check response code
@@ -340,7 +340,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
         } catch ( Exception $e ) {
 
-            WP_Log::debug( __METHOD__.' : Exception ', [ 'code' => $e->getCode(), 'message' => $e->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' : Exception ', [ 'code' => $e->getCode(), 'message' => $e->getMessage() ], 'relais-colis-officiel');
             // Pb occurred... HTML response code in error
             throw new WP_Relais_Colis_API_Exception( esc_html($e->getMessage()), esc_html($e->getCode()) );
         }

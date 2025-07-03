@@ -66,9 +66,9 @@ class WC_Orders_C2c_Csv_Export_Manager {
      */
     public function filter_bulk_actions_edit_shop_order( $bulk_actions ) {
 
-        WP_Log::debug( __METHOD__.' - HPOS & Legacy', ['$bulk_actions'=>$bulk_actions ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - HPOS & Legacy', ['$bulk_actions'=>$bulk_actions ], 'relais-colis-officiel');
 
-        $bulk_actions[self::RC_EXPORT_CSV_ACTION] = esc_html__( 'Export in CSV (C2C)', 'relais-colis-woocommerce' );
+        $bulk_actions[self::RC_EXPORT_CSV_ACTION] = esc_html__( 'Export in CSV (C2C)', 'relais-colis-officiel');
         return $bulk_actions;
     }
 
@@ -83,19 +83,19 @@ class WC_Orders_C2c_Csv_Export_Manager {
      */
     public function filter_handle_bulk_actions_edit_shop_order( $redirect_url, $action, $order_ids ) {
 
-        WP_Log::debug( __METHOD__.' - Legacy', ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Legacy', ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-officiel');
 
         if ( $action !== self::RC_EXPORT_CSV_ACTION ) return $redirect_url;
 
         // Check user permissions
         if ( !current_user_can( 'manage_woocommerce' ) ) {
 
-            wp_die( esc_html__( 'You do not have sufficient permissions to export orders.', 'relais-colis-woocommerce' ) );
+            wp_die( esc_html__( 'You do not have sufficient permissions to export orders.', 'relais-colis-officiel') );
         }
 
         // Generate CSV
         $this->generate_and_download_csv( $order_ids );
-        WP_Log::debug( __METHOD__, ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$redirect_url'=>$redirect_url, '$action'=>$action, '$order_ids'=>$order_ids ], 'relais-colis-officiel');
 
         // Prevent redirection
         exit;
@@ -113,22 +113,22 @@ class WC_Orders_C2c_Csv_Export_Manager {
 
         // Define the CSV headers
         $csv_headers = array(
-            __('Quantity', 'relais-colis-woocommerce'),
-            __('Weight', 'relais-colis-woocommerce'),
-            __('Conforming dimensions', 'relais-colis-woocommerce'),
-            __('Conforming goods', 'relais-colis-woocommerce'),
-            __('Recipient title', 'relais-colis-woocommerce'),
-            __('Recipient last name', 'relais-colis-woocommerce'),
-            __('Recipient first name', 'relais-colis-woocommerce'),
-            __('Destination address line 1', 'relais-colis-woocommerce'),
-            __('Destination address line 2', 'relais-colis-woocommerce'),
-            __('Destination postal code', 'relais-colis-woocommerce'),
-            __('Destination city', 'relais-colis-woocommerce'),
-            __('Destination country', 'relais-colis-woocommerce'),
-            __('Recipient email', 'relais-colis-woocommerce'),
-            __('Recipient phone', 'relais-colis-woocommerce'),
-            __('Destination ID', 'relais-colis-woocommerce'),
-            __('Destination name', 'relais-colis-woocommerce')
+            __('Quantity', 'relais-colis-officiel'),
+            __('Weight', 'relais-colis-officiel'),
+            __('Conforming dimensions', 'relais-colis-officiel'),
+            __('Conforming goods', 'relais-colis-officiel'),
+            __('Recipient title', 'relais-colis-officiel'),
+            __('Recipient last name', 'relais-colis-officiel'),
+            __('Recipient first name', 'relais-colis-officiel'),
+            __('Destination address line 1', 'relais-colis-officiel'),
+            __('Destination address line 2', 'relais-colis-officiel'),
+            __('Destination postal code', 'relais-colis-officiel'),
+            __('Destination city', 'relais-colis-officiel'),
+            __('Destination country', 'relais-colis-officiel'),
+            __('Recipient email', 'relais-colis-officiel'),
+            __('Recipient phone', 'relais-colis-officiel'),
+            __('Destination ID', 'relais-colis-officiel'),
+            __('Destination name', 'relais-colis-officiel')
         );
 
         // Open output buffer to generate CSV

@@ -1,3 +1,10 @@
+### 2.0.5 (2025-07-02)
+#### Changed
+  * App name
+  * Domain name
+#### Fixed
+  * Traductions
+
 ### 2.0.4 (2025-06-25)
 #### Fixed
   * Total weight conversion

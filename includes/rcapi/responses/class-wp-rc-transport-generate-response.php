@@ -40,7 +40,7 @@ class WP_RC_Transport_Generate_Response {
         // Write data as PDF
         if ( file_put_contents($file_path, $this->response_data) === false ) {
 
-            WP_Log::warning( __METHOD__.': cannot write PDF file ', [ 'file_path' => $file_path ], 'relais-colis-woocommerce' );
+            WP_Log::warning( __METHOD__.': cannot write PDF file ', [ 'file_path' => $file_path ], 'relais-colis-officiel');
             return null;
         }
 

@@ -65,7 +65,7 @@ class WC_RC_Homeplus_Choose_Services_Manager extends WC_RC_Choose_Services_Manag
         if ( WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS ) ) {
 
             $session_rc_services = WC()->session->get( 'rc_service_infos' );
-            WP_Log::debug( __METHOD__.' - Session content', [ 'session service infos' => $session_rc_services ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Session content', [ 'session service infos' => $session_rc_services ], 'relais-colis-officiel');
         }
 
         // Addon home+ infos

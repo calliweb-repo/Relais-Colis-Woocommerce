@@ -1,21 +1,21 @@
 <?php
 /**
- * Plugin Name: Relais Colis Woocommerce
+ * Plugin Name: Relais Colis Officiel
  * Plugin URI: https://www.relaiscolis.com/
  * Description: Adds Relais Colis shipping method to WooCommerce.
- * Version: 2.0.4
+ * Version: 2.0.5
  * Requires at least: 6.6.2
  * Requires PHP: 8.1
  * Author: Calliweb
  * Author URI: https://www.calliweb.fr/
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: relais-colis-woocommerce
+ * Text Domain: relais-colis-officiel
  * Domain Path: /languages
  *
  * Copyright: (c) 2025, Calliweb
  *
- * @package   Relais-Colis-Woocommerce
+ * @package   Relais-Colis-Officiel
  * @author    Calliweb
  * @category  Admin
  * @copyright Copyright (c) 2024 Calliweb
@@ -77,11 +77,11 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         //    'logger_level_notice' => 'NOTICE',
         //    'logger_level_info' => 'INFO',
         //    'logger_level_debug' => 'DEBUG',
-        update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-woocommerce', 'logger_level_notice' );
+        update_option( WP_Log::WP_SUKELLOS_FW_LOGGER_LEVEL_OPTION_PREFIX.'relais-colis-officiel', 'logger_level_notice' );
 
         add_action( 'before_woocommerce_init', function () {
 
-            WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
             /**
              * Declare compatibility with a given feature for a given plugin.
@@ -102,7 +102,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
                     __FILE__,
                     true
                 );
-                WP_Log::debug( __METHOD__, [ '$compatibility' => $compatibility ? 'true' : 'false' ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ '$compatibility' => $compatibility ? 'true' : 'false' ], 'relais-colis-officiel');
             }
 
 
@@ -113,7 +113,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
             if ( !empty( $column_exists ) ) {
 
                 $wpdb->query( "ALTER TABLE $table_services DROP COLUMN products_enabled" );
-                WP_Log::debug( __METHOD__, [ 'products_enabled column removed from rc_services' => true ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ 'products_enabled column removed from rc_services' => true ], 'relais-colis-officiel');
             }
         } );
 
@@ -231,7 +231,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
      */
     public function activate() {
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();

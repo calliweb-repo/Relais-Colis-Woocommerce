@@ -59,7 +59,7 @@ class WC_RC_Shipping_Field_Enable {
     */
     public function action_woocommerce_admin_field_rc_enable_checkbox( $field ) {
 
-        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$field' => $field ], 'relais-colis-officiel');
 
         // Ensure the field ID exists
         if ( empty( $field[ 'id' ] ) ) {
@@ -72,8 +72,8 @@ class WC_RC_Shipping_Field_Enable {
             'title'     => '',
             'type'      => WC_RC_Shipping_Field_Enable::FIELD_RC_ENABLE_CHECKBOX,
             'desc'      => '',
-            'yes_label' => __('Yes', 'relais-colis-woocommerce'),
-            'no_label'  => __('No', 'relais-colis-woocommerce'),
+            'yes_label' => __('Yes', 'relais-colis-officiel'),
+            'no_label'  => __('No', 'relais-colis-officiel'),
             'default'   => 'yes',
             'disabled'   => false,
         );

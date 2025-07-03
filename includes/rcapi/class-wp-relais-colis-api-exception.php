@@ -67,18 +67,18 @@ class WP_Relais_Colis_API_Exception extends Exception {
     public static function get_i18n_message( $code ) {
 
         $messages = array(
-            self::RC_API_INVALID_ACTIVATIONKEY => __('RC API: Invalid activation key', 'relais-colis-woocommerce'),
-            self::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER => __('Missing or empty required parameter: ', 'relais-colis-woocommerce'),
-            self::RC_API_INVALID_RESPONSE_CONTENT_TYPE => __('RC API: Invalid response content type: ', 'relais-colis-woocommerce'),
-            self::TARIFF_GRIDS_CRITERIA_CONFLICT => __('A pricing rule conflicts with an existing one.', 'relais-colis-woocommerce'),
-            self::RC_API_PLACE_RETURN_ERROR => __('Response status of place return request is error', 'relais-colis-woocommerce'),
-            self::RC_API_INVALID_RESPONSE => __('RC API: Invalid response ', 'relais-colis-woocommerce'),
-            self::RC_API_NO_RESPONSE => __('RC API: No response ', 'relais-colis-woocommerce'),
-            self::RC_API_INVALID_C2C_MODE => __('Invalid mode: only B2C is authorized', 'relais-colis-woocommerce'),
-            self::RC_API_INVALID_B2C_MODE => __('Invalid mode: only C2C is authorized', 'relais-colis-woocommerce'),
-            self::RC_API_INCOHERENCY_STATE => __('Order invalid state', 'relais-colis-woocommerce'),
-            self::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED => __('Shipping label generation is not supported for C2C home/home+ delivery mode', 'relais-colis-woocommerce'),
-            self::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE => __('Not enough money in balance', 'relais-colis-woocommerce'),
+            self::RC_API_INVALID_ACTIVATIONKEY => __('RC API: Invalid activation key', 'relais-colis-officiel'),
+            self::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER => __('Missing or empty required parameter: ', 'relais-colis-officiel'),
+            self::RC_API_INVALID_RESPONSE_CONTENT_TYPE => __('RC API: Invalid response content type: ', 'relais-colis-officiel'),
+            self::TARIFF_GRIDS_CRITERIA_CONFLICT => __('A pricing rule conflicts with an existing one.', 'relais-colis-officiel'),
+            self::RC_API_PLACE_RETURN_ERROR => __('Response status of place return request is error', 'relais-colis-officiel'),
+            self::RC_API_INVALID_RESPONSE => __('RC API: Invalid response ', 'relais-colis-officiel'),
+            self::RC_API_NO_RESPONSE => __('RC API: No response ', 'relais-colis-officiel'),
+            self::RC_API_INVALID_C2C_MODE => __('Invalid mode: only B2C is authorized', 'relais-colis-officiel'),
+            self::RC_API_INVALID_B2C_MODE => __('Invalid mode: only C2C is authorized', 'relais-colis-officiel'),
+            self::RC_API_INCOHERENCY_STATE => __('Order invalid state', 'relais-colis-officiel'),
+            self::RC_API_PLACE_ADVERTISEMENT_C2C_HOME_NOT_SUPPORTED => __('Shipping label generation is not supported for C2C home/home+ delivery mode', 'relais-colis-officiel'),
+            self::RC_API_NOT_ENOUGH_MONEY_IN_BALANCE => __('Not enough money in balance', 'relais-colis-officiel'),
         );
         return $messages[$code];
     }

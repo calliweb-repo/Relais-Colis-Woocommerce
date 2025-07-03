@@ -127,12 +127,12 @@ class WC_RC_Ajax_Shipping_Label {
 
             WP_Log::debug( __METHOD__.' - Print shipping label (advertisement)', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
 
@@ -146,7 +146,7 @@ class WC_RC_Ajax_Shipping_Label {
             // Ensure the package exists and contains the product
             if ( !isset( $colis[ $colis_index ] ) || !isset( $colis[ $colis_index ][ 'shipping_label' ] ) ) {
 
-                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-woocommerce' ) ] );
+                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-officiel') ] );
             }
 
             $wc_order = wc_get_order( $wc_order_id );
@@ -157,7 +157,7 @@ class WC_RC_Ajax_Shipping_Label {
             WP_Log::debug( __METHOD__.' - After placing shipping label (advertisement)', [
                 'order_id' => $wc_order_id,
                 'existing_package' => $colis
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Get order state
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
@@ -173,10 +173,10 @@ class WC_RC_Ajax_Shipping_Label {
             WP_Log::error( __METHOD__.' - An error occurred while placing shipping label', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $wc_order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while downloading shipping label', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while downloading shipping label', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -194,12 +194,12 @@ class WC_RC_Ajax_Shipping_Label {
 
             WP_Log::debug( __METHOD__.' - Place shipping label (advertisement)', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
 
@@ -212,7 +212,7 @@ class WC_RC_Ajax_Shipping_Label {
             WP_Log::debug( __METHOD__.' - After placing shipping label (advertisement)', [
                 'order_id' => $wc_order_id,
                 'existing_package' => $colis
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Get order state
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
@@ -228,10 +228,10 @@ class WC_RC_Ajax_Shipping_Label {
             WP_Log::error( __METHOD__.' - An error occurred while placing shipping label', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $wc_order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while placing shipping label', 'relais-colis-woocommerce' ). ' : '.$e->getMessage(),
+                'message' => __( 'An error occurred while placing shipping label', 'relais-colis-officiel'). ' : '.$e->getMessage(),
                 'error_details' => $e->getMessage()
             ] );
         }

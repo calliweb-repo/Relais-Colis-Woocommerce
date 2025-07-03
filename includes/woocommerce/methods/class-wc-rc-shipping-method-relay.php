@@ -30,7 +30,7 @@ class WC_RC_Shipping_Method_Relay extends WC_RC_Shipping_Method {
         $this->id = self::WC_RC_SHIPPING_METHOD_RELAY_ID;
         
         // Relais colis
-        $this->method_description = __( 'Relais Colis: concerns collection from relay points.', 'relais-colis-woocommerce' );
+        $this->method_description = __( 'Relais Colis: concerns collection from relay points.', 'relais-colis-officiel');
 
         // Default activation
         $this->enabled = "yes";
@@ -49,7 +49,7 @@ class WC_RC_Shipping_Method_Relay extends WC_RC_Shipping_Method {
      */
     protected function get_wc_rc_shipping_method_default_title() {
 
-        return __( 'Relais Colis', 'relais-colis-woocommerce' );
+        return __( 'Relais Colis', 'relais-colis-officiel');
     }
 
     /**
@@ -63,7 +63,7 @@ class WC_RC_Shipping_Method_Relay extends WC_RC_Shipping_Method {
 
     public function action_woocommerce_after_shipping_rate( $method, $index) {
 
-        WP_Log::debug( __METHOD__, ['method'=>$method, 'index'=>$index ], 'relais-colis-woocommerce');
+        WP_Log::debug( __METHOD__, ['method'=>$method, 'index'=>$index ], 'relais-colis-officiel');
         //echo "<p style='color: red;'>woocommerce_after_shipping_rate</p>";
     }
 }
