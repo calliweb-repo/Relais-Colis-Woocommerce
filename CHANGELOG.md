@@ -1,3 +1,7 @@
+### 2.0.7 (2025-07-15)
+#### Fixed
+  * Loading font awesome
+
 ### 2.0.6 (2025-07-09)
 #### Changed
   * App name
