@@ -4,7 +4,7 @@ Donate link: https://www.relaiscolis.com/
 Tags: Relais Colis, WooCommerce
 Requires at least: 6.6.2
 Tested up to: 6.8
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
