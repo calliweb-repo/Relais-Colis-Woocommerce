@@ -136,12 +136,12 @@ class WC_RC_Ajax_Packages {
 
             WP_Log::debug( __METHOD__.' - Adding package', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
             $order_id = intval( $_POST[ 'order_id' ] );
@@ -165,7 +165,7 @@ class WC_RC_Ajax_Packages {
 
             WP_Log::debug( __METHOD__.' - After adding new package', [
                 'updated_colis' => $colis
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Get order state
             $wc_order = wc_get_order( $order_id );
@@ -182,10 +182,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error adding package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while adding a package', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -201,7 +201,7 @@ class WC_RC_Ajax_Packages {
 
             WP_Log::debug(__METHOD__.' - Adding product to package', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce');
+            ], 'relais-colis-officiel');
 
             $order_id = intval($_POST['order_id']);
             $product_id = intval($_POST['product_id']);
@@ -213,12 +213,12 @@ class WC_RC_Ajax_Packages {
 
             // Ensure the package exists before adding products
             if (!isset($colis[$colis_index])) {
-                wp_send_json_error(['message' => __('Package not found', 'relais-colis-woocommerce')]);
+                wp_send_json_error(['message' => __('Package not found', 'relais-colis-officiel')]);
             }
 
             $product = wc_get_product($product_id);
             if (!$product) {
-                wp_send_json_error(['message' => __('Invalid product', 'relais-colis-woocommerce')]);
+                wp_send_json_error(['message' => __('Invalid product', 'relais-colis-officiel')]);
             }
 
             // Get WC order
@@ -251,7 +251,7 @@ class WC_RC_Ajax_Packages {
                 if ($item_product_id === $product_id) {
                     $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis($item_product_id, $colis);
                     if ($quantity > $remaining_quantity) {
-                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-woocommerce')]);
+                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-officiel')]);
                     }
                 }
 
@@ -273,7 +273,7 @@ class WC_RC_Ajax_Packages {
                 if ($item_product_id === $product_id) {
                     $remaining_quantity = $item->get_quantity() - WC_Order_Packages_Manager::instance()->rc_count_product_in_colis($item_product_id, $colis);
                     if ($quantity > $remaining_quantity) {
-                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-woocommerce')]);
+                        wp_send_json_error(['message' => __('Not enough product remaining quantity', 'relais-colis-officiel')]);
                     }
                 }
             }
@@ -303,7 +303,7 @@ class WC_RC_Ajax_Packages {
             // If weigth is too important, then cannot distribute product
             if ($c_weigth_grams > $max_weight) {
                 wp_send_json_error([
-                    'message' => __('This product is too heavy to be added to a package.', 'relais-colis-woocommerce'),
+                    'message' => __('This product is too heavy to be added to a package.', 'relais-colis-officiel'),
                     'error_details' => ''
                 ]);
             }
@@ -315,7 +315,7 @@ class WC_RC_Ajax_Packages {
             $package_weigth_grams = WP_Helper::convert_to_grams($colis[$colis_index]['weight'], $woocommerce_weight_unit);
             if($package_weigth_grams > $max_weight) {
                 wp_send_json_error([
-                    'message' => __('This package is too heavy to be added to a package.', 'relais-colis-woocommerce'),
+                    'message' => __('This package is too heavy to be added to a package.', 'relais-colis-officiel'),
                     'error_details' => ''
                 ]);
             }
@@ -333,7 +333,7 @@ class WC_RC_Ajax_Packages {
                 $order->save();
             }
 
-            WP_Log::debug( __METHOD__.' - After adding product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - After adding product', [ 'colis' => $colis ], 'relais-colis-officiel');
 
             // Get order state
             $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
@@ -350,10 +350,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error adding package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding product to a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while adding product to a package', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -378,13 +378,13 @@ class WC_RC_Ajax_Packages {
             // Ensure the package exists and contains the product
             if ( !isset( $colis[ $colis_index ] ) || !isset( $colis[ $colis_index ][ 'items' ][ $product_id ] ) ) {
 
-                wp_send_json_error( [ 'message' => __( 'Product not found in package', 'relais-colis-woocommerce' ) ] );
+                wp_send_json_error( [ 'message' => __( 'Product not found in package', 'relais-colis-officiel') ] );
             }
 
             $product = wc_get_product( $product_id );
             if ( !$product ) {
 
-                wp_send_json_error( [ 'message' => __( 'Invalid product', 'relais-colis-woocommerce' ) ] );
+                wp_send_json_error( [ 'message' => __( 'Invalid product', 'relais-colis-officiel') ] );
             }
 
             // Adjust package
@@ -407,7 +407,7 @@ class WC_RC_Ajax_Packages {
                 $order->save();
             }
 
-            WP_Log::debug( __METHOD__.' - After removing product', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - After removing product', [ 'colis' => $colis ], 'relais-colis-officiel');
 
             // Get order state
             $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
@@ -424,10 +424,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error adding package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while adding a package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while adding a package', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -451,7 +451,7 @@ class WC_RC_Ajax_Packages {
             // Ensure the package exists
             if ( !isset( $colis[ $colis_index ] ) ) {
 
-                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-woocommerce' ) ] );
+                wp_send_json_error( [ 'message' => __( 'Package not found', 'relais-colis-officiel') ] );
             }
 
             // Adjust package
@@ -473,7 +473,7 @@ class WC_RC_Ajax_Packages {
                 $order->save();
             }
 
-            WP_Log::debug( __METHOD__.' - After deleting package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - After deleting package', [ 'colis' => $colis ], 'relais-colis-officiel');
 
             // Get order state
             $order_state = $order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
@@ -490,10 +490,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error adding package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while removing product from package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while removing product from package', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -514,7 +514,7 @@ class WC_RC_Ajax_Packages {
             if ( $auto_distribute_packages_result === false ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'The products have already been distributed into packages', 'relais-colis-woocommerce' ),
+                    'message' => __( 'The products have already been distributed into packages', 'relais-colis-officiel'),
                 ] );
             }
 
@@ -525,7 +525,7 @@ class WC_RC_Ajax_Packages {
                 'order_id' => $order_id,
                 'items' => $items,
                 'colis' => $colis,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Get order state
             $order = wc_get_order( $order_id );
@@ -535,7 +535,7 @@ class WC_RC_Ajax_Packages {
             if ( WC_Order_Packages_Manager::instance()->has_remaining_items( $items ) ) {
 
                 wp_send_json_error( [
-                    'message' => __( 'There are still products to be distributed into packages', 'relais-colis-woocommerce' ),
+                    'message' => __( 'There are still products to be distributed into packages', 'relais-colis-officiel'),
                     'error_details' => ''
                 ] );
 
@@ -553,10 +553,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error adding package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while auto distributing products into packages', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while auto distributing products into packages', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }
@@ -574,7 +574,7 @@ class WC_RC_Ajax_Packages {
             // Order id validation
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
 
-                wp_send_json_error( [ 'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' ) ] );
+                wp_send_json_error( [ 'message' => __( 'Invalid order ID', 'relais-colis-officiel') ] );
             }
 
             // Get AJAX params
@@ -631,7 +631,7 @@ class WC_RC_Ajax_Packages {
             $package_weight_grams = WP_Helper::convert_to_grams($colis[$colis_index]['weight'], $woocommerce_weight_unit);
             if ($package_weight_grams > $max_weight) {
                 wp_send_json_error([
-                    'message' => __('This package is too heavy.', 'relais-colis-woocommerce'),
+                    'message' => __('This package is too heavy.', 'relais-colis-officiel'),
                     'error_details' => ''
                 ]); 
             }
@@ -639,7 +639,7 @@ class WC_RC_Ajax_Packages {
             // Save packages
             [$colis, $items] = WC_Order_Packages_Manager::instance()->save_order_packages($colis, $order_id);
 
-            WP_Log::debug( __METHOD__.' - After updating package', [ 'colis' => $colis ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - After updating package', [ 'colis' => $colis ], 'relais-colis-officiel');
 
             // Get order state
             $order = wc_get_order( $order_id );
@@ -656,10 +656,10 @@ class WC_RC_Ajax_Packages {
             WP_Log::error( __METHOD__.' - Error updating package', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while updating the package', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while updating the package', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }

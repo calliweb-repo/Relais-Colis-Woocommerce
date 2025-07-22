@@ -83,9 +83,6 @@ abstract class WP_PLoad {
         // Fires once WordPress has loaded, allowing scripts and styles to be initialized for the plugin (admin scripts enqueued in admin classes)
         add_action('wp_enqueue_scripts', array($this, 'action_wp_enqueue_scripts'), 10 );
 
-        // Load text domain for translations
-        load_plugin_textdomain( $this->get_text_domain(), false, $this->get_text_domain().'/languages/' );
-
         // Notice manager
         WP_Admin_Notices_Manager::instance();
 

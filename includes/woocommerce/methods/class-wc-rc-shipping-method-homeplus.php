@@ -28,7 +28,7 @@ class WC_RC_Shipping_Method_Homeplus extends WC_RC_Shipping_Method {
         $this->id = self::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID;
         
         // Relais colis
-        $this->method_description = __( 'Relais Colis: home deliveries with options.', 'relais-colis-woocommerce' );
+        $this->method_description = __( 'Relais Colis: home deliveries with options.', 'relais-colis-officiel');
 
         // Load method options
         $this->init();
@@ -39,7 +39,7 @@ class WC_RC_Shipping_Method_Homeplus extends WC_RC_Shipping_Method {
      */
     protected function get_wc_rc_shipping_method_default_title() {
 
-        return __( 'Relais Colis Home+', 'relais-colis-woocommerce' );
+        return __( 'Relais Colis Home+', 'relais-colis-officiel');
     }
 
     /**

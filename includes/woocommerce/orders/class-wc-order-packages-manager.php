@@ -176,7 +176,7 @@ class WC_Order_Packages_Manager {
      */
     public function action_add_meta_boxes( $post_type, $post ) {
 
-        WP_Log::debug( __METHOD__, [ '$post_type' => $post_type, '$post' => $post ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$post_type' => $post_type, '$post' => $post ], 'relais-colis-officiel');
 
         if ( ( $post_type !== "woocommerce_page_wc-orders" ) && ( 'shop_order' != get_post_type( get_the_ID() ) ) ) {
 
@@ -195,11 +195,11 @@ class WC_Order_Packages_Manager {
         } elseif ($post instanceof WP_Post) {
             $order = wc_get_order($post->ID);
         } else {
-            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-officiel');
             return;
         }
         
-        WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-woocommerce' );
+        WP_Log::error( __METHOD__, [ '$order' => $order ], 'relais-colis-officiel');
         if (!$order) {
             return;
         }
@@ -252,7 +252,7 @@ class WC_Order_Packages_Manager {
         $screen = get_current_screen();
 
         // Log for debugging
-        WP_Log::debug( __METHOD__, [ 'screen_id' => $screen->id, 'post_type' => get_post_type() ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'screen_id' => $screen->id, 'post_type' => get_post_type() ], 'relais-colis-officiel');
 
         // Ensure we are on a WooCommerce order edit page
         if ( $screen && $screen->id !== 'shop_order' && $screen->id !== 'woocommerce_page_wc-orders' ) {
@@ -277,52 +277,52 @@ class WC_Order_Packages_Manager {
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'max_per_colis' => 30000,
             // Translations
-            'label_remaining' => __( 'remaining', 'relais-colis-woocommerce' ),
-            'label_auto_distribute' => __( 'Auto distribute', 'relais-colis-woocommerce' ),
-            'label_package' => __( 'Package', 'relais-colis-woocommerce' ),
-            'label_add_in_package' => __( 'Add in package', 'relais-colis-woocommerce' ),
-            'label_please_add_a_package' => __( 'Please add a package.', 'relais-colis-woocommerce' ),
-            'label_products_to_distribute' => __( 'Products to distribute', 'relais-colis-woocommerce' ),
-            'label_delete_package' => __( 'Delete Package', 'relais-colis-woocommerce' ),
-            'label_pcs' => __( 'pcs', 'relais-colis-woocommerce' ),
-            'label_remove_from_package' => __( 'Remove from package', 'relais-colis-woocommerce' ),
-            'label_add_a_package' => __( 'Add a package', 'relais-colis-woocommerce' ),
-            'label_existing_packages' => __( 'Existing Packages', 'relais-colis-woocommerce' ),
-            'label_unknown' => __( 'Unknown', 'relais-colis-woocommerce' ),
-            'label_total_weight' => __( 'Total weight (kg)', 'relais-colis-woocommerce' ),
-            'label_dimensions' => __( 'Dimensions', 'relais-colis-woocommerce' ),
-            'label_height' => __( 'height', 'relais-colis-woocommerce' ),
-            'label_width' => __( 'width', 'relais-colis-woocommerce' ),
-            'label_length' => __( 'length', 'relais-colis-woocommerce' ),
-            'label_unit_weight' => __( 'Unit weight (kg)', 'relais-colis-woocommerce' ),
-            'label_remaining_quantity_to_be_distributed' => __( 'Quantity to be distributed', 'relais-colis-woocommerce' ),
-            'label_quantity' => __( 'Quantity', 'relais-colis-woocommerce' ),
-            'label_update_package' => __( 'Update package', 'relais-colis-woocommerce' ),
-            'label_all_products_assigned' => __( 'All products have been assigned to a package.', 'relais-colis-woocommerce' ),
+            'label_remaining' => __( 'remaining', 'relais-colis-officiel'),
+            'label_auto_distribute' => __( 'Auto distribute', 'relais-colis-officiel'),
+            'label_package' => __( 'Package', 'relais-colis-officiel'),
+            'label_add_in_package' => __( 'Add in package', 'relais-colis-officiel'),
+            'label_please_add_a_package' => __( 'Please add a package.', 'relais-colis-officiel'),
+            'label_products_to_distribute' => __( 'Products to distribute', 'relais-colis-officiel'),
+            'label_delete_package' => __( 'Delete Package', 'relais-colis-officiel'),
+            'label_pcs' => __( 'pcs', 'relais-colis-officiel'),
+            'label_remove_from_package' => __( 'Remove from package', 'relais-colis-officiel'),
+            'label_add_a_package' => __( 'Add a package', 'relais-colis-officiel'),
+            'label_existing_packages' => __( 'Existing Packages', 'relais-colis-officiel'),
+            'label_unknown' => __( 'Unknown', 'relais-colis-officiel'),
+            'label_total_weight' => __( 'Total weight', 'relais-colis-officiel'),
+            'label_dimensions' => __( 'Dimensions', 'relais-colis-officiel'),
+            'label_height' => __( 'height', 'relais-colis-officiel'),
+            'label_width' => __( 'width', 'relais-colis-officiel'),
+            'label_length' => __( 'length', 'relais-colis-officiel'),
+            'label_unit_weight' => __( 'Unit weight', 'relais-colis-officiel'),
+            'label_remaining_quantity_to_be_distributed' => __( 'Quantity to be distributed', 'relais-colis-officiel'),
+            'label_quantity' => __( 'Quantity', 'relais-colis-officiel'),
+            'label_update_package' => __( 'Update package', 'relais-colis-officiel'),
+            'label_all_products_assigned' => __( 'All products have been assigned to a package.', 'relais-colis-officiel'),
             'label_weight_units' => $option_rc_weight_unit,
             'label_dimensions_units' => $option_rc_length_unit,
-            'label_total' => __( 'Total', 'relais-colis-woocommerce' ),
-            'label_recap' => __( 'Summary', 'relais-colis-woocommerce' ),
-            'label_place_shipping_label' => __( 'Place shipping label', 'relais-colis-woocommerce' ),
-            'label_print_shipping_label' => __( 'Print shipping label', 'relais-colis-woocommerce' ),
-            'label_shipping_label' => __( 'Shipping label:', 'relais-colis-woocommerce' ),
-            'label_get_packages_price' => __( 'Estimate your shipment', 'relais-colis-woocommerce' ),
-            'label_estimated_shipping_price' => __( 'Estimated shipping price:', 'relais-colis-woocommerce' ),
-            'label_generate_return_label' => __( 'Generate return label', 'relais-colis-woocommerce' ),
-            'label_generate_home_return_label' => __( 'Generate home return label', 'relais-colis-woocommerce' ),
-            'label_return_information' => __( 'Return information', 'relais-colis-woocommerce' ),
-            'label_return_number' => __( 'Return number', 'relais-colis-woocommerce' ),
-            'label_return_number_cab' => __( 'Cab number', 'relais-colis-woocommerce' ),
-            'label_return_limit_date' => __( 'Deadline associated with the return', 'relais-colis-woocommerce' ),
-            'label_view_return_label' => __( 'URL for related return label', 'relais-colis-woocommerce' ),
-            'label_generate_way_bill' => __( 'Generate way bill', 'relais-colis-woocommerce' ),
-            'label_print_way_bill' => __( 'Print way bill', 'relais-colis-woocommerce' ),
-            'label_error_network' => __( 'A network error occurred: ', 'relais-colis-woocommerce' ),
-            'label_error_unknown' => __( 'Unknown error.', 'relais-colis-woocommerce' ),
-            'label_error_unknown_generate_way_bill' => __( 'Unknown error while generating the way bill', 'relais-colis-woocommerce' ),
-            'label_product' => __( 'Product', 'relais-colis-woocommerce' ),
-            'label_actions' => __( 'Actions', 'relais-colis-woocommerce' ),
-            'label_error_colis_too_big' => __( 'The colis must be less than 170cm in any dimension.', 'relais-colis-woocommerce' ),
+            'label_total' => __( 'Total', 'relais-colis-officiel'),
+            'label_recap' => __( 'Summary', 'relais-colis-officiel'),
+            'label_place_shipping_label' => __( 'Place shipping label', 'relais-colis-officiel'),
+            'label_print_shipping_label' => __( 'Print shipping label', 'relais-colis-officiel'),
+            'label_shipping_label' => __( 'Shipping label:', 'relais-colis-officiel'),
+            'label_get_packages_price' => __( 'Estimate your shipment', 'relais-colis-officiel'),
+            'label_estimated_shipping_price' => __( 'Estimated shipping price:', 'relais-colis-officiel'),
+            'label_generate_return_label' => __( 'Generate return label', 'relais-colis-officiel'),
+            'label_generate_home_return_label' => __( 'Generate home return label', 'relais-colis-officiel'),
+            'label_return_information' => __( 'Return information', 'relais-colis-officiel'),
+            'label_return_number' => __( 'Return number', 'relais-colis-officiel'),
+            'label_return_number_cab' => __( 'Cab number', 'relais-colis-officiel'),
+            'label_return_limit_date' => __( 'Deadline associated with the return', 'relais-colis-officiel'),
+            'label_view_return_label' => __( 'URL for related return label', 'relais-colis-officiel'),
+            'label_generate_way_bill' => __( 'Generate way bill', 'relais-colis-officiel'),
+            'label_print_way_bill' => __( 'Print way bill', 'relais-colis-officiel'),
+            'label_error_network' => __( 'A network error occurred: ', 'relais-colis-officiel'),
+            'label_error_unknown' => __( 'Unknown error.', 'relais-colis-officiel'),
+            'label_error_unknown_generate_way_bill' => __( 'Unknown error while generating the way bill', 'relais-colis-officiel'),
+            'label_product' => __( 'Product', 'relais-colis-officiel'),
+            'label_actions' => __( 'Actions', 'relais-colis-officiel'),
+            'label_error_colis_too_big' => __( 'The colis must be less than 170cm in any dimension.', 'relais-colis-officiel'),
         ) );
     }
 
@@ -390,7 +390,7 @@ class WC_Order_Packages_Manager {
                 'remaining_quantity' => $item->get_quantity() - $this->rc_count_product_in_colis( $product_id, $colis )
             ];
         }
-        WP_Log::debug( __METHOD__.' - After rebuilding items', [ '$items_json' => $items_json ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - After rebuilding items', [ '$items_json' => $items_json ], 'relais-colis-officiel');
         if ( $json_encoded ) $items_json = json_encode( $items_json );
         return $items_json;
     }
@@ -409,7 +409,7 @@ class WC_Order_Packages_Manager {
         } elseif ($post instanceof WP_Post) {
             $wc_order = wc_get_order($post->ID);
         } else {
-            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-officiel');
             return;
         }
         
@@ -431,7 +431,7 @@ class WC_Order_Packages_Manager {
         
 
         // Log the method execution for debugging.
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
                 // Get the order
         if ($post instanceof WC_Order) {
@@ -439,7 +439,7 @@ class WC_Order_Packages_Manager {
         } elseif ($post instanceof WP_Post) {
             $order = wc_get_order($post->ID);
         } else {
-            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-officiel');
             return;
         }
         
@@ -455,7 +455,7 @@ class WC_Order_Packages_Manager {
 
                 // Get shipping status
                 $shipping_status = WP_Orders_Rel_Shipping_Labels_DAO::instance()->get_shipping_status_by_shipping_label( $shipping_label );
-                WP_Log::debug( __METHOD__, [ '$shipping_label' => $shipping_label, '$shipping_status' => $shipping_status ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ '$shipping_label' => $shipping_label, '$shipping_status' => $shipping_status ], 'relais-colis-officiel');
 
                 if ( !is_null( $shipping_status ) && ( $shipping_status !== WC_RC_Shipping_Constants::STATUS_RC_PENDING ) ) {
 
@@ -464,7 +464,7 @@ class WC_Order_Packages_Manager {
                 }
             }
         }
-        WP_Log::debug( __METHOD__.' - Updated colis with shipping statuses', [ '$colis' => $colis ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Updated colis with shipping statuses', [ '$colis' => $colis ], 'relais-colis-officiel');
 
         // Prepare JSON data to pass to JavaScript
         $colis_json = json_encode( $colis );
@@ -476,7 +476,7 @@ class WC_Order_Packages_Manager {
         } elseif ($post instanceof WP_Post) {
             $wc_order = wc_get_order($post->ID);
         } else {
-            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-woocommerce');
+            WP_Log::error(__METHOD__, ['$post' => $post, 'type' => gettype($post)], 'relais-colis-officiel');
             return;
         }
         
@@ -512,7 +512,7 @@ class WC_Order_Packages_Manager {
         $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
 
         $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $wc_order );
-        WP_Log::debug( __METHOD__.' - Order loaded', [ '$order_state' => $order_state, '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Order loaded', [ '$order_state' => $order_state, '$colis' => $colis, '$items' => $items ], 'relais-colis-officiel');
 
        // var_dump( print_r($return_bordereau_smart_url, true));die();
 
@@ -552,7 +552,7 @@ class WC_Order_Packages_Manager {
      */
     public function put_items_in_package( &$items, &$current_colis, &$items_to_distribute, $max_weight ) {
 
-        WP_Log::debug( __METHOD__.' - Put items in package', [ '$items' => $items, '$current_colis' => $current_colis, '$items_to_distribute' => $items_to_distribute, '$max_weight' => $max_weight ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Put items in package', [ '$items' => $items, '$current_colis' => $current_colis, '$items_to_distribute' => $items_to_distribute, '$max_weight' => $max_weight ], 'relais-colis-officiel');
 
         // Get weigth unit for conversions
         $woocommerce_weight_unit = get_option( WC_RC_Shipping_Constants::OPTION_RC_WEIGHT_UNIT, 'g' );
@@ -633,7 +633,7 @@ class WC_Order_Packages_Manager {
             /**
              * Action triggered after bulk actions on RC shop order
              */
-            do_action("after_bulk_actions_rc_shop_order", $order_id, false, __('The products have already been distributed into packages', 'relais-colis-woocommerce'));
+            do_action("after_bulk_actions_rc_shop_order", $order_id, false, __('The products have already been distributed into packages', 'relais-colis-officiel'));
             return false;
         }
 
@@ -735,7 +735,7 @@ class WC_Order_Packages_Manager {
              * @since 1.0.0
              *
              */
-            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, __( 'All the packages have been distributed', 'relais-colis-woocommerce' ) );
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, true, __( 'All the packages have been distributed', 'relais-colis-officiel') );
         } else {
 
             /**
@@ -747,7 +747,7 @@ class WC_Order_Packages_Manager {
              * @since 1.0.0
              *
              */
-            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, __( 'There are still packages to be distributed', 'relais-colis-woocommerce' ) );
+            do_action( "after_bulk_actions_rc_shop_order", $order_id, false, __( 'There are still packages to be distributed', 'relais-colis-officiel') );
         }
     }
 
@@ -763,14 +763,14 @@ class WC_Order_Packages_Manager {
 
         if ( !$order ) {
 
-            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-officiel') );
         }
 
         // Check if the shipping method is "Relais Colis"
         $rc_shipping_method = WC_RC_Shipping_Method_Manager::instance()->get_rc_shipping_method( $order );
         // if ( $rc_shipping_method === false ) {
 
-        //     throw new Exception( __( 'Invalid Relais Colis method', 'relais-colis-woocommerce' ) );
+        //     throw new Exception( __( 'Invalid Relais Colis method', 'relais-colis-officiel') );
         // }
 
         // Fetch existing package distribution data (Legacy & HPOS support).
@@ -791,7 +791,7 @@ class WC_Order_Packages_Manager {
             'order_id' => $order_id,
             'items' => $items,
             'colis' => $colis,
-        ], 'relais-colis-woocommerce' );
+        ], 'relais-colis-officiel');
 
         return array( $colis, $items );
     }
@@ -809,7 +809,7 @@ class WC_Order_Packages_Manager {
 
         if ( !$wc_order ) {
 
-            throw new Exception( esc_html__( 'Order not found', 'relais-colis-woocommerce' ) );
+            throw new Exception( esc_html__( 'Order not found', 'relais-colis-officiel') );
         }
 
         // Reindex to avoid holes
@@ -838,10 +838,10 @@ class WC_Order_Packages_Manager {
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
             if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
 
-                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-officiel'), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
             }
 
             $wc_order_id = $wc_order->get_id();
@@ -866,7 +866,7 @@ class WC_Order_Packages_Manager {
 
             if ( is_null( $transport_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
                 throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -888,7 +888,7 @@ class WC_Order_Packages_Manager {
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
             throw $wp_relais_colis_api_exception;
         }
     }
@@ -906,22 +906,22 @@ class WC_Order_Packages_Manager {
             $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
             if ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED ) {
 
-                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( __( 'The packages in the order must first be divided into packages', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                throw new WP_Relais_Colis_API_Exception( __( 'The packages in the order must first be divided into packages', 'relais-colis-officiel'), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
             } else if ( ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) || ( $order_state == WC_RC_Shipping_Constants::ORDER_STATE_WAY_BILLS_GENERATED ) ) {
 
-                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
-                throw new WP_Relais_Colis_API_Exception( __( 'Product shipping labels have already been generated', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                throw new WP_Relais_Colis_API_Exception( __( 'Product shipping labels have already been generated', 'relais-colis-officiel'), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
             }
 
             // Load packages
             $wc_order_id = $wc_order->get_id();
             [ $colis, $items ] = $this->load_order_packages( $wc_order_id );
-            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-officiel');
 
             // Get interaction mode
             $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
@@ -947,7 +947,7 @@ class WC_Order_Packages_Manager {
                     //            [Agencecode] => G2
                     //            [Pseudorvc] => 06366
                     $rc_relay_data = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA );
-                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_relay_data' => $rc_relay_data ], 'relais-colis-officiel');
                     if ( !empty( $rc_relay_data ) ) {
 
                         // Extract informations
@@ -1014,7 +1014,7 @@ class WC_Order_Packages_Manager {
 
                             if ( is_null( $c2c_relay_place_advertisement ) ) {
 
-                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                                 // Pb occured... HTML response not permitted
                                 throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1028,7 +1028,7 @@ class WC_Order_Packages_Manager {
                                 WP_Log::debug( __METHOD__.' - Valid response', [
                                     'Entry' => $entry,
                                     'Shipping method' => $rc_shipping_method,
-                                ], 'relais-colis-woocommerce' );
+                                ], 'relais-colis-officiel');
 
                                 // Set shipping label in colis
                                 $c_colis[ 'shipping_label' ] = $entry;
@@ -1038,7 +1038,7 @@ class WC_Order_Packages_Manager {
 
                             } else {
 
-                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
 
                                 // Pb occured... HTML response not permitted
                                 throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
@@ -1063,7 +1063,7 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_CITY ] = $wc_order->get_shipping_city();
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::SHIPPING_COUNTRY_CODE ] = $store_country;
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Relay_Place_Advertisement::XEETT ] = ''.$xeett;
-                            WP_Log::debug( __METHOD__.' - B2C - Relay Params', ['$dynamic_params_place_shipping_label'=>$dynamic_params_place_shipping_label], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - B2C - Relay Params', ['$dynamic_params_place_shipping_label'=>$dynamic_params_place_shipping_label], 'relais-colis-officiel');
 
 
                             $isMax = 0;
@@ -1102,7 +1102,7 @@ class WC_Order_Packages_Manager {
 
                         if ( is_null( $b2c_relay_place_advertisement ) ) {
 
-                            WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                             
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1124,14 +1124,14 @@ class WC_Order_Packages_Manager {
                             WP_Log::debug( __METHOD__.' - Valid response', [
                                 'Entry' => $entry,
                                 'Shipping method' => $rc_shipping_method,
-                            ], 'relais-colis-woocommerce' );
+                            ], 'relais-colis-officiel');
 
                             // Init RC status
                             WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
 
                         } else {
 
-                            WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
 
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
@@ -1163,7 +1163,7 @@ class WC_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_RC_Place_Advertisement_Request::WEIGHT ] = ''.$c_colis[ 'weight' ];
 
                             $rc_services = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICES );
-                            WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__, [ '$rc_services' => $rc_services ], 'relais-colis-officiel');
 
                             // Init values with defaults
                             $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::CUSTOMER_ID ] = ''.$wc_order->get_customer_id();
@@ -1182,7 +1182,7 @@ class WC_Order_Packages_Manager {
 
                             // Build services RC params array from relay_data
                             $rc_prestations_param = WC_Orders_Manager::instance()->build_rc_prestations_param( $wc_order );
-                            WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - Build rc prestations param', [ '$rc_prestations_param' => $rc_prestations_param ], 'relais-colis-officiel');
                             if ( !empty( $rc_prestations_param ) ) {
 
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::PRESTATIONS ] = $rc_prestations_param;
@@ -1192,7 +1192,7 @@ class WC_Order_Packages_Manager {
                             if ( $rc_shipping_method === WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ) {
 
                                 $rc_service_infos = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_SERVICE_INFOS );
-                                WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-woocommerce' );
+                                WP_Log::debug( __METHOD__, [ '$rc_service_infos' => $rc_service_infos ], 'relais-colis-officiel');
 
                                 if ( !empty( $rc_service_infos ) && is_array( $rc_service_infos ) ) {
 
@@ -1238,7 +1238,7 @@ class WC_Order_Packages_Manager {
                                         }
                                     }
                                 }
-                                WP_Log::debug( __METHOD__.' - New request params', [ '$dynamic_params_place_shipping_label' => $dynamic_params_place_shipping_label ], 'relais-colis-woocommerce' );
+                                WP_Log::debug( __METHOD__.' - New request params', [ '$dynamic_params_place_shipping_label' => $dynamic_params_place_shipping_label ], 'relais-colis-officiel');
                             } else {
 
                                 $dynamic_params_place_shipping_label[ WP_RC_B2C_Home_Place_Advertisement::HOME_PLUS ] = '0';
@@ -1262,7 +1262,7 @@ class WC_Order_Packages_Manager {
 
                         if ( is_null( $b2c_home_place_advertisement ) ) {
 
-                            WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1284,14 +1284,14 @@ class WC_Order_Packages_Manager {
                             WP_Log::debug( __METHOD__.' - Valid response', [
                                 'Entry' => $entry,
                                 'Shipping method' => $rc_shipping_method,
-                            ], 'relais-colis-woocommerce' );
+                            ], 'relais-colis-officiel');
 
                             // Init RC status
                             WC_Orders_RC_Status_Manager::instance()->init_order_rc_status( $wc_order, $entry );
 
                         } else {
 
-                            WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                            WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
 
                             // Pb occured... HTML response not permitted
                             throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INVALID_RESPONSE ] );
@@ -1314,7 +1314,7 @@ class WC_Order_Packages_Manager {
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
 
             throw $wp_relais_colis_api_exception;
         }
@@ -1332,7 +1332,7 @@ class WC_Order_Packages_Manager {
             // Load packages
             $wc_order_id = $wc_order->get_id();
             [ $colis, $items ] = $this->load_order_packages( $wc_order_id );
-            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$colis' => $colis, '$items' => $items ], 'relais-colis-officiel');
 
             // Get interaction mode
             $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
@@ -1351,7 +1351,7 @@ class WC_Order_Packages_Manager {
 
                 if ( is_null( $c2c_generate ) ) {
 
-                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                     // Pb occured... HTML response not permitted
                     throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1359,7 +1359,7 @@ class WC_Order_Packages_Manager {
 
                 // PDF downloaded successfully
                 $colis[ $colis_index ][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
-                WP_Log::debug( __METHOD__.' - Print label - C2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Print label - C2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-officiel');
 
             } // B2C - Relay
             else {
@@ -1375,7 +1375,7 @@ class WC_Order_Packages_Manager {
 
                 if ( is_null( $c2c_generate ) ) {
 
-                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                     // Pb occured... HTML response not permitted
                     throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1383,7 +1383,7 @@ class WC_Order_Packages_Manager {
 
                 // PDF downloaded successfully
                 $colis[ $colis_index ][ 'shipping_label_pdf' ] = $c2c_generate->get_pdf_delivery_label();
-                WP_Log::debug( __METHOD__.' - Print label - B2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Print label - B2C OK', [ '$shipping_label' => $shipping_label ], 'relais-colis-officiel');
 
             }
 
@@ -1400,7 +1400,7 @@ class WC_Order_Packages_Manager {
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
 
             throw $wp_relais_colis_api_exception;
         }
@@ -1415,7 +1415,7 @@ class WC_Order_Packages_Manager {
 
         // Check that state does exist
         $authorized_states = WC_RC_Shipping_Constants::get_order_states();
-        WP_Log::debug( __METHOD__, [ '$authorized_states' => $authorized_states ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$authorized_states' => $authorized_states ], 'relais-colis-officiel');
 
         if ( !array_key_exists( $state, $authorized_states ) ) {
 
@@ -1437,10 +1437,10 @@ class WC_Order_Packages_Manager {
         ];
 
         $query = new WC_Order_Query( $args );
-        WP_Log::debug( __METHOD__, [ '$query' => $query, 'args' => $args ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$query' => $query, 'args' => $args ], 'relais-colis-officiel');
 
         $order_ids = $query->get_orders();
-        WP_Log::debug( __METHOD__, [ '$order_ids' => $order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$order_ids' => $order_ids ], 'relais-colis-officiel');
         return $order_ids;
     }
 
@@ -1467,11 +1467,11 @@ class WC_Order_Packages_Manager {
                 $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
                 if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
 
-                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-officiel');
 
                     // Pb occured... HTML response not permitted
                     $final_result = false;
-                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-officiel'), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
                 }
 
                 // State is ok then get all shipping labels for these order
@@ -1488,7 +1488,7 @@ class WC_Order_Packages_Manager {
 
             } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
 
                 /**
                  * Notify 3rd party code on Relais Colis bulk action result
@@ -1507,7 +1507,7 @@ class WC_Order_Packages_Manager {
         // If errors occured, no need to call API
         if ( !$final_result ) return;
 
-        WP_Log::debug( __METHOD__.' - Shipping labels extracted from orders', [ '$shipping_labels_to_printed' => $shipping_labels_to_printed, 'order_ids' => $order_ids ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__.' - Shipping labels extracted from orders', [ '$shipping_labels_to_printed' => $shipping_labels_to_printed, 'order_ids' => $order_ids ], 'relais-colis-officiel');
 
         // Call API
         try {
@@ -1530,7 +1530,7 @@ class WC_Order_Packages_Manager {
 
             if ( is_null( $bulk_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
                 throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1548,15 +1548,15 @@ class WC_Order_Packages_Manager {
             
             $message = sprintf(
                 /* translators: 1: shipping labels url */
-                __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-woocommerce' ),
+                __( "Click <a href='%s' target='_blank'>here</a> to download the shipping labels.", 'relais-colis-officiel'),
                 esc_url( $bulk_generate->get_pdf_delivery_label() )
             );
-            WP_Log::debug( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$message' => '##'.$message.'##' ], 'relais-colis-officiel');
             do_action( "after_bulk_actions_rc_shop_order", implode(',', $idsToPrint), true, $message );
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
 
             /**
              * Notify 3rd party code on Relais Colis bulk action result
@@ -1594,16 +1594,16 @@ class WC_Order_Packages_Manager {
                 $order_state = $wc_order->get_meta( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_STATE );
                 if ( $order_state != WC_RC_Shipping_Constants::ORDER_STATE_SHIPPING_LABELS_PLACED ) {
 
-                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - Order state incoherency', [ '$order_state' => $order_state ], 'relais-colis-officiel');
 
                     // Pb occured... HTML response not permitted
                     $final_result = false;
-                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-woocommerce' ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
+                    throw new WP_Relais_Colis_API_Exception( __( 'Shipping labels must be placed first', 'relais-colis-officiel'), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_INCOHERENCY_STATE ] );
                 }
 
             } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+                WP_Log::error( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
 
                 /**
                  * Notify 3rd party code on Relais Colis bulk action result
@@ -1648,7 +1648,7 @@ class WC_Order_Packages_Manager {
 
             if ( is_null( $transport_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
 
                 // Pb occured... HTML response not permitted
                 throw new WP_Relais_Colis_API_Exception( WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ), WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_NO_RESPONSE ] );
@@ -1683,14 +1683,14 @@ class WC_Order_Packages_Manager {
              */
             $message = sprintf(
                 /* translators: 1: way bills url */
-                __( "Click <a href='%s' target='_blank'>here</a> to download the way bills.", 'relais-colis-woocommerce' ),
+                __( "Click <a href='%s' target='_blank'>here</a> to download the way bills.", 'relais-colis-officiel'),
                 esc_url( $rc_way_bill )
             );
             do_action( "after_bulk_actions_rc_shop_order", $order_id, true, $message );
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
 
             /**
              * Notify 3rd party code on Relais Colis bulk action result
@@ -1716,7 +1716,7 @@ class WC_Order_Packages_Manager {
         $order = wc_get_order($order_id);
         
         wp_localize_script('rc-order-packages', 'rc_order_packages', array(
-            'label_add_a_package' => __('Add a package', 'relais-colis-woocommerce'),
+            'label_add_a_package' => __('Add a package', 'relais-colis-officiel'),
             // ... autres labels ...
             'rc_order_status' => 'wc-' . $order->get_status()  // Ajouter le statut de la commande
         ));

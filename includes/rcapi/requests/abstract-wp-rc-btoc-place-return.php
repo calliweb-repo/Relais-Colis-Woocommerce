@@ -98,7 +98,7 @@ abstract class WP_RC_Place_Return extends WP_Relais_Colis_Request {
         $this->validate();
         $this->validate_request_params();
 
-        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-officiel');
         $this->data = json_encode( $this->data );
     }
 
@@ -115,7 +115,7 @@ abstract class WP_RC_Place_Return extends WP_Relais_Colis_Request {
             foreach ( $this->mandatory_request_params as $param ) {
                 if ( !isset( $request_param[ $param ] ) || is_null( $request_param[ $param ] ) ) {
 
-                    WP_Log::error( __METHOD__, [ '$param' => $param ], 'relais-colis-woocommerce' );
+                    WP_Log::error( __METHOD__, [ '$param' => $param ], 'relais-colis-officiel');
                     throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message( WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER )).' '.esc_html($param), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[ WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER ]) );
                 }
             }

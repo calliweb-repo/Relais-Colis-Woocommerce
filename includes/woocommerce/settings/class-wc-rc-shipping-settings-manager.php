@@ -83,13 +83,13 @@ class WC_RC_Shipping_Settings_Manager {
         $general_url = esc_url( admin_url( 'admin.php?page=wc-settings&tab='.WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS.'&section='.WC_RC_Shipping_General_Settings::SECTION_GENERAL ) );
         $infos_html = '
             <div class="rc_invalid_license_notice">
-                <h2><span>⚠</span> '.__( 'License Issue', 'relais-colis-woocommerce' ).'</h2>
+                <h2><span>⚠</span> '.__( 'License Issue', 'relais-colis-officiel').'</h2>
                 <p>
-                    '.__( 'Please enter a valid activation key to access all features.', 'relais-colis-woocommerce' ).'
+                    '.__( 'Please enter a valid activation key to access all features.', 'relais-colis-officiel').'
                 </p>
                 <p>
                     <a href="'.$general_url.'" class="button button-primary">
-                       '.__( 'Enter my license', 'relais-colis-woocommerce' ).'
+                       '.__( 'Enter my license', 'relais-colis-officiel').'
                     </a>
                 </p>
             </div>

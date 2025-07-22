@@ -55,7 +55,7 @@ class WC_RC_Checkout_Scripts_Manager {
         wp_enqueue_script( self::PREFIX_RC.'_js', $plugin_url.'assets/js/rc-fse-choose-options.js', array( 'jquery' ), '1.0', true );
 
         // CSS - JQuery, UI, Dialog, Leaflet
-        wp_enqueue_style( self::PREFIX_RC.'_font_awesome_css', $plugin_url.'assets/css/font-awesome.css', array(), '6.0.0' );
+        wp_enqueue_style( self::PREFIX_RC.'_font_awesome_css', $plugin_url.'assets/css/font-awesome.css', array(), '6.5.1' );
 
         // CSS - Relais Colis
         wp_enqueue_style( self::PREFIX_RC.'_home_css', $plugin_url.'assets/css/rc-home-choose-options.css', array(), '1.0', 'all' );
@@ -65,7 +65,7 @@ class WC_RC_Checkout_Scripts_Manager {
         // Localize script
         wp_localize_script( self::PREFIX_RC.'_js', 'rc_choose_options',
             array(
-                'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-woocommerce' )
+                'label_please_select_relay' => __( 'Please select a relay point', 'relais-colis-officiel')
             )
         );
 
@@ -95,7 +95,7 @@ class WC_RC_Checkout_Scripts_Manager {
         wp_enqueue_script( self::PREFIX_RC.'_js', $plugin_url.'assets/js/rc-old-choose-options.js', array( 'jquery' ), '1.0', true );
 
         // CSS - JQuery, UI, Dialog, Leaflet
-        wp_enqueue_style( self::PREFIX_RC.'_font_awesome_css', $plugin_url.'assets/css/font-awesome.min.css', array(), '6.0.0' );
+        wp_enqueue_style( self::PREFIX_RC.'_font_awesome_css', $plugin_url.'assets/css/font-awesome.css', array(), '6.5.1' );
 
         // CSS - Relais Colis
         wp_enqueue_style( self::PREFIX_RC.'_home_css', $plugin_url.'assets/css/rc-home-choose-options.css', array(), '1.0', 'all' );

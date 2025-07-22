@@ -69,7 +69,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
      */
     public function action_woocommerce_after_checkout_validation( $data, $errors ) {
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         if ( !WC()->session->__isset( 'chosen_shipping_methods' ) || empty( WC()->session->get( 'chosen_shipping_methods' ) )  ) return;
 
@@ -77,15 +77,15 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
         // Check if it is the RC relais mode
         if ( $chosen_shipping !== WC_RC_Shipping_Method_Relay::WC_RC_SHIPPING_METHOD_RELAY_ID ) return;
-        WP_Log::debug( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-officiel');
 
         // Must have selected a relay
         // Get rc_relay_data from WC session
         if ( ( !WC()->session->__isset( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) )
             || empty( WC()->session->get( WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ) ) ) {
 
-            WP_Log::debug( __METHOD__.' - Please select a relay point', [], 'relais-colis-woocommerce' );
-            $errors->add( 'shipping', __( 'Please select a relay point', 'relais-colis-woocommerce' ) );
+            WP_Log::debug( __METHOD__.' - Please select a relay point', [], 'relais-colis-officiel');
+            $errors->add( 'shipping', __( 'Please select a relay point', 'relais-colis-officiel') );
         }
     }
 
@@ -127,7 +127,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             'postcode' => WC()->customer->get_shipping_postcode(),
             'city' => WC()->customer->get_shipping_city(),
         );
-        WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$shipping_address' => $shipping_address ], 'relais-colis-officiel');
 
         // Initialiser le statut de la commande
         $order_status = '';
@@ -144,7 +144,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             $options = $wp_rc_configuration->get_options();
             WP_Log::debug(__METHOD__, [
                 'options' => $options
-            ], 'relais-colis-woocommerce');
+            ], 'relais-colis-officiel');
             
             foreach ($options as $option) {
                 // Ajout de logs pour debug
@@ -153,7 +153,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
                     'comparing_with' => WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX,
                     'option_value_matches' => ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX),
                     'option_active_matches' => ($option['active'] === true)
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
                 if ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX 
                     && ($option['active'] === true || $option['active'] === 'true')) { // Accepter à la fois le booléen et la chaîne
@@ -166,7 +166,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
         WP_Log::debug(__METHOD__, [
             'hasMax' => $hasMax,
             'configuration' => $wp_rc_configuration
-        ], 'relais-colis-woocommerce');
+        ], 'relais-colis-officiel');
 
         $relaisColisMax = '0';
         $weight_unit = get_option('woocommerce_weight_unit');
@@ -201,7 +201,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
                         'product_name' => $product->get_name(),
                         'weight' => $weight,
                         'weight_unit' => $weight_unit
-                    ], 'relais-colis-woocommerce' );
+                    ], 'relais-colis-officiel');
                     break; // On sort de la boucle dès qu'un produit dépasse
                 }
             }
@@ -238,12 +238,12 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
     public function wp_ajax_update_relay() {
 
-        WP_Log::debug( __METHOD__, [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'POST' => $_POST ], 'relais-colis-officiel');
 
         $nonce_check = check_ajax_referer( 'relais_colis_checkout', 'nonce', false );
         if ( !$nonce_check ) {
 
-            WP_Log::error( __METHOD__.' - Nonce verification failed', [ 'received_nonce' => $_POST[ 'nonce' ] ?? 'MISSING' ], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Nonce verification failed', [ 'received_nonce' => $_POST[ 'nonce' ] ?? 'MISSING' ], 'relais-colis-officiel');
             wp_send_json_error( [ 'message' => 'Nonce verification failed' ] );
         }
         //            [rc_relay_data] => Array
@@ -317,7 +317,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
         // Retrieve relay data
         if ( !isset( $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ] ) ) {
 
-            WP_Log::error( __METHOD__.' - Missing rc_relay_data', [], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Missing rc_relay_data', [], 'relais-colis-officiel');
             wp_send_json_error( [ 'message' => 'Missing relay information' ] );
         }
 
@@ -327,7 +327,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
             WP_Log::error( __METHOD__.' - Invalid rc_relay_data format', [
                 'rc_relay_data' => $_POST[ WC_RC_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ]
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [ 'message' => 'Invalid relay information format' ] );
         }
@@ -358,7 +358,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
         // Check that we have data
         if ( empty( $sanitized_rc_relay_data ) ) {
-            WP_Log::error( __METHOD__.' - No valid relay data after sanitization', [], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - No valid relay data after sanitization', [], 'relais-colis-officiel');
             wp_send_json_error( [ 'message' => 'No valid relay data' ] );
         }
 
@@ -368,7 +368,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
 
         WP_Log::debug( __METHOD__.' - Relay data stored successfully', [
             'rc_relay_data' => $sanitized_rc_relay_data
-        ], 'relais-colis-woocommerce' );
+        ], 'relais-colis-officiel');
 
         // Success response with sanitized data
         wp_send_json_success( [
@@ -393,7 +393,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             $options = $wp_rc_configuration->get_options();
             WP_Log::debug(__METHOD__, [
                 'options' => $options
-            ], 'relais-colis-woocommerce');
+            ], 'relais-colis-officiel');
             
             foreach ($options as $option) {
                 // Ajout de logs pour debug
@@ -402,7 +402,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
                     'comparing_with' => WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX,
                     'option_value_matches' => ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX),
                     'option_active_matches' => ($option['active'] === true)
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
                 if ($option['value'] === WC_RC_Shipping_Constants::CONFIGURATION_OPTION_MAX 
                     && ($option['active'] === true || $option['active'] === 'true')) { // Accepter à la fois le booléen et la chaîne
@@ -422,7 +422,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
         foreach (WC()->cart->get_cart() as $cart_item) {
             $product = $cart_item['data'];
             $weight = (float)$product->get_weight();
-            $total_weight += $weight * $cart_item['quantity'];
 
             // Convertir le poids en kg
             switch($weight_unit) {
@@ -437,6 +436,9 @@ class WC_RC_Relay_Choose_Relay_Manager {
                     break;
             }
 
+            $total_weight += $weight * $cart_item['quantity'];
+
+
             if ($weight > self::MAX_WEIGHT_KG_START && $weight <= self::MAX_WEIGHT_KG_END) {
                 $has_heavy_items = true;
             } 
@@ -445,7 +447,6 @@ class WC_RC_Relay_Choose_Relay_Manager {
             }
         }
         
-
         if ($total_weight > self::MAX_WEIGHT_KG_END) {
             $has_super_heavy_items = true;
         }
@@ -478,7 +479,7 @@ class WC_RC_Relay_Choose_Relay_Manager {
             'has_heavy_items' => $has_heavy_items,
             'has_super_heavy_items' => $has_super_heavy_items,
             'filtered_rates' => $rates
-        ], 'relais-colis-woocommerce');
+        ], 'relais-colis-officiel');
 
         return $rates;
     }

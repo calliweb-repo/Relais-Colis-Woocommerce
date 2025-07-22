@@ -1,3 +1,24 @@
+### 2.0.7 (2025-07-15)
+#### Fixed
+  * Loading font awesome
+
+### 2.0.6 (2025-07-09)
+#### Changed
+  * App name
+#### Fixed
+  * Translation loading
+
+### 2.0.5 (2025-07-02)
+#### Changed
+  * App name
+  * Domain name
+#### Fixed
+  * Translations
+
+### 2.0.4 (2025-06-25)
+#### Fixed
+  * Total weight conversion
+
 ### 2.0.3 (2025-06-24)
 #### Fixed
   * Plugin Check error

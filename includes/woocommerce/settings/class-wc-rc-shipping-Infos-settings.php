@@ -56,7 +56,7 @@ class WC_RC_Shipping_Infos_Settings {
 
         // Add the current CSS class tothe body classes
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        WP_Log::debug( __METHOD__, [ '$classes' => $classes, '$_GET' => $_GET ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$classes' => $classes, '$_GET' => $_GET ], 'relais-colis-officiel');
 
         if ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] === 'wc-settings' && isset( $_GET[ 'section' ] ) ) {
             $classes .= ' wc-settings-sub-tab-'.self::SECTION_INFORMATIONS;
@@ -72,7 +72,7 @@ class WC_RC_Shipping_Infos_Settings {
         // Enqueued only in concerned settings page
         $screen = get_current_screen();
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        WP_Log::debug( __METHOD__, [ '$screen' => $screen, '$_GET' => $_GET ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$screen' => $screen, '$_GET' => $_GET ], 'relais-colis-officiel');
         if ( ( $screen->id === 'woocommerce_page_wc-settings' ) && isset( $_GET[ 'section' ] ) && ( $_GET[ 'section' ] === self::SECTION_INFORMATIONS ) ) {
 
             ?>
@@ -92,7 +92,7 @@ class WC_RC_Shipping_Infos_Settings {
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
 
-        $sections[ self::SECTION_INFORMATIONS ] = __( 'Your Information', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_INFORMATIONS ] = __( 'Your Information', 'relais-colis-officiel');
         return $sections;
     }
 
@@ -106,7 +106,7 @@ class WC_RC_Shipping_Infos_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_INFORMATIONS ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_admin_fields( $this->get_settings() );
     }
@@ -116,7 +116,7 @@ class WC_RC_Shipping_Infos_Settings {
      */
     public function action_woocommerce_update_options_rc_informations() {
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
         woocommerce_update_options( $this->get_settings() );
     }
@@ -135,7 +135,7 @@ class WC_RC_Shipping_Infos_Settings {
 
         // Get RC configuration
         $rc_configuration = WP_Configuration_DAO::instance()->get_rc_configuration( true );
-        WP_Log::debug( __METHOD__, [ '$rc_configuration' => $rc_configuration ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$rc_configuration' => $rc_configuration ], 'relais-colis-officiel');
 
         // Generate HTML for configurations
         $rc_configuration_html = '';
@@ -165,9 +165,9 @@ class WC_RC_Shipping_Infos_Settings {
         $settings = array(
             // Section : B2C Configuration
             [
-                'title' => __( 'Configuration', 'relais-colis-woocommerce' ), // Options B2C
+                'title' => __( 'Configuration', 'relais-colis-officiel'), // Options B2C
                 'type' => 'title',
-                'desc' => __( 'The configuration associated with your account.', 'relais-colis-woocommerce' ), // Configurez les options incluses dans votre compte B2C.
+                'desc' => __( 'The configuration associated with your account.', 'relais-colis-officiel'), // Configurez les options incluses dans votre compte B2C.
                 'id' => 'rc_b2c_configuration_title',
             ],
             // Copy paste button
@@ -193,7 +193,7 @@ class WC_RC_Shipping_Infos_Settings {
 
             // Get RC informations
             $rc_c2c_infos = WP_Information_DAO::instance()->get_rc_information();
-            WP_Log::debug( __METHOD__, [ '$rc_c2c_infos' => $rc_c2c_infos ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_c2c_infos' => $rc_c2c_infos ], 'relais-colis-officiel');
 
             // Generate HTML for configurations
             $rc_c2c_infos_html = '';
@@ -221,9 +221,9 @@ class WC_RC_Shipping_Infos_Settings {
 
             // Add settings: Section : C2C infos
             $settings[] = array(
-                'title' => __( 'C2C informations', 'relais-colis-woocommerce' ), // Options B2C
+                'title' => __( 'C2C informations', 'relais-colis-officiel'), // Options B2C
                 'type' => 'title',
-                'desc' => __( 'The informations associated with your C2C account.', 'relais-colis-woocommerce' ), // Configurez les options incluses dans votre compte B2C.
+                'desc' => __( 'The informations associated with your C2C account.', 'relais-colis-officiel'), // Configurez les options incluses dans votre compte B2C.
                 'id' => 'rc_c2c_infos_title',
             );
             // Copy paste button

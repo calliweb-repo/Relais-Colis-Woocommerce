@@ -53,7 +53,7 @@ class WC_Orders_B2c_Bulk_Place_Labels_Manager extends WC_Orders_B2c_Bulk_Actions
      */
     protected function get_specific_bulk_action_title() {
 
-        return __( 'Bulk place labels', 'relais-colis-woocommerce' );
+        return __( 'Bulk place labels', 'relais-colis-officiel');
     }
 
     /**
@@ -84,7 +84,7 @@ class WC_Orders_B2c_Bulk_Place_Labels_Manager extends WC_Orders_B2c_Bulk_Actions
                      * @since 1.0.0
                      *
                      */
-                    do_action( "after_bulk_actions_rc_shop_order", $order_id, true, __('All the shipping labels have been placed', 'relais-colis-woocommerce') );
+                    do_action( "after_bulk_actions_rc_shop_order", $order_id, true, __('All the shipping labels have been placed', 'relais-colis-officiel') );
 
 
                 } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {

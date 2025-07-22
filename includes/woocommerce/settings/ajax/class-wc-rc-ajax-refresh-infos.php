@@ -40,12 +40,12 @@ class WC_RC_Ajax_Refresh_Infos {
      */
     public function action_wp_ajax_refresh_infos() {
 
-        WP_Log::debug( __METHOD__, [ '$_POST'=>$_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$_POST'=>$_POST ], 'relais-colis-officiel');
 
         $nonce_check = check_ajax_referer( 'rc_refresh_button_nonce', 'nonce', false );
         if ( !$nonce_check ) {
 
-            WP_Log::error( __METHOD__.' - Nonce verification failed', [ 'received_nonce' => $_POST['nonce'] ?? 'MISSING' ], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Nonce verification failed', [ 'received_nonce' => $_POST['nonce'] ?? 'MISSING' ], 'relais-colis-officiel');
             wp_send_json_error( [ 'message' => 'Nonce verification failed' ] );
         }
 
@@ -54,12 +54,12 @@ class WC_RC_Ajax_Refresh_Infos {
         // Get interaction mode and RC API validity access
         $is_c2c_interaction_mode = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode();
         $is_rc_api_valid_access = WC_RC_Shipping_Config_Manager::instance()->is_rc_api_valid_access();
-        WP_Log::debug( __METHOD__, ['C2C interaction mode?'=>($is_c2c_interaction_mode?'true':'false')], 'relais-colis-woocommerce' );
-        WP_Log::debug( __METHOD__, ['Is RC API valid access?'=>($is_rc_api_valid_access?'true':'false')], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['C2C interaction mode?'=>($is_c2c_interaction_mode?'true':'false')], 'relais-colis-officiel');
+        WP_Log::debug( __METHOD__, ['Is RC API valid access?'=>($is_rc_api_valid_access?'true':'false')], 'relais-colis-officiel');
 
         if ( !$is_rc_api_valid_access ) {
 
-            WP_Log::error( __METHOD__.' - Invalid key', [], 'relais-colis-woocommerce' );
+            WP_Log::error( __METHOD__.' - Invalid key', [], 'relais-colis-officiel');
 
             // Reset B2C configuration
             WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -87,7 +87,7 @@ class WC_RC_Ajax_Refresh_Infos {
 
                     // Update config
                     WC_RC_Shipping_Config_Manager::instance()->update_c2c_config_data( $wp_c2c_infos );
-                    WP_Log::debug( __METHOD__.' - C2C Infos updated ', [ '$wp_c2c_infos'=>$wp_c2c_infos ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - C2C Infos updated ', [ '$wp_c2c_infos'=>$wp_c2c_infos ], 'relais-colis-officiel');
                 }
 
             }
@@ -113,7 +113,7 @@ class WC_RC_Ajax_Refresh_Infos {
 
                     // Update config
                     WC_RC_Shipping_Config_Manager::instance()->update_b2c_config_data( $wp_rc_configuration );
-                    WP_Log::debug( __METHOD__.' - B2C Infos updated ', [ '$wp_rc_configuration'=>$wp_rc_configuration ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__.' - B2C Infos updated ', [ '$wp_rc_configuration'=>$wp_rc_configuration ], 'relais-colis-officiel');
                 }
             }
         }

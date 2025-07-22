@@ -21,7 +21,7 @@ class WC_RC_Shipping_Settings extends WC_Settings_Page {
     public function __construct() {
 
         $this->id = WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS;
-        $this->label = __( 'Relais Colis', 'relais-colis-woocommerce' );
+        $this->label = __( 'Relais Colis', 'relais-colis-officiel');
 
         parent::__construct();
 
@@ -80,7 +80,7 @@ class WC_RC_Shipping_Settings extends WC_Settings_Page {
      */
     public function filter_woocommerce_settings_tabs_array($settings_tabs): mixed
     {
-        $settings_tabs[WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS] = __('Relais Colis', 'relais-colis-woocommerce');
+        $settings_tabs[WC_RC_Shipping_Settings_Manager::WC_RC_SHIPPING_SETTINGS] = __('Relais Colis', 'relais-colis-officiel');
         return $settings_tabs;
     }
 }

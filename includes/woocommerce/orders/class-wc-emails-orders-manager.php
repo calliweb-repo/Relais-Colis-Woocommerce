@@ -45,7 +45,7 @@ class WC_Emails_Orders_Manager {
      */
     public function action_woocommerce_email_order_meta( $wc_order, $sent_to_admin, $plain_text ) {
 
-        WP_Log::debug( __METHOD__, ['$wc_order'=>$wc_order, '$sent_to_admin'=>$sent_to_admin ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, ['$wc_order'=>$wc_order, '$sent_to_admin'=>$sent_to_admin ], 'relais-colis-officiel');
 
         // Check if order is defined
         if ( !$wc_order instanceof WC_Order ) {

@@ -94,13 +94,13 @@ class WP_RC_C2C_Get_Packages_Price extends WP_Relais_Colis_Request {
             $converted_packages_weight = WP_Helper::convert_to_grams( $packages_weight, $woocommerce_weight_unit );
             if ( !is_null( $converted_packages_weight ) ) $packages_weight = $converted_packages_weight;
         }
-        WP_Log::debug( __METHOD__, [ '$this->data[ self::PACKAGES_WEIGHT ]'=>$this->data[ self::PACKAGES_WEIGHT ], '$woocommerce_weight_unit' => $woocommerce_weight_unit ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ '$this->data[ self::PACKAGES_WEIGHT ]'=>$this->data[ self::PACKAGES_WEIGHT ], '$woocommerce_weight_unit' => $woocommerce_weight_unit ], 'relais-colis-officiel');
 
             // Tips specific to RC API
 //        $post_data = array( $this->data );
         $post_data = $this->data;
 
-        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-officiel');
         $this->data = json_encode( $post_data );
     }
 }

@@ -250,7 +250,7 @@ class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Reque
         $post_data = array_values($this->data);
 
 
-        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'method' => $this->method, 'path' => $this->path, 'post_data' => $this->data ], 'relais-colis-officiel');
         $this->data = json_encode( $post_data );
     }
 
@@ -263,7 +263,7 @@ class WP_RC_B2C_Home_Place_Advertisement extends WP_RC_Place_Advertisement_Reque
             foreach ( $mandatory_params as $param ) {
                 if ( !isset( $data[ $param ] ) || is_null( $data[ $param ] ) ) {
     
-                    WP_Log::error( __METHOD__, ['$param'=>$param], 'relais-colis-woocommerce' );
+                    WP_Log::error( __METHOD__, ['$param'=>$param], 'relais-colis-officiel');
                     throw new WP_Relais_Colis_API_Exception( esc_html(WP_Relais_Colis_API_Exception::get_i18n_message(WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER)).' '.esc_html($param), esc_html(WP_Relais_Colis_API_Exception::ERROR_CODES[WP_Relais_Colis_API_Exception::RC_API_MISSING_OR_EMPTY_REQUIRED_PARAMETER]) );
                 }
             }

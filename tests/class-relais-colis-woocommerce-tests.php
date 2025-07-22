@@ -72,7 +72,7 @@ class Relais_Colis_Woocommerce_Tests {
 //        $this->test_wp_relais_colis_api_c2c_get_packages_status_error(); // TODO Implémentation à terminer
 
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
     }
 
     /**
@@ -94,7 +94,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $wp_rc_configuration ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -151,15 +151,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Créé le' => $created_at,
                     'Mis à jour le' => $updated_at,
                     'Mis à jour par' => $updated_by,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -183,22 +183,22 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $wp_rc_configuration ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
             if ( $wp_rc_configuration->validate() ) {
 
-                WP_Log::debug(__METHOD__ . ' - Valid response', [], 'relais-colis-woocommerce');
+                WP_Log::debug(__METHOD__ . ' - Valid response', [], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -221,7 +221,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $wp_rc_configuration ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -278,15 +278,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Créé le' => $created_at,
                     'Mis à jour le' => $updated_at,
                     'Mis à jour par' => $updated_by,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -310,22 +310,22 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $wp_rc_configuration ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
             if ( $wp_rc_configuration->validate() ) {
 
-                WP_Log::debug(__METHOD__ . ' - Valid response', [], 'relais-colis-woocommerce');
+                WP_Log::debug(__METHOD__ . ' - Valid response', [], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -366,7 +366,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_relay_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -377,15 +377,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -429,7 +429,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_relay_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -440,15 +440,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -492,7 +492,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_home_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -503,15 +503,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -551,7 +551,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_home_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -562,15 +562,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -619,7 +619,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_relay_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -630,15 +630,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -690,7 +690,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_relay_place_advertisement ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -701,15 +701,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -738,16 +738,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$b2c_generate->get_pdf_delivery_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$b2c_generate->get_pdf_delivery_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -779,16 +779,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$b2c_generate->get_pdf_delivery_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$b2c_generate->get_pdf_delivery_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -817,16 +817,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$c2c_generate->get_pdf_delivery_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$c2c_generate->get_pdf_delivery_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -858,16 +858,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$c2c_generate->get_pdf_delivery_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$c2c_generate->get_pdf_delivery_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -897,16 +897,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $bulk_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$bulk_generate->get_pdf_delivery_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$bulk_generate->get_pdf_delivery_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -952,7 +952,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_place_return ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1010,7 +1010,7 @@ class Relais_Colis_Woocommerce_Tests {
                     'Enseigne - Créé le' => $enseigne_created_at,
                     'Enseigne - Mis à jour le' => $enseigne_updated_at,
                     'Enseigne - Mis à jour par' => $enseigne_updated_by,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
                 // Get additional response details
                 $entry_id = $b2c_place_return->get_entry_id();
@@ -1067,15 +1067,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Bordereau Smart URL' => $bordereau_smart_url,
                     'Created At' => $created_at,
                     'Token' => $token,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1121,7 +1121,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_place_return ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1179,7 +1179,7 @@ class Relais_Colis_Woocommerce_Tests {
                     'Enseigne - Créé le' => $enseigne_created_at,
                     'Enseigne - Mis à jour le' => $enseigne_updated_at,
                     'Enseigne - Mis à jour par' => $enseigne_updated_by,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
                 // Get additional response details
                 $entry_id = $b2c_place_return->get_entry_id();
@@ -1236,15 +1236,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Bordereau Smart URL' => $bordereau_smart_url,
                     'Created At' => $created_at,
                     'Token' => $token,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1292,7 +1292,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $b2c_place_return ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1350,7 +1350,7 @@ class Relais_Colis_Woocommerce_Tests {
                     'Enseigne - Créé le' => $enseigne_created_at,
                     'Enseigne - Mis à jour le' => $enseigne_updated_at,
                     'Enseigne - Mis à jour par' => $enseigne_updated_by,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
                 // Get additional response details
                 $entry_id = $b2c_place_return->get_entry_id();
@@ -1407,15 +1407,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Bordereau Smart URL' => $bordereau_smart_url,
                     'Created At' => $created_at,
                     'Token' => $token,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1441,7 +1441,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_get_infos ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1467,15 +1467,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Client - Statut du compte' => $account_status,
                     'Client - Type de compte' => $account_type,
                     'Client - Code Enseigne' => $code_enseigne,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1501,7 +1501,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_get_infos ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1527,15 +1527,15 @@ class Relais_Colis_Woocommerce_Tests {
                     'Client - Statut du compte' => $account_status,
                     'Client - Type de compte' => $account_type,
                     'Client - Code Enseigne' => $code_enseigne,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1563,7 +1563,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_get_packages_price ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1574,15 +1574,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1611,7 +1611,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $c2c_get_packages_price ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1622,15 +1622,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1661,16 +1661,16 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $transport_generate ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
             // Display response
-            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$transport_generate->get_pdf_transport_label()], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Response is a PDF delivery label', ['URL'=>$transport_generate->get_pdf_transport_label()], 'relais-colis-officiel');
 
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
         }
     }
 
@@ -1695,7 +1695,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $get_packages_status ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1706,15 +1706,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 
@@ -1740,7 +1740,7 @@ class Relais_Colis_Woocommerce_Tests {
 
             if ( is_null( $get_packages_status ) ) {
 
-                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - No response', [], 'relais-colis-officiel');
                 return;
             }
 
@@ -1751,15 +1751,15 @@ class Relais_Colis_Woocommerce_Tests {
 
                 WP_Log::debug(__METHOD__ . ' - Valid response', [
                     'Entry' => $entry,
-                ], 'relais-colis-woocommerce');
+                ], 'relais-colis-officiel');
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage() ], 'relais-colis-officiel');
         }
     }
 }

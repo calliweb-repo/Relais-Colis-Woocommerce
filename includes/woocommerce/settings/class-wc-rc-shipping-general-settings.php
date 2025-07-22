@@ -60,7 +60,7 @@ class WC_RC_Shipping_General_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_GENERAL ) return;
 
-        WP_Log::debug( __METHOD__, [ 'POST' => $_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'POST' => $_POST ], 'relais-colis-officiel');
 
         woocommerce_update_options( $this->get_settings() );
     }
@@ -97,7 +97,7 @@ class WC_RC_Shipping_General_Settings {
      */
     public function filter_woocommerce_admin_settings_sanitize_option_activation_key( $value, $option, $raw_value ) {
 
-        WP_Log::debug( __METHOD__, [ 'value' => $value, 'option' => $option, 'raw_value' => $raw_value, 'POST'=>$_POST ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'value' => $value, 'option' => $option, 'raw_value' => $raw_value, 'POST'=>$_POST ], 'relais-colis-officiel');
 
         // Call API again because test mode has changed
         try {
@@ -120,7 +120,7 @@ class WC_RC_Shipping_General_Settings {
 
             if ( is_null( $wp_rc_configuration ) ) {
 
-                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -137,7 +137,7 @@ class WC_RC_Shipping_General_Settings {
                 // Activation key must be the same
                 if ( $activation_key !== $value ) {
 
-                    WC_Admin_Settings::add_error( __( 'The activation key you entered is invalid. Please check and try again.', 'relais-colis-woocommerce' ) );
+                    WC_Admin_Settings::add_error( __( 'The activation key you entered is invalid. Please check and try again.', 'relais-colis-officiel') );
 
                     // Reset B2C configuration
                     WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -154,9 +154,9 @@ class WC_RC_Shipping_General_Settings {
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
 
-                WC_Admin_Settings::add_error( __( 'The RC API returned an invalid response. Please try again later.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'The RC API returned an invalid response. Please try again later.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -165,11 +165,11 @@ class WC_RC_Shipping_General_Settings {
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::warning( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::warning( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
 
             if ( $wp_relais_colis_api_exception->getCode() == 404 ) {
 
-                WC_Admin_Settings::add_error( __( 'The activation key you entered is invalid. Please check and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'The activation key you entered is invalid. Please check and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -177,7 +177,7 @@ class WC_RC_Shipping_General_Settings {
 
             } else {
 
-                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_b2c_config_data();
@@ -206,11 +206,11 @@ class WC_RC_Shipping_General_Settings {
             WP_Log::warning(__METHOD__.' - Error updating C2C infos', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()
-            ], 'relais-colis-woocommerce');
+            ], 'relais-colis-officiel');
             return '';
         }
             
-        WP_Log::debug( __METHOD__, [ 'value' => $value, 'option' => $option, 'raw_value' => $raw_value ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'value' => $value, 'option' => $option, 'raw_value' => $raw_value ], 'relais-colis-officiel');
 
         // Call API
         try {
@@ -232,7 +232,7 @@ class WC_RC_Shipping_General_Settings {
 
             if ( is_null( $wp_c2c_infos ) ) {
 
-                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_c2c_config_data();
@@ -249,7 +249,7 @@ class WC_RC_Shipping_General_Settings {
                 // Account status must be valid
                 if ( is_null( $account_status ) || ( $account_status !== 'active' ) ) {
 
-                    WC_Admin_Settings::add_error( __( 'The hash token you entered is invalid. Please check and try again.', 'relais-colis-woocommerce' ) );
+                    WC_Admin_Settings::add_error( __( 'The hash token you entered is invalid. Please check and try again.', 'relais-colis-officiel') );
 
                     // Reset B2C configuration
                     WC_RC_Shipping_Config_Manager::instance()->delete_c2c_config_data();
@@ -266,9 +266,9 @@ class WC_RC_Shipping_General_Settings {
 
             } else {
 
-                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - Invalid response', [], 'relais-colis-officiel');
 
-                WC_Admin_Settings::add_error( __( 'The RC API returned an invalid response. Please try again later.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'The RC API returned an invalid response. Please try again later.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_c2c_config_data();
@@ -277,11 +277,11 @@ class WC_RC_Shipping_General_Settings {
             }
         } catch ( WP_Relais_Colis_API_Exception $wp_relais_colis_api_exception ) {
 
-            WP_Log::warning( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-woocommerce' );
+            WP_Log::warning( __METHOD__.' - Error response', [ 'code' => $wp_relais_colis_api_exception->getCode(), 'message' => $wp_relais_colis_api_exception->getMessage(), 'detail' => $wp_relais_colis_api_exception->get_detail() ], 'relais-colis-officiel');
 
             if ( $wp_relais_colis_api_exception->getCode() == 400 ) {
 
-                WC_Admin_Settings::add_error( __( 'The hash token you entered is invalid. Please check and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'The hash token you entered is invalid. Please check and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_c2c_config_data();
@@ -289,7 +289,7 @@ class WC_RC_Shipping_General_Settings {
                 return '';
             } else {
 
-                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-woocommerce' ) );
+                WC_Admin_Settings::add_error( __( 'Failed to communicate with the RC API. Please check your connection and try again.', 'relais-colis-officiel') );
 
                 // Reset B2C configuration
                 WC_RC_Shipping_Config_Manager::instance()->delete_c2c_config_data();
@@ -307,7 +307,7 @@ class WC_RC_Shipping_General_Settings {
      */
     public function filter_woocommerce_get_sections_rc( $sections ) {
 
-        $sections[ self::SECTION_GENERAL ] = __( 'General configuration', 'relais-colis-woocommerce' );
+        $sections[ self::SECTION_GENERAL ] = __( 'General configuration', 'relais-colis-officiel');
         return $sections;
     }
 
@@ -320,7 +320,7 @@ class WC_RC_Shipping_General_Settings {
         global $current_section;
         if ( $current_section !== self::SECTION_GENERAL ) return;
 
-        WP_Log::debug( __METHOD__, [], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [], 'relais-colis-officiel');
 
             // Mettre à jour les informations via l'API avant d'afficher
     if (WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode()) {
@@ -337,7 +337,7 @@ class WC_RC_Shipping_General_Settings {
             WP_Log::warning(__METHOD__.' - Error updating C2C infos', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()
-            ], 'relais-colis-woocommerce');
+            ], 'relais-colis-officiel');
         }
     }
 
@@ -359,15 +359,15 @@ class WC_RC_Shipping_General_Settings {
         $settings = array(
             // Section : Your API Information
             [
-                'title' => __( 'Your API Information', 'relais-colis-woocommerce' ),
+                'title' => __( 'Your API Information', 'relais-colis-officiel'),
                 'type' => 'title',
-                'desc' => __( 'Enter your activation key to synchronize your information.', 'relais-colis-woocommerce' ),
+                'desc' => __( 'Enter your activation key to synchronize your information.', 'relais-colis-officiel'),
                 'id' => 'rc_api_title',
             ],
             // Live/Test Mode
             [
-                'title' => __( 'Live/Test Mode', 'relais-colis-woocommerce' ),
-                'desc' => __( 'Switch between Live mode and Test mode.', 'relais-colis-woocommerce' ),
+                'title' => __( 'Live/Test Mode', 'relais-colis-officiel'),
+                'desc' => __( 'Switch between Live mode and Test mode.', 'relais-colis-officiel'),
                 'id' => WC_RC_Shipping_Constants::OPTION_LIVE_TEST_MODE_NAME,
                 'default' => 'yes',
                 'yes_label' => 'Live',
@@ -376,11 +376,11 @@ class WC_RC_Shipping_General_Settings {
             ],
             // Activation Key
             [
-                'title' => __( 'Activation Key', 'relais-colis-woocommerce' ),
+                'title' => __( 'Activation Key', 'relais-colis-officiel'),
                 'id' => WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY,
                 'type' => 'text',
                 'default' => '',
-                'desc_tip' => __( 'Your C2C or B2C activation key.', 'relais-colis-woocommerce' ),
+                'desc_tip' => __( 'Your C2C or B2C activation key.', 'relais-colis-officiel'),
             ],
         );
         // Add hash token input if C2C mode and invalid RC API access
@@ -388,11 +388,11 @@ class WC_RC_Shipping_General_Settings {
 
             $settings[] =
                 [
-                    'title' => __( 'C2C hash token', 'relais-colis-woocommerce' ),
+                    'title' => __( 'C2C hash token', 'relais-colis-officiel'),
                     'id' => WC_RC_Shipping_Constants::OPTION_C2C_HASH_TOKEN,
                     'type' => 'text',
                     'default' => '',
-                    'desc_tip' => __( 'Your C2C hash token.', 'relais-colis-woocommerce' ),
+                    'desc_tip' => __( 'Your C2C hash token.', 'relais-colis-officiel'),
                 ];
         }
 
@@ -428,7 +428,7 @@ class WC_RC_Shipping_General_Settings {
 
                 // Get RC informations
                 $rc_c2c_infos = WP_Information_DAO::instance()->get_rc_information();
-                WP_Log::debug( __METHOD__, [ '$rc_c2c_infos' => $rc_c2c_infos ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__, [ '$rc_c2c_infos' => $rc_c2c_infos ], 'relais-colis-officiel');
 
                 // Generate HTML for informations
                 $infos_html = '
@@ -439,7 +439,7 @@ class WC_RC_Shipping_General_Settings {
 
                 $settings[] =
                     [
-                        'title' => __( 'Hello', 'relais-colis-woocommerce' ).' '.$rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_FIRSTNAME ].' '.$rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_LASTNAME ],
+                        'title' => __( 'Hello', 'relais-colis-officiel').' '.$rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_FIRSTNAME ].' '.$rc_c2c_infos[ WC_RC_Shipping_Constants::INFORMATION_LASTNAME ],
                         'type' => 'title',
                         'id' => 'rc_c2c_infos_general_title',
                     ];
@@ -458,7 +458,7 @@ class WC_RC_Shipping_General_Settings {
 
             // Get RC configuration options
             $rc_configuration_options = WP_Configuration_DAO::instance()->get_rc_configuration_options();
-            WP_Log::debug( __METHOD__, [ '$rc_configuration_options' => $rc_configuration_options ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$rc_configuration_options' => $rc_configuration_options ], 'relais-colis-officiel');
 
             if ( !empty( $rc_configuration_options ) ) {
 
@@ -466,21 +466,21 @@ class WC_RC_Shipping_General_Settings {
                 $rc_configuration_options_html = '<table class="form-table">';
                 foreach ( $rc_configuration_options as $rc_configuration_option ) {
 
-                    WP_Log::debug( __METHOD__, [ '$rc_configuration_option' => $rc_configuration_option ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__, [ '$rc_configuration_option' => $rc_configuration_option ], 'relais-colis-officiel');
 
                     $rc_configuration_options_html .= sprintf(
                         '<tr><th>%s</th><td>%s</td></tr>',
                         $rc_configuration_option[ 'name' ],
-                        ( ( $rc_configuration_option[ 'active' ] == 1 ) ? __( 'Yes', 'relais-colis-woocommerce' ) : __( 'No', 'relais-colis-woocommerce' ) )
+                        ( ( $rc_configuration_option[ 'active' ] == 1 ) ? __( 'Yes', 'relais-colis-officiel') : __( 'No', 'relais-colis-officiel') )
                     );
                 }
                 $rc_configuration_options_html .= '</table>';
 
-                $specific_desc = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? __( 'The options included in your C2C account.', 'relais-colis-woocommerce' ) : __( 'The options included in your B2C account.', 'relais-colis-woocommerce' );
+                $specific_desc = WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? __( 'The options included in your C2C account.', 'relais-colis-officiel') : __( 'The options included in your B2C account.', 'relais-colis-officiel');
 
                 $settings[] =
                     [
-                        'title' => __( 'Options', 'relais-colis-woocommerce' ),
+                        'title' => __( 'Options', 'relais-colis-officiel'),
                         'type' => 'title',
                         'desc' => $specific_desc,
                         'id' => 'rc_b2c_options_title',

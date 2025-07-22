@@ -173,33 +173,33 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_configuration_title( string $rc_configuration_slug ) {
 
         $titles = [
-            self::CONFIGURATION_ENSEIGNE_ID => __( 'Enseigne ID', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ENSEIGNE_ID_LIGHT => __( 'Enseigne ID Light', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ENSEIGNE_NOM => __( 'Enseigne Name', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ACTIVATION_KEY => __( 'Activation Key', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ACTIVE => __( 'Active', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_USEIDENS => __( 'Use Enseigne ID', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ADDRESS_LINE1 => __( 'Address Line 1', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_ADDRESS_LINE2 => __( 'Address Line 2', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_POSTAL_CODE => __( 'Postal Code', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_CITY => __( 'City', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_LIVEMAPPING_API => __( 'Live Mapping API', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_LIVEMAPPING_PID => __( 'Live Mapping PID', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_LIVEMAPPING_KEY => __( 'Live Mapping Key', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_FOLDER => __( 'Folder', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_RETURN_VERSION => __( 'Return Version', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_RETURN_LOGIN => __( 'Return Login', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_RETURN_PASS => __( 'Return Password', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_AGENCY_CODE => __( 'Agency Code', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_RETURN_SITE => __( 'Return Site', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_UPDATED_BY => __( 'Updated By', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_CREATED_AT => __( 'Created At', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_UPDATED_AT => __( 'Updated At', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_OSM_LIVEMAPPING_KEY => __( 'OSM Live Mapping Key', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_OSM_LIVEMAPPING_ENS => __( 'OSM Live Mapping Enseigne ID', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_ENSEIGNE_ID => __( 'Enseigne ID', 'relais-colis-officiel'),
+            self::CONFIGURATION_ENSEIGNE_ID_LIGHT => __( 'Enseigne ID Light', 'relais-colis-officiel'),
+            self::CONFIGURATION_ENSEIGNE_NOM => __( 'Enseigne Name', 'relais-colis-officiel'),
+            self::CONFIGURATION_ACTIVATION_KEY => __( 'Activation Key', 'relais-colis-officiel'),
+            self::CONFIGURATION_ACTIVE => __( 'Active', 'relais-colis-officiel'),
+            self::CONFIGURATION_USEIDENS => __( 'Use Enseigne ID', 'relais-colis-officiel'),
+            self::CONFIGURATION_ADDRESS_LINE1 => __( 'Address Line 1', 'relais-colis-officiel'),
+            self::CONFIGURATION_ADDRESS_LINE2 => __( 'Address Line 2', 'relais-colis-officiel'),
+            self::CONFIGURATION_POSTAL_CODE => __( 'Postal Code', 'relais-colis-officiel'),
+            self::CONFIGURATION_CITY => __( 'City', 'relais-colis-officiel'),
+            self::CONFIGURATION_LIVEMAPPING_API => __( 'Live Mapping API', 'relais-colis-officiel'),
+            self::CONFIGURATION_LIVEMAPPING_PID => __( 'Live Mapping PID', 'relais-colis-officiel'),
+            self::CONFIGURATION_LIVEMAPPING_KEY => __( 'Live Mapping Key', 'relais-colis-officiel'),
+            self::CONFIGURATION_FOLDER => __( 'Folder', 'relais-colis-officiel'),
+            self::CONFIGURATION_RETURN_VERSION => __( 'Return Version', 'relais-colis-officiel'),
+            self::CONFIGURATION_RETURN_LOGIN => __( 'Return Login', 'relais-colis-officiel'),
+            self::CONFIGURATION_RETURN_PASS => __( 'Return Password', 'relais-colis-officiel'),
+            self::CONFIGURATION_AGENCY_CODE => __( 'Agency Code', 'relais-colis-officiel'),
+            self::CONFIGURATION_RETURN_SITE => __( 'Return Site', 'relais-colis-officiel'),
+            self::CONFIGURATION_UPDATED_BY => __( 'Updated By', 'relais-colis-officiel'),
+            self::CONFIGURATION_CREATED_AT => __( 'Created At', 'relais-colis-officiel'),
+            self::CONFIGURATION_UPDATED_AT => __( 'Updated At', 'relais-colis-officiel'),
+            self::CONFIGURATION_OSM_LIVEMAPPING_KEY => __( 'OSM Live Mapping Key', 'relais-colis-officiel'),
+            self::CONFIGURATION_OSM_LIVEMAPPING_ENS => __( 'OSM Live Mapping Enseigne ID', 'relais-colis-officiel'),
         ];
 
-        return $titles[ $rc_configuration_slug ] ?? __( 'Unknown Field', 'relais-colis-woocommerce' );
+        return $titles[ $rc_configuration_slug ] ?? __( 'Unknown Field', 'relais-colis-officiel');
     }
 
     /**
@@ -210,13 +210,13 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_option_title( string $option_slug ) {
 
         $titles = [
-            self::CONFIGURATION_OPTION_ID => __( 'Option ID', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_OPTION_NAME => __( 'Option Name', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_OPTION_VALUE => __( 'Option Value', 'relais-colis-woocommerce' ),
-            self::CONFIGURATION_OPTION_ACTIVE => __( 'Option Active', 'relais-colis-woocommerce' ),
+            self::CONFIGURATION_OPTION_ID => __( 'Option ID', 'relais-colis-officiel'),
+            self::CONFIGURATION_OPTION_NAME => __( 'Option Name', 'relais-colis-officiel'),
+            self::CONFIGURATION_OPTION_VALUE => __( 'Option Value', 'relais-colis-officiel'),
+            self::CONFIGURATION_OPTION_ACTIVE => __( 'Option Active', 'relais-colis-officiel'),
         ];
 
-        return $titles[ $option_slug ] ?? __( 'Unknown Option', 'relais-colis-woocommerce' );
+        return $titles[ $option_slug ] ?? __( 'Unknown Option', 'relais-colis-officiel');
     }
 
     /**
@@ -226,10 +226,10 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_format_units() {
 
         return array(
-            'A4' => __( '10 X 15 : 4 PER PAGE', 'relais-colis-woocommerce' ),
-            //'A5' => __( 'A5', 'relais-colis-woocommerce' ),
+            'A4' => __( '10 X 15 : 4 PER PAGE', 'relais-colis-officiel'),
+            //'A5' => __( 'A5', 'relais-colis-officiel'),
             
-            WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? 'A6' : 'ZEBRA' => __( '10 X 15 : ZEBRA', 'relais-colis-woocommerce' ),
+            WC_RC_Shipping_Config_Manager::instance()->is_c2c_interaction_mode() ? 'A6' : 'ZEBRA' => __( '10 X 15 : ZEBRA', 'relais-colis-officiel'),
         );
     }
 
@@ -240,10 +240,10 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_dimension_units() {
 
         return array(
-            //'mm' => __( 'Millimeters (mm)', 'relais-colis-woocommerce' ),
-            'cm' => __( 'Centimeters (cm)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
-            //'dm' => __( 'Decimeters (dm)', 'relais-colis-woocommerce' ),
-            'm' => __( 'Meters (m)', 'relais-colis-woocommerce' ),
+            //'mm' => __( 'Millimeters (mm)', 'relais-colis-officiel'),
+            'cm' => __( 'Centimeters (cm)', 'relais-colis-officiel'), // Default unit for communication with RC API
+            //'dm' => __( 'Decimeters (dm)', 'relais-colis-officiel'),
+            'm' => __( 'Meters (m)', 'relais-colis-officiel'),
         );
     }
 
@@ -254,11 +254,11 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_weight_units() {
 
         return array(
-            //'mg' => __( 'Milligrams (mg)', 'relais-colis-woocommerce' ),
-            //'cg' => __( 'Centigrams (mg)', 'relais-colis-woocommerce' ),
-            //'dg' => __( 'Decigrams (dg)', 'relais-colis-woocommerce' ),
-            'g' => __( 'Grams (g)', 'relais-colis-woocommerce' ), // Default unit for communication with RC API
-            'kg' => __( 'Kilograms (kg)', 'relais-colis-woocommerce' ),
+            //'mg' => __( 'Milligrams (mg)', 'relais-colis-officiel'),
+            //'cg' => __( 'Centigrams (mg)', 'relais-colis-officiel'),
+            //'dg' => __( 'Decigrams (dg)', 'relais-colis-officiel'),
+            'g' => __( 'Grams (g)', 'relais-colis-officiel'), // Default unit for communication with RC API
+            'kg' => __( 'Kilograms (kg)', 'relais-colis-officiel'),
         );
     }
 
@@ -269,14 +269,14 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_rc_statuses() {
 
         return array(
-            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_LIVRE => __( 'The package has been collected from the relay point', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_ECHEC_LIVRAISON => __( 'The package was not picked up', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_RETOURNE => __( 'The package has been returned to the sender', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_EN_COURS_DE_RETOUR => __( 'The package is currently being returned to the sender', 'relais-colis-woocommerce' ),
+            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-officiel'),
+            self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-officiel'),
+            self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-officiel'),
+            self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-officiel'),
+            self::STATUS_RC_LIVRE => __( 'The package has been collected from the relay point', 'relais-colis-officiel'),
+            self::STATUS_RC_ECHEC_LIVRAISON => __( 'The package was not picked up', 'relais-colis-officiel'),
+            self::STATUS_RC_RETOURNE => __( 'The package has been returned to the sender', 'relais-colis-officiel'),
+            self::STATUS_RC_EN_COURS_DE_RETOUR => __( 'The package is currently being returned to the sender', 'relais-colis-officiel'),
         );
     }
 
@@ -288,17 +288,17 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_rc_status_title( string $rc_status ) {
 
         $titles = array(
-            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_LIVRE => __( 'The package has been collected from the relay point', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_ECHEC_LIVRAISON => __( 'The package was not picked up', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_RETOURNE => __( 'The package has been returned to the sender', 'relais-colis-woocommerce' ),
-            self::STATUS_RC_EN_COURS_DE_RETOUR => __( 'The package is currently being returned to the sender', 'relais-colis-woocommerce' ),
+            self::STATUS_RC_COLIS_ANNONCE => __( 'The shipping labels for the order {index} have been generated', 'relais-colis-officiel'),
+            self::STATUS_RC_EXPEDIE => __( 'The product has been registered by the departure relay', 'relais-colis-officiel'),
+            self::STATUS_RC_LIVRAISON_EN_COURS => __( 'The product has been picked up by the carrier', 'relais-colis-officiel'),
+            self::STATUS_RC_DEPOSE_EN_RELAIS => __( 'The package has been dropped off at the relay point', 'relais-colis-officiel'),
+            self::STATUS_RC_LIVRE => __( 'The package has been collected from the relay point', 'relais-colis-officiel'),
+            self::STATUS_RC_ECHEC_LIVRAISON => __( 'The package was not picked up', 'relais-colis-officiel'),
+            self::STATUS_RC_RETOURNE => __( 'The package has been returned to the sender', 'relais-colis-officiel'),
+            self::STATUS_RC_EN_COURS_DE_RETOUR => __( 'The package is currently being returned to the sender', 'relais-colis-officiel'),
         );
 
-        return $titles[ $rc_status ] ?? __( 'Unknown status', 'relais-colis-woocommerce' );
+        return $titles[ $rc_status ] ?? __( 'Unknown status', 'relais-colis-officiel');
     }
 
     /**
@@ -309,17 +309,17 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_information_title( string $information_slug ) {
 
         $titles = [
-            self::INFORMATION_RESULT_ID => __( 'Result ID', 'relais-colis-woocommerce' ),
-            self::INFORMATION_FIRSTNAME => __( 'First Name', 'relais-colis-woocommerce' ),
-            self::INFORMATION_LASTNAME => __( 'Last Name', 'relais-colis-woocommerce' ),
-            self::INFORMATION_EMAIL => __( 'Email', 'relais-colis-woocommerce' ),
-            self::INFORMATION_BALANCE => __( 'Balance', 'relais-colis-woocommerce' ),
-            self::INFORMATION_ACCOUNT_STATUS => __( 'Account Status', 'relais-colis-woocommerce' ),
-            self::INFORMATION_ACCOUNT_TYPE => __( 'Account Type', 'relais-colis-woocommerce' ),
-            self::INFORMATION_CODE_ENSEIGNE => __( 'Code Enseigne', 'relais-colis-woocommerce' ),
+            self::INFORMATION_RESULT_ID => __( 'Result ID', 'relais-colis-officiel'),
+            self::INFORMATION_FIRSTNAME => __( 'First Name', 'relais-colis-officiel'),
+            self::INFORMATION_LASTNAME => __( 'Last Name', 'relais-colis-officiel'),
+            self::INFORMATION_EMAIL => __( 'Email', 'relais-colis-officiel'),
+            self::INFORMATION_BALANCE => __( 'Balance', 'relais-colis-officiel'),
+            self::INFORMATION_ACCOUNT_STATUS => __( 'Account Status', 'relais-colis-officiel'),
+            self::INFORMATION_ACCOUNT_TYPE => __( 'Account Type', 'relais-colis-officiel'),
+            self::INFORMATION_CODE_ENSEIGNE => __( 'Code Enseigne', 'relais-colis-officiel'),
         ];
 
-        return $titles[ $information_slug ] ?? __( 'Unknown Information', 'relais-colis-woocommerce' );
+        return $titles[ $information_slug ] ?? __( 'Unknown Information', 'relais-colis-officiel');
     }
 
     /**
@@ -330,13 +330,13 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_order_state_title( string $order_state ) {
 
         $titles = [
-            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-officiel'),
+            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-officiel'),
+            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-officiel'),
+            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-officiel'),
         ];
 
-        return $titles[ $order_state ] ?? __( 'Unknown order state', 'relais-colis-woocommerce' );
+        return $titles[ $order_state ] ?? __( 'Unknown order state', 'relais-colis-officiel');
     }
 
     /**
@@ -346,10 +346,10 @@ abstract class WC_RC_Shipping_Constants {
     public static function get_order_states() {
 
         return array(
-            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-woocommerce' ),
-            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-woocommerce' ),
+            self::ORDER_STATE_ITEMS_TO_BE_DISTRIBUTED => __( 'Items to be distributed', 'relais-colis-officiel'),
+            self::ORDER_STATE_ITEMS_DISTRIBUTED => __( 'Items distributed', 'relais-colis-officiel'),
+            self::ORDER_STATE_SHIPPING_LABELS_PLACED => __( 'Shipping labels placed', 'relais-colis-officiel'),
+            self::ORDER_STATE_WAY_BILLS_GENERATED => __( 'Way bills generated', 'relais-colis-officiel'),
         );
     }
 

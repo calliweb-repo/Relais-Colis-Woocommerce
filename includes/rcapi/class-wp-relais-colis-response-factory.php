@@ -37,7 +37,7 @@ class WP_Relais_Colis_Response_Factory {
      */
     public function get_rc_api_response( string $request_type, $response_data, $response_headers, $raw = false ) {
 
-        WP_Log::debug( __METHOD__, [ 'request_type' => $request_type, 'response data' => $response_data ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'request_type' => $request_type, 'response data' => $response_data ], 'relais-colis-officiel');
 
         if ( empty( $response_data ) ) return null;
 
@@ -55,11 +55,11 @@ class WP_Relais_Colis_Response_Factory {
             //if ( $this->is_json_response( $response_data ) ) {
             if ( strpos( $response_content_type, 'application/json') !== false ) {
 
-                WP_Log::debug( __METHOD__.' - This is a JSON response', [], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - This is a JSON response', [], 'relais-colis-officiel');
 
                 // May be an error ...
                 $response = new WP_Relais_Colis_Error_Response( $response_data );
-                WP_Log::debug( __METHOD__.' - JSON response', [ 'title' => $response->title, 'status' => $response->status, 'detail' => $response->detail ], 'relais-colis-woocommerce' );
+                WP_Log::debug( __METHOD__.' - JSON response', [ 'title' => $response->title, 'status' => $response->status, 'detail' => $response->detail ], 'relais-colis-officiel');
                 throw new WP_Relais_Colis_API_Exception( esc_html($response->title), esc_html($response->status), esc_html($response->detail) );
 
             } else {
@@ -121,7 +121,7 @@ class WP_Relais_Colis_Response_Factory {
 
 
                             
-                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-woocommerce');
+                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-officiel');
 
                             if ( is_array($entry) ) {
                                 foreach ($entry as $item) {
@@ -177,7 +177,7 @@ class WP_Relais_Colis_Response_Factory {
 
                             $entry = $response->entry;
 
-                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-woocommerce');
+                            WP_Log::debug(__METHOD__ . ' - Valid response', ['Entry' => $entry,], 'relais-colis-officiel');
 
                             if ( strpos( $entry, 'error:' ) !== false ) {
                                 if ( strpos( $entry, 'Not enough money in balance' ) !== false ) {

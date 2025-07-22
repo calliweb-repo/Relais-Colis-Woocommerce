@@ -50,12 +50,12 @@ class WC_RC_Ajax_Way_Bill {
 
             WP_Log::debug( __METHOD__.' - Place shipping label (advertisement)', [
                 'POST' => $_POST,
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             // Validate the order ID
             if ( !isset( $_POST[ 'order_id' ] ) || !is_numeric( $_POST[ 'order_id' ] ) ) {
                 wp_send_json_error( [
-                    'message' => __( 'Invalid order ID', 'relais-colis-woocommerce' )
+                    'message' => __( 'Invalid order ID', 'relais-colis-officiel')
                 ] );
             }
 
@@ -78,10 +78,10 @@ class WC_RC_Ajax_Way_Bill {
             WP_Log::debug( __METHOD__.' - Error generate transport way bill', [
                 'error_message' => $e->getMessage(),
                 'order_id' => $wc_order_id
-            ], 'relais-colis-woocommerce' );
+            ], 'relais-colis-officiel');
 
             wp_send_json_error( [
-                'message' => __( 'An error occurred while generating way bill', 'relais-colis-woocommerce' ),
+                'message' => __( 'An error occurred while generating way bill', 'relais-colis-officiel'),
                 'error_details' => $e->getMessage()
             ] );
         }

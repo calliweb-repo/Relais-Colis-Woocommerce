@@ -46,7 +46,7 @@ class WC_Customer_Orders_Manager {
                 if ( !in_array( $hook_name, self::$hook_list ) ) {
 
                     //echo "<p style='color: red;'>HOOK WooCommerce exécuté : $hook_name</p>";
-                    WP_Log::debug( __METHOD__."🔥 Hook détecté", [ '$hook_name' => $hook_name ], 'relais-colis-woocommerce' );
+                    WP_Log::debug( __METHOD__."🔥 Hook détecté", [ '$hook_name' => $hook_name ], 'relais-colis-officiel');
                 }
                 self::$hook_list[] = $hook_name;
             }
@@ -104,7 +104,7 @@ class WC_Customer_Orders_Manager {
 
 
 
-            WP_Log::debug( __METHOD__.' - Customer info present in transient.', [ '$rc_customer_shipping_address' => $rc_customer_shipping_address ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__.' - Customer info present in transient.', [ '$rc_customer_shipping_address' => $rc_customer_shipping_address ], 'relais-colis-officiel');
 
             if ( !empty( $rc_customer_shipping_address ) ) {
 

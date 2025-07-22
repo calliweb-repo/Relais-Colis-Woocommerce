@@ -89,7 +89,7 @@ class WC_RC_Shipping_Method_Manager {
 
         foreach ( $shipping_methods as $shipping_method ) {
 
-            WP_Log::debug( __METHOD__, [ '$shipping_method' => $shipping_method ], 'relais-colis-woocommerce' );
+            WP_Log::debug( __METHOD__, [ '$shipping_method' => $shipping_method ], 'relais-colis-officiel');
 
             // Check if the shipping method is "Relais Colis"
             if ( $this->is_a_rc_shipping_method( $shipping_method->get_method_id() ) ) {
@@ -123,7 +123,7 @@ class WC_RC_Shipping_Method_Manager {
             $methods[ WC_RC_Shipping_Method_Homeplus::WC_RC_SHIPPING_METHOD_HOMEPLUS_ID ] = 'RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Method_Homeplus';
         }
 
-        WP_Log::debug( __METHOD__, [ 'methods' => $methods ], 'relais-colis-woocommerce' );
+        WP_Log::debug( __METHOD__, [ 'methods' => $methods ], 'relais-colis-officiel');
 
         return $methods;
     }
