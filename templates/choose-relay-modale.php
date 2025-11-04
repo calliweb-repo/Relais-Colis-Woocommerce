@@ -13,7 +13,7 @@
                 </button>
             </div>
             <div class="rc-col-sm-3 rc-hidden-xs divLogoRelaisColis">
-                <img alt="logo Relais Colis" id="imgRelaisColis" src="<?php echo esc_url(plugin_dir_url(__FILE__) . '../assets/img/livemapping/rc_long_logo.png'); ?>" />
+                <img alt="logo Relais Colis" id="imgRelaisColis" src="<?php     if ( ! defined( 'ABSPATH' ) ) exit; echo esc_url(plugin_dir_url(__FILE__) . '../assets/img/livemapping/rc_long_logo.png'); ?>" />
             </div>
         </div>
         <div class="rc-row">

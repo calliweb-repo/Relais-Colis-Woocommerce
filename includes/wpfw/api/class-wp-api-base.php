@@ -274,7 +274,7 @@ abstract class WP_API_Base {
          * }
          * @param WP_API_Base $this instance
          */
-        do_action( 'wp_api_request_performed', $request_data, $response_data, $this );
+        do_action( 'relacoof_api_request_performed', $request_data, $response_data, $this );
     }
 
 
@@ -334,7 +334,7 @@ abstract class WP_API_Base {
          * @param string $uri current request URI
          * @param WP_API_Base class instance
          */
-        return apply_filters( 'wp_api_request_uri', $uri, $this );
+        return apply_filters( 'relacoof_api_request_uri', $uri, $this );
     }
 
 
@@ -409,7 +409,7 @@ abstract class WP_API_Base {
          * @param array $args request arguments
          * @param WP_API_Base class instance
          */
-        return apply_filters( 'wp_http_request_args', $args, $this );
+        return apply_filters( 'relacoof_http_request_args', $args, $this );
     }
 
 
@@ -823,7 +823,7 @@ abstract class WP_API_Base {
          * @param bool $is_available whether TLS 1.2 is available
          * @param WP_API_Base $api API class instance
          */
-        return apply_filters( 'wp_api_is_tls_1_2_available', $is_available, $this );
+        return apply_filters( 'relacoof_api_is_tls_1_2_available', $is_available, $this );
     }
 
 }

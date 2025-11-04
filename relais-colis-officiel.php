@@ -3,8 +3,8 @@
  * Plugin Name: Relais Colis Officiel
  * Plugin URI: https://www.relaiscolis.com/
  * Description: Adds Relais Colis shipping method to WooCommerce.
- * Version: 2.0.7
- * Requires at least: 6.6.2
+ * Version: 2.0.8
+ * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Calliweb
  * Author URI: https://www.calliweb.fr/
@@ -12,6 +12,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: relais-colis-officiel
  * Domain Path: /languages
+ * Requires Plugins: woocommerce
  *
  * Copyright: (c) 2025, Calliweb
  *
@@ -32,16 +33,16 @@ defined( 'ABSPATH' ) or exit;
 require_once __DIR__.'/autoload.php';
 
 // WordPress Framework
-use RelaisColisWoocommerce\DAO\WP_Services_DAO;
+use RelaisColisWoocommerce\DAO\WP_Relacoof_Services_DAO;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
 use RelaisColisWoocommerce\WPFw\WP_PLoad;
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Relacoof_Shipping_Config_Manager;
 use RelaisColisWoocommerce\RCAPI\WP_Relais_Colis_API;
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
-use RelaisColisWoocommerce\DAO\WP_Configuration_DAO;
+use RelaisColisWoocommerce\Shipping\WC_Relacoof_Shipping_Constants;
+use RelaisColisWoocommerce\DAO\WP_Relacoof_Configuration_DAO;
 
-use RelaisColisWoocommerce\Cron\WP_Cron_Manager;
+use RelaisColisWoocommerce\Cron\WP_Relacoof_Cron_Manager;
 
 /**
  * The loader class.
@@ -166,7 +167,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
 
         // FIXME link to WooC
         // return $this->get_plugin_uri();
-        return \admin_url( 'admin.php?page=wc-settings&tab=wc_rc_shipping_settings' );
+        return \admin_url( 'admin.php?page=wc-settings&tab=wc_relacoof_shipping_settings' );
     }
 
     /**
@@ -318,19 +319,19 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
 
 
         // Init services
-        WP_Services_DAO::instance()->initialize_rc_services();
+        WP_Relacoof_Services_DAO::instance()->initialize_rc_services();
 
         // Get activation key
-        $activationKey = get_option( WC_RC_Shipping_Constants::OPTION_ACTIVATION_KEY );
+        $activationKey = get_option( WC_Relacoof_Shipping_Constants::OPTION_ACTIVATION_KEY );
         if ( !is_null($activationKey) && !empty($activationKey) && $activationKey !== '' ) {
             // Update configuration data
-            WC_RC_Shipping_Config_Manager::instance()->update_configuration_data();
+            WC_Relacoof_Shipping_Config_Manager::instance()->update_configuration_data();
 
         }
 
 
         // Init cron
-        WP_Cron_Manager::instance()->activate();
+        WP_Relacoof_Cron_Manager::instance()->activate();
     }
 
 
@@ -351,7 +352,7 @@ final class Relais_Colis_Woocommerce_Loader extends WP_PLoad {
         }
 
         // Deactivate cron
-        WP_Cron_Manager::instance()->deactivate();
+        WP_Relacoof_Cron_Manager::instance()->deactivate();
     }
 
     /**

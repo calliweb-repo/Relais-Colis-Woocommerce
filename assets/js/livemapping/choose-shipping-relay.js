@@ -66,7 +66,7 @@ jQuery(document).ready(function ($) {
      * fallback to DOM fields if incomplete.
      */
     function prefillShippingAddress() {
-        let fallback = rc_choose_relay.rc_shipping_address || {};
+        let fallback = relacoof_choose_relay.relacoof_shipping_address || {};
         console.log('fallback', fallback);
         // On commence par récupérer les valeurs saisies dans le DOM
         let address = document.querySelector('#shipping-address_1')?.value || '';
@@ -114,8 +114,8 @@ jQuery(document).ready(function ($) {
     var map = null;
     var featureLayer;
     const usePrecisionFeature = "1";
-    var ensCode = rc_choose_relay.map_c2c_enscode;
-    var apiKey = rc_choose_relay.map_c2c_apikey;
+    var ensCode = relacoof_choose_relay.map_c2c_enscode;
+    var apiKey = relacoof_choose_relay.map_c2c_apikey;
     const nbRelaisColis = 30;//nombre de points relais à afficher sur la carte
     const rayonRecherche = 100000;//le rayon de recherche des POIs, de préférence laisser cette valeur à 100000
     var delaiLivJour = 5; // délai de livraison
@@ -123,13 +123,13 @@ jQuery(document).ready(function ($) {
     var maxZoom = 19;
     var minZoom = 5;
     var zoom = 14;
-    var relaisColisMax = rc_choose_relay.relaisColisMax;//Uniquement des Relais Max ? si oui mettre 1
+    var relaisColisMax = relacoof_choose_relay.relaisColisMax;//Uniquement des Relais Max ? si oui mettre 1
     var relaisCodeCountry = RetrieveParameterFromUrlSimple("relaisCodeCountry").trim().toUpperCase();//Localisation des relais FRA ou BEL ou MCO.
     var relaisColisSmart = RetrieveParameterFromUrlSimple("relaisColisSmart").trim();
     var adresseCodeCountry = RetrieveParameterFromUrlSimple("adresseCodeCountry").trim().toUpperCase();
     var clientAddress = RetrieveParameterFromUrlSimple("clientAddress").trim();
     var activity = RetrieveParameterFromUrlSimple("activity").trim();//DRV si on recherche des relais Drive. Toute autre valeur donnera des relais classiques
-    const iconIci = rc_choose_relay.img_livemapping_path+"VousEtesIci.gif";
+    const iconIci = relacoof_choose_relay.img_livemapping_path+"VousEtesIci.gif";
     const osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const osmAttrib = 'Map data © OpenStreetMap contributors';
     const paysLimitrophes = ['France', 'Belgique', 'Monaco', 'Espagne', 'Italie', 'Allemagne', 'Luxembourg', 'Suisse'];
@@ -547,7 +547,7 @@ jQuery(document).ready(function ($) {
         $.each(data.PoisList, function (index, relais) {
             var popupHtml = GeneratePopup(relais);
             var iconRelais = L.icon({
-                iconUrl: rc_choose_relay.img_livemapping_path + relais.IconeLogo,
+                iconUrl: relacoof_choose_relay.img_livemapping_path + relais.IconeLogo,
                 iconSize: [25, 25]
             });
 
@@ -556,15 +556,15 @@ jQuery(document).ready(function ($) {
             $("#lstRelais").html(CurrentList + PoiHtmlList);
 
             var markerIcon = L.icon({
-                iconUrl: rc_choose_relay.img_livemapping_path+ relais.IconeLogo,
+                iconUrl: relacoof_choose_relay.img_livemapping_path+ relais.IconeLogo,
                 iconSize: [25, 25],
                 className: "iconMap"
             });
 
             if(relais.AffichageLien == "OK")
-                pinContent = '<div class="labelMap" style="background-image:url('+rc_choose_relay.img_livemapping_path+relais.IconeLogo + ')" title="' + relais.Nomdepositaire + '"><b class="pins">' + (index + 1) + '</b></div>';
+                pinContent = '<div class="labelMap" style="background-image:url('+relacoof_choose_relay.img_livemapping_path+relais.IconeLogo + ')" title="' + relais.Nomdepositaire + '"><b class="pins">' + (index + 1) + '</b></div>';
             else
-                pinContent = '<div class="labelMapFerme" style="background-image:url('+rc_choose_relay.img_livemapping_path+ relais.IconeLogo + ')" title="' + relais.Nomdepositaire + '"><b class="pins">' + (index + 1) + '</b></div>';
+                pinContent = '<div class="labelMapFerme" style="background-image:url('+relacoof_choose_relay.img_livemapping_path+ relais.IconeLogo + ')" title="' + relais.Nomdepositaire + '"><b class="pins">' + (index + 1) + '</b></div>';
 
             var markerText = L.divIcon(
                 {
@@ -680,18 +680,19 @@ jQuery(document).ready(function ($) {
         let relayObj = JSON.parse(atob(relayData)); // Décoder et parser en objet JS
 
         console.log("✅ Relais sélectionné :", relayName, relayAddress, relayPostalcode, relayCommune, relayObj);
-        console.log(rc_choose_relay.nonce);
+        console.log(relacoof_choose_relay.nonce);
+        console.log(relacoof_choose_relay.ajax_url);
 
         // Send infos on custom relais colis AJAX REST API
         $.ajax({
-            url: rc_choose_relay.ajax_url, // Use the localized AJAX URL
+            url: relacoof_choose_relay.ajax_url, // Use the localized AJAX URL
             dataType: 'json',
             method: 'POST',
             delay: 250,
             data: {
-                action: 'update_relay', // Nom de l'action WordPress
+                action: 'relacoof_custom_update_relay', // Nom de l'action WordPress
                 rc_relay_data: relayObj,   // Envoi de l'objet entier
-                nonce: rc_choose_relay.nonce // Ajout du nonce pour la sécurité
+                nonce: relacoof_choose_relay.nonce // Ajout du nonce pour la sécurité
             },
             beforeSend: function (xhr) {
                 console.log("🔄 Envoi du relais colis :", {
@@ -699,7 +700,15 @@ jQuery(document).ready(function ($) {
                     relay_address: relayAddress,
                     relay_postalcode: relayPostalcode,
                     relay_commune: relayCommune,
-                    nonce: rc_choose_relay.nonce
+                    nonce: relacoof_choose_relay.nonce
+                });
+                // Afficher le spinner
+                $('body').block({
+                    message: null,
+                    overlayCSS: {
+                        background: '#fff',
+                        opacity: 0.6
+                    }
                 });
             },
             success: function (response) {
@@ -707,11 +716,14 @@ jQuery(document).ready(function ($) {
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.error("⚠️ Erreur lors de l'enregistrement du relais :", xhr.responseText);
+            },
+            complete: function () {
+                $("#relayModal").dialog("close");
+                $('body').unblock();
             }
         });
 
         // Fermer la modale après sélection
-        $("#relayModal").dialog("close");
     });
 
 

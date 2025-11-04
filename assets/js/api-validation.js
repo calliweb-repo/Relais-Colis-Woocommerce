@@ -1,8 +1,8 @@
 function validateRelaisColisAPIKey() {
     var apiKeyInputs = [
-        jQuery('#woocommerce_rc_settings_rc_api_key'),
-        jQuery('input[name="woocommerce_rc_settings_rc_api_key"]'),
-        jQuery('input[id$="${rc_ajax.rc_api_key}"]')
+        jQuery('#woocommerce_rc_settings_relacoof_api_key'),
+        jQuery('input[name="woocommerce_rc_settings_relacoof_api_key"]'),
+        jQuery('input[id$="${relacoof_ajax.relacoof_api_key}"]')
     ];
 
     var apiKey = '';
@@ -22,7 +22,7 @@ function validateRelaisColisAPIKey() {
     // Find nonce
     var nonce = jQuery('#_wpnonce').val() ||
         jQuery('input[name="_wpnonce"]').val() ||
-        jQuery('input[name="rc_api_key_nonce"]').val();
+        jQuery('input[name="relacoof_api_key_nonce"]').val();
 
     console.log('Attempting API Validation:', {
         apiKey: apiKey,
@@ -41,7 +41,7 @@ function validateRelaisColisAPIKey() {
         url: ajaxurl,
         type: 'POST',
         data: {
-            action: 'validate_rc_api_key',
+            action: 'validate_relacoof_api_key',
             api_key: apiKey,
             security: nonce
         },

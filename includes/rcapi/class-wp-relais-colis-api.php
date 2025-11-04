@@ -5,8 +5,8 @@ namespace RelaisColisWoocommerce\RCAPI;
 defined( 'ABSPATH' ) or exit;
 
 use RelaisColisWoocommerce\Relais_Colis_Woocommerce;
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Config_Manager;
-use RelaisColisWoocommerce\Shipping\WC_RC_Shipping_Constants;
+use RelaisColisWoocommerce\Shipping\WC_Relacoof_Shipping_Config_Manager;
+use RelaisColisWoocommerce\Shipping\WC_Relacoof_Shipping_Constants;
 use RelaisColisWoocommerce\WPFw\Api\WP_API_Base;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
@@ -43,8 +43,8 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
     /** @var string[] */
     const REST_URLS = [
-        WC_RC_Shipping_Constants::LIVE_MODE => 'https://ws-modules.relaiscolis.com/',
-        WC_RC_Shipping_Constants::TEST_MODE => 'https://preprod-ws-modules.relaiscolis.com/'
+        WC_Relacoof_Shipping_Constants::LIVE_MODE => 'https://ws-modules.relaiscolis.com/',
+        WC_Relacoof_Shipping_Constants::TEST_MODE => 'https://preprod-ws-modules.relaiscolis.com/'
     ];
 
     /** @var bool whether API is enabled */
@@ -65,7 +65,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
         if ( !is_null( $this->request_uri ) ) return;
 
         // Get mode (option), can be LIVE_MODE or TEST_MODE
-        $mode = WC_RC_Shipping_Config_Manager::instance()->get_request_mode();
+        $mode = WC_Relacoof_Shipping_Config_Manager::instance()->get_request_mode();
 
         // Deduce request URI
         $this->request_uri = self::REST_URLS[ $mode ];
@@ -73,8 +73,8 @@ class WP_Relais_Colis_API extends WP_API_Base {
         //
         // Debug
         //
-        add_filter( 'wp_http_request_args', array( $this, 'filter_wp_http_request_args' ), 10, 2 );
-        add_filter( 'wp_api_request_uri', array( $this, 'filter_wp_api_request_uri' ), 10, 2 );
+        add_filter( 'relacoof_http_request_args', array( $this, 'filter_relacoof_http_request_args' ), 10, 2 );
+        add_filter( 'relacoof_api_request_uri', array( $this, 'filter_relacoof_api_request_uri' ), 10, 2 );
 
         /**
          * Filters whether SSL should be verified for non-local requests.
@@ -135,7 +135,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
          * }
          * @param WP_API_Base $this instance
          */
-        add_action( 'wp_api_request_performed', array( $this, 'action_wp_api_request_performed' ), 10, 3 );
+        add_action( 'relacoof_api_request_performed', array( $this, 'action_relacoof_api_request_performed' ), 10, 3 );
 
         WP_Log::info( __METHOD__, [ 'request_uri' => $this->request_uri ], 'relais-colis-officiel');
     }
@@ -163,7 +163,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * }
      * @param WP_API_Base $this instance
      */
-    public function action_wp_api_request_performed( $request_data, $response_data, $wp_api_base ) {
+    public function action_relacoof_api_request_performed( $request_data, $response_data, $wp_api_base ) {
 
         WP_Log::info( __METHOD__, [ 'request_data' => $request_data,  'response_data' => $response_data ], 'relais-colis-officiel');
     }
@@ -225,7 +225,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * @param array $args request arguments
      * @param WP_API_Base class instance
      */
-    public function filter_wp_http_request_args( $args, $api ) {
+    public function filter_relacoof_http_request_args( $args, $api ) {
 
         WP_Log::debug( __METHOD__, ['$args'=>$args], 'relais-colis-officiel');
         return $args;
@@ -243,7 +243,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * @param string $uri current request URI
      * @param WP_API_Base class instance
      */
-    public function filter_wp_api_request_uri( $uri, $api ) {
+    public function filter_relacoof_api_request_uri( $uri, $api ) {
 
         WP_Log::debug( __METHOD__, ['$uri'=>$uri], 'relais-colis-officiel');
         return $uri;
@@ -351,7 +351,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      *
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Get_Configuration_Response
+     * @return array|WP_Relacoof_Get_Configuration_Response
      * @throws Exception
      */
     public function get_b2c_configuration( $raw = false ) {
@@ -363,7 +363,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * 01 - C2C - Récupération du compte enseigne
      *
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Get_Configuration_Response
+     * @return array|WP_Relacoof_Get_Configuration_Response
      * @throws Exception
      */
     public function get_c2c_configuration( $raw = false ) {
@@ -376,7 +376,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Place_Advertisement_Response
+     * @return array|WP_Relacoof_Place_Advertisement_Response
      * @throws Exception
      */
     public function b2c_relay_place_advertisement( $params=array(), $raw = false ) {
@@ -389,7 +389,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Place_Advertisement_Response
+     * @return array|WP_Relacoof_Place_Advertisement_Response
      * @throws Exception
      */
     public function b2c_home_place_advertisement( $params=array(), $raw = false ) {
@@ -402,7 +402,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Place_Advertisement_Response
+     * @return array|WP_Relacoof_Place_Advertisement_Response
      * @throws Exception
      */
     public function c2c_relay_place_advertisement( $params=array(), $raw = false ) {
@@ -415,7 +415,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Etiquette_Generate_Response
+     * @return array|WP_Relacoof_Etiquette_Generate_Response
      * @throws Exception
      */
     public function b2c_generate( $params=array(), $raw = false ) {
@@ -428,7 +428,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Etiquette_Generate_Response
+     * @return array|WP_Relacoof_Etiquette_Generate_Response
      * @throws Exception
      */
     public function c2c_generate( $params=array(), $raw = false ) {
@@ -441,7 +441,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Etiquette_Generate_Response
+     * @return array|WP_Relacoof_Etiquette_Generate_Response
      * @throws Exception
      */
     public function bulk_generate( $params=array(), $raw = false ) {
@@ -454,7 +454,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_B2C_Place_Return_Response
+     * @return array|WP_Relacoof_B2C_Place_Return_Response
      * @throws Exception
      */
     public function b2c_place_return( $params=array(), $raw = false ) {
@@ -467,7 +467,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_B2C_Place_Return_Response
+     * @return array|WP_Relacoof_B2C_Place_Return_Response
      * @throws Exception
      */
     public function b2c_place_return_v3( $params=array(), $raw = false ) {
@@ -479,7 +479,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * 05 - C2C - Récupération du solde du client pro
      *
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_B2C_Place_Return_Response
+     * @return array|WP_Relacoof_B2C_Place_Return_Response
      * @throws Exception
      */
     public function c2c_get_infos( $raw = false ) {
@@ -492,7 +492,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_C2C_Get_Packages_Price_Response
+     * @return array|WP_Relacoof_C2C_Get_Packages_Price_Response
      * @throws Exception
      */
     public function c2c_get_packages_price( $params=array(), $raw = false ) {
@@ -505,7 +505,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      *
      * @param $params see the specific WP_Relais_Colis_Request for more informations about parameters
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Transport_Generate_Response
+     * @return array|WP_Relacoof_Transport_Generate_Response
      * @throws Exception
      */
     public function transport_generate( $params=array(), $raw = false ) {
@@ -517,7 +517,7 @@ class WP_Relais_Colis_API extends WP_API_Base {
      * 07 - Récupération des évènements des colis d'une enseigne
      *
      * @param boolean $raw to get a raw response, instead of a formatted one
-     * @return array|WP_RC_Transport_Generate_Response
+     * @return array|WP_Relacoof_Transport_Generate_Response
      * @throws Exception
      */
     public function get_packages_status( $params=array(), $raw = false ) {

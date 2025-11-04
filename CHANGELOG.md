@@ -1,3 +1,12 @@
+### 2.0.8 (2025-07-22)
+#### Added
+  * Change  order statuses at same time as RC statuses during cron tasks.
+  * Waiting block when save relay
+#### Fixed
+  * Update shipping method check in WC_Relacoof_Order_Packages_Manager to use dedicated method for Relais Colis identification
+  * No map button when change postal
+  * Adapte logo display to more themes
+
 ### 2.0.7 (2025-07-15)
 #### Fixed
   * Loading font awesome

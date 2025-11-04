@@ -63,7 +63,24 @@
  */
 jQuery(document).ready(function ($) {
 
-    console.log('RC Order Packages initialized');
+    let rc_order_vars = $('#rc-colis-container').data('vars');
+    var c2c_mode = rc_order_vars.c2c_mode;
+    var rc_order_colis = JSON.parse(rc_order_vars.rc_order_colis);
+    var rc_order_items = JSON.parse(rc_order_vars.rc_order_items);
+    var rc_order_id = rc_order_vars.rc_order_id;
+    var relacoof_order_status = rc_order_vars.relacoof_order_status;
+    var return_bordereau_smart_url = rc_order_vars.return_bordereau_smart_url;
+    var return_number = rc_order_vars.return_number;
+    var return_number_cab = rc_order_vars.return_number_cab;
+    var return_limit_date = rc_order_vars.return_limit_date;
+    var return_image_url = rc_order_vars.return_image_url;
+    var return_token = rc_order_vars.return_token;
+    var return_created_at = rc_order_vars.return_created_at;
+    var rc_way_bill = rc_order_vars.rc_way_bill;
+    var rc_order_state = rc_order_vars.rc_order_state;
+    var rc_shipping_method = rc_order_vars.rc_shipping_method;
+
+
 
     'use strict';
 
@@ -145,18 +162,18 @@ jQuery(document).ready(function ($) {
         if (orderState === 'order_state_items_to_be_distributed') {
 
             let productsSection = $('<div class="rc-products-section"></div>');
-            productsSection.append('<h3>' + rc_order_packages.label_products_to_distribute + '</h3>');
+            productsSection.append('<h3>' + relacoof_order_packages.label_products_to_distribute + '</h3>');
 
             let table = $('<table class="rc-products-table table-striped"></table>');
 
 
             table.append(`
                 <tr>
-                    <th>${rc_order_packages.label_product}</th>
-                    <th>${rc_order_packages.label_unit_weight} (${rc_order_packages.label_weight_units})</th>
-                    <th>${rc_order_packages.label_remaining_quantity_to_be_distributed}</th>
-                    <th>${rc_order_packages.label_total_weight} (${rc_order_packages.label_weight_units})</th>
-                    <th>${rc_order_packages.label_actions}</th>
+                    <th>${relacoof_order_packages.label_product}</th>
+                    <th>${relacoof_order_packages.label_unit_weight} (${relacoof_order_packages.label_weight_units})</th>
+                    <th>${relacoof_order_packages.label_remaining_quantity_to_be_distributed}</th>
+                    <th>${relacoof_order_packages.label_total_weight} (${relacoof_order_packages.label_weight_units})</th>
+                    <th>${relacoof_order_packages.label_actions}</th>
                 </tr>
             `);
 
@@ -173,10 +190,10 @@ jQuery(document).ready(function ($) {
                         <td>${rc_order_colis.length > 0 ? `
                                     <input type="number" class="rc-product-qty" id="qty_${item.id}" min="1" max="${item.remaining_quantity}" value="1">
                                     <select class="rc-product-select" id="colis_select_${item.id}">
-                                        ${rc_order_colis.map((colis, index) => `<option value="${index}">${rc_order_packages.label_package} ${index + 1}</option>`).join('')}
+                                        ${rc_order_colis.map((colis, index) => `<option value="${index}">${relacoof_order_packages.label_package} ${index + 1}</option>`).join('')}
                                     </select>
-                                    <button class="rc-add-to-colis" data-product-id="${item.id}">${rc_order_packages.label_add_in_package}</button>
-                                ` : '<span class="rc-no-package">' + rc_order_packages.label_please_add_a_package + '</span>'}
+                                    <button class="rc-add-to-colis" data-product-id="${item.id}">${relacoof_order_packages.label_add_in_package}</button>
+                                ` : '<span class="rc-no-package">' + relacoof_order_packages.label_please_add_a_package + '</span>'}
                         </td>
                     </tr>
                 `);
@@ -191,18 +208,18 @@ jQuery(document).ready(function ($) {
             //         let productDiv = $(`
             //             <div class="rc-colis-item">
             //                 <span class="rc-colis-item-name">${item.name}</span>
-            //                 <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_unit_weight}</strong> ${item.weight} ${rc_order_packages.label_weight_units}</span>
-            //                 <span class="rc-colis-item-qty"><strong>${rc_order_packages.label_remaining_quantity_to_be_distributed}</strong> ${item.remaining_quantity}</span>
-            //                 <span class="rc-colis-item-weight"><strong>${rc_order_packages.label_total_weight}</strong> ${totalProductsWeight} ${rc_order_packages.label_weight_units}</span>
+            //                 <span class="rc-colis-item-weight"><strong>${relacoof_order_packages.label_unit_weight}</strong> ${item.weight} ${relacoof_order_packages.label_weight_units}</span>
+            //                 <span class="rc-colis-item-qty"><strong>${relacoof_order_packages.label_remaining_quantity_to_be_distributed}</strong> ${item.remaining_quantity}</span>
+            //                 <span class="rc-colis-item-weight"><strong>${relacoof_order_packages.label_total_weight}</strong> ${totalProductsWeight} ${relacoof_order_packages.label_weight_units}</span>
                                                         
             //                 <div class="rc-product-actions">
             //                     ${rc_order_colis.length > 0 ? `
             //                         <input type="number" class="rc-product-qty" id="qty_${item.id}" min="1" max="${item.remaining_quantity}" value="1">
             //                         <select class="rc-product-select" id="colis_select_${item.id}">
-            //                             ${rc_order_colis.map((colis, index) => `<option value="${index}">${rc_order_packages.label_package} ${index + 1}</option>`).join('')}
+            //                             ${rc_order_colis.map((colis, index) => `<option value="${index}">${relacoof_order_packages.label_package} ${index + 1}</option>`).join('')}
             //                         </select>
-            //                         <button class="rc-add-to-colis" data-product-id="${item.id}">${rc_order_packages.label_add_in_package}</button>
-            //                     ` : '<span class="rc-no-package">' + rc_order_packages.label_please_add_a_package + '</span>'}
+            //                         <button class="rc-add-to-colis" data-product-id="${item.id}">${relacoof_order_packages.label_add_in_package}</button>
+            //                     ` : '<span class="rc-no-package">' + relacoof_order_packages.label_please_add_a_package + '</span>'}
             //                 </div>
             //             </div>
             //         `);
@@ -218,18 +235,18 @@ jQuery(document).ready(function ($) {
             container.append(productsSection);
 
             // Bouton "Auto distribute"
-            container.append(`<button class="rc-auto-distribute" ${hasShippingLabel ? 'disabled' : ''}>${rc_order_packages.label_auto_distribute}</button>`);
+            container.append(`<button class="rc-auto-distribute" ${hasShippingLabel ? 'disabled' : ''}>${relacoof_order_packages.label_auto_distribute}</button>`);
 
         } else {
 
-            container.append(`${rc_order_packages.label_all_products_assigned}`);
+            container.append(`${relacoof_order_packages.label_all_products_assigned}`);
         }
 
         ///////////////////////////////
         // Packages section          //
         ///////////////////////////////
 
-        container.append('<h3>' + rc_order_packages.label_existing_packages + '</h3>');
+        container.append('<h3>' + relacoof_order_packages.label_existing_packages + '</h3>');
 
         // Prepare recap
         let recapContainer = $('<div class="rc-recap-container"></div>');
@@ -252,11 +269,11 @@ jQuery(document).ready(function ($) {
 
             table.append(`
                 <tr>
-                    <th>${rc_order_packages.label_product}</th>
-                    <th>${rc_order_packages.label_unit_weight} (${rc_order_packages.label_weight_units})</th>
-                    <th>${rc_order_packages.label_quantity}</th>
-                    <th>${rc_order_packages.label_total_weight} (${rc_order_packages.label_weight_units})</th>
-                    <th>${rc_order_packages.label_actions}</th>
+                    <th>${relacoof_order_packages.label_product}</th>
+                    <th>${relacoof_order_packages.label_unit_weight} (${relacoof_order_packages.label_weight_units})</th>
+                    <th>${relacoof_order_packages.label_quantity}</th>
+                    <th>${relacoof_order_packages.label_total_weight} (${relacoof_order_packages.label_weight_units})</th>
+                    <th>${relacoof_order_packages.label_actions}</th>
                 </tr>
             `);
 
@@ -266,12 +283,12 @@ jQuery(document).ready(function ($) {
                 let totalProductsWeight = product ? product.weight * quantity : 0;
                 table.append(`
                     <tr>
-                        <td>${product ? product.name : rc_order_packages.label_unknown}</td>
-                        <td>${product ? product.weight + ' ' + rc_order_packages.label_weight_units : '-'}</td>
+                        <td>${product ? product.name : relacoof_order_packages.label_unknown}</td>
+                        <td>${product ? product.weight + ' ' + relacoof_order_packages.label_weight_units : '-'}</td>
                         <td>${quantity}</td>
-                        <td>${totalProductsWeight} ${rc_order_packages.label_weight_units}</td>
+                        <td>${totalProductsWeight} ${relacoof_order_packages.label_weight_units}</td>
                         <td>
-                            ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-remove-from-colis" data-product-id="${productId}" data-colis-index="${index}">${rc_order_packages.label_remove_from_package}</button>`}
+                            ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-remove-from-colis" data-product-id="${productId}" data-colis-index="${index}">${relacoof_order_packages.label_remove_from_package}</button>`}
                         </td>
                     </tr>
                 `);
@@ -283,22 +300,22 @@ jQuery(document).ready(function ($) {
             let colisDiv = $(`
                 <div class="rc-colis">
                     <div class="rc-colis-header">
-                        <h4>${rc_order_packages.label_package} ${index + 1}</h4>
-                        ${(orderState === 'order_state_shipping_labels_placed') ? `<span class="rc-shipping-label">${rc_order_packages.label_shipping_label} ${colis.shipping_label}</span>` : `<button class="rc-delete-colis" data-colis-index="${index}" ${isLocked}>${rc_order_packages.label_delete_package}</button>`}
+                        <h4>${relacoof_order_packages.label_package} ${index + 1}</h4>
+                        ${(orderState === 'order_state_shipping_labels_placed') ? `<span class="rc-shipping-label">${relacoof_order_packages.label_shipping_label} ${colis.shipping_label}</span>` : `<button class="rc-delete-colis" data-colis-index="${index}" ${isLocked}>${relacoof_order_packages.label_delete_package}</button>`}
                     </div>
                     <div class="rc-colis-items">
                     </div>
     
                     <!-- Récapitulatif modifiable (désactivé si un shipping_label existe) -->
                     <div class="rc-colis-summary">
-                        <label><strong>${rc_order_packages.label_total_weight}</strong></label>
+                        <label><strong>${relacoof_order_packages.label_total_weight}</strong></label>
                         <input type="number" class="rc-colis-weight" data-colis-index="${index}" min="0" step="0.1" value="${colis.weight}" ${isLocked}>
                         
-                        <label><strong>${rc_order_packages.label_dimensions} (${rc_order_packages.label_dimensions_units})</strong></label>
-                        <input type="number" class="rc-colis-dim" data-dim="height" data-colis-index="${index}" placeholder="${rc_order_packages.label_height}" value="${colis.dimensions.height || ''}" ${isLocked}>
-                        <input type="number" class="rc-colis-dim" data-dim="width" data-colis-index="${index}" placeholder="${rc_order_packages.label_width}" value="${colis.dimensions.width || ''}" ${isLocked}>
-                        <input type="number" class="rc-colis-dim" data-dim="length" data-colis-index="${index}" placeholder="${rc_order_packages.label_length}" value="${colis.dimensions.length || ''}" ${isLocked}>
-                        ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-update-colis" data-colis-index="${index}">${rc_order_packages.label_update_package}</button>`}
+                        <label><strong>${relacoof_order_packages.label_dimensions} (${relacoof_order_packages.label_dimensions_units})</strong></label>
+                        <input type="number" class="rc-colis-dim" data-dim="height" data-colis-index="${index}" placeholder="${relacoof_order_packages.label_height}" value="${colis.dimensions.height || ''}" ${isLocked}>
+                        <input type="number" class="rc-colis-dim" data-dim="width" data-colis-index="${index}" placeholder="${relacoof_order_packages.label_width}" value="${colis.dimensions.width || ''}" ${isLocked}>
+                        <input type="number" class="rc-colis-dim" data-dim="length" data-colis-index="${index}" placeholder="${relacoof_order_packages.label_length}" value="${colis.dimensions.length || ''}" ${isLocked}>
+                        ${(orderState === 'order_state_shipping_labels_placed') ? '' : `<button class="rc-update-colis" data-colis-index="${index}">${relacoof_order_packages.label_update_package}</button>`}
                     </div>
                 </div>
             `);
@@ -310,12 +327,12 @@ jQuery(document).ready(function ($) {
 
             // Package label
             recapItem.append(`
-                <span class="rc-recap-package">${rc_order_packages.label_package} ${index + 1}</span>
+                <span class="rc-recap-package">${relacoof_order_packages.label_package} ${index + 1}</span>
             `);
 
             // Package weight
             recapItem.append(`
-                <span class="rc-recap-weight">${colis.weight} ${rc_order_packages.label_weight_units}</span>
+                <span class="rc-recap-weight">${colis.weight} ${relacoof_order_packages.label_weight_units}</span>
             `);
 
             // Add estimated shipping price if available
@@ -323,7 +340,7 @@ jQuery(document).ready(function ($) {
 
                 recapItem.append(`
                     <span class="rc-recap-price">
-                        <strong>${rc_order_packages.label_estimated_shipping_price}</strong> 
+                        <strong>${relacoof_order_packages.label_estimated_shipping_price}</strong> 
                         ${colis.c2c_shipping_price} €
                     </span>
                 `);
@@ -342,7 +359,7 @@ jQuery(document).ready(function ($) {
                 // Add print button
                 let printButton = $(`
                     <button class="rc-print-label" data-colis-index="${index}" data-pdf-url="">
-                        ${rc_order_packages.label_print_shipping_label}
+                        ${relacoof_order_packages.label_print_shipping_label}
                     </button>
                 `);
                 recapItem.append(printButton);
@@ -353,35 +370,35 @@ jQuery(document).ready(function ($) {
         // Button to add new package
         if (orderState === 'order_state_items_to_be_distributed') {
 
-            container.append(`<button class="rc-add-colis">${rc_order_packages.label_add_a_package}</button>`);
+            container.append(`<button class="rc-add-colis">${relacoof_order_packages.label_add_a_package}</button>`);
         }
 
         // Vérifier si au moins un colis est "status_rc_livre" ou si la commande est "completed"
         let hasDeliveredPackage = rc_order_colis.some(colis => 
             colis.shipping_status === "status_rc_livre"
-        ) || rc_order_status === "completed";  // Vérifier directement le statut de la commande
+        ) || relacoof_order_status === "completed";  // Vérifier directement le statut de la commande
 
-        console.log('order status:', rc_order_status);
+        console.log('order status:', relacoof_order_status);
         console.log('hasDeliveredPackage?', hasDeliveredPackage);
 
         // Ajouter le total au récapitulatif
         let recapTotal = $(`
             <div class="rc-recap-item rc-recap-total">
-                <span class="rc-recap-package"><strong>${rc_order_packages.label_total_weight}</strong></span>
-                <span class="rc-recap-weight"><strong>${totalWeight} ${rc_order_packages.label_weight_units}</strong></span>
+                <span class="rc-recap-package"><strong>${relacoof_order_packages.label_total_weight}</strong></span>
+                <span class="rc-recap-weight"><strong>${totalWeight} ${relacoof_order_packages.label_weight_units}</strong></span>
             </div>
         `);
         recapContainer.append(recapTotal);
 
-        container.append('<h3>' + rc_order_packages.label_recap + '</h3>');
+        container.append('<h3>' + relacoof_order_packages.label_recap + '</h3>');
         container.append(recapContainer);
 
         // Si plus aucun produit n'est à répartir et aucun `shipping_label` n'existe, afficher le bouton de génération d'étiquette
         if (orderState === 'order_state_items_distributed') {
 
-            container.append(`<button class="rc-place-shipping-label">${rc_order_packages.label_place_shipping_label}</button>`);
+            container.append(`<button class="rc-place-shipping-label">${relacoof_order_packages.label_place_shipping_label}</button>`);
             if (c2c_mode == '1') {
-                container.append(`<button class="rc-get-packages-price">${rc_order_packages.label_get_packages_price}</button>`);
+                container.append(`<button class="rc-get-packages-price">${relacoof_order_packages.label_get_packages_price}</button>`);
             }
         }
 
@@ -393,16 +410,16 @@ jQuery(document).ready(function ($) {
             if (hasReturnLabel) {
                 container.append(`
                     <div class="rc-return-info">
-                        <h3>${rc_order_packages.label_return_information}</h3>
-                        <p><strong>${rc_order_packages.label_return_number}:</strong> ${return_number}</p>
-                        <p><strong>${rc_order_packages.label_return_number_cab}:</strong> ${return_number_cab}</p>
-                        <p><strong>${rc_order_packages.label_return_limit_date}:</strong> ${return_limit_date}</p>
-                        <p><a href="${return_bordereau_smart_url}" target="_blank">${rc_order_packages.label_view_return_label}</a></p>
+                        <h3>${relacoof_order_packages.label_return_information}</h3>
+                        <p><strong>${relacoof_order_packages.label_return_number}:</strong> ${return_number}</p>
+                        <p><strong>${relacoof_order_packages.label_return_number_cab}:</strong> ${return_number_cab}</p>
+                        <p><strong>${relacoof_order_packages.label_return_limit_date}:</strong> ${return_limit_date}</p>
+                        <p><a href="${return_bordereau_smart_url}" target="_blank">${relacoof_order_packages.label_view_return_label}</a></p>
                         ${return_image_url ? `<img src="${return_image_url}" alt="Return Label Image" style="max-width: 200px;">` : ''}
                     </div>
                 `);
             } else {
-                container.append(`<button class="rc-generate-return-label">${rc_order_packages.label_generate_return_label}</button>`);
+                container.append(`<button class="rc-generate-return-label">${relacoof_order_packages.label_generate_return_label}</button>`);
             }
         }
 
@@ -411,11 +428,11 @@ jQuery(document).ready(function ($) {
 
             if (orderState === 'order_state_shipping_labels_placed') {
 
-                //container.append(`<button class="rc-generate-way-bill">${rc_order_packages.label_generate_way_bill}</button>`);
+                //container.append(`<button class="rc-generate-way-bill">${relacoof_order_packages.label_generate_way_bill}</button>`);
             }
             else if (orderState === 'order_state_way_bills_generated') {
 
-                container.append(`<button class="rc-print-way-bill" data-pdf-url="${rc_way_bill}">${rc_order_packages.label_print_way_bill}</button>`);
+                container.append(`<button class="rc-print-way-bill" data-pdf-url="${rc_way_bill}">${relacoof_order_packages.label_print_way_bill}</button>`);
             }
         }
 
@@ -473,12 +490,12 @@ jQuery(document).ready(function ($) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_add_colis',
+                    action: 'relacoof_add_colis',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     console.log('response:', response);
@@ -492,11 +509,11 @@ jQuery(document).ready(function ($) {
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + '<br>'+textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + '<br>'+textStatus;
                     showError(errorMessage);
                 }
             });
@@ -506,12 +523,12 @@ jQuery(document).ready(function ($) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_auto_distribute',
+                    action: 'relacoof_auto_distribute',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -525,11 +542,11 @@ jQuery(document).ready(function ($) {
 
                         showSuccess('Effectuée avec succès');
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -546,15 +563,15 @@ jQuery(document).ready(function ($) {
             if (quantity > 0) {
 
                 $.ajax({
-                    url: rc_order_packages.ajax_url,
+                    url: relacoof_order_packages.ajax_url,
                     type: 'POST',
                     data: {
-                        action: 'rc_add_to_colis',
+                        action: 'relacoof_add_to_colis',
                         order_id: rc_order_id,
                         product_id: product_id,
                         quantity: quantity,
                         colis_index: colis_index,
-                        nonce: rc_order_packages.nonce
+                        nonce: relacoof_order_packages.nonce
                     },
                     success: function (response) {
                         if (response.success) {
@@ -567,11 +584,11 @@ jQuery(document).ready(function ($) {
                             forceOrderMeta(rc_order_state, rc_order_colis, null)
 
                         } else {
-                            showError(response.data.message || rc_order_packages.label_error_unknown);
+                            showError(response.data.message || relacoof_order_packages.label_error_unknown);
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                        let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                         showError(errorMessage);
                     }
                 });
@@ -588,14 +605,14 @@ jQuery(document).ready(function ($) {
             let colis_index = $(this).data("colis-index");
 
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_remove_from_colis',
+                    action: 'relacoof_remove_from_colis',
                     order_id: rc_order_id,
                     product_id: product_id,
                     colis_index: colis_index,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -608,11 +625,11 @@ jQuery(document).ready(function ($) {
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -624,13 +641,13 @@ jQuery(document).ready(function ($) {
             let colis_index = $(this).data("colis-index");
 
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_delete_colis',
+                    action: 'relacoof_delete_colis',
                     order_id: rc_order_id,
                     colis_index: colis_index,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -643,11 +660,11 @@ jQuery(document).ready(function ($) {
                         forceOrderMeta(rc_order_state, rc_order_colis, null)
 
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -670,22 +687,22 @@ jQuery(document).ready(function ($) {
             console.log('new_length:', new_length);
 
             if (new_height >= 170 || new_width >= 170 || new_length >= 170) {
-                showError(rc_order_packages.label_error_colis_too_big);
+                showError(relacoof_order_packages.label_error_colis_too_big);
                 return;
             }
 
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_update_colis',
+                    action: 'relacoof_update_colis',
                     order_id: rc_order_id,
                     colis_index: colis_index,
                     weight: new_weight,
                     height: new_height,
                     width: new_width,
                     length: new_length,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -698,11 +715,11 @@ jQuery(document).ready(function ($) {
 
                         showSuccess('Effectuée avec succès');
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -713,12 +730,12 @@ jQuery(document).ready(function ($) {
             hideMessages();
 
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_place_shipping_label',
+                    action: 'relacoof_place_shipping_label',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -732,11 +749,11 @@ jQuery(document).ready(function ($) {
 
                         showSuccess('Effectuée avec succès');
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -747,12 +764,12 @@ jQuery(document).ready(function ($) {
             hideMessages();
             console.log('generate return label');
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_generate_return_label',
+                    action: 'relacoof_generate_return_label',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -776,7 +793,7 @@ jQuery(document).ready(function ($) {
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -786,12 +803,12 @@ jQuery(document).ready(function ($) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_get_packages_price',
+                    action: 'relacoof_get_packages_price',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -805,11 +822,11 @@ jQuery(document).ready(function ($) {
 
                         showSuccess('Effectuée avec succès');
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -830,14 +847,14 @@ jQuery(document).ready(function ($) {
             } else {
                 // Perform AJAX request to retrieve the shipping label PDF using shipping_label
                 $.ajax({
-                    url: rc_order_packages.ajax_url,
+                    url: relacoof_order_packages.ajax_url,
                     type: "POST",
                     data: {
-                        action: "rc_get_shipping_label_pdf",
+                        action: "relacoof_get_shipping_label_pdf",
                         order_id: rc_order_id,
                         colis_index: colisIndex,
                         shipping_label: shippingLabel, // Send the shipping label instead of colis_index
-                        nonce: rc_order_packages.nonce
+                        nonce: relacoof_order_packages.nonce
                     },
                     success: function (response) {
                         if (response.success && response.data.pdf_url) {
@@ -858,11 +875,11 @@ jQuery(document).ready(function ($) {
                             link.click();
                             document.body.removeChild(link);
                         } else {
-                            showError(response.data.message || rc_order_packages.label_error_no_pdf_available);
+                            showError(response.data.message || relacoof_order_packages.label_error_no_pdf_available);
                         }
                     },
                     error: function (jqXHR, textStatus) {
-                        showError(rc_order_packages.label_error_network + textStatus);
+                        showError(relacoof_order_packages.label_error_network + textStatus);
                     }
                 });
             }
@@ -872,12 +889,12 @@ jQuery(document).ready(function ($) {
             event.preventDefault();
             hideMessages();
             $.ajax({
-                url: rc_order_packages.ajax_url,
+                url: relacoof_order_packages.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'rc_generate_way_bill',
+                    action: 'relacoof_generate_way_bill',
                     order_id: rc_order_id,
-                    nonce: rc_order_packages.nonce
+                    nonce: relacoof_order_packages.nonce
                 },
                 success: function (response) {
                     if (response.success) {
@@ -893,11 +910,11 @@ jQuery(document).ready(function ($) {
 
                         showSuccess('Effectuée avec succès');
                     } else {
-                        showError(response.data.message || rc_order_packages.label_error_unknown_generate_way_bill);
+                        showError(response.data.message || relacoof_order_packages.label_error_unknown_generate_way_bill);
                     }
                 },
                 error: function (jqXHR, textStatus) {
-                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : rc_order_packages.label_error_network + textStatus;
+                    let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
                 }
             });
@@ -912,7 +929,7 @@ jQuery(document).ready(function ($) {
                 $("#rc-pdf-frame").attr("src", pdf_url);
                 $("#rc-pdf-modal").fadeIn();
             } else {
-                alert(rc_order_packages.label_no_shipping_label_pdf);
+                alert(relacoof_order_packages.label_no_shipping_label_pdf);
             }
         });
 

@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-#rc-choose-options-hp input[type="text"],
-#rc-choose-options-hp select,
-#rc-choose-options-hp textarea {
+#relacoof-choose-options-hp input[type="text"],
+#relacoof-choose-options-hp select,
+#relacoof-choose-options-hp textarea {
     display: block;
     width: 100%;
     padding: 10px;
@@ -16,7 +16,7 @@
     transition: border-color 0.3s ease;
     box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur */
 }
-#rc-choose-options-hp select {
+#relacoof-choose-options-hp select {
     appearance: none; /* Supprimer le style par défaut */
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -27,20 +27,20 @@
     cursor: pointer;
 }
 
-#rc-choose-options-hp input[type="text"]:focus,
-#rc-choose-options-hp select:focus,
-#rc-choose-options-hp textarea:focus {
+#relacoof-choose-options-hp input[type="text"]:focus,
+#relacoof-choose-options-hp select:focus,
+#relacoof-choose-options-hp textarea:focus {
     border-color: #c0d248;
     outline: none;
 }
 
 
 /* Amélioration du style du texte et de l'alignement du select */
-#rc-choose-options-hp select option {
+#relacoof-choose-options-hp select option {
     padding: 10px;
 }
 
-#rc-choose-options-hp textarea {
+#relacoof-choose-options-hp textarea {
     resize: vertical;
     min-height: 100px;
 }
