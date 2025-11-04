@@ -20,13 +20,13 @@ function getSelectedShippingMethod() {
 
     // Mapping des valeurs WooCommerce vers nos identifiants internes
     switch (selectedValue) {
-        case 'wc_rc_shipping_method_home':
+        case 'WC_Relacoof_Shipping_Method_home':
             selectedMethod = 'home';
             break;
-        case 'wc_rc_shipping_method_homeplus':
+        case 'WC_Relacoof_Shipping_Method_homeplus':
             selectedMethod = 'homeplus';
             break;
-        case 'wc_rc_shipping_method_relay':
+        case 'WC_Relacoof_Shipping_Method_relay':
             selectedMethod = 'relay';
             break;
         default:
@@ -42,8 +42,8 @@ function getSelectedShippingMethod() {
 function getAjaxParams() {
     const selectedMethod = getSelectedShippingMethod();
     return selectedMethod === 'home'
-        ? { ajax_url: rc_choose_options_h.ajax_url, nonce: rc_choose_options_h.nonce, html: rc_choose_options_h.html, div_id: rc_choose_options_h.div_id }
-        : { ajax_url: rc_choose_options_hp.ajax_url, nonce: rc_choose_options_hp.nonce, html: rc_choose_options_hp.html, div_id: rc_choose_options_hp.div_id };
+        ? { ajax_url: relacoof_choose_options_h.ajax_url, nonce: relacoof_choose_options_h.nonce, html: relacoof_choose_options_h.html, div_id: relacoof_choose_options_h.div_id }
+        : { ajax_url: relacoof_choose_options_hp.ajax_url, nonce: relacoof_choose_options_hp.nonce, html: relacoof_choose_options_hp.html, div_id: relacoof_choose_options_hp.div_id };
 }
 
 /**
@@ -81,25 +81,26 @@ function checkRCFseShippingMethod(force = false) {
     console.log('checkRCFseShippingMethod');
     console.log('selectedMethod', selectedMethod);
     if (selectedMethod === 'home') {
-        if (!jQuery('#' + rc_choose_options_h.div_id).length || force) {
-            jQuery('.wc-block-components-shipping-rates-control').after(rc_choose_options_h.html);
+        if (!jQuery('#' + relacoof_choose_options_h.div_id).length || force) {
+            jQuery('.wc-block-components-shipping-rates-control').after(relacoof_choose_options_h.html);
         }
-        jQuery('#' + rc_choose_options_h.div_id).show();
-        jQuery('#' + rc_choose_options_hp.div_id).hide();
+        jQuery('#' + relacoof_choose_options_h.div_id).show();
+        jQuery('#' + relacoof_choose_options_hp.div_id).hide();
         jQuery('#relais-colis-block').remove();
 
     } else if (selectedMethod === 'homeplus') {
-        if (!jQuery('#' + rc_choose_options_hp.div_id).length || force) {
-            jQuery('.wc-block-components-shipping-rates-control').after(rc_choose_options_hp.html);
+        console.log(relacoof_choose_options_hp.div_id);
+        if (!jQuery('#' + relacoof_choose_options_hp.div_id).length || force) {
+            jQuery('.wc-block-components-shipping-rates-control').after(relacoof_choose_options_hp.html);
         }
-        jQuery('#' + rc_choose_options_hp.div_id).show();
-        jQuery('#' + rc_choose_options_h.div_id).hide();
+        jQuery('#' + relacoof_choose_options_hp.div_id).show();
+        jQuery('#' + relacoof_choose_options_h.div_id).hide();
         jQuery('#relais-colis-block').remove();
 
     } else if (selectedMethod === 'relay') {
         console.log('relay');
-        jQuery('#' + rc_choose_options_hp.div_id).hide();
-        jQuery('#' + rc_choose_options_h.div_id).hide();
+        jQuery('#' + relacoof_choose_options_hp.div_id).hide();
+        jQuery('#' + relacoof_choose_options_h.div_id).hide();
 
         if (!jQuery('#relais-colis-block').length || force) {
             jQuery('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
@@ -107,8 +108,8 @@ function checkRCFseShippingMethod(force = false) {
         jQuery('#relais-colis-block').show();
     } else {
         // Cas d'un mode de livraison autre (Colissimo, retrait magasin, etc.)
-        jQuery('#' + rc_choose_options_h.div_id).hide();
-        jQuery('#' + rc_choose_options_hp.div_id).hide();
+        jQuery('#' + relacoof_choose_options_h.div_id).hide();
+        jQuery('#' + relacoof_choose_options_hp.div_id).hide();
         jQuery('#relais-colis-block').remove();
     }
 }
@@ -124,8 +125,8 @@ function updateRCFseSelectedServices() {
 
     // Sélection du bon container selon la méthode de livraison
     let containerId;
-    if ( selectedMethod === 'home' ) { containerId = '#'+rc_choose_options_h.div_id }
-    else if ( selectedMethod === 'homeplus' ) { containerId = '#'+rc_choose_options_hp.div_id }
+    if ( selectedMethod === 'home' ) { containerId = '#'+relacoof_choose_options_h.div_id }
+    else if ( selectedMethod === 'homeplus' ) { containerId = '#'+relacoof_choose_options_hp.div_id }
     else if ( selectedMethod === 'relay' ) { containerId = '#relais-colis-block' }
     let container = jQuery(containerId);
 
@@ -165,7 +166,7 @@ function updateRCFseSelectedServices() {
         dataType: 'json',
         method: 'POST',
         data: {
-            action: 'update_rc_options',
+            action: 'relacoof_custom_update_rc_options',
             nonce: params.nonce,
             rc_services: selectedServiceFees,
             rc_service_infos: selectedServiceInfos,
@@ -271,7 +272,7 @@ jQuery(window).on("load", function () {
                 // Simuler une réponse rejetée avec message d’erreur WooCommerce
                 return Promise.resolve(new Response(JSON.stringify({
                     code: "no_relay_selected",
-                    message: rc_choose_options.label_please_select_relay,
+                    message: relacoof_choose_options.label_please_select_relay,
                     data: {
                         status: 400
                     }
@@ -282,6 +283,16 @@ jQuery(window).on("load", function () {
                     }
                 }));
             }
+        }
+        // Blocage si validation sans relais sélectionné
+        // 🕵️ Interception fetch:"https://calliweb.sukellos.fr/wp-json/wc/store/v1/checkout?_locale=site"
+        if ( (typeof url === "string" && url.includes('/wp-json/wc/store/v1/batch')) || (url.includes('/wp-json/wc/store/v1/batch')) ) {
+            console.log("🛑 Tentative de batch...");
+
+
+            checkRCFseShippingMethod();
+
+
         }
 
         return originalFetch.apply(this, args);
@@ -296,8 +307,8 @@ jQuery(document).ready(function ($) {
 
     "use strict";
 
-    if (typeof rc_choose_options_h === 'undefined' || typeof rc_choose_options_hp === 'undefined') {
-        console.error('❌ rc_choose_options_h or rc_choose_options_hp is undefined. Check if wp_localize_script() is properly set.');
+    if (typeof relacoof_choose_options_h === 'undefined' || typeof relacoof_choose_options_hp === 'undefined') {
+        console.error('❌ relacoof_choose_options_h or relacoof_choose_options_hp is undefined. Check if wp_localize_script() is properly set.');
         return;
     }
 

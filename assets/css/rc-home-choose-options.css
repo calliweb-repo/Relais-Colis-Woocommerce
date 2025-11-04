@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-#rc-choose-options-h,
-#rc-choose-options-hp {
+#relacoof-choose-options-h,
+#relacoof-choose-options-hp {
     display: none;
     margin-top: 10px;
     padding: 10px 10px 10px 16px;
@@ -9,18 +9,18 @@
     background-color: #c0d24833;
     list-style-type: none;
 }
-#rc-choose-options-h li.service-info,
-#rc-choose-options-hp li.service-info,
-#rc-choose-options-h li.service-fee,
-#rc-choose-options-hp li.service-fee {
+#relacoof-choose-options-h li.service-info,
+#relacoof-choose-options-hp li.service-info,
+#relacoof-choose-options-h li.service-fee,
+#relacoof-choose-options-hp li.service-fee {
     list-style-type: none;
     padding: 0;
     margin: 6px 0px;
 }
-#rc-choose-options-h li.service-info p,
-#rc-choose-options-hp li.service-info p,
-#rc-choose-options-h li.service-fee p,
-#rc-choose-options-hp li.service-fee p {
+#relacoof-choose-options-h li.service-info p,
+#relacoof-choose-options-hp li.service-info p,
+#relacoof-choose-options-h li.service-fee p,
+#relacoof-choose-options-hp li.service-fee p {
     margin: 0px;
     padding: 0;
     margin-block-start: 0px;

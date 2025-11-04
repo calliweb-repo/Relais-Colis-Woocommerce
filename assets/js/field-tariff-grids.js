@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
     let tariffIndex = 0;
 
     function buildDeliveryMethodOptions(selected = '') {
-        return rc_ajax.available_offers.map(offer => {
+        return relacoof_ajax.available_offers.map(offer => {
             let isSelected = offer.value === selected ? 'selected' : '';
             return `<option value="${offer.value}" ${isSelected}>${offer.label}</option>`;
         }).join('');
@@ -20,23 +20,23 @@ jQuery(document).ready(function ($) {
                 <div class="tariff-box" data-index="${tariffIndex}">
                     <button type="button" class="remove-tariff"><i class="fas fa-trash-alt"></i></button>
 
-                    <label>${rc_ajax.delivery_method_label}</label>
+                    <label>${relacoof_ajax.delivery_method_label}</label>
                     <select name="tariffs[${tariffIndex}][method_name]">
                         ${buildDeliveryMethodOptions(tariff.method_name)}
                     </select>
 
-                    <label>${rc_ajax.criteria_label}</label>
+                    <label>${relacoof_ajax.criteria_label}</label>
                     <select name="tariffs[${tariffIndex}][criteria]">
-                        <option value="price" ${tariff.criteria === 'price' ? 'selected' : ''}>${rc_ajax.total_price_label}</option>
-                        <option value="weight" ${tariff.criteria === 'weight' ? 'selected' : ''}>${rc_ajax.weight_label}</option>
+                        <option value="price" ${tariff.criteria === 'price' ? 'selected' : ''}>${relacoof_ajax.total_price_label}</option>
+                        <option value="weight" ${tariff.criteria === 'weight' ? 'selected' : ''}>${relacoof_ajax.weight_label}</option>
                     </select>
 
-                    <label>${rc_ajax.shipping_threshold_label}</label>
-                    <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" value="${tariff.shipping_threshold}" placeholder="${rc_ajax.shipping_threshold_label}" step="0.01">
+                    <label>${relacoof_ajax.shipping_threshold_label}</label>
+                    <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" value="${tariff.shipping_threshold}" placeholder="${relacoof_ajax.shipping_threshold_label}" step="0.01">
 
                     <div class="lines-container">
-                        <h4>${rc_ajax.tariff_ranges_label} - ${tariff.criteria === 'price' ? rc_ajax.total_price_label : rc_ajax.weight_label}</h4>
-                        <button type="button" class="add-line"><i class="fas fa-plus"></i> ${rc_ajax.add_line_label}</button>
+                        <h4>${relacoof_ajax.tariff_ranges_label} - ${tariff.criteria === 'price' ? relacoof_ajax.total_price_label : relacoof_ajax.weight_label}</h4>
+                        <button type="button" class="add-line"><i class="fas fa-plus"></i> ${relacoof_ajax.add_line_label}</button>
                         ${tariff.lines.map((line, lineIndex) => `
                             <div class="line-row">
                                 <input type="number" name="tariffs[${tariffIndex}][lines][${lineIndex}][min]" value="${line.min_value}" placeholder="Min" step="0.001">
@@ -59,23 +59,23 @@ jQuery(document).ready(function ($) {
             <div class="tariff-box" data-index="${tariffIndex}">
                 <button type="button" class="remove-tariff"><i class="fas fa-trash-alt"></i></button>
                 
-                <label>${rc_ajax.delivery_method_label}</label>
+                <label>${relacoof_ajax.delivery_method_label}</label>
                 <select name="tariffs[${tariffIndex}][method_name]">
                     ${buildDeliveryMethodOptions()}
                 </select>
                 
-                <label>${rc_ajax.criteria_label}</label>
+                <label>${relacoof_ajax.criteria_label}</label>
                 <select name="tariffs[${tariffIndex}][criteria]">
-                    <option value="price">${rc_ajax.total_price_label}</option>
-                    <option value="weight">${rc_ajax.weight_label}</option>
+                    <option value="price">${relacoof_ajax.total_price_label}</option>
+                    <option value="weight">${relacoof_ajax.weight_label}</option>
                 </select>
 
-                <label>${rc_ajax.shipping_threshold_label}</label>
-                <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" placeholder="${rc_ajax.shipping_threshold_label}" step="0.01">
+                <label>${relacoof_ajax.shipping_threshold_label}</label>
+                <input type="number" name="tariffs[${tariffIndex}][shipping_threshold]" placeholder="${relacoof_ajax.shipping_threshold_label}" step="0.01">
 
                 <div class="lines-container">
-                    <h4>${rc_ajax.tariff_ranges_label}</h4>
-                    <button type="button" class="add-line"><i class="fas fa-plus"></i> ${rc_ajax.add_line_label}</button>
+                    <h4>${relacoof_ajax.tariff_ranges_label}</h4>
+                    <button type="button" class="add-line"><i class="fas fa-plus"></i> ${relacoof_ajax.add_line_label}</button>
                 </div>
             </div>`;
 

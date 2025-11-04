@@ -4,13 +4,13 @@ jQuery(document).ready(function($) {
 
     "use strict";
 
-    if (typeof rc_multiselect_params === 'undefined') {
-        console.error('rc_multiselect_params is undefined. Check if wp_localize_script() is properly set.');
+    if (typeof relacoof_multiselect_params === 'undefined') {
+        console.error('relacoof_multiselect_params is undefined. Check if wp_localize_script() is properly set.');
     }
 
     $('.wc-enhanced-select').select2({
         ajax: {
-            url: rc_multiselect_params.ajax_url, // Use the localized AJAX URL
+            url: relacoof_multiselect_params.ajax_url, // Use the localized AJAX URL
             dataType: 'json',
             delay: 250,
             language: 'fr',
@@ -21,16 +21,16 @@ jQuery(document).ready(function($) {
                 let serviceId = $(this).data('service-id') || '';
 
                 console.log('Sending AJAX request with:', {
-                    action: 'get_wc_products',
+                    action: 'relacoof_custom_get_wc_products',
                     search: params.term,
-                    nonce: rc_multiselect_params.nonce,
+                    nonce: relacoof_multiselect_params.nonce,
                     service_id: serviceId
                 });
 
                 return {
-                    action: 'get_wc_products',
+                    action: 'relacoof_custom_get_wc_products',
                     search: params.term, // Dynamic search
-                    nonce: rc_multiselect_params.nonce, // Pass the security nonce
+                    nonce: relacoof_multiselect_params.nonce, // Pass the security nonce
                     service_id: serviceId
                 };
             },

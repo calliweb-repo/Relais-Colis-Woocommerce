@@ -183,7 +183,15 @@ class WP_Helper {
      */
     public static function get_datetime_fr_format( $datetime, $format='%A %d %B %Y / %Hh%M' ) {
 
-        return utf8_encode(strftime($format, $datetime->getTimestamp()));
+        $formatter = new \IntlDateFormatter(
+            'fr_FR', // locale
+            \IntlDateFormatter::LONG, // date format
+            \IntlDateFormatter::NONE, // time format
+            null,
+            null,
+            $format
+        );
+        return $formatter->format($datetime);
     }
 
     /**
@@ -273,8 +281,14 @@ class WP_Helper {
         $ext = array(".png", ".jpg", ".gif", ".jpeg");
         $filename = str_replace($ext, "", $filename);
         $clean_filename = trim(html_entity_decode(sanitize_title($filename)));
-        $page = get_page_by_title($clean_filename, OBJECT, 'attachment');
-        return $page->ID;
+        $pages = get_posts([
+            'post_type'   => 'attachment',
+            'title'       => $clean_filename,
+            'post_status' => 'any',
+            'numberposts' => 1,
+        ]);
+        $page = !empty($pages) ? $pages[0] : null;
+        return $page ? $page->ID : null;
     }
 
     /**

@@ -151,20 +151,6 @@ trait Plugin_Activation_Control {
     }
 
 
-    /**
-     * Deactivates the plugin.
-     *
-     * @since 1.0.0
-     */
-    private function deactivate_plugin() {
-
-        deactivate_plugins( $this->plugin_info[ WP_PLoad::PLUGIN_BASENAME ] );
-
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        if ( isset( $_GET['activate'] ) ) {
-            unset( $_GET['activate'] );
-        }
-    }
 
     /**
      *          ===============
@@ -185,7 +171,6 @@ trait Plugin_Activation_Control {
 
         if ( ! $this->is_environment_compatible() ) {
 
-            $this->deactivate_plugin();
 //            wp_die( WP_Basic_Plugin_DISPLAYED_NAME . ' could not be activated. ' . $this->get_environment_message() );
         }
 
@@ -236,7 +221,6 @@ trait Plugin_Activation_Control {
         $plugin_base_name = $this->plugin_info[ WP_PLoad::PLUGIN_BASENAME ];
         if ( ! $this->is_environment_compatible() && is_plugin_active( $plugin_base_name ) ) {
 
-            $this->deactivate_plugin();
         }
     }
 }

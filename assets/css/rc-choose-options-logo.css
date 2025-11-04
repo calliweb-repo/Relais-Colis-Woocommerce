@@ -1,8 +1,8 @@
 
 /* Ajout du logo avant le texte */
-#radio-control-0-wc_rc_shipping_method_home__label::before,
-#radio-control-0-wc_rc_shipping_method_homeplus__label::before,
-#radio-control-0-wc_rc_shipping_method_relay__label::before {
+/* #radio-control-0-WC_Relacoof_Shipping_Method_home__label::before,
+#radio-control-0-WC_Relacoof_Shipping_Method_homeplus__label::before,
+#radio-control-0-WC_Relacoof_Shipping_Method_relay__label::before {
     content: "";
     display: inline-block;
     width: 30px;
@@ -13,4 +13,34 @@
     background-position: center;
     margin-right: 10px;
     vertical-align: middle;
-}   
+}    */
+
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_relay"],
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_home"],
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_homeplus"],
+label[for="shipping_method_0_wc_relacoof_shipping_method_home"],
+label[for="shipping_method_0_wc_relacoof_shipping_method_homeplus"],
+label[for="shipping_method_0_wc_relacoof_shipping_method_relay"] {
+    display: flex;
+    align-items: center;
+}
+
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_relay"]::before,
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_home"]::before,
+label[for="radio-control-0-WC_Relacoof_Shipping_Method_homeplus"]::before,
+label[for="shipping_method_0_wc_relacoof_shipping_method_home"]::before,
+label[for="shipping_method_0_wc_relacoof_shipping_method_homeplus"]::before,
+label[for="shipping_method_0_wc_relacoof_shipping_method_relay"]::before {
+    /* display: flex;
+    align-items: center; */
+    content: "";
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 10px;
+    vertical-align: middle;
+}

@@ -1,11 +1,11 @@
 jQuery(document).ready(function ($) {
     console.log('RC Field Copy Paste Button initialized');
-
+    
     'use strict';
 
-    // Retrieve the IDs from rc_params
-    const copyPasteButtonClass = rc_params.copy_paste_button_css_class;
-    const infoTextAreaClass = rc_params.info_text_area_css_class;
+    // Retrieve the IDs from relacoof_params
+    const copyPasteButtonClass = relacoof_params.copy_paste_button_css_class;
+    const infoTextAreaClass = relacoof_params.info_text_area_css_class;
 
     // Ensure both IDs are defined
     if (!copyPasteButtonClass || !infoTextAreaClass) {
@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
             // Changer temporairement le texte du bouton pour montrer que la copie a réussi
             const originalText = $button.text();
             if (successful) {
-                $button.text(rc_params.copied_label);
+                $button.text(relacoof_params.copied_label);
                 setTimeout(() => {
                     $button.text(originalText);
                 }, 2000);
@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
             }
         } catch (err) {
             console.error('Erreur lors de la copie du texte :', err);
-            $button.text(rc_params.copy_failed_label);
+            $button.text(relacoof_params.copy_failed_label);
             setTimeout(() => {
                 $button.text(originalText);
             }, 2000);

@@ -1,4 +1,4 @@
-.rc_multiselect_products .select2-selection__choice {
+.relacoof_multiselect_products .select2-selection__choice {
     margin: 5px 5px 0 0;
     border: 1px solid #aaa;
     background: #007cba !important;
@@ -8,13 +8,13 @@
     font-size: 14px;
 }
 
-.rc_multiselect_products .select2-selection__choice__remove {
+.relacoof_multiselect_products .select2-selection__choice__remove {
     color: #fff !important;
     cursor: pointer;
     font-weight: bold;
     margin-right: 5px !important;
 }
 
-.rc_multiselect_products .select2-selection__choice__remove:hover {
+.relacoof_multiselect_products .select2-selection__choice__remove:hover {
     color: #c0392b !important;
 }

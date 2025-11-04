@@ -121,9 +121,9 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'update_shipping_label',
+                action: 'relacoof_custom_update_shipping_label',
                 changes: JSON.stringify(changes),
-                security: rc_shipping_labels_editor.nonce
+                security: relacoof_shipping_labels_editor.nonce
             },
             success: function(response) {
                 if (response.success) {

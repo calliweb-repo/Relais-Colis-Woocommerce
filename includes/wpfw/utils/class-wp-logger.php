@@ -142,21 +142,43 @@ class WP_Log {
                 $message .= ' ' . json_encode($context);
             }
 
-            // Use WordPress error_log function
-            \error_log($message, 0);
+            // Map Monolog levels to WooCommerce levels
+            $wc_level = match($level) {
+                'emergency', 'alert', 'critical', 'error' => 'error',
+                'warning' => 'warning',
+                'notice' => 'notice',
+                'info' => 'info',
+                'debug' => 'debug',
+                default => 'info',
+            };
+
+            // Get WooCommerce logger
+            if ( function_exists('wc_get_logger') ) {
+                $logger = wc_get_logger();
+                $logger->log( $wc_level, $message, [ 'source' => $text_domain ?: 'relais-colis-officiel' ] );
+            } else {
+                // fallback vers error_log si WC Logger non dispo
+                \error_log($message, 0);
+            }
         }
     }
 
     public static function debug( $message, array $context = [], $text_domain=null ) {
-        self::log( 'debug', $message, $context, $text_domain );
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            self::log( 'debug', $message, $context, $text_domain );
+        }
     }
 
     public static function info( $message, array $context = [], $text_domain=null ) {
-        self::log( 'info', $message, $context, $text_domain );
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            self::log( 'info', $message, $context, $text_domain );
+        }
     }
 
     public static function notice( $message, array $context = [], $text_domain=null ) {
-        self::log( 'notice', $message, $context, $text_domain );
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            self::log( 'notice', $message, $context, $text_domain );
+        }
     }
 
     public static function warning( $message, array $context = [], $text_domain=null ) {

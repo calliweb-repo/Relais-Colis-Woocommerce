@@ -3,8 +3,8 @@ jQuery(document).ready(function ($) {
 
     "use strict";
 
-    if (typeof rc_choose_options_h === 'undefined' || typeof rc_choose_options_hp === 'undefined') {
-        console.error('❌ rc_choose_options_h or rc_choose_options_hp is undefined. Check if wp_localize_script() is properly set.');
+    if (typeof relacoof_choose_options_h === 'undefined' || typeof relacoof_choose_options_hp === 'undefined') {
+        console.error('❌ relacoof_choose_options_h or relacoof_choose_options_hp is undefined. Check if wp_localize_script() is properly set.');
         return;
     }
     let lastUpdateShippingRequest = null; // Stocke la dernière méthode de livraison sélectionnée
@@ -18,11 +18,11 @@ jQuery(document).ready(function ($) {
         let selectedValue = $('input[name="shipping_method[0]"]:checked').val() || $('input[name="shipping_method[0]"]').val();
         console.log("💡 Valeur sélectionnée:", selectedValue);
 
-        if (selectedValue === 'wc_rc_shipping_method_home') {
+        if (selectedValue === 'WC_Relacoof_Shipping_Method_home') {
             selectedMethod = 'home';
-        } else if (selectedValue === 'wc_rc_shipping_method_homeplus') {
+        } else if (selectedValue === 'WC_Relacoof_Shipping_Method_homeplus') {
             selectedMethod = 'homeplus';
-        } else if (selectedValue === 'wc_rc_shipping_method_relay') {
+        } else if (selectedValue === 'WC_Relacoof_Shipping_Method_relay') {
             selectedMethod = 'relay';
         }
 
@@ -36,8 +36,8 @@ jQuery(document).ready(function ($) {
     function getAjaxParams() {
         const selectedMethod = getSelectedShippingMethod();
         return selectedMethod === 'home'
-            ? { ajax_url: rc_choose_options_h.ajax_url, nonce: rc_choose_options_h.nonce, html: rc_choose_options_h.html, div_id: rc_choose_options_h.div_id }
-            : { ajax_url: rc_choose_options_hp.ajax_url, nonce: rc_choose_options_hp.nonce, html: rc_choose_options_hp.html, div_id: rc_choose_options_hp.div_id };
+            ? { ajax_url: relacoof_choose_options_h.ajax_url, nonce: relacoof_choose_options_h.nonce, html: relacoof_choose_options_h.html, div_id: relacoof_choose_options_h.div_id }
+            : { ajax_url: relacoof_choose_options_hp.ajax_url, nonce: relacoof_choose_options_hp.nonce, html: relacoof_choose_options_hp.html, div_id: relacoof_choose_options_hp.div_id };
     }
 
     /**
@@ -65,27 +65,27 @@ jQuery(document).ready(function ($) {
         const selectedMethod = getSelectedShippingMethod();
 
         if (selectedMethod === 'home') {
-            if (!$('#'+rc_choose_options_h.div_id).length) {
+            if (!$('#'+relacoof_choose_options_h.div_id).length) {
 
-                $('#shipping_method').after(rc_choose_options_h.html);
+                $('#shipping_method').after(relacoof_choose_options_h.html);
             }
-            $('#'+rc_choose_options_h.div_id).show();
-            $('#'+rc_choose_options_hp.div_id).hide();
+            $('#'+relacoof_choose_options_h.div_id).show();
+            $('#'+relacoof_choose_options_hp.div_id).hide();
             $('#relais-colis-block').hide().remove();
 
         } else if (selectedMethod === 'homeplus') {
 
-            if (!$('#'+rc_choose_options_hp.div_id).length) {
-                $('#shipping_method').after(rc_choose_options_hp.html);
+            if (!$('#'+relacoof_choose_options_hp.div_id).length) {
+                $('#shipping_method').after(relacoof_choose_options_hp.html);
             }
-            $('#'+rc_choose_options_hp.div_id).show();
-            $('#'+rc_choose_options_h.div_id).hide();
+            $('#'+relacoof_choose_options_hp.div_id).show();
+            $('#'+relacoof_choose_options_h.div_id).hide();
             $('#relais-colis-block').hide().remove();
 
         } else if (selectedMethod === 'relay') {
 
-            $('#'+rc_choose_options_h.div_id).hide();
-            $('#'+rc_choose_options_hp.div_id).hide();
+            $('#'+relacoof_choose_options_h.div_id).hide();
+            $('#'+relacoof_choose_options_hp.div_id).hide();
 
             if (!$('#relais-colis-block').length) {
                 $('#shipping_method').after(getRelayColisHtml());
@@ -102,8 +102,8 @@ jQuery(document).ready(function ($) {
 
         // Sélection du bon container selon la méthode de livraison
         let containerId;
-        if ( selectedMethod === 'home' ) { containerId = '#'+rc_choose_options_h.div_id }
-        else if ( selectedMethod === 'homeplus' ) { containerId = '#'+rc_choose_options_hp.div_id }
+        if ( selectedMethod === 'home' ) { containerId = '#'+relacoof_choose_options_h.div_id }
+        else if ( selectedMethod === 'homeplus' ) { containerId = '#'+relacoof_choose_options_hp.div_id }
         else if ( selectedMethod === 'relay' ) { containerId = '#relais-colis-block' }
 
         let container = $(containerId);
@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
             dataType: 'json',
             method: 'POST',
             data: {
-                action: 'update_rc_options',
+                action: 'relacoof_custom_update_rc_options',
                 nonce: params.nonce,
                 rc_services: selectedServiceFees,
                 rc_service_infos: selectedServiceInfos,
