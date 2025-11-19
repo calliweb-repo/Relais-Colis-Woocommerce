@@ -978,6 +978,7 @@ class WC_Relacoof_Order_Packages_Manager {
                         // C2C - Relay
                         if ( $is_c2c_interaction_mode ) {
 
+
                             // Dynamic params
 
                             // Dynamic common params
@@ -1004,6 +1005,7 @@ class WC_Relacoof_Order_Packages_Manager {
                             $dynamic_params_place_shipping_label[ WP_Relacoof_C2C_Relay_Place_Advertisement::AGENCY_CODE ] = $agency_code;
                             $dynamic_params_place_shipping_label[ WP_Relacoof_C2C_Relay_Place_Advertisement::XEETT ] = $xeett;
 
+                            $dynamic_params_place_shipping_label = $this->clean_html_entities_recursive($dynamic_params_place_shipping_label);
                             // Call API
                             $c2c_relay_place_advertisement = WP_Relais_Colis_API::instance()->c2c_relay_place_advertisement( $dynamic_params_place_shipping_label, false );
 
@@ -1715,5 +1717,24 @@ class WC_Relacoof_Order_Packages_Manager {
             // ... autres labels ...
             'relacoof_order_status' => 'wc-' . $order->get_status()  // Ajouter le statut de la commande
         ));
+    }
+
+    function clean_html_entities_recursive($data) {
+        if (is_string($data)) {
+            return html_entity_decode($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        } elseif (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->clean_html_entities_recursive($value);
+            }
+            return $data;
+        } elseif (is_object($data)) {
+            // Pour les objets, on peut les convertir en tableau, nettoyer, puis recréer l'objet
+            $array = (array) $data;
+            foreach ($array as $key => $value) {
+                $data[$key] = $this->clean_html_entities_recursive($value);
+            }
+            return (object) $data;
+        }
+        return $data;
     }
 }

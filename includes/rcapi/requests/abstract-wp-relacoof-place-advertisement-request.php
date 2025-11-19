@@ -44,7 +44,7 @@ abstract class WP_Relacoof_Place_Advertisement_Request extends WP_Relais_Colis_R
     const WIDTH = 'width';
     const LENGTH = 'length';
     const VOLUME = 'volume';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
     private $common_mandatory_params = array(
         self::ACTIVATION_KEY,
     );
@@ -92,6 +92,7 @@ abstract class WP_Relacoof_Place_Advertisement_Request extends WP_Relais_Colis_R
         //"orderReference" c'est le numéro de commande dans woocommerce
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         $this->data = array_merge( $dedicated_data, $this->get_specific_dedicated_params(), $params );

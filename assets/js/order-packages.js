@@ -445,7 +445,7 @@ jQuery(document).ready(function ($) {
      */
     function showSuccess(message) {
         let errorContainer = $('#rc-success-message');
-        errorContainer.find('.rc-success-message').text(message); // Ajoute le message
+        errorContainer.find('.rc-success-message').text(cleanApostrophes(message)); // Ajoute le message
         errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
         // setTimeout(function() {
         //     errorContainer.addClass('hidden').fadeOut();
@@ -459,7 +459,7 @@ jQuery(document).ready(function ($) {
      */
     function showError(message) {
         let errorContainer = $('#rc-error-message');
-        errorContainer.find('.rc-error-message').text(message); // Ajoute le message
+        errorContainer.find('.rc-error-message').text(cleanApostrophes(message)); // Ajoute le message
         errorContainer.removeClass('hidden').fadeIn(); // Affiche le message
         // setTimeout(function() {
         //     errorContainer.addClass('hidden').fadeOut();
@@ -485,6 +485,26 @@ jQuery(document).ready(function ($) {
      * Attach event listeners dynamically
      */
     function bindColisEvents() {
+
+            // Afficher le spinner
+            const spinnerHtml = `
+            <div id="rc-spinner" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            ">
+                <div class="spinner is-active" style="float: none; margin: 0 0 10px 0;"></div>
+                <span>Loading...</span>
+            </div>
+        `;
 
         $(".rc-add-colis").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
@@ -728,6 +748,9 @@ jQuery(document).ready(function ($) {
         $(".rc-place-shipping-label").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
+            
+
+            $('body').append(spinnerHtml);
 
             $.ajax({
                 url: relacoof_order_packages.ajax_url,
@@ -755,6 +778,9 @@ jQuery(document).ready(function ($) {
                 error: function (jqXHR, textStatus, errorThrown) {
                     let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
+                },
+                complete: function () {
+                    $('#rc-spinner').remove();
                 }
             });
         });
@@ -762,7 +788,9 @@ jQuery(document).ready(function ($) {
         $(".rc-generate-return-label").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
-            console.log('generate return label');
+
+            $('body').append(spinnerHtml);
+
             $.ajax({
                 url: relacoof_order_packages.ajax_url,
                 type: 'POST',
@@ -795,6 +823,9 @@ jQuery(document).ready(function ($) {
                 error: function (jqXHR, textStatus, errorThrown) {
                     let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
+                },
+                complete: function () {
+                    $('#rc-spinner').remove();
                 }
             });
         });
@@ -802,6 +833,9 @@ jQuery(document).ready(function ($) {
         $(".rc-get-packages-price").off().on("click", function (event) {
             event.preventDefault(); // Empêche le rechargement de la page
             hideMessages();
+
+            $('body').append(spinnerHtml);
+
             $.ajax({
                 url: relacoof_order_packages.ajax_url,
                 type: 'POST',
@@ -828,6 +862,9 @@ jQuery(document).ready(function ($) {
                 error: function (jqXHR, textStatus, errorThrown) {
                     let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
+                },
+                complete: function () {
+                    $('#rc-spinner').remove();
                 }
             });
         });
@@ -836,6 +873,7 @@ jQuery(document).ready(function ($) {
         $(".rc-print-label").off().on("click", function (event) {
             event.preventDefault();
             hideMessages();
+
             let colisIndex = $(this).data("colis-index");
             let shippingLabel = rc_order_colis[colisIndex].shipping_label;
             let pdfUrl = $(this).data("pdf-url");
@@ -846,6 +884,8 @@ jQuery(document).ready(function ($) {
                 $("#rc-pdf-modal").fadeIn();
             } else {
                 // Perform AJAX request to retrieve the shipping label PDF using shipping_label
+                $('body').append(spinnerHtml);
+
                 $.ajax({
                     url: relacoof_order_packages.ajax_url,
                     type: "POST",
@@ -880,6 +920,9 @@ jQuery(document).ready(function ($) {
                     },
                     error: function (jqXHR, textStatus) {
                         showError(relacoof_order_packages.label_error_network + textStatus);
+                    },
+                    complete: function () {
+                        $('#rc-spinner').remove();
                     }
                 });
             }
@@ -888,6 +931,9 @@ jQuery(document).ready(function ($) {
         $(".rc-generate-way-bill").off().on("click", function (event) {
             event.preventDefault();
             hideMessages();
+
+            $('body').append(spinnerHtml);
+
             $.ajax({
                 url: relacoof_order_packages.ajax_url,
                 type: 'POST',
@@ -916,6 +962,9 @@ jQuery(document).ready(function ($) {
                 error: function (jqXHR, textStatus) {
                     let errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : relacoof_order_packages.label_error_network + textStatus;
                     showError(errorMessage);
+                },
+                complete: function () {
+                    $('#rc-spinner').remove();
                 }
             });
         });
@@ -941,4 +990,17 @@ jQuery(document).ready(function ($) {
 
     // Initial rendering
     renderColisUI();
+
+    function cleanApostrophes(str) {
+        return str
+            .replace(/&#039;/g, "'")
+            .replace(/&#39;/g, "'")
+            .replace(/&#x27;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;br&gt;/g, ' ')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>');
+    }
+    
 });

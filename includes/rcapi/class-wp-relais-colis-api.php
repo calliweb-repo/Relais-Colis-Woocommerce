@@ -328,10 +328,17 @@ class WP_Relais_Colis_API extends WP_API_Base {
 
             // Check response code
             $response_code = $this->get_response_code();
+
             if ( $response_code !== 200 ) {
 
+                $json_response = json_decode($response_raw);
                 // Pb occurred... HTML response code in error
+                if ( isset($json_response->details) ) {
+                    
+                    throw new WP_Relais_Colis_API_Exception( $this->clean_api_message($json_response->details), $json_response->status );
+                }
                 throw new WP_Relais_Colis_API_Exception( $this->get_response_message(), $this->get_response_code() );
+
             }
 
 
@@ -523,5 +530,28 @@ class WP_Relais_Colis_API extends WP_API_Base {
     public function get_packages_status( $params=array(), $raw = false ) {
 
         return $this->rc_api_request( self::REQUEST_GET_PACKAGES_STATUS, $params, $raw );
+    }
+
+    private function clean_api_message($message) {
+        // Décoder toutes les entités HTML
+        $message = html_entity_decode($message, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        // var_dump($message);
+        
+        // Remplacer les entités numériques courantes
+        $replacements = [
+            '&#039;' => "'",
+            '&#39;' => "'",
+            '&#x27;' => "'",
+            '&quot;' => '"',
+            '&amp;' => '&',
+            '&lt;' => '<',
+            '&gt;' => '>',
+        ];
+
+        // var_dump($replacements);
+        // var_dump(str_replace(array_keys($replacements), array_values($replacements), $message));
+        // die();
+        return str_replace(array_keys($replacements), array_values($replacements), $message);
     }
 }

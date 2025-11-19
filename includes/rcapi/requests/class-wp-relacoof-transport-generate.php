@@ -55,7 +55,8 @@ class WP_Relacoof_Transport_Generate extends WP_Relais_Colis_Request {
     const COLIS1 = 'colis1';
     const COLIS2 = 'colis2';
     const COLIS = 'colis';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+    
     private $mandatory_params = array(
         self::ACTIVATION_KEY,
     );

@@ -132,7 +132,7 @@ class WP_Relacoof_B2C_Home_Place_Advertisement extends WP_Relacoof_Place_Adverti
     const LIFT = 'lift';
     const URGENT = 'urgent';
     const HOME_PLUS = 'homePlus';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
     const PRESTATIONS = 'prestations';
     private $specific_mandatory_params = array(
         self::ACTIVATION_KEY,
@@ -177,7 +177,7 @@ class WP_Relacoof_B2C_Home_Place_Advertisement extends WP_Relacoof_Place_Adverti
             self::PICKING_SITE => '0',
             self::PRODUCT_FAMILY => '08',
             self::SENSITIVE_PRODUCT => '0',
-
+            self::HANDLE_NEW_ERRORS => true,
         );
     }
 

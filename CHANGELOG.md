@@ -1,3 +1,14 @@
+### 2.0.9 (2025-11-07)
+#### Added
+  * Display new api errors
+  * Better handle error when save relay
+#### Fixed
+  * Handle special chars in store name
+  * Handle different units of weight in csv export
+  * Display free on shipping choice on old checkout
+  * Securing the AJAX call that registers the relay
+  * Handle multi shipping select block
+
 ### 2.0.8 (2025-07-22)
 #### Added
   * Change  order statuses at same time as RC statuses during cron tasks.

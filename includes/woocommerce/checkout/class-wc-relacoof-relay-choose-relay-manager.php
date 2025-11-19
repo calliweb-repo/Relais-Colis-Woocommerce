@@ -75,6 +75,7 @@ class WC_Relacoof_Relay_Choose_Relay_Manager {
 
         $chosen_shipping = WC()->session->get( 'chosen_shipping_methods' )[ 0 ];
 
+
         // Check if it is the RC relais mode
         if ( $chosen_shipping !== WC_Relacoof_Shipping_Method_Relay::WC_Relacoof_Shipping_Method_RELAY_ID ) return;
         WP_Log::debug( __METHOD__, [ '$chosen_shipping' => $chosen_shipping ], 'relais-colis-officiel');
@@ -238,12 +239,11 @@ class WC_Relacoof_Relay_Choose_Relay_Manager {
 
     public function wp_ajax_relacoof_custom_update_relay() {
 
-
         $nonce_check = check_ajax_referer( 'relais_colis_checkout', 'nonce', false );
         if ( !$nonce_check ) {
 
             WP_Log::error( __METHOD__.' - Nonce verification failed', [ 'received_nonce' => sanitize_text_field( $_POST[ 'nonce' ] ?? 'MISSING' ) ], 'relais-colis-officiel');
-            wp_send_json_error( [ 'message' => 'Nonce verification failed' ] );
+            wp_send_json_error( [ 'message' => 'Nonce verification failed' ], 500 );
         }
         //            [rc_relay_data] => Array
         //                (
@@ -317,19 +317,19 @@ class WC_Relacoof_Relay_Choose_Relay_Manager {
         if ( !isset( $_POST[ WC_Relacoof_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ] ) ) {
 
             WP_Log::error( __METHOD__.' - Missing rc_relay_data', [], 'relais-colis-officiel');
-            wp_send_json_error( [ 'message' => 'Missing relay information' ] );
+            wp_send_json_error( [ 'message' => 'Missing relay information' ], 500 );
         }
 
         // Secured JSON decode
         $rc_relay_data = $_POST[ WC_Relacoof_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ];
-        $rc_relay_data = array_map('sanitize_text_field', $rc_relay_data);
+        $rc_relay_data = json_decode(base64_decode($rc_relay_data), true);
         if ( !$rc_relay_data || !is_array( $rc_relay_data ) ) {
 
             WP_Log::error( __METHOD__.' - Invalid rc_relay_data format', [
                 'rc_relay_data' => sanitize_text_field( $_POST[ WC_Relacoof_Shipping_Constants::ORDER_META_DATA_RC_RELAY_DATA ] )
             ], 'relais-colis-officiel');
 
-            wp_send_json_error( [ 'message' => 'Invalid relay information format' ] );
+            wp_send_json_error( [ 'message' => 'Invalid relay information format' ], 500 );
         }
 
         // Liste des clés autorisées pour éviter l'injection de données indésirables
@@ -359,7 +359,7 @@ class WC_Relacoof_Relay_Choose_Relay_Manager {
         // Check that we have data
         if ( empty( $sanitized_rc_relay_data ) ) {
             WP_Log::error( __METHOD__.' - No valid relay data after sanitization', [], 'relais-colis-officiel');
-            wp_send_json_error( [ 'message' => 'No valid relay data' ] );
+            wp_send_json_error( [ 'message' => 'No valid relay data' ], 500 );
         }
 
         // Store in WC session

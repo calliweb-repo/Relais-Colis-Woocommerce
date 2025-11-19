@@ -71,6 +71,8 @@ defined( 'ABSPATH' ) or exit;
 
 class WP_Relacoof_Place_Return_V2 extends WP_Relacoof_Place_Return {
 
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+
     /**
      * Template Method used to get the specific return path (V2 or V3...)
      * @return mixed
@@ -112,6 +114,13 @@ class WP_Relacoof_Place_Return_V2 extends WP_Relacoof_Place_Return {
      * @param array $params parameters
      */
     public function prepare_request( array $params=null ) {
+
+
+        $dedicated_data = array(
+            self::HANDLE_NEW_ERRORS => true,
+        );
+
+        $params = array_merge( $dedicated_data, $params );
 
         parent::prepare_request( $params );
     }

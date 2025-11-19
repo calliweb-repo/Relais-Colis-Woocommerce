@@ -46,6 +46,7 @@ class WP_Relacoof_C2C_Get_Packages_Price extends WP_Relais_Colis_Request {
 
     const C2C_HASHTOKEN = 'hash_token';
     const PACKAGES_WEIGHT = 'packagesWeight';
+    const HANDLE_NEW_ERRORS = 'handleNewError';
 
     private $mandatory_params = array(
         self::C2C_HASHTOKEN,
@@ -79,6 +80,7 @@ class WP_Relacoof_C2C_Get_Packages_Price extends WP_Relais_Colis_Request {
 
         $this->data = array(
             self::C2C_HASHTOKEN => $c2c_hashtoken,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         // Merge with params

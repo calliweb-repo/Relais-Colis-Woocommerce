@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) or exit;
 use RelaisColisWoocommerce\WC_Relacoof_WooCommerce_Manager;
 use RelaisColisWoocommerce\WPFw\Traits\Singleton;
 use RelaisColisWoocommerce\WPFw\Utils\WP_Log;
-
+use RelaisColisWoocommerce\WPFw\Utils\WP_Helper;
 /**
  * Class WC_Relacoof_Orders_C2c_Csv_Export_Manager
  * Manage CSV export of C2C selected orders
@@ -178,6 +178,10 @@ class WC_Relacoof_Orders_C2c_Csv_Export_Manager {
             // Weight and dimensions unit
             $option_rc_weight_unit = get_option( WC_Relacoof_Shipping_Constants::OPTION_RC_WEIGHT_UNIT );
 
+            //convert weight to kg
+            $total_weight = WP_Helper::convert_to_kg( $total_weight, $option_rc_weight_unit );
+            $total_weight = number_format($total_weight, 3, '.', '');
+
             $street_number = preg_split('/\d+\K/', $shipping_address['address_1'])[0];
 
             if (is_numeric($street_number)) {
@@ -190,7 +194,7 @@ class WC_Relacoof_Orders_C2c_Csv_Export_Manager {
             // Build CSV row
             $csv_row = array(
                 $total_quantity,
-                $total_weight.$option_rc_weight_unit,
+                $total_weight,
                 'OUI',
                 'OUI',
                 $shipping_address['title'] ?? '',

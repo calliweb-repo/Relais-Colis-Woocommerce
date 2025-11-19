@@ -56,6 +56,7 @@ class WP_Relacoof_C2C_Get_Configuration extends WP_Relais_Colis_Request {
     const CMS_NAME = 'cmsName';
     const CMS_VERSION = 'cmsVersion';
     const C2C_HASHTOKEN = 'C2C_hashToken';
+    const HANDLE_NEW_ERRORS = 'handleNewError';
 
     private $mandatory_params = array(
         self::ACTIVATION_KEY,
@@ -96,6 +97,7 @@ class WP_Relacoof_C2C_Get_Configuration extends WP_Relais_Colis_Request {
             self::MODULE_VERSION => Relais_Colis_Woocommerce_Loader::instance()->get_version(),
             self::CMS_NAME => Relais_Colis_Woocommerce_Loader::CMS_WORDPRESS,
             self::CMS_VERSION => $wp_version,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         // No params

@@ -90,6 +90,8 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_Relacoof_B2C_Relay_Place_Advertisement extends WP_Relacoof_Place_Advertisement_Request {
 
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+
     //    "activationKey" : "{{activationKey}}", // mandatory
     //    "activityCode": "05", // constant value
     //    "agencyCode": "{{DATA_agencyCode}}", // mandatory agency relay code selected
@@ -171,6 +173,7 @@ class WP_Relacoof_B2C_Relay_Place_Advertisement extends WP_Relacoof_Place_Advert
             //"productFamily" pour un relais la valeur est "08" et pour un home ou home + "55"
             self::PRODUCT_FAMILY => '08',
             self::SHIPPING_COUNTRY_CODE => 'FR',
+            self::HANDLE_NEW_ERRORS => true,
         );
     }
 

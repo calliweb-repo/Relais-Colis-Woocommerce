@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
      */
     function getRelayColisHtml() {
         return `
-        <div id="relais-colis-block">
+        <div id="relais-colis-block" class="relais-colis-block-class">
             <button id="btnChooseRelay" class="rc-btn rc-btn-primary">
                 Choisir un point relais
             </button>
@@ -71,7 +71,7 @@ jQuery(document).ready(function ($) {
             }
             $('#'+relacoof_choose_options_h.div_id).show();
             $('#'+relacoof_choose_options_hp.div_id).hide();
-            $('#relais-colis-block').hide().remove();
+            $('.relais-colis-block-class').hide().remove();
 
         } else if (selectedMethod === 'homeplus') {
 
@@ -80,17 +80,17 @@ jQuery(document).ready(function ($) {
             }
             $('#'+relacoof_choose_options_hp.div_id).show();
             $('#'+relacoof_choose_options_h.div_id).hide();
-            $('#relais-colis-block').hide().remove();
+            $('.relais-colis-block-class').hide().remove();
 
         } else if (selectedMethod === 'relay') {
 
             $('#'+relacoof_choose_options_h.div_id).hide();
             $('#'+relacoof_choose_options_hp.div_id).hide();
 
-            if (!$('#relais-colis-block').length) {
+            if (!$('.relais-colis-block-class').length) {
                 $('#shipping_method').after(getRelayColisHtml());
             }
-            $('#relais-colis-block').show();
+            $('.relais-colis-block-class').show();
         }
     }
 

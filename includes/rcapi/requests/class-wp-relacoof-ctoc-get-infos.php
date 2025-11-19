@@ -38,7 +38,8 @@ defined( 'ABSPATH' ) or exit;
 class WP_Relacoof_C2C_Get_Infos extends WP_Relais_Colis_Request {
 
     const C2C_HASHTOKEN = 'hash';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+    
     private $mandatory_params = array(
         self::C2C_HASHTOKEN,
     );
@@ -71,6 +72,7 @@ class WP_Relacoof_C2C_Get_Infos extends WP_Relais_Colis_Request {
         global $wp_version;
         $this->data = array(
             self::C2C_HASHTOKEN => $c2c_hashtoken,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         // No params

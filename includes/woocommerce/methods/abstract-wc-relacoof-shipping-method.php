@@ -184,6 +184,9 @@ abstract class WC_Relacoof_Shipping_Method extends WC_Shipping_Method {
         // Save parameters
         add_action( 'woocommerce_update_options_shipping_'.$this->id, array( $this, 'process_admin_options' ) );
 
+        // Ajouter "gratuit" au label quand le coût est 0 (pour l'ancien checkout)
+        add_filter( 'woocommerce_cart_shipping_method_full_label', array( $this, 'add_free_label_to_shipping_method' ), 10, 2 );
+
         WP_Log::debug( __METHOD__.' - Init at the end', [ '$this->settings' => $this->settings, ], 'relais-colis-officiel');
     }
 
@@ -310,6 +313,36 @@ abstract class WC_Relacoof_Shipping_Method extends WC_Shipping_Method {
         WP_Log::debug( __METHOD__.' - Rate calculated', [ 'rate' => $rate ], 'relais-colis-officiel');
 
         $this->add_rate( $rate );
+    }
+
+    /**
+     * Ajoute le terme "gratuit" au label de la méthode de livraison quand le coût est 0
+     * Pour l'affichage dans l'ancien checkout (old checkout)
+     * 
+     * @param string $label Le label complet de la méthode de livraison
+     * @param WC_Shipping_Rate|object $method L'objet de la méthode de livraison
+     * @return string Le label modifié
+     */
+    public function add_free_label_to_shipping_method( $label, $method ) {
+        // Vérifier que l'objet est valide et a les méthodes nécessaires
+        if ( ! is_object( $method ) || ! method_exists( $method, 'get_id' ) || ! method_exists( $method, 'get_cost' ) ) {
+            return $label;
+        }
+
+        // Vérifier si c'est une méthode de livraison Relais Colis
+        $method_id = $method->get_id();
+        if ( strpos( $method_id, $this->id ) === 0 ) {
+            // Vérifier si le coût est 0
+            $cost = $method->get_cost();
+            if ( floatval( $cost ) == 0 ) {
+                // Ajouter "gratuit" au label si ce n'est pas déjà présent
+                if ( stripos( $label, __( 'gratuit', 'relais-colis-officiel' ) ) === false && 
+                     stripos( $label, __( 'free', 'relais-colis-officiel' ) ) === false ) {
+                    $label .= ': ' . __( 'Gratuit', 'relais-colis-officiel' );
+                }
+            }
+        }
+        return $label;
     }
 
     /**

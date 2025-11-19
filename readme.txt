@@ -4,25 +4,33 @@ Donate link: https://www.relaiscolis.com/
 Tags: Relais Colis, WooCommerce
 Requires at least: 6.6
 Tested up to: 6.8
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 URI: https://www.relaiscolis.com/
 
+Integrate Relais Colis delivery services directly into your WooCommerce store. Offer pickup point and home delivery options, generate shipping labels, track parcels automatically, and notify customers every step of the way with free setup assistance included.
+
 == Description ==
 
-**Calliweb Relais Colis Shipping for WooCommerce** is a shipping plugin that integrates **Relais Colis** delivery services into your WooCommerce store.
+The **100% Free** Relais Colis Solution, **the most affordable offer on the market starting at €3.33 (excl. tax), rated 9.4/10** on Verified Reviews.
+
+Relais Colis offers innovative solutions tailored to your needs and accessible to everyone, for all parcel sizes to Relais Colis pickup points or home delivery for parcels over 20 kg.
+
+**Relais Colis Shipping for WooCommerce** is a shipping plugin that integrates Relais Colis delivery services directly into your WooCommerce store.
 
 With this plugin, you can:
 - Offer customers the option to choose a Relais Colis pickup point during checkout.
-- Automatically synchronize shipping information with Relais Colis.
-- Generate and print shipping labels.
 - Display an interactive map of pickup locations.
+- Generate and print shipping labels.
+- Automatically synchronize shipment tracking information.
+- Send customer notifications from dispatch to delivery.
+- Get free setup assistance. We'll help you install the module at no additional cost. Simply send a request to: [relaiscolissurmonsite@relaisccolis.com](mailto:relaiscolissurmonsite@relaisccolis.com)
 
-Whether you're a small e-commerce shop or a high-volume seller, this module simplifies the logistics process with Relais Colis services directly integrated into WooCommerce.
+Whether you’re a small online shop or a large retailer, this module simplifies your logistics process with Relais Colis services seamlessly integrated into WooCommerce.
 
-This plugin is developed and maintained by **Calliweb**, a digital agency. It is not officially affiliated with or endorsed by Relais Colis.
+This plugin is developed and maintained by **Calliweb**, a digital agency.
 
 The module is distributed under the [GNU General Public License v3.0 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.en.html), which allows you to use, modify, and distribute it freely under its terms.
 
@@ -36,14 +44,7 @@ The module is distributed under the [GNU General Public License v3.0 (GPLv3)](ht
 
 == Frequently Asked Questions ==
 
-= Do I need a Relais Colis account? =  
-Yes, you must have an active Relais Colis merchant account to use this plugin. You can request credentials from [Relais Colis](https://www.relaiscolis.com/).
-
-= Can customers choose their pickup point during checkout? =  
-Yes, the plugin displays an interactive map or list of available pickup points based on the customer’s postal code or address.
-
-= Is the plugin compatible with all WooCommerce themes? =  
-It is compatible with most WooCommerce-compliant themes. For optimal display, ensure your theme supports standard WooCommerce templates.
+**FAQ**: [Besoin d'aide FAQ - Relais Colis](https://www.relaiscolis.com/faq)
 
 == Screenshots ==
 
@@ -52,8 +53,54 @@ It is compatible with most WooCommerce-compliant themes. For optimal display, en
 
 == Changelog ==
 
-= 2.0.0 =
-* First release
+= 2.0.9 (2025-11-07) =
+* Added: Display new api errors
+* Added: Better handle error when save relay
+* Fixed: Handle special chars in store name
+* Fixed: Handle different units of weight in csv export
+* Fixed Display free on shipping choice on old checkout
+* Fixed Securing the AJAX call that registers the relay
+* Fixed Handle multi shipping select block
+
+= 2.0.8 (2025-07-22) =
+* Added: Change order statuses at same time as RC statuses during cron tasks
+* Added: Waiting block when save relay
+* Fixed: Update shipping method check in WC_Relacoof_Order_Packages_Manager to use dedicated method for Relais Colis identification
+* Fixed: No map button when change postal
+* Fixed: Adapte logo display to more themes
+
+= 2.0.7 (2025-07-15) =
+* Fixed: Loading font awesome
+
+= 2.0.6 (2025-07-09) =
+* Changed: App name
+* Fixed: Translation loading
+
+= 2.0.5 (2025-07-02) =
+* Changed: App name
+* Changed: Domain name
+* Fixed: Translations
+
+= 2.0.4 (2025-06-25) =
+* Fixed: Total weight conversion
+
+= 2.0.3 (2025-06-24) =
+* Fixed: Plugin Check error
+* Changed: Add Relay ID to shipping info
+* Changed: Change treeshold text
+* Changed: Remove Monolog
+
+= 2.0.2 (2025-05-27) =
+* Fixed: Fix Relay address saved as customer address
+* Fixed: Fix tariff grid gap when use VAT
+* Changed: Change Wording block retour
+* Changed: Change display WC selected weigth units in tariff grid
+
+= 2.0.1 (2025-05-20) =
+* Fixed: Fix multi-render select with Paypal
+
+= 2.0.0 (2025-05-15) =
+* Initial release
 
 == External services ==
 

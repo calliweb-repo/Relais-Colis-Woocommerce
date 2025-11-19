@@ -668,12 +668,7 @@ jQuery(document).ready(function ($) {
         let relayPostalcode = $(this).data("relay-postalcode");
         let relayCommune = $(this).data("relay-commune");
 
-        // Update information on checkout page
-        $("#selected-relay-name").text(relayName);
-        $("#selected-relay-address").text(relayAddress);
-        $("#selected-relay-zip-city").text(relayPostalcode+' '+relayCommune);
-        $("#selected-relay-info").fadeIn();
-        $("#relais-colis-block").find('button').text('Choisir un nouveau Point Relais Colis');
+
 
         // Récupération de l'objet complet stocké dans le bouton pour envoi AJAX
         let relayData = $(this).attr("data-relay-info"); // Récupérer la chaîne Base64
@@ -691,7 +686,7 @@ jQuery(document).ready(function ($) {
             delay: 250,
             data: {
                 action: 'relacoof_custom_update_relay', // Nom de l'action WordPress
-                rc_relay_data: relayObj,   // Envoi de l'objet entier
+                rc_relay_data:  btoa(JSON.stringify(relayObj)),   // Envoi de l'objet entier encodé en base64
                 nonce: relacoof_choose_relay.nonce // Ajout du nonce pour la sécurité
             },
             beforeSend: function (xhr) {
@@ -713,9 +708,16 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 console.log("✅ Relais enregistré avec succès :", response);
+                        // Update information on checkout page
+                $("#selected-relay-name").text(relayName);
+                $("#selected-relay-address").text(relayAddress);
+                $("#selected-relay-zip-city").text(relayPostalcode+' '+relayCommune);
+                $("#selected-relay-info").fadeIn();
+                $(".relais-colis-block-class").find('button').text('Choisir un nouveau Point Relais Colis');
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.error("⚠️ Erreur lors de l'enregistrement du relais :", xhr.responseText);
+                alert('Erreur lors de l\'enregistrement du relais : ' + xhr.responseJSON.data.message);
             },
             complete: function () {
                 $("#relayModal").dialog("close");

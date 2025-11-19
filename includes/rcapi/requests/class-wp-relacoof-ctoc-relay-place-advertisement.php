@@ -104,6 +104,7 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_Relacoof_C2C_Relay_Place_Advertisement extends WP_Relacoof_Place_Advertisement_Request {
 
+
     //      "activationKey" : "{{C2C_activationKey}}", // mandatory
     //       "hash_token" : "{{C2C_hashToken}}", // mandatory
     //       "customerId": "{{DATA_CLT_customerId}}", // mandatory
@@ -146,6 +147,8 @@ class WP_Relacoof_C2C_Relay_Place_Advertisement extends WP_Relacoof_Place_Advert
     const PHONE_EXPEDITEUR = 'phoneExpediteur';
     const POSTCODE_EXPEDITEUR = 'postcodeExpediteur';
     const HASH_TOKEN = 'hash_token';
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+
 
     private $specific_mandatory_params = array(
         self::ACTIVATION_KEY,
@@ -202,6 +205,7 @@ class WP_Relacoof_C2C_Relay_Place_Advertisement extends WP_Relacoof_Place_Advert
             self::ORDER_TYPE_SUB => '1',
             self::SENSITIVE_PRODUCT => '0',
             self::HASH_TOKEN => $c2c_hashtoken,
+            self::HANDLE_NEW_ERRORS => true,
         );
     }
 

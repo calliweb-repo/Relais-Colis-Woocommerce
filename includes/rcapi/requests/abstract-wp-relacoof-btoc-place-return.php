@@ -16,7 +16,7 @@ abstract class WP_Relacoof_Place_Return extends WP_Relais_Colis_Request {
 
     const ACTIVATION_KEY = 'activationKey';
     const REQUESTS = 'requests';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
     const ORDER_ID = 'orderId';
     const CUSTOMER_ID = 'customerId';
     const CUSTOMER_FULLNAME = 'customerFullname';
@@ -91,6 +91,7 @@ abstract class WP_Relacoof_Place_Return extends WP_Relais_Colis_Request {
         //"prestations" c'est la liste des prestation choisi lors de la commande
         $dedicated_data = array(
             self::ACTIVATION_KEY => $activationKey,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         $this->data = array_merge( $dedicated_data, $params );

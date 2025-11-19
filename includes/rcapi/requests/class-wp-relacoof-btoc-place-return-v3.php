@@ -70,6 +70,8 @@ defined( 'ABSPATH' ) or exit;
  */
 class WP_Relacoof_Place_Return_V3 extends WP_Relacoof_Place_Return {
 
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+
     //           "orderId": "{{DATA_CLT_orderId}}", // mandatory
     //           "customerId": "{{DATA_CLT_customerId}}", // mandatory
     //           "customerFullname": "{{DATA_CLT_firstname}} {{DATA_CLT_lastname}}", // mandatory
@@ -127,6 +129,12 @@ class WP_Relacoof_Place_Return_V3 extends WP_Relacoof_Place_Return {
      * @param array $params parameters
      */
     public function prepare_request( array $params=null ) {
+
+        $dedicated_data = array(
+            self::HANDLE_NEW_ERRORS => true,
+        );
+
+        $params = array_merge( $dedicated_data, $params );
 
         parent::prepare_request( $params );
     }

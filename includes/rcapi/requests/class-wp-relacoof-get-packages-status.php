@@ -43,7 +43,8 @@ class WP_Relacoof_Get_Packages_Status extends WP_Relais_Colis_Request {
 
     const ACTIVATION_KEY = 'activationKey';
     const PARCEL_NUMBERS = 'parcelNumbers';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
+    
     private $mandatory_params = array(
         self::ACTIVATION_KEY,
         self::PARCEL_NUMBERS,
@@ -79,6 +80,7 @@ class WP_Relacoof_Get_Packages_Status extends WP_Relais_Colis_Request {
 
         $this->data = array(
             self::ACTIVATION_KEY => $activationKey,
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         $this->data = array_merge( $this->data, $params );

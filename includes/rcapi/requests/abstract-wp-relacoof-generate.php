@@ -16,7 +16,7 @@ abstract class WP_Relacoof_Generate extends WP_Relais_Colis_Request {
 
     const ACTIVATION_KEY = 'activationKey';
     const FORMAT = 'format';
-
+    const HANDLE_NEW_ERRORS = 'handleNewError';
     const FORMAT_A4 = 'A4';
     const FORMAT_ZEBRA = 'ZEBRA';
     //const FORMAT_A5 = 'A5';
@@ -59,6 +59,7 @@ abstract class WP_Relacoof_Generate extends WP_Relais_Colis_Request {
         $this->data = array(
             self::ACTIVATION_KEY => $activationKey,
             self::FORMAT => self::FORMAT_A4, // Default A4
+            self::HANDLE_NEW_ERRORS => true,
         );
 
         $this->data = array_merge( $this->data, $params );

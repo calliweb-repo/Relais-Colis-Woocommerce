@@ -86,6 +86,36 @@ class WP_Helper {
         } else return null;
     }
 
+    public static function convert_to_kg( $value, $unit ) {
+        return $value / 1000;
+        $conversion_rates = [
+            // Metric system
+            'kg' => 1,       // 1 kilogram = 1 grams
+            'g' => 0.001,          // 1 gram = 0.001 kg
+            'mg' => 0.001,     // 1 milligram = 0.001 grams
+            'cg' => 0.00001,      // 1 centigram = 0.01 grams
+            'dg' => 0.0001,       // 1 decigram = 0.1 grams
+            'ton' => 1000,  // 1 metric ton = 1,000,000 grams
+            'quintal' => 100, // 1 quintal = 100,000 grams
+            'lbs' => 0.45359237,  // 1 pound = 453.592 grams
+            'oz' => 0.02834952,   // 1 ounce = 28.3495 grams
+            'st' => 6.35029,   // 1 stone = 6,350.29 grams
+            'grain' => 0.0000648, // 1 grain = 0.0648 grams
+            'dr' => 0.00177185,   // 1 dram = 1.77185 grams
+            'troy_oz' => 0.0311035,  // 1 troy ounce = 31.1035 grams
+            'troy_lb' => 0.373242   // 1 troy pound = 373.242 grams
+        ];
+        // Normalize unit to lowercase for consistency
+        $unit = strtolower( trim( $unit ) );
+
+        // Check if the unit exists in our conversion array
+        if ( isset( $conversion_rates[ $unit ] ) ) {
+
+            return (float)$value * $conversion_rates[ $unit ];
+
+        } else return null;
+    }
+
     /**
      * Allow to remove method for an hook when, it's a class method used and class don't have global for instanciation !
      */

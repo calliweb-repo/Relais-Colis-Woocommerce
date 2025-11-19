@@ -52,7 +52,7 @@ function getAjaxParams() {
  */
 function getRelayColisHtml() {
     return `
-        <div id="relais-colis-block">
+        <div id="relais-colis-block" class="relais-colis-block-class">
             <button id="btnChooseRelay" class="rc-btn rc-btn-primary">
                 Choisir un point relais colis de destination
             </button>
@@ -86,7 +86,7 @@ function checkRCFseShippingMethod(force = false) {
         }
         jQuery('#' + relacoof_choose_options_h.div_id).show();
         jQuery('#' + relacoof_choose_options_hp.div_id).hide();
-        jQuery('#relais-colis-block').remove();
+        jQuery('.relais-colis-block-class').remove();
 
     } else if (selectedMethod === 'homeplus') {
         console.log(relacoof_choose_options_hp.div_id);
@@ -95,22 +95,22 @@ function checkRCFseShippingMethod(force = false) {
         }
         jQuery('#' + relacoof_choose_options_hp.div_id).show();
         jQuery('#' + relacoof_choose_options_h.div_id).hide();
-        jQuery('#relais-colis-block').remove();
+        jQuery('.relais-colis-block-class').remove();
 
     } else if (selectedMethod === 'relay') {
         console.log('relay');
         jQuery('#' + relacoof_choose_options_hp.div_id).hide();
         jQuery('#' + relacoof_choose_options_h.div_id).hide();
 
-        if (!jQuery('#relais-colis-block').length || force) {
+        if (!jQuery('.relais-colis-block-class').length || force) {
             jQuery('.wc-block-components-shipping-rates-control').after(getRelayColisHtml());
         }
-        jQuery('#relais-colis-block').show();
+        jQuery('.relais-colis-block-class').show();
     } else {
         // Cas d'un mode de livraison autre (Colissimo, retrait magasin, etc.)
         jQuery('#' + relacoof_choose_options_h.div_id).hide();
         jQuery('#' + relacoof_choose_options_hp.div_id).hide();
-        jQuery('#relais-colis-block').remove();
+        jQuery('.relais-colis-block-class').remove();
     }
 }
 
