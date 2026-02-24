@@ -907,7 +907,7 @@ jQuery(document).ready(function ($) {
                             // Créer un lien temporaire pour le téléchargement
                             const link = document.createElement('a');
                             link.href = response.data.pdf_url;
-                            link.download = 'shipping-label.pdf'; // Nom du fichier à télécharger
+                            link.download = 'Etiquette.pdf'; // Nom du fichier à télécharger
                             link.target = '_blank';
                             
                             // Ajouter le lien au document, cliquer dessus, puis le supprimer

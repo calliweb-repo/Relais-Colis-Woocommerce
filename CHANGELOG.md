@@ -1,3 +1,7 @@
+### 2.0.10 (2026-01-12)
+#### Changed
+  * Change shipping label pdf name
+
 ### 2.0.9 (2025-11-07)
 #### Added
   * Display new api errors

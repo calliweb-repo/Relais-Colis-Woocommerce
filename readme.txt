@@ -3,8 +3,8 @@ Contributors: Calliweb
 Donate link: https://www.relaiscolis.com/
 Tags: Relais Colis, WooCommerce
 Requires at least: 6.6
-Tested up to: 6.8
-Stable tag: 2.0.9
+Tested up to: 6.9
+Stable tag: 2.0.10
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -52,6 +52,9 @@ The module is distributed under the [GNU General Public License v3.0 (GPLv3)](ht
 2. Admin bar: screenshot-2.png
 
 == Changelog ==
+
+=2.0.10 (2026-01-12) =
+* Changer: Change shipping label pdf name
 
 = 2.0.9 (2025-11-07) =
 * Added: Display new api errors
